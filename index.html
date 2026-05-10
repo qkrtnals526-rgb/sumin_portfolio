@@ -41,7 +41,7 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 .nav-portfolio {
   font-size:22px; font-weight:700; color:#000;
   letter-spacing:-0.01em; text-transform:uppercase;
-  transition:color 0.4s;
+  transition:color 0.4s; text-decoration:none;
 }
 .nav-links { display:flex; gap:40px; }
 .nav-links a {
@@ -163,7 +163,7 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 #s-about2 {
   width:100%;
   background:#000;
-  padding: 5vw 3.33% 5vw;
+  padding: 5vw 3.33% calc(5vw - 100px);
 }
 .about2-inner {
   width:100%; max-width:1200px; margin:0 auto;
@@ -335,10 +335,10 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
   <div class="nav-datetime" id="navTime"></div>
   <!-- RIGHT: PORTFOLIO + About + Work -->
   <div class="nav-right">
-    <span class="nav-portfolio">PORTFOLIO</span>
+    <a href="#s-cover" class="nav-portfolio">PORTFOLIO</a>
     <div class="nav-links">
-      <a href="#s-intro">About</a>
-      <a href="#s-work1">Work</a>
+      <a href="#s-about2">About</a>
+      <a href="#s-work2">Work</a>
     </div>
   </div>
 </nav>
@@ -426,11 +426,11 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
           <div class="wcard-info"><div class="wcard-info-text">STYLE CHALLENGE</div></div>
         </div>
 
-        <!-- 5. Promotional Contents -->
+        <!-- 5. Promotional Content -->
         <div class="wcard">
-          <img src="Promotional Content.png" alt="Promotional Contents">
+          <img src="PromotionalContent.png" alt="Promotional Content">
           <div class="wcard-dim"></div>
-          <div class="wcard-info"><div class="wcard-info-text">PROMOTIONAL CONTENTS</div></div>
+          <div class="wcard-info"><div class="wcard-info-text">PROMOTIONAL CONTENT</div></div>
         </div>
 
       </div>
