@@ -70,19 +70,22 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 
 /*
   Bracket gap in intro1.png (3600×2025):
-  horizontal: 6.2%~49.4%, vertical: 56.8%~72.9%
-  Rolling SVGs slot: left=7.2%, top=56.8%, height=16.1%
+  [ bracket right edge: ~6.2%
+  ] bracket left edge:  ~49.4%
+  Gap center: ~27.8%, gap width: ~43.2%
+  Give equal padding inside: 2% each side → content left=8.2%, width=39.2%
 */
 .svg-roll-wrap {
   position:absolute;
-  left: 7.2%;
+  /* center of gap = 27.8%, SVG content width ≈ 39% */
+  left: 8%;
   top: 56.8%;
   height: 16.1%;
-  /* width = bracket gap ≈ 43% */
-  width: 43%;
+  width: 39%;
   overflow: hidden;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .svg-roll-track {
@@ -397,21 +400,21 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 
         <!-- 1. AI Creative -->
         <div class="wcard">
-          <img src="AI_Creative.png" alt="AI Creative">
+          <img src="AI Creative.png" alt="AI Creative">
           <div class="wcard-dim"></div>
           <div class="wcard-info"><div class="wcard-info-text">AI CREATIVE</div></div>
         </div>
 
         <!-- 2. Fashion editorial -->
         <div class="wcard">
-          <img src="Fashion_editorial.png" alt="Fashion Editorial">
+          <img src="Fashion editorial.png" alt="Fashion Editorial">
           <div class="wcard-dim"></div>
           <div class="wcard-info"><div class="wcard-info-text">FASHION EDITORIAL</div></div>
         </div>
 
         <!-- 3. 3D Artwork -->
         <div class="wcard">
-          <img src="3D_Artwork.png" alt="3D Artwork">
+          <img src="3D Artwork.png" alt="3D Artwork">
           <div class="wcard-dim"></div>
           <div class="wcard-info"><div class="wcard-info-text">3D ARTWORK</div></div>
         </div>
@@ -425,7 +428,7 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 
         <!-- 5. Promotional Contents -->
         <div class="wcard">
-          <img src="Promotional_Contents.png" alt="Promotional Contents">
+          <img src="Promotional Content.png" alt="Promotional Contents">
           <div class="wcard-dim"></div>
           <div class="wcard-info"><div class="wcard-info-text">PROMOTIONAL CONTENTS</div></div>
         </div>
@@ -475,7 +478,7 @@ svgTrack.style.transition = '';
 const activeSvg = document.createElementNS('http://www.w3.org/2000/svg','svg');
 activeSvg.setAttribute('fill','none');
 activeSvg.setAttribute('xmlns','http://www.w3.org/2000/svg');
-activeSvg.style.cssText = 'height:100%;width:auto;display:block;opacity:0;transform:translateY(40%);transition:opacity 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1)';
+activeSvg.style.cssText = 'height:100%;width:auto;max-width:100%;display:block;opacity:0;transform:translateY(40%);transition:opacity 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1)';
 const activePath = document.createElementNS('http://www.w3.org/2000/svg','path');
 activePath.setAttribute('fill','white');
 activeSvg.appendChild(activePath);
