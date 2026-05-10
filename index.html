@@ -43,13 +43,13 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   width:100%;aspect-ratio:16/9;
   background:url('intro1.png') center/cover no-repeat;
   position:relative;overflow:hidden;
-  /* slide-up reveal */
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path 0s;
+  transform: translateY(60px);
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.16,1,0.3,1), opacity 0.9s ease;
 }
 #s-intro.revealed {
-  clip-path: inset(0% 0 0 0);
-  transition: clip-path 0.9s cubic-bezier(0.16,1,0.3,1);
+  transform: translateY(0);
+  opacity: 1;
 }
 .svg-roll-wrap{position:absolute;left:8%;top:56.8%;height:16.1%;width:39%;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .svg-roll-track{display:flex;flex-direction:column;width:100%;}
@@ -232,105 +232,77 @@ window.addEventListener('scroll',updateCards,{passive:true});updateCards();
 
 </script>
 
-<!-- TRAILING DOT CURSOR + INTRO BURST -->
+<!-- TRAILING DOT CURSOR + INTRO CIRCLE -->
 <script>
 (function(){
   const canvas = document.getElementById('sphereCanvas');
   canvas.style.pointerEvents = 'none';
   const ctx = canvas.getContext('2d');
-
-  function resize(){
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
+  function resize(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
 
   const BLUE = '27,55,255';
   const MAX  = 24;
   const trail = [];
-  let mx = window.innerWidth/2;
-  let my = window.innerHeight/2;
+  let mx = window.innerWidth/2, my = window.innerHeight/2;
   let mouseEntered = false;
-
   document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    mouseEntered = true;
-    trail.push({ x: mx, y: my, life: 1 });
-    if (trail.length > MAX) trail.shift();
+    mx=e.clientX; my=e.clientY; mouseEntered=true;
+    trail.push({x:mx,y:my,life:1});
+    if(trail.length>MAX) trail.shift();
   });
 
-  // ── INTRO BURST: dots scatter from edges → converge to center ──
-  const INTRO_DURATION = 1800; // ms
-  const startTime = performance.now();
-  const burstDots = [];
-  const CX = window.innerWidth  / 2;
-  const CY = window.innerHeight / 2;
-  const COUNT = 60;
+  // ── INTRO: one big blue circle shrinks from fullscreen to center ──
+  const INTRO_MS = 1400;
+  const t0 = performance.now();
+  const CX = window.innerWidth/2, CY = window.innerHeight/2;
+  // max radius = diagonal from center to corner
+  const MAX_R = Math.sqrt(CX*CX + CY*CY) + 20;
 
-  // Spawn dots scattered around viewport edges
-  for(let i = 0; i < COUNT; i++){
-    const angle = (i / COUNT) * Math.PI * 2;
-    // start from random edge positions
-    const edgeDist = Math.max(window.innerWidth, window.innerHeight) * 0.75;
-    burstDots.push({
-      sx: CX + Math.cos(angle) * edgeDist * (0.7 + Math.random()*0.5),
-      sy: CY + Math.sin(angle) * edgeDist * (0.7 + Math.random()*0.5),
-      size: 3 + Math.random() * 4,
-      delay: Math.random() * 0.3, // stagger start
-    });
+  function easeInOutExpo(t){
+    if(t===0) return 0; if(t===1) return 1;
+    return t<.5 ? Math.pow(2,20*t-10)/2 : (2-Math.pow(2,-20*t+10))/2;
   }
 
-  function easeInExpo(t){ return t === 0 ? 0 : Math.pow(2, 10*t - 10); }
-  function easeOutExpo(t){ return t >= 1 ? 1 : 1 - Math.pow(2, -10*t); }
-
   function frame(now){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    const elapsed = (now - startTime) / INTRO_DURATION;
-    const introDone = elapsed >= 1;
+    const elapsed = now - t0;
+    const introT  = Math.min(1, elapsed / INTRO_MS);
+    const introDone = introT >= 1;
 
-    // ── Draw burst dots converging to center ──
+    // ── Blue circle shrinking ──
     if(!introDone){
-      burstDots.forEach(d => {
-        const t = Math.max(0, Math.min(1, (elapsed - d.delay) / (1 - d.delay)));
-        const easedT = easeOutExpo(t);
-
-        const x = d.sx + (CX - d.sx) * easedT;
-        const y = d.sy + (CY - d.sy) * easedT;
-
-        // fade out as they reach center
-        const alpha = (1 - easedT) * 0.85;
-        const size  = d.size * (1 - easedT * 0.6);
-
-        if(alpha < 0.01) return;
-        ctx.beginPath();
-        ctx.arc(x, y, Math.max(0, size), 0, Math.PI*2);
-        ctx.fillStyle = `rgba(${BLUE},${alpha})`;
-        ctx.fill();
-      });
-    }
-
-    // ── Trail dots (normal cursor trail) ──
-    for(let i = trail.length - 1; i >= 0; i--){
-      trail[i].life -= 0.03;
-      if(trail[i].life <= 0){ trail.splice(i,1); continue; }
-      const t = i / trail.length;
-      const r = 5 * t * trail[i].life;
+      const eased = easeInOutExpo(introT);
+      // radius goes from MAX_R → 0
+      const r = MAX_R * (1 - eased);
+      // alpha fades out near end
+      const alpha = introT < 0.8 ? 1 : 1 - (introT - 0.8)/0.2;
       ctx.beginPath();
-      ctx.arc(trail[i].x, trail[i].y, Math.max(0, r), 0, Math.PI*2);
-      ctx.fillStyle = `rgba(${BLUE},${trail[i].life * 0.9})`;
+      ctx.arc(CX, CY, Math.max(0, r), 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${BLUE},${alpha * 0.92})`;
       ctx.fill();
     }
 
-    // ── Main cursor dot (only after mouse entered) ──
+    // ── Trail dots ──
+    for(let i=trail.length-1;i>=0;i--){
+      trail[i].life-=0.03;
+      if(trail[i].life<=0){trail.splice(i,1);continue;}
+      const t=i/trail.length;
+      const r=5*t*trail[i].life;
+      ctx.beginPath();
+      ctx.arc(trail[i].x,trail[i].y,Math.max(0,r),0,Math.PI*2);
+      ctx.fillStyle=`rgba(${BLUE},${trail[i].life*0.9})`;
+      ctx.fill();
+    }
+
+    // ── Main cursor dot ──
     if(mouseEntered){
       ctx.beginPath();
-      ctx.arc(mx, my, 5, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(${BLUE},1)`;
+      ctx.arc(mx,my,5,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${BLUE},1)`;
       ctx.fill();
     }
-
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
