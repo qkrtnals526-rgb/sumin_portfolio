@@ -625,6 +625,48 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   </div>
 </div>
 
+<!-- 3D ARTWORK DETAIL PAGE -->
+<div id="page-3d-artwork" class="detail-page">
+  <div class="detail-nav dark">
+    <a class="detail-back" onclick="closeDetail()">← Back</a>
+    <div class="detail-menu-wrap">
+      <div class="detail-inline-cats">
+        <a onclick="switchDetail('ai-creative')">AI Creative</a>
+        <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+        <a class="active" onclick="switchDetail('3d-artwork')">3D Artwork</a>
+        <a onclick="switchDetail('style-challenge')">Style Challenge</a>
+        <a onclick="switchDetail('promotional-content')">Promotional Content</a>
+      </div>
+      <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="detail-scene" id="da-scene">
+    <div class="detail-canvas">
+      <!-- Slide 1: KREAM DRAW -->
+      <div class="detail-slide active" data-slide="0" style="background:#004ED5;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="3DArtwork.png" alt="3D Artwork 01">
+          <div class="detail-video-wrap fe-scroll-frame" data-strip-id="da-strip-1">
+            <div class="detail-scroll-strip" id="da-strip-1">
+              <video src="3DArtwork1.mp4" autoplay loop muted playsinline></video>
+            </div>
+          </div>
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
+            <div class="scroll-hint-line" style="background:#fff;"></div>
+            <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 스크롤 스페이서 -->
+    <div class="detail-spacer" id="da-spacer"></div>
+  </div>
+</div>
+
 <script>
 /* CLOCK */
 function updateClock(){
@@ -818,6 +860,10 @@ document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
 // Attach click to fifth wcard (Promotional Content)
 document.querySelectorAll('.wcard')[4].addEventListener('click',function(){
   openDetail('promotional-content');
+});
+// Attach click to third wcard (3D Artwork)
+document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
+  openDetail('3d-artwork');
 });
 
 /* DETAIL SLIDE SCROLL — 통합 스크롤 로직 */
