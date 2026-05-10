@@ -43,13 +43,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   width:100%;aspect-ratio:16/9;
   background:url('intro1.png') center/cover no-repeat;
   position:relative;overflow:hidden;
-  transform: translateY(60px);
-  opacity: 0;
-  transition: transform 0.9s cubic-bezier(0.16,1,0.3,1), opacity 0.9s ease;
-}
-#s-intro.revealed {
-  transform: translateY(0);
-  opacity: 1;
 }
 .svg-roll-wrap{position:absolute;left:8%;top:56.8%;height:16.1%;width:39%;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .svg-roll-track{display:flex;flex-direction:column;width:100%;}
@@ -277,9 +270,10 @@ window.addEventListener('scroll',updateCards,{passive:true});updateCards();
       // radius goes from MAX_R → 0
       const r = MAX_R * (1 - eased);
       // alpha fades out near end
+      const alpha = introT < 0.8 ? 1 : 1 - (introT - 0.8)/0.2;
       ctx.beginPath();
       ctx.arc(CX, CY, Math.max(0, r), 0, Math.PI*2);
-      ctx.fillStyle = `rgba(${BLUE},1)`;
+      ctx.fillStyle = `rgba(${BLUE},${alpha * 0.92})`;
       ctx.fill();
     }
 
