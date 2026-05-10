@@ -569,6 +569,62 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   </div>
 </div>
 
+<!-- PROMOTIONAL CONTENT DETAIL PAGE -->
+<div id="page-promotional-content" class="detail-page">
+  <div class="detail-nav">
+    <a class="detail-back" onclick="closeDetail()">← Back</a>
+    <div class="detail-menu-wrap">
+      <div class="detail-inline-cats">
+        <a onclick="switchDetail('ai-creative')">AI Creative</a>
+        <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+        <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+        <a onclick="switchDetail('style-challenge')">Style Challenge</a>
+        <a class="active" onclick="switchDetail('promotional-content')">Promotional Content</a>
+      </div>
+      <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="detail-scene" id="pc-scene">
+    <div class="detail-canvas">
+      <!-- Slide 1: 디저트 테이블 -->
+      <div class="detail-slide active" data-slide="0" style="background:#F5F5F5;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="Promotional.png" alt="Promotional Content 01">
+          <div class="detail-video-wrap fe-scroll-frame" data-strip-id="pc-strip-1">
+            <div class="detail-scroll-strip" id="pc-strip-1">
+              <video src="5-1.mp4" autoplay loop muted playsinline></video>
+              <img src="5-2.png" alt="">
+              <img src="5-3.jpg" alt="">
+              <video src="5-4.mp4" autoplay loop muted playsinline></video>
+              <img src="5-5.jpg" alt="">
+              <img src="5-6.png" alt="">
+              <img src="5-7.jpg" alt="">
+              <img src="5-8.jpg" alt="">
+              <img src="5-9.png" alt="">
+              <img src="5-10.png" alt="">
+              <img src="5-11.png" alt="">
+              <img src="5-12.png" alt="">
+              <img src="5-13.png" alt="">
+              <img src="5-14.png" alt="">
+              <img src="5-15.png" alt="">
+            </div>
+          </div>
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 스크롤 스페이서 -->
+    <div class="detail-spacer" id="pc-spacer"></div>
+  </div>
+</div>
+
 <script>
 /* CLOCK */
 function updateClock(){
@@ -758,6 +814,10 @@ document.querySelectorAll('.wcard')[0].addEventListener('click',function(){
 // Attach click to second wcard (Fashion Editorial)
 document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
   openDetail('fashion-editorial');
+});
+// Attach click to fifth wcard (Promotional Content)
+document.querySelectorAll('.wcard')[4].addEventListener('click',function(){
+  openDetail('promotional-content');
 });
 
 /* DETAIL SLIDE SCROLL — 통합 스크롤 로직 */
