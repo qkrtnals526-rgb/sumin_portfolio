@@ -43,6 +43,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   width:100%;aspect-ratio:16/9;
   background:url('intro1.png') center/cover no-repeat;
   position:relative;overflow:hidden;
+  transform: translateY(60px);
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.16,1,0.3,1), opacity 0.9s ease;
+}
+#s-intro.revealed {
+  transform: translateY(0);
   opacity: 1;
 }
 .svg-roll-wrap{position:absolute;left:8%;top:56.8%;height:16.1%;width:39%;overflow:hidden;display:flex;align-items:center;justify-content:center;}
@@ -53,12 +59,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* ABOUT GRADIENT */
 #s-about1{
   width:100%;aspect-ratio:1200/531;
-  background:linear-gradient(180deg,#1356FC 0%,#0e3de8 12%,#060058 40%,#010018 60%,#000 73%);
   display:flex;align-items:flex-end;justify-content:space-between;
   padding:0 3.33% 5.5%;position:relative;overflow:hidden;
+  background:#000;
 }
-#s-about1::before{content:'';position:absolute;left:-20%;top:0;width:140%;height:70%;background:radial-gradient(ellipse at 50% 40%,rgba(40,80,255,0.3) 0%,transparent 60%);animation:gw 10s ease-in-out infinite alternate;pointer-events:none;}
-#s-about1::after{content:'';position:absolute;left:0;top:15%;width:110%;height:50%;background:radial-gradient(ellipse at 40% 55%,rgba(20,60,210,0.18) 0%,transparent 58%);animation:gw 14s ease-in-out 3s infinite alternate-reverse;pointer-events:none;}
+#about1-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
 .since-text{font-family:'StackSansNotch',sans-serif;font-size:clamp(40px,8.3vw,100px);font-weight:500;color:#fff;letter-spacing:-0.02em;line-height:1;text-transform:uppercase;position:relative;z-index:2;opacity:0;transform:translateY(30px);transition:opacity 1s cubic-bezier(0.16,1,0.3,1),transform 1s cubic-bezier(0.16,1,0.3,1);}
 .since-text.in{opacity:1;transform:translateY(0);}
 .since-date{font-family:'StackSansNotch',sans-serif;font-size:clamp(14px,2.3vw,28px);font-weight:300;color:#fff;letter-spacing:0.05em;align-self:flex-end;position:relative;z-index:2;opacity:0;transform:translateY(20px);transition:opacity 1s cubic-bezier(0.16,1,0.3,1) 0.18s,transform 1s cubic-bezier(0.16,1,0.3,1) 0.18s;}
@@ -93,7 +98,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sr{opacity:0;transform:translateY(36px);transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1),transform 0.9s cubic-bezier(0.16,1,0.3,1);}
 .sr.in{opacity:1;transform:translateY(0);}
 
-@keyframes gw{from{transform:translateX(-4%) translateY(0);}to{transform:translateX(4%) translateY(-18px);}}
+
 </style>
 </head>
 <body>
@@ -120,6 +125,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </section>
 
 <section id="s-about1">
+  <canvas id="about1-canvas"></canvas>
   <span class="since-text" id="sinceT">SINCE 1998</span>
   <span class="since-date" id="sinceD">05. 26</span>
 </section>
@@ -271,10 +277,9 @@ window.addEventListener('scroll',updateCards,{passive:true});updateCards();
       // radius goes from MAX_R → 0
       const r = MAX_R * (1 - eased);
       // alpha fades out near end
-      const alpha = introT < 0.8 ? 1 : 1 - (introT - 0.8)/0.2;
       ctx.beginPath();
       ctx.arc(CX, CY, Math.max(0, r), 0, Math.PI*2);
-      ctx.fillStyle = `rgba(${BLUE},${alpha * 0.92})`;
+      ctx.fillStyle = `rgba(${BLUE},1)`;
       ctx.fill();
     }
 
@@ -302,5 +307,103 @@ window.addEventListener('scroll',updateCards,{passive:true});updateCards();
   requestAnimationFrame(frame);
 })();
 </script>
+
+/* ABOUT1 WAVE GRADIENT */
+(function(){
+  const canvas = document.getElementById('about1-canvas');
+  const ctx = canvas.getContext('2d');
+  
+  function resize(){
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  
+  let t = 0;
+  function draw(){
+    requestAnimationFrame(draw);
+    t += 0.008;
+    
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    
+    // 기본 배경: 검정
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, w, h);
+    
+    // 파동치는 그라디언트 경계선 계산
+    // 여러 개의 sin 파동으로 경계를 만듦
+    const points = [];
+    const segments = 80;
+    for(let i = 0; i <= segments; i++){
+      const x = (i / segments) * w;
+      // 잔잔한 파동: 여러 주파수 합성
+      const wave = 
+        Math.sin(x * 0.005 + t) * 28 +
+        Math.sin(x * 0.009 + t * 1.3) * 16 +
+        Math.sin(x * 0.003 + t * 0.7) * 20 +
+        Math.sin(x * 0.012 + t * 1.8) * 10;
+      // 경계 y 위치: 화면 45~55% 사이에서 파동
+      const y = h * 0.48 + wave;
+      points.push({x, y});
+    }
+    
+    // 파동 위쪽: 파란색 그라디언트
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(w, 0);
+    ctx.lineTo(w, points[points.length-1].y);
+    for(let i = points.length - 2; i >= 0; i--){
+      ctx.lineTo(points[i].x, points[i].y);
+    }
+    ctx.closePath();
+    
+    const gradBlue = ctx.createLinearGradient(0, 0, 0, h * 0.6);
+    gradBlue.addColorStop(0, '#1356FC');
+    gradBlue.addColorStop(0.4, '#0e3de8');
+    gradBlue.addColorStop(0.75, '#060058');
+    gradBlue.addColorStop(1, '#010018');
+    ctx.fillStyle = gradBlue;
+    ctx.fill();
+    
+    // 파동 경계 부드럽게: 블러 효과용 얇은 빛
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for(let i = 1; i < points.length; i++){
+      ctx.lineTo(points[i].x, points[i].y);
+    }
+    ctx.strokeStyle = 'rgba(30, 80, 255, 0.18)';
+    ctx.lineWidth = 18;
+    ctx.filter = 'blur(8px)';
+    ctx.stroke();
+    ctx.filter = 'none';
+    
+    // 파동 아래쪽 추가 파동 (두 번째 레이어)
+    const points2 = [];
+    for(let i = 0; i <= segments; i++){
+      const x = (i / segments) * w;
+      const wave2 = 
+        Math.sin(x * 0.006 + t * 1.1 + 1.5) * 20 +
+        Math.sin(x * 0.01 + t * 0.9) * 12 +
+        Math.sin(x * 0.004 + t * 1.5) * 18;
+      const y = h * 0.52 + wave2;
+      points2.push({x, y});
+    }
+    
+    ctx.beginPath();
+    ctx.moveTo(points2[0].x, points2[0].y);
+    for(let i = 1; i < points2.length; i++){
+      ctx.lineTo(points2[i].x, points2[i].y);
+    }
+    ctx.strokeStyle = 'rgba(19, 86, 252, 0.12)';
+    ctx.lineWidth = 30;
+    ctx.filter = 'blur(12px)';
+    ctx.stroke();
+    ctx.filter = 'none';
+  }
+  draw();
+})();
+
 </body>
 </html>
