@@ -273,6 +273,25 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   display:block;
 }
 
+/* 에디토리얼용: 프레임 안에서 콘텐츠가 스크롤되는 스트립 */
+.detail-scroll-strip{
+  position:absolute;
+  top:0;left:0;
+  width:100%;
+  will-change:transform;
+  transition:none;
+}
+.detail-scroll-strip img,
+.detail-scroll-strip video{
+  width:100%;
+  display:block;
+}
+
+/* 다크 배경용 네비 컬러 */
+.detail-nav.dark .detail-back{color:#fff;}
+.detail-nav.dark .detail-menu-btn .dot{background:#fff;}
+.detail-nav.dark .detail-inline-cats a{color:#fff;}
+
 @keyframes dRevealVideo{
   from{opacity:0;transform:translateY(20px) scale(0.98);}
   to{opacity:1;transform:translateY(0) scale(1);}
@@ -385,6 +404,62 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
     <!-- 스크롤 높이용 스페이서 -->
     <div class="detail-spacer"></div>
+  </div>
+</div>
+
+<!-- FASHION EDITORIAL DETAIL PAGE -->
+<div id="page-fashion-editorial" class="detail-page">
+  <div class="detail-nav dark">
+    <a class="detail-back" onclick="closeDetail()">← Back</a>
+    <div class="detail-menu-wrap">
+      <div class="detail-inline-cats">
+        <a onclick="switchDetail('ai-creative')">AI Creative</a>
+        <a class="active" onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+        <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+        <a onclick="switchDetail('style-challenge')">Style Challenge</a>
+        <a onclick="switchDetail('promotional-content')">Promotional Content</a>
+      </div>
+      <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="detail-scene" id="fe-scene">
+    <div class="detail-canvas">
+      <div class="detail-slide active" data-slide="0" style="background:#000;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="Fashioneditorial.png" alt="Fashion Editorial 01">
+          <div class="detail-video-wrap" id="fe-scroll-frame">
+            <div class="detail-scroll-strip" id="fe-strip">
+              <video src="1.mp4" autoplay loop muted playsinline></video>
+              <img src="2.jpg" alt="">
+              <img src="3.png" alt="">
+              <video src="4.mp4" autoplay loop muted playsinline></video>
+              <img src="5.png" alt="">
+              <video src="6.mp4" autoplay loop muted playsinline></video>
+              <img src="7.png" alt="">
+              <video src="8.mp4" autoplay loop muted playsinline></video>
+              <img src="9.png" alt="">
+              <img src="10.png" alt="">
+              <img src="11.png" alt="">
+              <video src="12.mp4" autoplay loop muted playsinline></video>
+              <img src="13.png" alt="">
+              <img src="14.png" alt="">
+              <img src="15.jpg" alt="">
+            </div>
+          </div>
+          <!-- 스크롤 힌트 -->
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
+            <div class="scroll-hint-line" style="background:#fff;"></div>
+            <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 스크롤 스페이서: 콘텐츠 길이에 비례 -->
+    <div class="detail-spacer" id="fe-spacer"></div>
   </div>
 </div>
 
@@ -519,6 +594,10 @@ document.addEventListener('click', function(e){
 document.querySelectorAll('.wcard')[0].addEventListener('click',function(){
   openDetail('ai-creative');
 });
+// Attach click to second wcard (Fashion Editorial)
+document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
+  openDetail('fashion-editorial');
+});
 
 /* DETAIL SLIDE SCROLL — 배경 페이드 전환 */
 (function(){
@@ -530,33 +609,69 @@ document.querySelectorAll('.wcard')[0].addEventListener('click',function(){
       if(!scene) return;
       const slides = scene.querySelectorAll('.detail-slide');
       const slideCount = slides.length;
-      if(slideCount <= 1) return;
       
       const scrollTop = page.scrollTop;
       const vh = window.innerHeight;
-      // 각 슬라이드 전환 구간: 100vh당 1슬라이드
-      const progress = scrollTop / vh;
-      const currentIndex = Math.min(Math.floor(progress), slideCount - 1);
       
-      slides.forEach((slide, i) => {
-        if(i === currentIndex){
-          slide.classList.add('active');
-        } else {
-          slide.classList.remove('active');
+      // 슬라이드 페이드 전환 (AI Creative 등)
+      if(slideCount > 1){
+        const progress = scrollTop / vh;
+        const currentIndex = Math.min(Math.floor(progress), slideCount - 1);
+        slides.forEach((slide, i) => {
+          if(i === currentIndex) slide.classList.add('active');
+          else slide.classList.remove('active');
+        });
+        const hint = scene.querySelector('.detail-scroll-hint');
+        if(hint){
+          hint.style.opacity = currentIndex >= slideCount - 1 ? '0' : '0.5';
         }
-      });
+      }
       
-      // 마지막 슬라이드면 스크롤 힌트 숨기기
-      const hint = scene.querySelector('.detail-scroll-hint');
-      if(hint){
-        if(currentIndex >= slideCount - 1){
-          hint.style.opacity = '0';
-        } else {
-          hint.style.opacity = '0.5';
+      // 에디토리얼 스크롤 스트립 (프레임 내부 콘텐츠 스크롤)
+      const strip = scene.querySelector('.detail-scroll-strip');
+      if(strip){
+        const frame = strip.parentElement;
+        const frameH = frame.offsetHeight;
+        const stripH = strip.scrollHeight;
+        const maxShift = Math.max(0, stripH - frameH);
+        const spacer = scene.querySelector('.detail-spacer');
+        const totalScroll = spacer ? spacer.offsetHeight : vh;
+        const p = Math.max(0, Math.min(1, scrollTop / totalScroll));
+        strip.style.transform = `translateY(-${p * maxShift}px)`;
+        
+        // 스크롤 힌트: 끝에 도달하면 숨기기
+        const hint = scene.querySelector('.detail-scroll-hint');
+        if(hint){
+          hint.style.opacity = p >= 0.95 ? '0' : '0.5';
         }
       }
     });
   });
+})();
+
+/* 에디토리얼 스페이서 높이 동적 계산 */
+(function(){
+  function calcFeSpacer(){
+    const strip = document.getElementById('fe-strip');
+    const frame = document.getElementById('fe-scroll-frame');
+    const spacer = document.getElementById('fe-spacer');
+    if(!strip || !frame || !spacer) return;
+    // 스트립이 로드된 후 높이 계산
+    const check = () => {
+      const stripH = strip.scrollHeight;
+      const frameH = frame.offsetHeight;
+      if(stripH > frameH){
+        // 콘텐츠 비율에 맞는 스크롤 높이
+        const ratio = stripH / frameH;
+        spacer.style.height = Math.round(ratio * 100) + 'vh';
+      }
+    };
+    // 이미지/비디오 로드 후 재계산
+    setTimeout(check, 500);
+    setTimeout(check, 2000);
+    window.addEventListener('resize', check);
+  }
+  calcFeSpacer();
 })();
 
 </script>
