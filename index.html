@@ -304,7 +304,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   color:#fff;
   cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  transition:background 0.2s;
+  transition:background 0.2s, opacity 0.3s;
   backdrop-filter:blur(8px);
 }
 .sound-toggle:hover{background:rgba(0,0,0,0.7);}
@@ -670,6 +670,27 @@ document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
         const totalScroll = spacer ? spacer.offsetHeight : vh;
         const p = Math.max(0, Math.min(1, scrollTop / totalScroll));
         strip.style.transform = `translateY(-${p * maxShift}px)`;
+        
+        // 1.mp4 영역 벗어나면 자동 음소거
+        const vid1 = document.getElementById('fe-video-1');
+        const btn = document.getElementById('fe-sound-btn');
+        if(vid1 && btn){
+          const shift = p * maxShift;
+          const vid1Bottom = vid1.offsetTop + vid1.offsetHeight;
+          // 영상이 프레임 위로 완전히 올라갔으면 음소거
+          if(shift > vid1Bottom){
+            if(!vid1.muted){
+              vid1.muted = true;
+              btn.querySelector('.sound-icon-off').style.display = 'block';
+              btn.querySelector('.sound-icon-on').style.display = 'none';
+            }
+            btn.style.opacity = '0';
+            btn.style.pointerEvents = 'none';
+          } else {
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+          }
+        }
         
         // 스크롤 힌트: 끝에 도달하면 숨기기
         const hint = scene.querySelector('.detail-scroll-hint');
