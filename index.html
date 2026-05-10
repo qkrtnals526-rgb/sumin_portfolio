@@ -101,28 +101,26 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 #page-ai-creative.open{display:block;}
 
-/* Back 버튼 */
+/* Back 버튼 — nav와 동일한 폰트 크기(22px) */
 .detail-back{
   position:absolute;top:18px;left:40px;z-index:1010;
-  font-family:'Pretendard',sans-serif;font-size:13px;font-weight:500;
-  color:#888;text-decoration:none;cursor:pointer;
+  font-family:'Pretendard',sans-serif;font-size:22px;font-weight:500;
+  color:#000;text-decoration:none;cursor:pointer;
   display:flex;align-items:center;gap:8px;
-  letter-spacing:0.04em;
   opacity:0;
   transition:opacity 0.5s ease 0.2s;
 }
 #page-ai-creative.open .detail-back{opacity:1;}
-.detail-back:hover{color:#111;}
+.detail-back:hover{opacity:0.55;}
 
-/* 전체 씬: 뷰포트 꽉 채우되 16:9 캔버스를 센터 */
+/* 전체 씬 */
 .detail-scene{
   position:absolute;inset:0;
   display:flex;align-items:center;justify-content:center;
   background:#fff;
 }
 
-/* 캔버스: aicreative.png 그대로의 비율 — 이미지는 1456×816 (실제 원본) 
-   페이지 이미지 비율 맞춤: 16/9 */
+/* 캔버스: 16:9 */
 .detail-canvas{
   position:relative;
   width:100%;
@@ -130,7 +128,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   aspect-ratio:16/9;
 }
 
-/* 배경 이미지: 캔버스를 꽉 채움 */
+/* 배경 이미지 */
 .detail-bg{
   position:absolute;inset:0;
   width:100%;height:100%;
@@ -142,20 +140,17 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 #page-ai-creative.open .detail-bg{opacity:1;}
 
 /* VIEW SVG 버튼
-   이미지 기준 1200px 대지:
-   VIEW 버튼은 CREATIVE 텍스트 우측 끝에 붙음
-   x≈531/1200=44.25%, y≈190/675=28.15% */
+   스크린샷 역산: left=45.3%, top=25.63%  */
 .detail-view-btn{
   position:absolute;
-  left:44.25%;
-  top:28.15%;
+  left:45.3%;
+  top:25.6%;
   width:5.92%;   /* 71/1200 */
   z-index:6;
   cursor:pointer;
   opacity:0;
   transition:opacity 0.5s ease 0.55s, filter 0.2s;
   display:block;
-  transform-origin:left center;
 }
 .detail-view-btn img{
   width:100%;height:auto;display:block;
@@ -163,16 +158,13 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 #page-ai-creative.open .detail-view-btn{opacity:1;}
 .detail-view-btn:hover{filter:opacity(0.4);}
 
-/* work_frame SVG — 정확한 좌표
-   1200px 대지 기준: left=771, top=33, width=389, height=584
-   캔버스 height = 1200/16*9 = 675
-   left%  = 771/1200  = 64.25%
-   top%   = 33/675    = 4.89%
-   width% = 389/1200  = 32.42%   (height는 aspect-ratio로 자동) */
+/* work_frame SVG
+   스크린샷 역산: left=58.07%, top=3.29%
+   width=389/1200=32.42% */
 .detail-frame-wrap{
   position:absolute;
-  left:64.25%;
-  top:4.89%;
+  left:58.07%;
+  top:3.29%;
   width:32.42%;
   aspect-ratio:389/584;
   z-index:4;
@@ -183,7 +175,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   animation:dRevealFrame 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
 }
 
-/* work_frame SVG: 배경 rect 역할, 그 위에 video 오버레이 */
 .detail-frame-svg{
   position:absolute;inset:0;
   width:100%;height:100%;
