@@ -101,17 +101,73 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 #page-ai-creative.open{display:block;}
 
-/* Back 버튼 — nav와 동일한 폰트 크기(22px) */
+/* detail-page generic class for shared animations */
+.detail-page{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:#fff;overflow:hidden;
+}
+.detail-page.open{display:block;}
+
+/* 스크롤 힌트 아이콘 — 영상 우측 */
+.detail-scroll-hint{
+  position:absolute;
+  right:3.5%;
+  z-index:6;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  opacity:0;
+  transition:opacity 0.6s ease 0.8s;
+  animation:scrollBounce 2s ease-in-out infinite;
+}
+.detail-page.open .detail-scroll-hint{opacity:0.5;}
+.detail-scroll-hint:hover{opacity:0.8 !important;}
+.scroll-hint-text{
+  font-family:'StackSansNotch',sans-serif;font-size:10px;font-weight:400;
+  color:#000;letter-spacing:0.12em;text-transform:uppercase;
+  writing-mode:vertical-rl;
+}
+.scroll-hint-line{
+  width:1px;height:32px;background:#000;opacity:0.4;
+}
+.scroll-hint-arrow{
+  width:8px;height:8px;border-right:1px solid #000;border-bottom:1px solid #000;
+  transform:rotate(45deg);opacity:0.4;
+}
+@keyframes scrollBounce{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(6px);}
+}
+
+/* Detail Nav — Back 좌측 + 카테고리 우측 */
+.detail-nav{
+  position:absolute;top:0;left:0;right:0;z-index:1010;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 40px;
+}
 .detail-back{
-  position:absolute;top:18px;left:40px;z-index:1010;
   font-family:'Pretendard',sans-serif;font-size:22px;font-weight:500;
   color:#000;text-decoration:none;cursor:pointer;
   display:flex;align-items:center;gap:8px;
   opacity:0;
   transition:opacity 0.5s ease 0.2s;
 }
-#page-ai-creative.open .detail-back{opacity:1;}
 .detail-back:hover{opacity:0.55;}
+.detail-cat-links{
+  display:flex;gap:28px;
+  opacity:0;
+  transition:opacity 0.5s ease 0.35s;
+}
+.detail-cat-links a{
+  font-family:'Pretendard',sans-serif;font-size:15px;font-weight:400;
+  color:#000;text-decoration:none;letter-spacing:0.02em;
+  opacity:0.4;
+  transition:opacity 0.25s;
+  cursor:pointer;
+  text-transform:uppercase;
+}
+.detail-cat-links a:hover{opacity:1;}
+.detail-cat-links a.active{opacity:1;font-weight:600;}
+.detail-page.open .detail-back,
+.detail-page.open .detail-cat-links{opacity:1;}
 
 /* 전체 씬 */
 .detail-scene{
@@ -221,8 +277,17 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </section>
 
 <!-- AI CREATIVE DETAIL PAGE -->
-<div id="page-ai-creative">
-  <a class="detail-back" onclick="closeDetail()">← Back</a>
+<div id="page-ai-creative" class="detail-page">
+  <div class="detail-nav">
+    <a class="detail-back" onclick="closeDetail()">← Back</a>
+    <div class="detail-cat-links">
+      <a class="active" onclick="switchDetail('ai-creative')">AI Creative</a>
+      <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+      <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+      <a onclick="switchDetail('style-challenge')">Style Challenge</a>
+      <a onclick="switchDetail('promotional-content')">Promotional Content</a>
+    </div>
+  </div>
   <div class="detail-scene">
     <div class="detail-canvas">
 
@@ -232,6 +297,13 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <!-- 영상: 프레임 없이 배경 위에 바로 배치 -->
       <div class="detail-video-wrap">
         <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
+      </div>
+
+      <!-- 스크롤 힌트 — 영상 우측 -->
+      <div class="detail-scroll-hint" style="bottom:9%;">
+        <span class="scroll-hint-text">Scroll</span>
+        <div class="scroll-hint-line"></div>
+        <div class="scroll-hint-arrow"></div>
       </div>
 
     </div>
@@ -316,23 +388,46 @@ function updateCards(){
 }
 window.addEventListener('scroll',updateCards,{passive:true});updateCards();
 
-/* DETAIL PAGE OPEN / CLOSE */
+/* DETAIL PAGE OPEN / CLOSE / SWITCH */
 function openDetail(pageName){
   const page = document.getElementById('page-'+pageName);
   if(!page) return;
-  // reset animation states
   page.classList.remove('open');
   void page.offsetWidth;
   page.classList.add('open');
   page.scrollTop = 0;
   document.body.style.overflow='hidden';
+  // highlight active category
+  updateCatLinks(page, pageName);
 }
 function closeDetail(){
-  const page = document.getElementById('page-ai-creative');
-  if(page){
-    page.classList.remove('open');
-    document.body.style.overflow='';
-  }
+  document.querySelectorAll('.detail-page').forEach(p=>{
+    p.classList.remove('open');
+  });
+  document.body.style.overflow='';
+}
+function switchDetail(pageName){
+  // 현재 열린 페이지와 같으면 무시
+  const page = document.getElementById('page-'+pageName);
+  if(!page) return;
+  // 모든 디테일 페이지 닫기
+  document.querySelectorAll('.detail-page').forEach(p=>{
+    p.classList.remove('open');
+  });
+  // 새 페이지 열기
+  setTimeout(()=>{
+    openDetail(pageName);
+  }, 50);
+}
+function updateCatLinks(page, activeName){
+  page.querySelectorAll('.detail-cat-links a').forEach(a=>{
+    const linkName = a.getAttribute('onclick').match(/switchDetail\('(.+?)'\)/);
+    if(linkName && linkName[1] === activeName){
+      a.classList.add('active');
+    } else {
+      a.classList.remove('active');
+    }
+  });
 }
 // Attach click to first wcard (AI Creative)
 document.querySelectorAll('.wcard')[0].addEventListener('click',function(){
