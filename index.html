@@ -485,19 +485,19 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <img class="detail-bg" src="Fashioneditorial2.png" alt="Fashion Editorial 02">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-2">
             <div class="detail-scroll-strip" id="fe-strip-2">
-              <video src="fe2_1.mp4" autoplay loop muted playsinline></video>
-              <video src="fe2_2.mp4" autoplay loop muted playsinline></video>
-              <img src="fe2_3.jpg" alt="">
-              <video src="fe2_4.mp4" autoplay loop muted playsinline></video>
-              <img src="fe2_5.jpg" alt="">
-              <img src="fe2_6.jpg" alt="">
-              <video src="fe2_7.mp4" autoplay loop muted playsinline></video>
-              <img src="fe2_8.jpg" alt="">
-              <img src="fe2_9.jpg" alt="">
-              <video src="fe2_10.mp4" autoplay loop muted playsinline></video>
-              <img src="fe2_11.jpg" alt="">
-              <img src="fe2_12.jpg" alt="">
-              <img src="fe2_13.jpg" alt="">
+              <video src="2-1.mp4" autoplay loop muted playsinline></video>
+              <video src="2-2.mp4" autoplay loop muted playsinline></video>
+              <img src="2-3.jpg" alt="">
+              <video src="2-4.mp4" autoplay loop muted playsinline></video>
+              <img src="2-5.jpg" alt="">
+              <img src="2-6.jpg" alt="">
+              <video src="2-7.mp4" autoplay loop muted playsinline></video>
+              <img src="2-8.jpg" alt="">
+              <img src="2-9.jpg" alt="">
+              <video src="2-10.mp4" autoplay loop muted playsinline></video>
+              <img src="2-11.jpg" alt="">
+              <img src="2-12.jpg" alt="">
+              <img src="2-13.jpg" alt="">
             </div>
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
@@ -724,6 +724,17 @@ document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
         if(activeHint){
           const isLast = currentIndex >= slideCount - 1 && slideProgress >= 0.95;
           activeHint.style.opacity = isLast ? '0' : '0.5';
+        }
+        
+        // Slide 1 벗어나면 사운드 자동 음소거
+        const vid1 = document.getElementById('fe-video-1');
+        const sndBtn = document.getElementById('fe-sound-btn');
+        if(vid1 && sndBtn){
+          if(currentIndex !== 0 && !vid1.muted){
+            vid1.muted = true;
+            sndBtn.querySelector('.sound-icon-off').style.display = 'block';
+            sndBtn.querySelector('.sound-icon-on').style.display = 'none';
+          }
         }
         
       } else if(hasStrips && slideCount === 1){
