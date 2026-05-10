@@ -50,9 +50,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   top:0;
   width:100%;
   aspect-ratio:16/9;
-  background:url('intro1.png') center/cover no-repeat;
+  background:url('intro1.png') center/cover no-repeat, #1356FC;
   overflow:hidden;
-  /* 처음엔 화면 아래에 숨겨져 있음 */
   transform:translateY(100%);
   z-index:10;
   will-change:transform;
@@ -68,6 +67,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   background:linear-gradient(180deg,#1356FC 0%,#0e3de8 12%,#060058 40%,#010018 60%,#000 73%);
   display:flex;align-items:flex-end;justify-content:space-between;
   padding:0 3.33% 5.5%;position:relative;overflow:hidden;
+  margin-top:-2px; /* 혹시 모를 1px 틈 제거 */
 }
 #s-about1::before{content:'';position:absolute;left:-20%;top:0;width:140%;height:70%;background:radial-gradient(ellipse at 50% 40%,rgba(40,80,255,0.3) 0%,transparent 60%);animation:gw 10s ease-in-out infinite alternate;pointer-events:none;}
 #s-about1::after{content:'';position:absolute;left:0;top:15%;width:110%;height:50%;background:radial-gradient(ellipse at 40% 55%,rgba(20,60,210,0.18) 0%,transparent 58%);animation:gw 14s ease-in-out 3s infinite alternate-reverse;pointer-events:none;}
