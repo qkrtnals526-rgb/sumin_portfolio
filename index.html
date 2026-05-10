@@ -444,11 +444,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="fe-scene">
     <div class="detail-canvas">
+      <!-- Slide 1: HONDA MOTORCYCLE -->
       <div class="detail-slide active" data-slide="0" style="background:#151515;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial.png" alt="Fashion Editorial 01">
-          <div class="detail-video-wrap" id="fe-scroll-frame">
-            <div class="detail-scroll-strip" id="fe-strip">
+          <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-1">
+            <div class="detail-scroll-strip" id="fe-strip-1">
               <video id="fe-video-1" src="1.mp4" autoplay loop muted playsinline></video>
               <img src="2.jpg" alt="">
               <img src="3.png" alt="">
@@ -471,7 +472,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <svg class="sound-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
             </button>
           </div>
-          <!-- 스크롤 힌트 -->
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
             <div class="scroll-hint-line" style="background:#fff;"></div>
@@ -479,8 +479,36 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Slide 2: 일광전구 -->
+      <div class="detail-slide" data-slide="1" style="background:#F5F5F5;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="Fashioneditorial2.png" alt="Fashion Editorial 02">
+          <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-2">
+            <div class="detail-scroll-strip" id="fe-strip-2">
+              <video src="fe2_1.mp4" autoplay loop muted playsinline></video>
+              <video src="fe2_2.mp4" autoplay loop muted playsinline></video>
+              <img src="fe2_3.jpg" alt="">
+              <video src="fe2_4.mp4" autoplay loop muted playsinline></video>
+              <img src="fe2_5.jpg" alt="">
+              <img src="fe2_6.jpg" alt="">
+              <video src="fe2_7.mp4" autoplay loop muted playsinline></video>
+              <img src="fe2_8.jpg" alt="">
+              <img src="fe2_9.jpg" alt="">
+              <video src="fe2_10.mp4" autoplay loop muted playsinline></video>
+              <img src="fe2_11.jpg" alt="">
+              <img src="fe2_12.jpg" alt="">
+              <img src="fe2_13.jpg" alt="">
+            </div>
+          </div>
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- 스크롤 스페이서: 콘텐츠 길이에 비례 -->
+    <!-- 스크롤 스페이서 -->
     <div class="detail-spacer" id="fe-spacer"></div>
   </div>
 </div>
@@ -645,7 +673,7 @@ document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
   openDetail('fashion-editorial');
 });
 
-/* DETAIL SLIDE SCROLL — 배경 페이드 전환 */
+/* DETAIL SLIDE SCROLL — 통합 스크롤 로직 */
 (function(){
   const detailPages = document.querySelectorAll('.detail-page');
   
@@ -655,12 +683,67 @@ document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
       if(!scene) return;
       const slides = scene.querySelectorAll('.detail-slide');
       const slideCount = slides.length;
-      
       const scrollTop = page.scrollTop;
       const vh = window.innerHeight;
+      const hasStrips = scene.querySelectorAll('.detail-scroll-strip').length > 0;
       
-      // 슬라이드 페이드 전환 (AI Creative 등)
-      if(slideCount > 1){
+      if(hasStrips && slideCount > 1){
+        // 에디토리얼 멀티슬라이드: 각 슬라이드별 스크롤 구간 배분
+        const spacer = scene.querySelector('.detail-spacer');
+        const totalScroll = spacer ? spacer.offsetHeight : vh * slideCount;
+        const perSlide = totalScroll / slideCount;
+        const currentIndex = Math.min(Math.floor(scrollTop / perSlide), slideCount - 1);
+        const slideLocalScroll = scrollTop - (currentIndex * perSlide);
+        const slideProgress = Math.max(0, Math.min(1, slideLocalScroll / perSlide));
+        
+        slides.forEach((slide, i) => {
+          if(i === currentIndex) slide.classList.add('active');
+          else slide.classList.remove('active');
+          // 각 슬라이드의 스트립 제어
+          const strip = slide.querySelector('.detail-scroll-strip');
+          if(strip){
+            const frame = strip.parentElement;
+            const frameH = frame.offsetHeight;
+            const stripH = strip.scrollHeight;
+            const maxShift = Math.max(0, stripH - frameH);
+            if(i === currentIndex){
+              strip.style.transform = `translateY(-${slideProgress * maxShift}px)`;
+            } else if(i < currentIndex){
+              strip.style.transform = `translateY(-${maxShift}px)`;
+            } else {
+              strip.style.transform = `translateY(0px)`;
+            }
+          }
+        });
+        
+        // 스크롤 힌트
+        const activeSlide = slides[currentIndex];
+        const allHints = scene.querySelectorAll('.detail-scroll-hint');
+        allHints.forEach(h => h.style.opacity = '0');
+        const activeHint = activeSlide ? activeSlide.querySelector('.detail-scroll-hint') : null;
+        if(activeHint){
+          const isLast = currentIndex >= slideCount - 1 && slideProgress >= 0.95;
+          activeHint.style.opacity = isLast ? '0' : '0.5';
+        }
+        
+      } else if(hasStrips && slideCount === 1){
+        // 에디토리얼 싱글슬라이드
+        const strip = scene.querySelector('.detail-scroll-strip');
+        if(strip){
+          const frame = strip.parentElement;
+          const frameH = frame.offsetHeight;
+          const stripH = strip.scrollHeight;
+          const maxShift = Math.max(0, stripH - frameH);
+          const spacer = scene.querySelector('.detail-spacer');
+          const totalScroll = spacer ? spacer.offsetHeight : vh;
+          const p = Math.max(0, Math.min(1, scrollTop / totalScroll));
+          strip.style.transform = `translateY(-${p * maxShift}px)`;
+          const hint = scene.querySelector('.detail-scroll-hint');
+          if(hint) hint.style.opacity = p >= 0.95 ? '0' : '0.5';
+        }
+        
+      } else if(slideCount > 1){
+        // AI Creative식 페이드 전환 (스트립 없음)
         const progress = scrollTop / vh;
         const currentIndex = Math.min(Math.floor(progress), slideCount - 1);
         slides.forEach((slide, i) => {
@@ -668,56 +751,64 @@ document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
           else slide.classList.remove('active');
         });
         const hint = scene.querySelector('.detail-scroll-hint');
-        if(hint){
-          hint.style.opacity = currentIndex >= slideCount - 1 ? '0' : '0.5';
-        }
+        if(hint) hint.style.opacity = currentIndex >= slideCount - 1 ? '0' : '0.5';
       }
       
-      // 에디토리얼 스크롤 스트립 (프레임 내부 콘텐츠 스크롤)
-      const strip = scene.querySelector('.detail-scroll-strip');
-      if(strip){
-        const frame = strip.parentElement;
-        const frameH = frame.offsetHeight;
-        const stripH = strip.scrollHeight;
-        const maxShift = Math.max(0, stripH - frameH);
-        const spacer = scene.querySelector('.detail-spacer');
-        const totalScroll = spacer ? spacer.offsetHeight : vh;
-        const p = Math.max(0, Math.min(1, scrollTop / totalScroll));
-        strip.style.transform = `translateY(-${p * maxShift}px)`;
-        
-        // 스크롤 힌트: 끝에 도달하면 숨기기
-        const hint = scene.querySelector('.detail-scroll-hint');
-        if(hint){
-          hint.style.opacity = p >= 0.95 ? '0' : '0.5';
+      // 다크/라이트 네비 전환
+      const nav = page.querySelector('.detail-nav');
+      if(nav && slideCount > 1){
+        const activeSlide = scene.querySelector('.detail-slide.active');
+        if(activeSlide){
+          const bg = activeSlide.style.background || '#fff';
+          const isDark = isColorDark(bg);
+          if(isDark) nav.classList.add('dark');
+          else nav.classList.remove('dark');
         }
       }
     });
   });
+  
+  // 배경색이 어두운지 판단
+  function isColorDark(hex){
+    hex = hex.replace('#','');
+    if(hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    const r = parseInt(hex.substr(0,2),16);
+    const g = parseInt(hex.substr(2,2),16);
+    const b = parseInt(hex.substr(4,2),16);
+    return (r*0.299 + g*0.587 + b*0.114) < 128;
+  }
 })();
 
-/* 에디토리얼 스페이서 높이 동적 계산 */
+/* 에디토리얼 스페이서 높이 동적 계산 — 모든 스트립 합산 */
 (function(){
-  function calcFeSpacer(){
-    const strip = document.getElementById('fe-strip');
-    const frame = document.getElementById('fe-scroll-frame');
-    const spacer = document.getElementById('fe-spacer');
-    if(!strip || !frame || !spacer) return;
-    // 스트립이 로드된 후 높이 계산
-    const check = () => {
-      const stripH = strip.scrollHeight;
-      const frameH = frame.offsetHeight;
-      if(stripH > frameH){
-        // 콘텐츠 비율에 맞는 스크롤 높이
-        const ratio = stripH / frameH;
-        spacer.style.height = Math.round(ratio * 100) + 'vh';
-      }
-    };
-    // 이미지/비디오 로드 후 재계산
-    setTimeout(check, 500);
-    setTimeout(check, 2000);
-    window.addEventListener('resize', check);
+  function calcFeSpacers(){
+    const scenes = document.querySelectorAll('.detail-scene');
+    scenes.forEach(scene => {
+      const strips = scene.querySelectorAll('.detail-scroll-strip');
+      const spacer = scene.querySelector('.detail-spacer');
+      if(strips.length === 0 || !spacer) return;
+      
+      const check = () => {
+        let totalRatio = 0;
+        strips.forEach(strip => {
+          const frame = strip.parentElement;
+          const frameH = frame.offsetHeight;
+          const stripH = strip.scrollHeight;
+          if(frameH > 0){
+            totalRatio += stripH / frameH;
+          }
+        });
+        if(totalRatio > 0){
+          spacer.style.height = Math.round(totalRatio * 100) + 'vh';
+        }
+      };
+      setTimeout(check, 500);
+      setTimeout(check, 2000);
+      setTimeout(check, 5000);
+      window.addEventListener('resize', check);
+    });
   }
-  calcFeSpacer();
+  calcFeSpacers();
 })();
 
 </script>
