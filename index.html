@@ -631,6 +631,37 @@ function openDetail(pageName){
   updateCatLinks(page, pageName);
   // 인라인 카테고리 닫기
   page.querySelectorAll('.detail-inline-cats').forEach(c=>c.classList.remove('show'));
+  // 초기 네비 컬러 설정
+  updateDetailNavColor(page);
+}
+function updateDetailNavColor(page){
+  const scene = page.querySelector('.detail-scene');
+  const nav = page.querySelector('.detail-nav');
+  if(!scene || !nav) return;
+  const activeSlide = scene.querySelector('.detail-slide.active');
+  if(activeSlide){
+    const bg = activeSlide.getAttribute('style')?.match(/background\s*:\s*([^;]+)/)?.[1]?.trim() || '#fff';
+    const isDark = isDetailColorDark(bg);
+    if(isDark) nav.classList.add('dark');
+    else nav.classList.remove('dark');
+  }
+}
+function isDetailColorDark(color){
+  let r,g,b;
+  const rgbMatch = color.match(/rgb\w*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+  if(rgbMatch){
+    r = parseInt(rgbMatch[1]);
+    g = parseInt(rgbMatch[2]);
+    b = parseInt(rgbMatch[3]);
+  } else {
+    let hex = color.replace('#','');
+    if(hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    r = parseInt(hex.substr(0,2),16);
+    g = parseInt(hex.substr(2,2),16);
+    b = parseInt(hex.substr(4,2),16);
+  }
+  if(isNaN(r)) r=255; if(isNaN(g)) g=255; if(isNaN(b)) b=255;
+  return (r*0.299 + g*0.587 + b*0.114) < 128;
 }
 function closeDetail(){
   // 모든 오디오 영상 음소거 + 버튼 리셋
@@ -798,7 +829,7 @@ document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
       if(nav && slideCount > 1){
         const activeSlide = scene.querySelector('.detail-slide.active');
         if(activeSlide){
-          const bg = activeSlide.style.background || '#fff';
+          const bg = activeSlide.getAttribute('style')?.match(/background\s*:\s*([^;]+)/)?.[1]?.trim() || activeSlide.style.background || '#fff';
           const isDark = isColorDark(bg);
           if(isDark) nav.classList.add('dark');
           else nav.classList.remove('dark');
@@ -807,13 +838,22 @@ document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
     });
   });
   
-  // 배경색이 어두운지 판단
-  function isColorDark(hex){
-    hex = hex.replace('#','');
-    if(hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
-    const r = parseInt(hex.substr(0,2),16);
-    const g = parseInt(hex.substr(2,2),16);
-    const b = parseInt(hex.substr(4,2),16);
+  // 배경색이 어두운지 판단 (hex, rgb 둘 다 지원)
+  function isColorDark(color){
+    let r,g,b;
+    const rgbMatch = color.match(/rgb\w*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+    if(rgbMatch){
+      r = parseInt(rgbMatch[1]);
+      g = parseInt(rgbMatch[2]);
+      b = parseInt(rgbMatch[3]);
+    } else {
+      let hex = color.replace('#','');
+      if(hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+      r = parseInt(hex.substr(0,2),16);
+      g = parseInt(hex.substr(2,2),16);
+      b = parseInt(hex.substr(4,2),16);
+    }
+    if(isNaN(r)) r=255; if(isNaN(g)) g=255; if(isNaN(b)) b=255;
     return (r*0.299 + g*0.587 + b*0.114) < 128;
   }
 })();
