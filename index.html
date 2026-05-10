@@ -137,13 +137,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   50%{transform:translateY(6px);}
 }
 
-/* Detail Nav — fixed + blur, 메인 네비와 동일 */
+/* Detail Nav — fixed, 투명 배경, 스크롤 따라옴 */
 .detail-nav{
   position:fixed;top:0;left:0;right:0;z-index:1010;
   display:flex;justify-content:space-between;align-items:center;
   padding:18px 40px;
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  background:rgba(255,255,255,0.6);
+  background:transparent;
 }
 .detail-back{
   font-family:'Pretendard',sans-serif;font-size:22px;font-weight:500;
@@ -228,6 +227,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   position:absolute;inset:0;
   width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
+  background:#fff; /* 기본 흰색, data-bg-color로 개별 지정 */
 }
 .detail-slide-inner{
   position:relative;
@@ -350,7 +350,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="detail-scene" id="ai-scene">
     <div class="detail-canvas">
       <!-- Slide 1: SELLER WEEK -->
-      <div class="detail-slide active" data-slide="0">
+      <div class="detail-slide active" data-slide="0" style="background:#fff;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative.png" alt="AI Creative 01">
           <div class="detail-video-wrap">
@@ -359,7 +359,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
       </div>
       <!-- Slide 2: 몽벨 해외직구 -->
-      <div class="detail-slide" data-slide="1">
+      <div class="detail-slide" data-slide="1" style="background:#DEE1E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative2.png" alt="AI Creative 02">
           <div class="detail-video-wrap">
@@ -368,7 +368,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
       </div>
       <!-- Slide 3: 스프링 시즌오프 -->
-      <div class="detail-slide" data-slide="2">
+      <div class="detail-slide" data-slide="2" style="background:#FAFFE6;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative3.png" alt="AI Creative 03">
           <div class="detail-video-wrap">
