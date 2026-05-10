@@ -93,6 +93,144 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sr.in{opacity:1;transform:translateY(0);}
 
 @keyframes gw{from{transform:translateX(-4%) translateY(0);}to{transform:translateX(4%) translateY(-18px);}}
+
+/* ── AI CREATIVE DETAIL PAGE ── */
+#page-ai-creative{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:#f0f0f0;overflow-y:auto;overflow-x:hidden;
+}
+#page-ai-creative.open{display:block;}
+
+.detail-back{
+  position:fixed;top:18px;left:40px;z-index:1010;
+  font-family:'Pretendard',sans-serif;font-size:22px;font-weight:500;
+  color:#000;text-decoration:none;cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  opacity:0;transform:translateY(-10px);
+  transition:opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+}
+#page-ai-creative.open .detail-back{opacity:1;transform:translateY(0);}
+.detail-back:hover{opacity:0.6;}
+
+.detail-container{
+  width:100%;max-width:1200px;margin:0 auto;
+  padding:100px 40px 80px;
+  display:flex;gap:40px;align-items:flex-start;
+  min-height:100vh;
+}
+
+/* LEFT COLUMN */
+.detail-left{flex:1;min-width:0;}
+.detail-title-ai{
+  font-family:'StackSansNotch',sans-serif;
+  font-weight:900;font-size:clamp(60px,7.5vw,110px);
+  line-height:0.92;letter-spacing:-0.03em;
+  color:#000;text-transform:uppercase;
+  opacity:0;transform:translateY(40px);
+}
+.detail-title-creative{
+  font-family:'StackSansNotch',sans-serif;
+  font-weight:900;font-size:clamp(60px,7.5vw,110px);
+  line-height:0.92;letter-spacing:-0.03em;
+  color:#000;text-transform:uppercase;
+  display:flex;align-items:baseline;gap:20px;
+  opacity:0;transform:translateY(40px);
+}
+.detail-view-link{
+  font-family:'Pretendard',sans-serif;font-size:clamp(14px,1.5vw,18px);
+  font-weight:400;color:#000;text-decoration:none;
+  letter-spacing:0.02em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:4px;
+  opacity:0;transform:translateY(20px);
+}
+.detail-view-link:hover{opacity:0.5;}
+.detail-desc{
+  margin-top:32px;
+  font-family:'Pretendard',sans-serif;font-size:clamp(13px,1.2vw,15px);
+  font-weight:400;color:#333;line-height:1.8;letter-spacing:-0.01em;
+  opacity:0;transform:translateY(20px);
+}
+.detail-work-details{margin-top:auto;padding-top:60px;}
+.detail-work-details h3{
+  font-family:'Pretendard',sans-serif;font-size:clamp(18px,2vw,24px);
+  font-weight:700;color:#000;letter-spacing:-0.01em;margin-bottom:16px;
+  opacity:0;transform:translateY(20px);
+}
+.detail-table{width:100%;max-width:420px;border-collapse:collapse;}
+.detail-table tr{border-bottom:1px solid #ccc;}
+.detail-table td{
+  font-family:'Pretendard',sans-serif;font-size:clamp(13px,1.1vw,15px);
+  padding:12px 0;color:#333;vertical-align:top;
+}
+.detail-table td:first-child{
+  font-weight:400;color:#888;width:120px;letter-spacing:0.02em;
+}
+.detail-table td:last-child{font-weight:600;color:#000;}
+.detail-table-row{opacity:0;transform:translateY(20px);}
+
+/* RIGHT COLUMN — video frame */
+.detail-right{
+  flex:0 0 48%;display:flex;flex-direction:column;
+  align-items:flex-end;gap:12px;
+  padding-top:20px;
+}
+.detail-video-wrap{
+  width:100%;aspect-ratio:9/14;
+  border-radius:10px;overflow:hidden;
+  background:#222;position:relative;
+  opacity:0;transform:translateY(50px) scale(0.96);
+}
+.detail-video-wrap video{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.detail-number{
+  font-family:'StackSansNotch',sans-serif;
+  font-size:clamp(16px,1.8vw,22px);font-weight:400;
+  color:rgba(0,0,0,0.35);letter-spacing:0.02em;
+  align-self:flex-end;
+  opacity:0;transform:translateY(20px);
+}
+
+/* ANIMATIONS ON OPEN */
+#page-ai-creative.open .detail-title-ai{
+  animation:dReveal 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s forwards;
+}
+#page-ai-creative.open .detail-title-creative{
+  animation:dReveal 0.9s cubic-bezier(0.16,1,0.3,1) 0.25s forwards;
+}
+#page-ai-creative.open .detail-view-link{
+  animation:dReveal 0.8s cubic-bezier(0.16,1,0.3,1) 0.35s forwards;
+}
+#page-ai-creative.open .detail-desc{
+  animation:dReveal 0.8s cubic-bezier(0.16,1,0.3,1) 0.45s forwards;
+}
+#page-ai-creative.open .detail-work-details h3{
+  animation:dReveal 0.8s cubic-bezier(0.16,1,0.3,1) 0.55s forwards;
+}
+#page-ai-creative.open .detail-table-row:nth-child(1){
+  animation:dReveal 0.7s cubic-bezier(0.16,1,0.3,1) 0.6s forwards;
+}
+#page-ai-creative.open .detail-table-row:nth-child(2){
+  animation:dReveal 0.7s cubic-bezier(0.16,1,0.3,1) 0.67s forwards;
+}
+#page-ai-creative.open .detail-table-row:nth-child(3){
+  animation:dReveal 0.7s cubic-bezier(0.16,1,0.3,1) 0.74s forwards;
+}
+#page-ai-creative.open .detail-video-wrap{
+  animation:dRevealFrame 1s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+}
+#page-ai-creative.open .detail-number{
+  animation:dReveal 0.7s cubic-bezier(0.16,1,0.3,1) 0.8s forwards;
+}
+
+@keyframes dReveal{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes dRevealFrame{
+  from{opacity:0;transform:translateY(50px) scale(0.96);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
 </style>
 </head>
 <body>
@@ -144,6 +282,39 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     <div class="work-footer"><p>© 2026 SUMIN PARK ALL RIGHTS RESERVED.</p></div>
   </div>
 </section>
+
+<!-- AI CREATIVE DETAIL PAGE -->
+<div id="page-ai-creative">
+  <a class="detail-back" onclick="closeDetail()">← Back</a>
+  <div class="detail-container">
+    <div class="detail-left">
+      <div class="detail-title-ai">AI</div>
+      <div class="detail-title-creative">
+        CREATIVE
+        <a href="#" class="detail-view-link" target="_blank">VIEW ↗</a>
+      </div>
+      <div class="detail-desc">
+        셀러위크 프로모션 키비주얼 작업입니다.<br>
+        촬영 이미지 없이 상품 누끼컷 에셋으로 Nano Banana를 활용해 모델컷과 연출컷을 제작하여<br>
+        프로모션 비주얼을 구성,하이엔드 패션 화보 무드의 고급스러운 비주얼을 연출하고자 했습니다.
+      </div>
+      <div class="detail-work-details">
+        <h3>Work Details</h3>
+        <table class="detail-table">
+          <tr class="detail-table-row"><td>Promotion</td><td>SELLER WEEK | KREAM</td></tr>
+          <tr class="detail-table-row"><td>Tools</td><td>Nano Banana, After Effect</td></tr>
+          <tr class="detail-table-row"><td>Contribution</td><td>100%</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="detail-right">
+      <div class="detail-video-wrap">
+        <video src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
+      </div>
+      <span class="detail-number">(01)</span>
+    </div>
+  </div>
+</div>
 
 <script>
 /* CLOCK */
@@ -222,6 +393,29 @@ function updateCards(){
   cardsTrack.style.transform=`translateX(-${progress*maxShift}px)`;
 }
 window.addEventListener('scroll',updateCards,{passive:true});updateCards();
+
+/* DETAIL PAGE OPEN / CLOSE */
+function openDetail(pageName){
+  const page = document.getElementById('page-'+pageName);
+  if(!page) return;
+  // reset animation states
+  page.classList.remove('open');
+  void page.offsetWidth;
+  page.classList.add('open');
+  page.scrollTop = 0;
+  document.body.style.overflow='hidden';
+}
+function closeDetail(){
+  const page = document.getElementById('page-ai-creative');
+  if(page){
+    page.classList.remove('open');
+    document.body.style.overflow='';
+  }
+}
+// Attach click to first wcard (AI Creative)
+document.querySelectorAll('.wcard')[0].addEventListener('click',function(){
+  openDetail('ai-creative');
+});
 
 </script>
 
