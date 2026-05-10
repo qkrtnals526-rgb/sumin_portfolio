@@ -19,83 +19,103 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 #nav {
   position:fixed; top:0; left:0; right:0; z-index:999;
   display:flex; justify-content:space-between; align-items:center;
-  padding:20px 40px;
+  padding:18px 40px;
   backdrop-filter:blur(16px);
   -webkit-backdrop-filter:blur(16px);
 }
-.nav-logo { font-size:22px; font-weight:700; color:#000; letter-spacing:-0.01em; text-transform:uppercase; transition:color 0.4s; }
-.nav-links { display:flex; gap:40px; }
-.nav-links a { font-size:22px; font-weight:500; text-decoration:none; color:#000; opacity:0.6; transition:opacity 0.2s,color 0.4s; }
-.nav-links a:hover { opacity:1; }
-#nav.light .nav-logo, #nav.light .nav-links a { color:#fff; }
+/* LEFT: datetime — single line, same size as .nav-portfolio */
+.nav-datetime {
+  font-family:'StackSansNotch',sans-serif;
+  font-weight:300;
+  font-size:22px;
+  letter-spacing:0.04em;
+  color:#000;
+  transition:color 0.4s;
+  white-space:nowrap;
+}
 
-/* ══ S1: COVER — image only ══ */
+/* RIGHT: PORTFOLIO + About + Work */
+.nav-right {
+  display:flex; align-items:center; gap:40px;
+}
+.nav-portfolio {
+  font-size:22px; font-weight:700; color:#000;
+  letter-spacing:-0.01em; text-transform:uppercase;
+  transition:color 0.4s;
+}
+.nav-links { display:flex; gap:40px; }
+.nav-links a {
+  font-size:22px; font-weight:500; text-decoration:none;
+  color:#000; opacity:0.6; transition:opacity 0.2s,color 0.4s;
+}
+.nav-links a:hover { opacity:1; }
+
+#nav.light .nav-datetime,
+#nav.light .nav-portfolio,
+#nav.light .nav-links a { color:#fff; }
+.nav-time, .nav-date { display:none; } /* hide old sub-elements if any */
+
+/* ══ S1: COVER ══ */
 #s-cover {
   width:100%; aspect-ratio:16/9;
   background:url('cover1.png') center/cover no-repeat;
 }
 
-/* ══ S2: INTRO — image bg + rolling text overlay ══ */
+/* ══ S2: INTRO — image bg + SVG rolling ══ */
 #s-intro {
   width:100%; aspect-ratio:16/9;
   background:url('intro1.png') center/cover no-repeat;
-  position:relative;
-  overflow:hidden;
+  position:relative; overflow:hidden;
 }
 
 /*
-  Bracket gap measured from intro1.png (3600×2025):
-  - Horizontal: 6.2% to 49.4% of width → rolling goes from ~6.2%
-  - Vertical center: 64.8% of height
-  - Line height: ~16.1% of height
-  Rolling text sits inside the bracket gap:
-    left: 6.2% + a little padding
-    top: 56.8%
-    height: 16.1%
-    width: up to ~43% (gap width)
+  Bracket gap in intro1.png (3600×2025):
+  horizontal: 6.2%~49.4%, vertical: 56.8%~72.9%
+  Rolling SVGs slot: left=7.2%, top=56.8%, height=16.1%
 */
-.rolling-overlay {
+.svg-roll-wrap {
   position:absolute;
-  /* left edge just inside [ bracket */
   left: 7.2%;
-  /* vertical: top of line 2 */
   top: 56.8%;
   height: 16.1%;
-  /* width = bracket gap */
-  width: 42%;
-  display:flex;
-  align-items:center;
-  overflow:hidden;
+  /* width = bracket gap ≈ 43% */
+  width: 43%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
-.roll-track {
-  display:flex;
-  flex-direction:column;
-  transition:transform 0.65s cubic-bezier(0.77,0,0.175,1);
-  width:100%;
+.svg-roll-track {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* transition set by JS */
 }
 
-.roll-item {
-  display:flex;
-  align-items:center;
-  height:16.1vh; /* fallback */
-  white-space:nowrap;
-  font-family:'StackSansNotch',sans-serif;
-  font-weight:500;
-  color:#fff;
-  /* font size matches the surrounding text in intro1:
-     line height is 16.1% of 2025px = ~326px at full res.
-     At viewport width ~1200px (typical), section height = 675px,
-     so 16.1% of 675 = ~109px. Use % of section height via vw proxy. */
-  font-size: 14.5vw; /* ~174px at 1200px → scales with vw like the image */
-  line-height:1;
+.svg-roll-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.svg-roll-item svg {
+  /* fill full height of container slot */
+  height: 100%;
+  width: auto;
+  display: block;
 }
 
 /* ══ S3: ABOUT GRADIENT ══ */
 #s-about1 {
   width:100%; aspect-ratio:1200/531;
+  /* match intro blue #1356FC exactly at top */
   background:linear-gradient(180deg,
-    #1B37FF 0%, #1222e0 14%, #060058 40%, #010018 60%, #000000 73%
+    #1356FC 0%,
+    #0e3de8 12%,
+    #060058 40%,
+    #010018 60%,
+    #000000 73%
   );
   display:flex; align-items:flex-end; justify-content:space-between;
   padding:0 3.33% 5.5%;
@@ -103,16 +123,15 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 }
 #s-about1::before {
   content:''; position:absolute; left:-20%; top:0; width:140%; height:70%;
-  background:radial-gradient(ellipse at 50% 40%, rgba(60,90,255,0.32) 0%, transparent 60%);
+  background:radial-gradient(ellipse at 50% 40%, rgba(40,80,255,0.3) 0%, transparent 60%);
   animation:gw 10s ease-in-out infinite alternate; pointer-events:none;
 }
 #s-about1::after {
   content:''; position:absolute; left:0; top:15%; width:110%; height:50%;
-  background:radial-gradient(ellipse at 40% 55%, rgba(30,60,210,0.18) 0%, transparent 58%);
+  background:radial-gradient(ellipse at 40% 55%, rgba(20,60,210,0.18) 0%, transparent 58%);
   animation:gw 14s ease-in-out 3s infinite alternate-reverse; pointer-events:none;
 }
 
-/* SINCE 1998 — floats up on scroll */
 .since-text {
   font-family:'StackSansNotch',sans-serif;
   font-size:clamp(40px, 8.3vw, 100px);
@@ -124,11 +143,12 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 }
 .since-text.in { opacity:1; transform:translateY(0); }
 
-/* 05.26 — floats up on scroll, slight delay */
+/* 05.26 — #FFFFFF 100%, no opacity */
 .since-date {
   font-family:'StackSansNotch',sans-serif;
   font-size:clamp(14px, 2.3vw, 28px);
-  font-weight:300; color:rgba(255,255,255,0.75);
+  font-weight:300;
+  color:#FFFFFF;
   letter-spacing:0.05em; align-self:flex-end;
   position:relative; z-index:2;
   opacity:0; transform:translateY(20px);
@@ -136,10 +156,80 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 }
 .since-date.in { opacity:1; transform:translateY(0); }
 
-/* ══ S4: ABOUT BLACK — image ══ */
+/* ══ S4: ABOUT BLACK — HTML layout matching about2.png ══ */
 #s-about2 {
-  width:100%; aspect-ratio:16/9;
-  background:url('about2.png') center/cover no-repeat;
+  width:100%;
+  background:#000;
+  padding: 5vw 3.33% 5vw;
+}
+.about2-inner {
+  width:100%; max-width:1200px; margin:0 auto;
+  display:grid;
+  /* col widths match about2: name~20%, career~15%, detail~65% */
+  grid-template-columns: 20% 15% 1fr;
+  gap:0;
+  align-items:start;
+}
+
+/* col 1: PARK SUMIN / 박수민 */
+.a2-name {}
+.a2-name-en {
+  font-family:'Pretendard',sans-serif;
+  font-size:clamp(11px, 1.1vw, 14px); font-weight:700;
+  letter-spacing:0.06em; text-transform:uppercase; color:#fff;
+  line-height:1.4;
+}
+.a2-name-ko {
+  font-size:clamp(10px, 1vw, 13px); color:rgba(255,255,255,0.45);
+  margin-top:6px; line-height:1.4;
+}
+
+/* col 2: CAREER */
+.a2-career {}
+.a2-career-lbl {
+  font-family:'Pretendard',sans-serif;
+  font-size:clamp(11px, 1.1vw, 14px); font-weight:700;
+  letter-spacing:0.06em; text-transform:uppercase; color:#fff;
+}
+
+/* col 3: detail */
+.a2-detail {}
+.a2-years {
+  font-family:'Pretendard',sans-serif;
+  font-size:clamp(11px, 1.1vw, 14px); font-weight:700;
+  color:#fff; line-height:1.5; text-transform:uppercase;
+  margin-bottom:2.5vw;
+}
+.a2-section-head {
+  font-family:'Pretendard',sans-serif;
+  font-size:clamp(10px, 1vw, 13px); font-weight:700;
+  letter-spacing:0.12em; text-transform:uppercase;
+  color:#1B37FF; /* blue accent matching about2 image */
+  margin-bottom:0.8vw; margin-top:2vw;
+}
+.a2-section-head:first-of-type { margin-top:0; }
+.a2-row {
+  display:flex; justify-content:space-between; align-items:baseline;
+  padding:0.4vw 0;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.a2-row:last-child { border-bottom:none; }
+.a2-place {
+  font-size:clamp(10px, 1vw, 13px); font-weight:600; color:#fff;
+}
+.a2-pipe { color:rgba(255,255,255,0.25); margin:0 6px; }
+.a2-role { font-size:clamp(10px, 1vw, 13px); color:rgba(255,255,255,0.45); }
+.a2-yr { font-size:clamp(10px, 1vw, 13px); color:rgba(255,255,255,0.4); white-space:nowrap; margin-left:16px; }
+.a2-skills { font-size:clamp(10px, 1vw, 13px); line-height:2.0; color:rgba(255,255,255,0.6); }
+
+/* contact — bottom of col1, uses grid row trick */
+.a2-contact-wrap {
+  grid-column:1/2;
+  margin-top:4vw;
+  padding-top:0;
+}
+.a2-contact {
+  font-size:clamp(9px, 0.9vw, 12px); color:rgba(255,255,255,0.38); line-height:2.4;
 }
 
 /* ══ S5: WORK HEADER ══ */
@@ -149,8 +239,6 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
   display:flex; align-items:flex-end; justify-content:space-between;
   padding:0 3.33% 7%;
 }
-
-/* FEATURED WORK — floats up on scroll */
 .work-title {
   font-family:'StackSansNotch',sans-serif;
   font-size:clamp(32px, 7.5vw, 90px);
@@ -161,22 +249,20 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 }
 .work-title.in { opacity:1; transform:translateY(0); }
 
-/* PREVIEW — floats up on scroll, slight delay */
+/* PREVIEW — StackSansNotch regular 28pt, #FFFFFF 100% */
 .work-preview {
-  font-family:'Pretendard',sans-serif;
-  font-size:clamp(10px, 1.2vw, 14px);
-  font-weight:500; color:#fff;
-  letter-spacing:0.1em; text-transform:uppercase; align-self:flex-end;
+  font-family:'StackSansNotch',sans-serif;
+  font-size:clamp(14px, 2.3vw, 28px);
+  font-weight:300;
+  color:#FFFFFF;
+  letter-spacing:0.05em; text-transform:uppercase; align-self:flex-end;
   opacity:0; transform:translateY(20px);
   transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s;
 }
 .work-preview.in { opacity:1; transform:translateY(0); }
 
-/* ══ S6: WORK CARDS — scroll-driven horizontal slide ══ */
-#s-work2 {
-  width:100%; height:300vh;
-  position:relative; background:#000;
-}
+/* ══ S6: WORK CARDS — scroll-driven ══ */
+#s-work2 { width:100%; height:300vh; position:relative; background:#000; }
 .work-sticky {
   position:sticky; top:0; height:100vh;
   overflow:hidden; display:flex; flex-direction:column; justify-content:flex-start;
@@ -185,36 +271,52 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
   flex:1; display:flex; align-items:center;
   overflow:hidden; padding:4vh 3.33% 4vh;
 }
-.cards-track {
-  display:flex; gap:1.5%; will-change:transform;
-}
+.cards-track { display:flex; gap:1.5%; will-change:transform; }
+
 .wcard {
-  flex:0 0 28vw; height:72vh;
+  flex:0 0 26vw; height:72vh;
   border-radius:10px; overflow:hidden;
-  position:relative; cursor:pointer; background:#1a1a1a;
+  position:relative; cursor:pointer;
+  background:#111;
 }
-.wcard-inner {
-  width:100%; height:100%;
-  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px;
+.wcard img {
+  width:100%; height:100%; object-fit:cover; display:block;
   transition:transform 0.7s cubic-bezier(0.16,1,0.3,1);
 }
-.wcard:hover .wcard-inner { transform:scale(1.04); }
-.wcard-dim { position:absolute; inset:0; background:rgba(0,0,0,0); transition:background 0.4s; z-index:2; border-radius:10px; }
-.wcard:hover .wcard-dim { background:rgba(0,0,0,0.44); }
-.wcard-info {
-  position:absolute; bottom:0; left:0; right:0;
-  padding:50px 20px 20px;
-  background:linear-gradient(transparent,rgba(0,0,0,0.85));
-  z-index:3; opacity:0; transform:translateY(8px);
-  transition:opacity 0.35s, transform 0.35s; border-radius:0 0 10px 10px;
+.wcard:hover img { transform:scale(1.04); }
+
+.wcard-dim {
+  position:absolute; inset:0; background:rgba(0,0,0,0);
+  transition:background 0.4s; z-index:2; border-radius:10px;
 }
-.wcard:hover .wcard-info { opacity:1; transform:translateY(0); }
-.wcard-info p { font-size:13px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#fff; }
-.wcard-info span { font-size:11px; color:rgba(255,255,255,0.42); }
-.ph1{background:#1a1a1a;} .ph2{background:#141414;} .ph3{background:#111;} .ph4{background:#0d0d0d;}
+.wcard:hover .wcard-dim { background:rgba(0,0,0,0.55); }
+
+/* hover info — Stack Sans Notch Bold 26pt, center aligned */
+.wcard-info {
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  z-index:3;
+  opacity:0; transition:opacity 0.35s;
+}
+.wcard:hover .wcard-info { opacity:1; }
+.wcard-info-text {
+  font-family:'StackSansNotch',sans-serif;
+  font-size:clamp(16px, 2.2vw, 26px);
+  font-weight:700;
+  color:#fff;
+  text-align:center;
+  letter-spacing:0.02em;
+  text-transform:uppercase;
+  line-height:1.2;
+  padding:0 16px;
+}
 
 .work-footer { padding:0 3.33% 3vh; display:flex; justify-content:flex-end; }
-.work-footer p { font-family:'Pretendard',sans-serif; font-size:clamp(8px,1vw,12px); font-weight:400; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.3); }
+.work-footer p {
+  font-family:'Pretendard',sans-serif;
+  font-size:clamp(8px,1vw,12px); font-weight:400;
+  letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.3);
+}
 
 @keyframes gw {
   from { transform:translateX(-4%) translateY(0); }
@@ -226,20 +328,49 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 
 <!-- NAV -->
 <nav id="nav">
-  <div class="nav-logo">PORTFOLIO</div>
-  <div class="nav-links">
-    <a href="#s-intro">About</a>
-    <a href="#s-work1">Work</a>
+  <!-- LEFT: realtime clock — REC SUN 04:43:55 -->
+  <div class="nav-datetime" id="navTime"></div>
+  <!-- RIGHT: PORTFOLIO + About + Work -->
+  <div class="nav-right">
+    <span class="nav-portfolio">PORTFOLIO</span>
+    <div class="nav-links">
+      <a href="#s-intro">About</a>
+      <a href="#s-work1">Work</a>
+    </div>
   </div>
 </nav>
 
-<!-- S1: COVER — image only -->
+<!-- S1: COVER -->
 <section id="s-cover"></section>
 
-<!-- S2: INTRO — image bg + rolling text in bracket gap -->
+<!-- S2: INTRO — image bg + SVG rolling -->
 <section id="s-intro">
-  <div class="rolling-overlay">
-    <div class="roll-track" id="rt"></div>
+  <div class="svg-roll-wrap">
+    <div class="svg-roll-track" id="svgTrack">
+      <!-- slot 0: empty (initial state — bracket is empty) -->
+      <div class="svg-roll-item" style="visibility:hidden;">
+        <!-- invisible spacer matching graphics SVG height -->
+        <svg viewBox="0 0 478 74" style="height:100%;width:auto;"></svg>
+      </div>
+      <!-- slot 1: GRAPHICS -->
+      <div class="svg-roll-item">
+        <svg viewBox="0 0 478 74" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:100%;width:auto;">
+          <path d="M34.5996 73.2C27.1996 73.2 20.8996 71.5666 15.6996 68.3C10.5663 64.9666 6.66628 60.5333 3.99961 55C1.33294 49.4666 -0.000390522 43.3 -0.000390522 36.5C-0.000390522 31.5 0.732943 26.8 2.19961 22.4C3.73294 17.9333 5.96628 14.0333 8.89961 10.7C11.8329 7.36664 15.4329 4.76664 19.6996 2.89997C24.0329 0.96664 28.9996 -2.64645e-05 34.5996 -2.64645e-05C43.9996 -2.64645e-05 51.3329 2.49997 56.5996 7.49997C61.9329 12.4333 65.1329 19.1 66.1996 27.5H52.6996C52.3663 25.2333 51.7663 23.1666 50.8996 21.3C50.0996 19.3666 48.9663 17.7 47.4996 16.3C46.0996 14.8333 44.3329 13.7 42.1996 12.9C40.1329 12.1 37.5996 11.7 34.5996 11.7C29.7329 11.7 25.6996 12.9 22.4996 15.3C19.3663 17.6333 17.0329 20.7 15.4996 24.5C14.0329 28.2333 13.2996 32.2333 13.2996 36.5C13.2996 40.8333 14.0329 44.9 15.4996 48.7C17.0329 52.5 19.3663 55.6 22.4996 58C25.6996 60.3333 29.7329 61.5 34.5996 61.5C37.9996 61.5 40.9329 61 43.3996 60C45.8663 59 47.8663 57.6 49.3996 55.8C50.9996 54 52.0996 51.9 52.6996 49.5C53.3663 47.0333 53.5663 44.3333 53.2996 41.4L57.8996 44.7H34.5996V33.5H66.4996C67.0996 42.1666 66.1996 49.4666 63.7996 55.4C61.3996 61.2666 57.7329 65.7 52.7996 68.7C47.8663 71.7 41.7996 73.2 34.5996 73.2ZM87.4418 35.7H98.8418V46.9H87.4418V35.7ZM98.8418 35.7C102.442 35.7 105.508 35.3666 108.042 34.7C110.642 34.0333 112.608 32.8666 113.942 31.2C115.342 29.5333 116.042 27.2 116.042 24.2C116.042 21.2 115.342 18.8666 113.942 17.2C112.608 15.5333 110.642 14.3666 108.042 13.7C105.508 13.0333 102.442 12.7 98.8418 12.7V1.59997C104.975 1.59997 110.308 2.3333 114.842 3.79997C119.442 5.19997 123.008 7.53331 125.542 10.8C128.075 14.0666 129.342 18.5333 129.342 24.2C129.342 29.8 128.075 34.2666 125.542 37.6C123.008 40.8666 119.442 43.2333 114.842 44.7C110.308 46.1666 104.975 46.9 98.8418 46.9V35.7ZM87.4418 1.59997H98.8418V12.7H87.4418V1.59997ZM100.942 39.3H113.642L129.342 71.6H114.842L100.942 39.3ZM87.4418 8.19998V71.6H74.6418V8.19998H87.4418ZM155.916 1.59997H168.016L147.216 71.6H134.016L155.916 1.59997ZM173.616 1.59997L195.716 71.6H182.616L161.516 1.59997H173.616ZM145.816 45H183.516V56.2H145.816V45ZM215.032 36.7H225.932V47.9H215.032V36.7ZM225.932 36.7C229.532 36.7 232.598 36.4 235.132 35.8C237.732 35.1333 239.698 33.9333 241.032 32.2C242.432 30.4666 243.132 27.9666 243.132 24.7C243.132 21.4333 242.432 18.9333 241.032 17.2C239.698 15.4666 237.732 14.3 235.132 13.7C232.598 13.0333 229.532 12.7 225.932 12.7V1.59997C232.132 1.59997 237.498 2.36664 242.032 3.89997C246.632 5.36664 250.165 7.79997 252.632 11.2C255.165 14.5333 256.432 19.0333 256.432 24.7C256.432 30.3 255.165 34.8 252.632 38.2C250.165 41.6 246.632 44.0666 242.032 45.6C237.498 47.1333 232.132 47.9 225.932 47.9V36.7ZM215.032 1.59997H225.932V12.7H215.032V1.59997ZM215.032 8.19998V71.6H202.232V8.19998H215.032ZM263.146 1.59997H275.946V71.6H263.146V1.59997ZM306.846 1.59997H319.546V71.6H306.846V1.59997ZM268.146 30.8H317.346V42H268.146V30.8ZM329.236 1.59997H342.036V71.6H329.236V1.59997ZM415.873 43.1C415.406 49.1 413.873 54.3666 411.273 58.9C408.74 63.4333 405.173 66.9666 400.573 69.5C396.04 71.9666 390.473 73.2 383.873 73.2C376.473 73.2 370.173 71.5666 364.973 68.3C359.84 64.9666 355.94 60.5333 353.273 55C350.606 49.4666 349.273 43.3 349.273 36.5C349.273 31.5 350.006 26.8 351.473 22.4C353.006 17.9333 355.24 14.0333 358.173 10.7C361.106 7.36664 364.706 4.76664 368.973 2.89997C373.306 0.96664 378.273 -2.64645e-05 383.873 -2.64645e-05C393.273 -2.64645e-05 400.606 2.49997 405.873 7.49997C411.206 12.4333 414.406 19.1 415.473 27.5H401.973C401.64 25.2333 401.04 23.1666 400.173 21.3C399.373 19.3666 398.24 17.7 396.773 16.3C395.373 14.8333 393.606 13.7 391.473 12.9C389.406 12.1 386.873 11.7 383.873 11.7C379.006 11.7 374.973 12.9 371.773 15.3C368.64 17.6333 366.306 20.7 364.773 24.5C363.306 28.2333 362.573 32.2333 362.573 36.5C362.573 40.8333 363.306 44.9 364.773 48.7C366.306 52.5 368.64 55.6 371.773 58C374.973 60.3333 379.006 61.5 383.873 61.5C387.14 61.5 389.873 61.0333 392.073 60.1C394.34 59.1 396.206 57.7666 397.673 56.1C399.206 54.4333 400.34 52.5 401.073 50.3C401.873 48.1 402.373 45.7 402.573 43.1H415.873ZM434.35 49.3C434.617 51.8333 435.45 54.0333 436.85 55.9C438.25 57.7 440.084 59.1 442.35 60.1C444.684 61.0333 447.284 61.5 450.15 61.5C454.217 61.5 457.55 60.7666 460.15 59.3C462.75 57.8333 464.05 55.6333 464.05 52.7C464.05 50.7 463.284 49.1333 461.75 48C460.217 46.8 458.184 45.8666 455.65 45.2C453.117 44.4666 450.35 43.7666 447.35 43.1C444.35 42.4333 441.317 41.6666 438.25 40.8C435.25 39.8666 432.484 38.6333 429.95 37.1C427.417 35.5 425.384 33.4 423.85 30.8C422.317 28.1333 421.55 24.7333 421.55 20.6C421.55 16.6666 422.717 13.1666 425.05 10.1C427.384 6.96664 430.617 4.49997 434.75 2.69997C438.95 0.899974 443.75 -2.64645e-05 449.15 -2.64645e-05C454.284 -2.64645e-05 458.884 1.03331 462.95 3.09997C467.084 5.16664 470.317 7.99997 472.65 11.6C475.05 15.1333 476.25 19.2 476.25 23.8H462.85C462.584 20 461.284 17.0333 458.95 14.9C456.684 12.7666 453.25 11.7 448.65 11.7C444.184 11.7 440.75 12.5333 438.35 14.2C436.017 15.8666 434.85 18 434.85 20.6C434.85 22.8 435.617 24.5333 437.15 25.8C438.684 27.0666 440.717 28.0666 443.25 28.8C445.784 29.5333 448.55 30.2 451.55 30.8C454.617 31.4 457.65 32.1666 460.65 33.1C463.65 33.9666 466.417 35.1666 468.95 36.7C471.484 38.1666 473.517 40.2 475.05 42.8C476.584 45.3333 477.35 48.6333 477.35 52.7C477.35 59.1666 474.917 64.2 470.05 67.8C465.184 71.4 458.35 73.2 449.55 73.2C444.15 73.2 439.317 72.1666 435.05 70.1C430.784 68.0333 427.384 65.2 424.85 61.6C422.317 58 420.95 53.9 420.75 49.3H434.35Z" fill="white"/>
+        </svg>
+      </div>
+      <!-- slot 2: CONTENT -->
+      <div class="svg-roll-item">
+        <svg viewBox="0 0 452 74" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:100%;width:auto;">
+          <path d="M66.5996 43.1C66.1329 49.1 64.5996 54.3666 61.9996 58.9C59.4663 63.4333 55.8996 66.9666 51.2996 69.5C46.7663 71.9666 41.1996 73.2 34.5996 73.2C27.1996 73.2 20.8996 71.5666 15.6996 68.3C10.5663 64.9666 6.66628 60.5333 3.99961 55C1.33294 49.4666 -0.000390522 43.3 -0.000390522 36.5C-0.000390522 31.5 0.732943 26.8 2.19961 22.4C3.73294 17.9333 5.96628 14.0333 8.89961 10.7C11.8329 7.36664 15.4329 4.76664 19.6996 2.89997C24.0329 0.96664 28.9996 -2.64645e-05 34.5996 -2.64645e-05C43.9996 -2.64645e-05 51.3329 2.49997 56.5996 7.49997C61.9329 12.4333 65.1329 19.1 66.1996 27.5H52.6996C52.3663 25.2333 51.7663 23.1666 50.8996 21.3C50.0996 19.3666 48.9663 17.7 47.4996 16.3C46.0996 14.8333 44.3329 13.7 42.1996 12.9C40.1329 12.1 37.5996 11.7 34.5996 11.7C29.7329 11.7 25.6996 12.9 22.4996 15.3C19.3663 17.6333 17.0329 20.7 15.4996 24.5C14.0329 28.2333 13.2996 32.2333 13.2996 36.5C13.2996 40.8333 14.0329 44.9 15.4996 48.7C17.0329 52.5 19.3663 55.6 22.4996 58C25.6996 60.3333 29.7329 61.5 34.5996 61.5C37.8663 61.5 40.5996 61.0333 42.7996 60.1C45.0663 59.1 46.9329 57.7666 48.3996 56.1C49.9329 54.4333 51.0663 52.5 51.7996 50.3C52.5996 48.1 53.0996 45.7 53.2996 43.1H66.5996ZM105.963 73.2C98.5629 73.2 92.2629 71.5666 87.0629 68.3C81.9296 64.9666 78.0296 60.5333 75.3629 55C72.6962 49.4666 71.3629 43.3 71.3629 36.5C71.3629 31.5 72.0962 26.8 73.5629 22.4C75.0962 17.9333 77.3296 14.0333 80.2629 10.7C83.1962 7.36664 86.7962 4.76664 91.0629 2.89997C95.3962 0.96664 100.363 -2.64645e-05 105.963 -2.64645e-05C111.496 -2.64645e-05 116.396 0.96664 120.663 2.89997C124.996 4.76664 128.63 7.36664 131.563 10.7C134.496 14.0333 136.696 17.9333 138.163 22.4C139.696 26.8 140.463 31.5 140.463 36.5C140.463 43.3 139.13 49.4666 136.463 55C133.796 60.5333 129.896 64.9666 124.763 68.3C119.63 71.5666 113.363 73.2 105.963 73.2ZM105.963 61.5C110.83 61.5 114.83 60.3333 117.963 58C121.096 55.6 123.396 52.5 124.863 48.7C126.396 44.9 127.163 40.8333 127.163 36.5C127.163 32.2333 126.396 28.2333 124.863 24.5C123.396 20.7 121.096 17.6333 117.963 15.3C114.83 12.9 110.83 11.7 105.963 11.7C101.096 11.7 97.0629 12.9 93.8629 15.3C90.7296 17.6333 88.3962 20.7 86.8629 24.5C85.3962 28.2333 84.6629 32.2333 84.6629 36.5C84.6629 40.8333 85.3962 44.9 86.8629 48.7C88.3962 52.5 90.7296 55.6 93.8629 58C97.0629 60.3333 101.096 61.5 105.963 61.5ZM186.265 71.6L152.265 1.59997H166.265L200.165 71.6H186.265ZM147.665 1.59997H159.965V71.6H147.665V1.59997ZM192.565 1.59997H204.765V71.6H192.565V1.59997ZM232.943 1.59997H245.743V71.6H232.943V1.59997ZM211.043 1.59997H267.643V12.7H211.043V1.59997ZM273.986 65V1.59997H286.786V65H273.986ZM286.786 71.6V60.4H322.886V71.6H286.786ZM285.486 42V30.8H318.486V42H285.486ZM286.286 12.8V1.59997H322.486V12.8H286.286ZM369.691 71.6L335.691 1.59997H349.691L383.591 71.6H369.691ZM331.091 1.59997H343.391V71.6H331.091V1.59997ZM375.991 1.59997H388.191V71.6H375.991V1.59997ZM416.369 1.59997H429.169V71.6H416.369V1.59997ZM394.469 1.59997H451.069V12.7H394.469V1.59997Z" fill="white"/>
+        </svg>
+      </div>
+      <!-- slot 3: CREATIVE -->
+      <div class="svg-roll-item">
+        <svg viewBox="0 0 447 74" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:100%;width:auto;">
+          <path d="M66.5996 43.1001C66.1329 49.1001 64.5996 54.3668 61.9996 58.9001C59.4663 63.4334 55.8996 66.9668 51.2996 69.5001C46.7663 71.9668 41.1996 73.2001 34.5996 73.2001C27.1996 73.2001 20.8996 71.5668 15.6996 68.3001C10.5663 64.9668 6.66628 60.5334 3.99961 55.0001C1.33294 49.4668 -0.000390522 43.3001 -0.000390522 36.5001C-0.000390522 31.5001 0.732943 26.8001 2.19961 22.4001C3.73294 17.9334 5.96628 14.0334 8.89961 10.7001C11.8329 7.36676 15.4329 4.76676 19.6996 2.90009C24.0329 0.966762 28.9996 9.56059e-05 34.5996 9.56059e-05C43.9996 9.56059e-05 51.3329 2.5001 56.5996 7.50009C61.9329 12.4334 65.1329 19.1001 66.1996 27.5001H52.6996C52.3663 25.2334 51.7663 23.1668 50.8996 21.3001C50.0996 19.3668 48.9663 17.7001 47.4996 16.3001C46.0996 14.8334 44.3329 13.7001 42.1996 12.9001C40.1329 12.1001 37.5996 11.7001 34.5996 11.7001C29.7329 11.7001 25.6996 12.9001 22.4996 15.3001C19.3663 17.6334 17.0329 20.7001 15.4996 24.5001C14.0329 28.2334 13.2996 32.2334 13.2996 36.5001C13.2996 40.8334 14.0329 44.9001 15.4996 48.7001C17.0329 52.5001 19.3663 55.6001 22.4996 58.0001C25.6996 60.3334 29.7329 61.5001 34.5996 61.5001C37.8663 61.5001 40.5996 61.0334 42.7996 60.1001C45.0663 59.1001 46.9329 57.7668 48.3996 56.1001C49.9329 54.4334 51.0663 52.5001 51.7996 50.3001C52.5996 48.1001 53.0996 45.7001 53.2996 43.1001H66.5996ZM86.5629 35.7001H97.9629V46.9001H86.5629V35.7001ZM97.9629 35.7001C101.563 35.7001 104.63 35.3668 107.163 34.7001C109.763 34.0334 111.73 32.8668 113.063 31.2001C114.463 29.5334 115.163 27.2001 115.163 24.2001C115.163 21.2001 114.463 18.8668 113.063 17.2001C111.73 15.5334 109.763 14.3668 107.163 13.7001C104.63 13.0334 101.563 12.7001 97.9629 12.7001V1.60009C104.096 1.60009 109.43 2.33343 113.963 3.80009C118.563 5.2001 122.13 7.53343 124.663 10.8001C127.196 14.0668 128.463 18.5334 128.463 24.2001C128.463 29.8001 127.196 34.2668 124.663 37.6001C122.13 40.8668 118.563 43.2334 113.963 44.7001C109.43 46.1668 104.096 46.9001 97.9629 46.9001V35.7001ZM86.5629 1.60009H97.9629V12.7001H86.5629V1.60009ZM100.063 39.3001H112.763L128.463 71.6001H113.963L100.063 39.3001ZM86.5629 8.2001V71.6001H73.7629V8.2001H86.5629ZM137.021 65.0001V1.60009H149.821V65.0001H137.021ZM149.821 71.6001V60.4001H185.921V71.6001H149.821ZM148.521 42.0001V30.8001H181.521V42.0001H148.521ZM149.321 12.8001V1.60009H185.521V12.8001H149.321ZM212.631 1.60009H224.731L203.931 71.6001H190.731L212.631 1.60009ZM230.331 1.60009L252.431 71.6001H239.331L218.231 1.60009H230.331ZM202.531 45.0001H240.231V56.2001H202.531V45.0001ZM269.541 1.60009H282.341V71.6001H269.541V1.60009ZM247.641 1.60009H304.241V12.7001H247.641V1.60009ZM310.583 1.60009H323.383V71.6001H310.583V1.60009ZM351.721 71.6001L329.821 1.60009H343.021L363.821 71.6001H351.721ZM369.421 71.6001H357.321L378.421 1.60009H391.521L369.421 71.6001ZM398.036 65.0001V1.60009H410.836V65.0001H398.036ZM410.836 71.6001V60.4001H446.936V71.6001H410.836ZM409.536 42.0001V30.8001H442.536V42.0001H409.536ZM410.336 12.8001V1.60009H446.536V12.8001H410.336Z" fill="white"/>
+        </svg>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -249,8 +380,8 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
   <span class="since-date" id="sinceD">05. 26</span>
 </section>
 
-<!-- S4: ABOUT BLACK — image only -->
-<section id="s-about2"></section>
+<!-- S4: ABOUT BLACK — image -->
+<section id="s-about2" style="width:100%;aspect-ratio:16/9;background:url('about2.png') center/cover no-repeat;display:block;"></section>
 
 <!-- S5: WORK HEADER -->
 <section id="s-work1">
@@ -258,55 +389,45 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
   <span class="work-preview" id="workP">PREVIEW</span>
 </section>
 
-<!-- S6: WORK CARDS — scroll-driven -->
+<!-- S6: WORK CARDS -->
 <section id="s-work2">
   <div class="work-sticky">
     <div class="cards-track-wrap">
       <div class="cards-track" id="cardsTrack">
 
-        <div class="wcard ph1">
-          <div class="wcard-inner">
-            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-              <circle cx="22" cy="16" r="9" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-              <path d="M6 42c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-            </svg>
-          </div>
+        <!-- 1. AI Creative -->
+        <div class="wcard">
+          <img src="AI_Creative.png" alt="AI Creative">
           <div class="wcard-dim"></div>
-          <div class="wcard-info"><p>Fashion Editorial</p><span>KREAM · 2025</span></div>
+          <div class="wcard-info"><div class="wcard-info-text">AI CREATIVE</div></div>
         </div>
 
-        <div class="wcard ph2">
-          <div class="wcard-inner">
-            <div style="font-size:11px;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,0.15);text-transform:uppercase">STYLE</div>
-            <div style="font-size:clamp(18px,2.5vw,30px);font-weight:700;color:rgba(255,255,255,0.13)">CHALLENGE</div>
-          </div>
+        <!-- 2. Fashion editorial -->
+        <div class="wcard">
+          <img src="Fashion_editorial.png" alt="Fashion Editorial">
           <div class="wcard-dim"></div>
-          <div class="wcard-info"><p>Style Challenge</p><span>Campaign · 2025</span></div>
+          <div class="wcard-info"><div class="wcard-info-text">FASHION EDITORIAL</div></div>
         </div>
 
-        <div class="wcard ph3">
-          <div class="wcard-inner">
-            <div style="border:1.5px solid rgba(255,255,255,0.14);padding:14px 20px;text-align:center">
-              <div style="font-size:clamp(14px,1.8vw,22px);font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:.05em">KREAM DRAW</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:4px">KREAM DRAW</div>
-            </div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.15);margin-top:10px">당첨 수 없는 100명 당첨 기회</div>
-          </div>
+        <!-- 3. 3D Artwork -->
+        <div class="wcard">
+          <img src="3D_Artwork.png" alt="3D Artwork">
           <div class="wcard-dim"></div>
-          <div class="wcard-info"><p>Promotional Contents</p><span>KREAM DRAW · 2024</span></div>
+          <div class="wcard-info"><div class="wcard-info-text">3D ARTWORK</div></div>
         </div>
 
-        <div class="wcard ph4">
-          <div class="wcard-inner">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-              <rect x="2" y="2" width="19" height="19" stroke="rgba(255,255,255,0.11)" stroke-width="1.5"/>
-              <rect x="27" y="2" width="19" height="19" stroke="rgba(255,255,255,0.07)" stroke-width="1.5"/>
-              <rect x="2" y="27" width="19" height="19" stroke="rgba(255,255,255,0.05)" stroke-width="1.5"/>
-              <rect x="27" y="27" width="19" height="19" stroke="rgba(255,255,255,0.03)" stroke-width="1.5"/>
-            </svg>
-          </div>
+        <!-- 4. Style Challenge -->
+        <div class="wcard">
+          <img src="stylechallenge.png" alt="Style Challenge">
           <div class="wcard-dim"></div>
-          <div class="wcard-info"><p>AI Creative</p><span>Personal · 2024</span></div>
+          <div class="wcard-info"><div class="wcard-info-text">STYLE CHALLENGE</div></div>
+        </div>
+
+        <!-- 5. Promotional Contents -->
+        <div class="wcard">
+          <img src="Promotional_Contents.png" alt="Promotional Contents">
+          <div class="wcard-dim"></div>
+          <div class="wcard-info"><div class="wcard-info-text">PROMOTIONAL CONTENTS</div></div>
         </div>
 
       </div>
@@ -318,41 +439,80 @@ body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#00
 </section>
 
 <script>
-/* ── ROLLING WORDS ── */
-const words = ['GRAPHICS', 'CONTENT', 'CREATIVE'];
-let cur = 0;
-const rt = document.getElementById('rt');
-
-// Build items
-rt.innerHTML = '';
-words.forEach(w => {
-  const s = document.createElement('div');
-  s.className = 'roll-item';
-  s.textContent = w;
-  rt.appendChild(s);
-});
-
-// Set each item height = container height (set after layout)
-function syncItemHeights() {
-  const container = document.querySelector('.rolling-overlay');
-  const h = container.offsetHeight;
-  document.querySelectorAll('.roll-item').forEach(el => {
-    el.style.height = h + 'px';
-  });
+/* ── REALTIME CLOCK — REC SUN 04:43:55 ── */
+function updateClock() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  const ss = String(now.getSeconds()).padStart(2,'0');
+  const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const day = days[now.getDay()];
+  document.getElementById('navTime').textContent = `REC ${day} ${hh}:${mm}:${ss}`;
 }
-window.addEventListener('load', syncItemHeights);
-window.addEventListener('resize', syncItemHeights);
+updateClock();
+setInterval(updateClock, 1000);
 
-// Roll
-setInterval(() => {
-  cur = (cur + 1) % words.length;
-  const h = document.querySelector('.rolling-overlay').offsetHeight;
-  rt.style.transform = `translateY(-${cur * h}px)`;
-  rt.style.transition = 'transform 0.65s cubic-bezier(0.77,0,0.175,1)';
-}, 2400);
+/* ── SVG ROLLING — one word at a time, clean swap ── */
+const svgSlots = ['graphics', 'content', 'creative'];
+let svgCur = 0;
+const rollWrap = document.querySelector('.svg-roll-wrap');
+
+// Build: one visible SVG at a time, swap with clip animation
+const svgPaths = {
+  graphics: "M34.5996 73.2C27.1996 73.2 20.8996 71.5666 15.6996 68.3C10.5663 64.9666 6.66628 60.5333 3.99961 55C1.33294 49.4666 -0.000390522 43.3 -0.000390522 36.5C-0.000390522 31.5 0.732943 26.8 2.19961 22.4C3.73294 17.9333 5.96628 14.0333 8.89961 10.7C11.8329 7.36664 15.4329 4.76664 19.6996 2.89997C24.0329 0.96664 28.9996 -2.64645e-05 34.5996 -2.64645e-05C43.9996 -2.64645e-05 51.3329 2.49997 56.5996 7.49997C61.9329 12.4333 65.1329 19.1 66.1996 27.5H52.6996C52.3663 25.2333 51.7663 23.1666 50.8996 21.3C50.0996 19.3666 48.9663 17.7 47.4996 16.3C46.0996 14.8333 44.3329 13.7 42.1996 12.9C40.1329 12.1 37.5996 11.7 34.5996 11.7C29.7329 11.7 25.6996 12.9 22.4996 15.3C19.3663 17.6333 17.0329 20.7 15.4996 24.5C14.0329 28.2333 13.2996 32.2333 13.2996 36.5C13.2996 40.8333 14.0329 44.9 15.4996 48.7C17.0329 52.5 19.3663 55.6 22.4996 58C25.6996 60.3333 29.7329 61.5 34.5996 61.5C37.9996 61.5 40.9329 61 43.3996 60C45.8663 59 47.8663 57.6 49.3996 55.8C50.9996 54 52.0996 51.9 52.6996 49.5C53.3663 47.0333 53.5663 44.3333 53.2996 41.4L57.8996 44.7H34.5996V33.5H66.4996C67.0996 42.1666 66.1996 49.4666 63.7996 55.4C61.3996 61.2666 57.7329 65.7 52.7996 68.7C47.8663 71.7 41.7996 73.2 34.5996 73.2ZM87.4418 35.7H98.8418V46.9H87.4418V35.7ZM98.8418 35.7C102.442 35.7 105.508 35.3666 108.042 34.7C110.642 34.0333 112.608 32.8666 113.942 31.2C115.342 29.5333 116.042 27.2 116.042 24.2C116.042 21.2 115.342 18.8666 113.942 17.2C112.608 15.5333 110.642 14.3666 108.042 13.7C105.508 13.0333 102.442 12.7 98.8418 12.7V1.59997C104.975 1.59997 110.308 2.3333 114.842 3.79997C119.442 5.19997 123.008 7.53331 125.542 10.8C128.075 14.0666 129.342 18.5333 129.342 24.2C129.342 29.8 128.075 34.2666 125.542 37.6C123.008 40.8666 119.442 43.2333 114.842 44.7C110.308 46.1666 104.975 46.9 98.8418 46.9V35.7ZM87.4418 1.59997H98.8418V12.7H87.4418V1.59997ZM100.942 39.3H113.642L129.342 71.6H114.842L100.942 39.3ZM87.4418 8.19998V71.6H74.6418V8.19998H87.4418ZM155.916 1.59997H168.016L147.216 71.6H134.016L155.916 1.59997ZM173.616 1.59997L195.716 71.6H182.616L161.516 1.59997H173.616ZM145.816 45H183.516V56.2H145.816V45ZM215.032 36.7H225.932V47.9H215.032V36.7ZM225.932 36.7C229.532 36.7 232.598 36.4 235.132 35.8C237.732 35.1333 239.698 33.9333 241.032 32.2C242.432 30.4666 243.132 27.9666 243.132 24.7C243.132 21.4333 242.432 18.9333 241.032 17.2C239.698 15.4666 237.732 14.3 235.132 13.7C232.598 13.0333 229.532 12.7 225.932 12.7V1.59997C232.132 1.59997 237.498 2.36664 242.032 3.89997C246.632 5.36664 250.165 7.79997 252.632 11.2C255.165 14.5333 256.432 19.0333 256.432 24.7C256.432 30.3 255.165 34.8 252.632 38.2C250.165 41.6 246.632 44.0666 242.032 45.6C237.498 47.1333 232.132 47.9 225.932 47.9V36.7ZM215.032 1.59997H225.932V12.7H215.032V1.59997ZM215.032 8.19998V71.6H202.232V8.19998H215.032ZM263.146 1.59997H275.946V71.6H263.146V1.59997ZM306.846 1.59997H319.546V71.6H306.846V1.59997ZM268.146 30.8H317.346V42H268.146V30.8ZM329.236 1.59997H342.036V71.6H329.236V1.59997ZM415.873 43.1C415.406 49.1 413.873 54.3666 411.273 58.9C408.74 63.4333 405.173 66.9666 400.573 69.5C396.04 71.9666 390.473 73.2 383.873 73.2C376.473 73.2 370.173 71.5666 364.973 68.3C359.84 64.9666 355.94 60.5333 353.273 55C350.606 49.4666 349.273 43.3 349.273 36.5C349.273 31.5 350.006 26.8 351.473 22.4C353.006 17.9333 355.24 14.0333 358.173 10.7C361.106 7.36664 364.706 4.76664 368.973 2.89997C373.306 0.96664 378.273 -2.64645e-05 383.873 -2.64645e-05C393.273 -2.64645e-05 400.606 2.49997 405.873 7.49997C411.206 12.4333 414.406 19.1 415.473 27.5H401.973C401.64 25.2333 401.04 23.1666 400.173 21.3C399.373 19.3666 398.24 17.7 396.773 16.3C395.373 14.8333 393.606 13.7 391.473 12.9C389.406 12.1 386.873 11.7 383.873 11.7C379.006 11.7 374.973 12.9 371.773 15.3C368.64 17.6333 366.306 20.7 364.773 24.5C363.306 28.2333 362.573 32.2333 362.573 36.5C362.573 40.8333 363.306 44.9 364.773 48.7C366.306 52.5 368.64 55.6 371.773 58C374.973 60.3333 379.006 61.5 383.873 61.5C387.14 61.5 389.873 61.0333 392.073 60.1C394.34 59.1 396.206 57.7666 397.673 56.1C399.206 54.4333 400.34 52.5 401.073 50.3C401.873 48.1 402.373 45.7 402.573 43.1H415.873ZM434.35 49.3C434.617 51.8333 435.45 54.0333 436.85 55.9C438.25 57.7 440.084 59.1 442.35 60.1C444.684 61.0333 447.284 61.5 450.15 61.5C454.217 61.5 457.55 60.7666 460.15 59.3C462.75 57.8333 464.05 55.6333 464.05 52.7C464.05 50.7 463.284 49.1333 461.75 48C460.217 46.8 458.184 45.8666 455.65 45.2C453.117 44.4666 450.35 43.7666 447.35 43.1C444.35 42.4333 441.317 41.6666 438.25 40.8C435.25 39.8666 432.484 38.6333 429.95 37.1C427.417 35.5 425.384 33.4 423.85 30.8C422.317 28.1333 421.55 24.7333 421.55 20.6C421.55 16.6666 422.717 13.1666 425.05 10.1C427.384 6.96664 430.617 4.49997 434.75 2.69997C438.95 0.899974 443.75 -2.64645e-05 449.15 -2.64645e-05C454.284 -2.64645e-05 458.884 1.03331 462.95 3.09997C467.084 5.16664 470.317 7.99997 472.65 11.6C475.05 15.1333 476.25 19.2 476.25 23.8H462.85C462.584 20 461.284 17.0333 458.95 14.9C456.684 12.7666 453.25 11.7 448.65 11.7C444.184 11.7 440.75 12.5333 438.35 14.2C436.017 15.8666 434.85 18 434.85 20.6C434.85 22.8 435.617 24.5333 437.15 25.8C438.684 27.0666 440.717 28.0666 443.25 28.8C445.784 29.5333 448.55 30.2 451.55 30.8C454.617 31.4 457.65 32.1666 460.65 33.1C463.65 33.9666 466.417 35.1666 468.95 36.7C471.484 38.1666 473.517 40.2 475.05 42.8C476.584 45.3333 477.35 48.6333 477.35 52.7C477.35 59.1666 474.917 64.2 470.05 67.8C465.184 71.4 458.35 73.2 449.55 73.2C444.15 73.2 439.317 72.1666 435.05 70.1C430.784 68.0333 427.384 65.2 424.85 61.6C422.317 58 420.95 53.9 420.75 49.3H434.35Z",
+  content: "M66.5996 43.1C66.1329 49.1 64.5996 54.3666 61.9996 58.9C59.4663 63.4333 55.8996 66.9666 51.2996 69.5C46.7663 71.9666 41.1996 73.2 34.5996 73.2C27.1996 73.2 20.8996 71.5666 15.6996 68.3C10.5663 64.9666 6.66628 60.5333 3.99961 55C1.33294 49.4666 -0.000390522 43.3 -0.000390522 36.5C-0.000390522 31.5 0.732943 26.8 2.19961 22.4C3.73294 17.9333 5.96628 14.0333 8.89961 10.7C11.8329 7.36664 15.4329 4.76664 19.6996 2.89997C24.0329 0.96664 28.9996 -2.64645e-05 34.5996 -2.64645e-05C43.9996 -2.64645e-05 51.3329 2.49997 56.5996 7.49997C61.9329 12.4333 65.1329 19.1 66.1996 27.5H52.6996C52.3663 25.2333 51.7663 23.1666 50.8996 21.3C50.0996 19.3666 48.9663 17.7 47.4996 16.3C46.0996 14.8333 44.3329 13.7 42.1996 12.9C40.1329 12.1 37.5996 11.7 34.5996 11.7C29.7329 11.7 25.6996 12.9 22.4996 15.3C19.3663 17.6333 17.0329 20.7 15.4996 24.5C14.0329 28.2333 13.2996 32.2333 13.2996 36.5C13.2996 40.8333 14.0329 44.9 15.4996 48.7C17.0329 52.5 19.3663 55.6 22.4996 58C25.6996 60.3333 29.7329 61.5 34.5996 61.5C37.8663 61.5 40.5996 61.0333 42.7996 60.1C45.0663 59.1 46.9329 57.7666 48.3996 56.1C49.9329 54.4333 51.0663 52.5 51.7996 50.3C52.5996 48.1 53.0996 45.7 53.2996 43.1H66.5996ZM105.963 73.2C98.5629 73.2 92.2629 71.5666 87.0629 68.3C81.9296 64.9666 78.0296 60.5333 75.3629 55C72.6962 49.4666 71.3629 43.3 71.3629 36.5C71.3629 31.5 72.0962 26.8 73.5629 22.4C75.0962 17.9333 77.3296 14.0333 80.2629 10.7C83.1962 7.36664 86.7962 4.76664 91.0629 2.89997C95.3962 0.96664 100.363 -2.64645e-05 105.963 -2.64645e-05C111.496 -2.64645e-05 116.396 0.96664 120.663 2.89997C124.996 4.76664 128.63 7.36664 131.563 10.7C134.496 14.0333 136.696 17.9333 138.163 22.4C139.696 26.8 140.463 31.5 140.463 36.5C140.463 43.3 139.13 49.4666 136.463 55C133.796 60.5333 129.896 64.9666 124.763 68.3C119.63 71.5666 113.363 73.2 105.963 73.2ZM105.963 61.5C110.83 61.5 114.83 60.3333 117.963 58C121.096 55.6 123.396 52.5 124.863 48.7C126.396 44.9 127.163 40.8333 127.163 36.5C127.163 32.2333 126.396 28.2333 124.863 24.5C123.396 20.7 121.096 17.6333 117.963 15.3C114.83 12.9 110.83 11.7 105.963 11.7C101.096 11.7 97.0629 12.9 93.8629 15.3C90.7296 17.6333 88.3962 20.7 86.8629 24.5C85.3962 28.2333 84.6629 32.2333 84.6629 36.5C84.6629 40.8333 85.3962 44.9 86.8629 48.7C88.3962 52.5 90.7296 55.6 93.8629 58C97.0629 60.3333 101.096 61.5 105.963 61.5ZM186.265 71.6L152.265 1.59997H166.265L200.165 71.6H186.265ZM147.665 1.59997H159.965V71.6H147.665V1.59997ZM192.565 1.59997H204.765V71.6H192.565V1.59997ZM232.943 1.59997H245.743V71.6H232.943V1.59997ZM211.043 1.59997H267.643V12.7H211.043V1.59997ZM273.986 65V1.59997H286.786V65H273.986ZM286.786 71.6V60.4H322.886V71.6H286.786ZM285.486 42V30.8H318.486V42H285.486ZM286.286 12.8V1.59997H322.486V12.8H286.286ZM369.691 71.6L335.691 1.59997H349.691L383.591 71.6H369.691ZM331.091 1.59997H343.391V71.6H331.091V1.59997ZM375.991 1.59997H388.191V71.6H375.991V1.59997ZM416.369 1.59997H429.169V71.6H416.369V1.59997ZM394.469 1.59997H451.069V12.7H394.469V1.59997Z",
+  creative: "M66.5996 43.1001C66.1329 49.1001 64.5996 54.3668 61.9996 58.9001C59.4663 63.4334 55.8996 66.9668 51.2996 69.5001C46.7663 71.9668 41.1996 73.2001 34.5996 73.2001C27.1996 73.2001 20.8996 71.5668 15.6996 68.3001C10.5663 64.9668 6.66628 60.5334 3.99961 55.0001C1.33294 49.4668 -0.000390522 43.3001 -0.000390522 36.5001C-0.000390522 31.5001 0.732943 26.8001 2.19961 22.4001C3.73294 17.9334 5.96628 14.0334 8.89961 10.7001C11.8329 7.36676 15.4329 4.76676 19.6996 2.90009C24.0329 0.966762 28.9996 9.56059e-05 34.5996 9.56059e-05C43.9996 9.56059e-05 51.3329 2.5001 56.5996 7.50009C61.9329 12.4334 65.1329 19.1001 66.1996 27.5001H52.6996C52.3663 25.2334 51.7663 23.1668 50.8996 21.3001C50.0996 19.3668 48.9663 17.7001 47.4996 16.3001C46.0996 14.8334 44.3329 13.7001 42.1996 12.9001C40.1329 12.1001 37.5996 11.7001 34.5996 11.7001C29.7329 11.7001 25.6996 12.9001 22.4996 15.3001C19.3663 17.6334 17.0329 20.7001 15.4996 24.5001C14.0329 28.2334 13.2996 32.2334 13.2996 36.5001C13.2996 40.8334 14.0329 44.9001 15.4996 48.7001C17.0329 52.5001 19.3663 55.6001 22.4996 58.0001C25.6996 60.3334 29.7329 61.5001 34.5996 61.5001C37.8663 61.5001 40.5996 61.0334 42.7996 60.1001C45.0663 59.1001 46.9329 57.7668 48.3996 56.1001C49.9329 54.4334 51.0663 52.5001 51.7996 50.3001C52.5996 48.1001 53.0996 45.7001 53.2996 43.1001H66.5996ZM86.5629 35.7001H97.9629V46.9001H86.5629V35.7001ZM97.9629 35.7001C101.563 35.7001 104.63 35.3668 107.163 34.7001C109.763 34.0334 111.73 32.8668 113.063 31.2001C114.463 29.5334 115.163 27.2001 115.163 24.2001C115.163 21.2001 114.463 18.8668 113.063 17.2001C111.73 15.5334 109.763 14.3668 107.163 13.7001C104.63 13.0334 101.563 12.7001 97.9629 12.7001V1.60009C104.096 1.60009 109.43 2.33343 113.963 3.80009C118.563 5.2001 122.13 7.53343 124.663 10.8001C127.196 14.0668 128.463 18.5334 128.463 24.2001C128.463 29.8001 127.196 34.2668 124.663 37.6001C122.13 40.8668 118.563 43.2334 113.963 44.7001C109.43 46.1668 104.096 46.9001 97.9629 46.9001V35.7001ZM86.5629 1.60009H97.9629V12.7001H86.5629V1.60009ZM100.063 39.3001H112.763L128.463 71.6001H113.963L100.063 39.3001ZM86.5629 8.2001V71.6001H73.7629V8.2001H86.5629ZM137.021 65.0001V1.60009H149.821V65.0001H137.021ZM149.821 71.6001V60.4001H185.921V71.6001H149.821ZM148.521 42.0001V30.8001H181.521V42.0001H148.521ZM149.321 12.8001V1.60009H185.521V12.8001H149.321ZM212.631 1.60009H224.731L203.931 71.6001H190.731L212.631 1.60009ZM230.331 1.60009L252.431 71.6001H239.331L218.231 1.60009H230.331ZM202.531 45.0001H240.231V56.2001H202.531V45.0001ZM269.541 1.60009H282.341V71.6001H269.541V1.60009ZM247.641 1.60009H304.241V12.7001H247.641V1.60009ZM310.583 1.60009H323.383V71.6001H310.583V1.60009ZM351.721 71.6001L329.821 1.60009H343.021L363.821 71.6001H351.721ZM369.421 71.6001H357.321L378.421 1.60009H391.521L369.421 71.6001ZM398.036 65.0001V1.60009H410.836V65.0001H398.036ZM410.836 71.6001V60.4001H446.936V71.6001H410.836ZM409.536 42.0001V30.8001H442.536V42.0001H409.536ZM410.336 12.8001V1.60009H446.536V12.8001H410.336Z"
+};
+const svgViewBoxes = { graphics:'0 0 478 74', content:'0 0 452 74', creative:'0 0 447 74' };
+
+// Clear the static track and build a single-SVG display
+const svgTrack = document.getElementById('svgTrack');
+svgTrack.innerHTML = '';
+svgTrack.style.transform = '';
+svgTrack.style.transition = '';
+
+// Create one SVG element that we'll morph
+const activeSvg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+activeSvg.setAttribute('fill','none');
+activeSvg.setAttribute('xmlns','http://www.w3.org/2000/svg');
+activeSvg.style.cssText = 'height:100%;width:auto;display:block;opacity:0;transform:translateY(40%);transition:opacity 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1)';
+const activePath = document.createElementNS('http://www.w3.org/2000/svg','path');
+activePath.setAttribute('fill','white');
+activeSvg.appendChild(activePath);
+svgTrack.appendChild(activeSvg);
+
+function showSvg(name) {
+  // slide out
+  activeSvg.style.opacity = '0';
+  activeSvg.style.transform = 'translateY(-40%)';
+  setTimeout(() => {
+    // swap content
+    activeSvg.setAttribute('viewBox', svgViewBoxes[name]);
+    activePath.setAttribute('d', svgPaths[name]);
+    // reset to below, then slide in
+    activeSvg.style.transition = 'none';
+    activeSvg.style.transform = 'translateY(40%)';
+    activeSvg.style.opacity = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      activeSvg.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1)';
+      activeSvg.style.opacity = '1';
+      activeSvg.style.transform = 'translateY(0)';
+    }));
+  }, 420);
+}
+
+// Start with graphics after a brief pause
+setTimeout(() => {
+  showSvg('graphics');
+  svgCur = 0;
+  setInterval(() => {
+    svgCur = (svgCur + 1) % svgSlots.length;
+    showSvg(svgSlots[svgCur]);
+  }, 2400);
+}, 1000);
 
 /* ── NAV COLOR ── */
-const nav     = document.getElementById('nav');
+const nav = document.getElementById('nav');
 const introEl = document.getElementById('s-intro');
 const workEl  = document.getElementById('s-work1');
 function updateNav() {
@@ -366,44 +526,34 @@ function updateNav() {
 window.addEventListener('scroll', updateNav, { passive:true });
 updateNav();
 
+/* ── SCROLL REVEALS ── */
+function watchReveal(trigId, targetIds) {
+  const trig = document.getElementById(trigId);
+  if (!trig) return;
+  const obs = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) {
+      targetIds.forEach(id => { const el = document.getElementById(id); if(el) el.classList.add('in'); });
+      obs.disconnect();
+    }
+  }, { threshold: 0.15 });
+  obs.observe(trig);
+}
+watchReveal('sinceT', ['sinceT','sinceD']);
+watchReveal('workT',  ['workT','workP']);
+
 /* ── SCROLL-DRIVEN CARD SLIDE ── */
-const work2 = document.getElementById('s-work2');
+const work2  = document.getElementById('s-work2');
 const track  = document.getElementById('cardsTrack');
 function updateCards() {
-  const rect    = work2.getBoundingClientRect();
-  const totalH  = work2.offsetHeight - window.innerHeight;
-  const scrolled = -rect.top;
-  const progress = Math.max(0, Math.min(1, scrolled / totalH));
+  const rect   = work2.getBoundingClientRect();
+  const totalH = work2.offsetHeight - window.innerHeight;
+  const progress = Math.max(0, Math.min(1, -rect.top / totalH));
   const maxShift = Math.max(0, track.scrollWidth - window.innerWidth * 0.9333);
   track.style.transition = 'none';
   track.style.transform  = `translateX(-${progress * maxShift}px)`;
 }
 window.addEventListener('scroll', updateCards, { passive:true });
 updateCards();
-
-/* ── FLOAT-UP REVEALS ── */
-function watchEl(triggerEl, targets, threshold = 0.15) {
-  if (!triggerEl) return;
-  const obs = new IntersectionObserver(([e]) => {
-    if (e.isIntersecting) {
-      targets.forEach(t => t && t.classList.add('in'));
-      obs.disconnect();
-    }
-  }, { threshold });
-  obs.observe(triggerEl);
-}
-
-// SINCE 1998 + 05.26
-watchEl(document.getElementById('sinceT'), [
-  document.getElementById('sinceT'),
-  document.getElementById('sinceD')
-]);
-
-// FEATURED WORK + PREVIEW
-watchEl(document.getElementById('workT'), [
-  document.getElementById('workT'),
-  document.getElementById('workP')
-]);
 </script>
 </body>
 </html>
