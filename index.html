@@ -97,14 +97,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* ── AI CREATIVE DETAIL PAGE ── */
 #page-ai-creative{
   display:none;position:fixed;inset:0;z-index:1000;
-  background:#fff;overflow:hidden;
+  background:#fff;overflow-y:auto;overflow-x:hidden;
 }
 #page-ai-creative.open{display:block;}
 
 /* detail-page generic class for shared animations */
 .detail-page{
   display:none;position:fixed;inset:0;z-index:1000;
-  background:#fff;overflow:hidden;
+  background:#fff;overflow-y:auto;overflow-x:hidden;
 }
 .detail-page.open{display:block;}
 
@@ -115,7 +115,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   z-index:6;
   display:flex;flex-direction:column;align-items:center;gap:6px;
   opacity:0;
-  transition:opacity 0.6s ease 0.8s;
+  transition:opacity 0.4s ease;
   animation:scrollBounce 2s ease-in-out infinite;
 }
 .detail-page.open .detail-scroll-hint{opacity:0.5;}
@@ -151,67 +151,123 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   transition:opacity 0.5s ease 0.2s;
 }
 .detail-back:hover{opacity:0.55;}
-.detail-cat-links{
-  display:flex;gap:28px;
+/* 점 세개 메뉴 버튼 */
+.detail-menu-wrap{
+  position:relative;
   opacity:0;
   transition:opacity 0.5s ease 0.35s;
 }
-.detail-cat-links a{
-  font-family:'Pretendard',sans-serif;font-size:15px;font-weight:400;
-  color:#000;text-decoration:none;letter-spacing:0.02em;
-  opacity:0.4;
-  transition:opacity 0.25s;
+.detail-menu-btn{
+  cursor:pointer;
+  display:flex;align-items:center;gap:4px;
+  padding:10px 2px;
+  background:none;border:none;
+}
+.detail-menu-btn .dot{
+  width:4px;height:4px;border-radius:50%;background:#000;
+  transition:opacity 0.2s;
+}
+.detail-menu-btn:hover .dot{opacity:0.4;}
+
+/* 드롭다운 패널 */
+.detail-dropdown{
+  position:absolute;top:calc(100% + 12px);right:0;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-radius:2px;
+  box-shadow:0 2px 20px rgba(0,0,0,0.06);
+  padding:14px 0;
+  min-width:180px;
+  opacity:0;
+  transform:translateY(-4px);
+  pointer-events:none;
+  transition:opacity 0.2s ease, transform 0.2s ease;
+}
+.detail-dropdown.show{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.detail-dropdown a{
+  display:block;
+  font-family:'StackSansNotch',sans-serif;font-size:13px;font-weight:400;
+  color:#000;text-decoration:none;letter-spacing:0.06em;
+  padding:8px 24px;
+  opacity:0.3;
+  transition:opacity 0.2s;
   cursor:pointer;
   text-transform:uppercase;
 }
-.detail-cat-links a:hover{opacity:1;}
-.detail-cat-links a.active{opacity:1;font-weight:600;}
-.detail-page.open .detail-back,
-.detail-page.open .detail-cat-links{opacity:1;}
+.detail-dropdown a:hover{opacity:0.7;}
+.detail-dropdown a.active{opacity:1;font-weight:600;}
 
-/* 전체 씬 */
+.detail-page.open .detail-back,
+.detail-page.open .detail-menu-wrap{opacity:1;}
+
+/* 전체 씬 — 스크롤 가능한 컨테이너 */
 .detail-scene{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  width:100%;
   background:#fff;
 }
 
-/* 캔버스: 16:9 */
+/* 캔버스: sticky 뷰포트, 슬라이드들이 그 위에 겹침 */
 .detail-canvas{
+  position:sticky;
+  top:0;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* 스크롤 높이를 만들어주는 스페이서 */
+.detail-spacer{
+  height:200vh; /* 슬라이드 수 - 1 × 100vh */
+  pointer-events:none;
+}
+
+/* 각 슬라이드 배경+영상 레이어 */
+.detail-slide{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
+.detail-slide-inner{
   position:relative;
   width:100%;
   max-width:calc(100vh * 16 / 9);
   aspect-ratio:16/9;
 }
 
-/* 배경 이미지 */
+/* 배경 이미지 — 각 슬라이드별 */
 .detail-bg{
   position:absolute;inset:0;
   width:100%;height:100%;
   object-fit:cover;
   display:block;
-  opacity:0;
-  transition:opacity 0.5s ease 0.15s;
 }
-#page-ai-creative.open .detail-bg{opacity:1;}
+
+/* 슬라이드 opacity는 JS가 제어 */
+.detail-slide{
+  opacity:0;
+  transition:opacity 0.6s ease;
+}
+.detail-slide.active{
+  opacity:1;
+}
 
 
 
 /* 영상: 프레임 없이 배경 위에 직접 배치
-   회색 영역 위, 바텀라인이 (01)과 맞춤 (~93%) */
+   회색 영역 위, 바텀라인이 (01)과 맞춤 */
 .detail-video-wrap{
   position:absolute;
   left:58.07%;
-  bottom:7%;       /* 바텀라인 = (01) 하단과 맞춤 */
+  bottom:7%;
   width:32.42%;
   aspect-ratio:389/584;
   z-index:4;
   overflow:hidden;
-  opacity:0;
-  transform:translateY(20px) scale(0.98);
-}
-#page-ai-creative.open .detail-video-wrap{
-  animation:dRevealVideo 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
 }
 
 .detail-video-raw{
@@ -280,33 +336,58 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <div id="page-ai-creative" class="detail-page">
   <div class="detail-nav">
     <a class="detail-back" onclick="closeDetail()">← Back</a>
-    <div class="detail-cat-links">
-      <a class="active" onclick="switchDetail('ai-creative')">AI Creative</a>
-      <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
-      <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
-      <a onclick="switchDetail('style-challenge')">Style Challenge</a>
-      <a onclick="switchDetail('promotional-content')">Promotional Content</a>
+    <div class="detail-menu-wrap">
+      <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
+      <div class="detail-dropdown">
+        <a class="active" onclick="switchDetail('ai-creative')">AI Creative</a>
+        <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+        <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+        <a onclick="switchDetail('style-challenge')">Style Challenge</a>
+        <a onclick="switchDetail('promotional-content')">Promotional Content</a>
+      </div>
     </div>
   </div>
-  <div class="detail-scene">
+
+  <div class="detail-scene" id="ai-scene">
     <div class="detail-canvas">
-
-      <!-- 배경: aicreative.png 그대로 -->
-      <img class="detail-bg" src="aicreative.png" alt="AI Creative">
-
-      <!-- 영상: 프레임 없이 배경 위에 바로 배치 -->
-      <div class="detail-video-wrap">
-        <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
+      <!-- Slide 1: SELLER WEEK -->
+      <div class="detail-slide active" data-slide="0">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="aicreative.png" alt="AI Creative 01">
+          <div class="detail-video-wrap">
+            <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
+          </div>
+        </div>
       </div>
-
-      <!-- 스크롤 힌트 — 영상 우측 -->
-      <div class="detail-scroll-hint" style="bottom:9%;">
+      <!-- Slide 2: 몽벨 해외직구 -->
+      <div class="detail-slide" data-slide="1">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="aicreative2.png" alt="AI Creative 02">
+          <div class="detail-video-wrap">
+            <video class="detail-video-raw" src="global.mp4" autoplay loop muted playsinline></video>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 3: 스프링 시즌오프 -->
+      <div class="detail-slide" data-slide="2">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="aicreative3.png" alt="AI Creative 03">
+          <div class="detail-video-wrap">
+            <video class="detail-video-raw" src="spring.mp4" autoplay loop muted playsinline></video>
+          </div>
+        </div>
+      </div>
+      <!-- 스크롤 힌트 -->
+      <div class="detail-scroll-hint" id="ai-scroll-hint" style="bottom:9%;">
         <span class="scroll-hint-text">Scroll</span>
         <div class="scroll-hint-line"></div>
         <div class="scroll-hint-arrow"></div>
       </div>
-
     </div>
+    <!-- 스크롤 높이용 스페이서 -->
+    <div class="detail-spacer"></div>
   </div>
 </div>
 
@@ -397,8 +478,9 @@ function openDetail(pageName){
   page.classList.add('open');
   page.scrollTop = 0;
   document.body.style.overflow='hidden';
-  // highlight active category
   updateCatLinks(page, pageName);
+  // 드롭다운 닫기
+  page.querySelectorAll('.detail-dropdown').forEach(d=>d.classList.remove('show'));
 }
 function closeDetail(){
   document.querySelectorAll('.detail-page').forEach(p=>{
@@ -407,20 +489,17 @@ function closeDetail(){
   document.body.style.overflow='';
 }
 function switchDetail(pageName){
-  // 현재 열린 페이지와 같으면 무시
   const page = document.getElementById('page-'+pageName);
   if(!page) return;
-  // 모든 디테일 페이지 닫기
   document.querySelectorAll('.detail-page').forEach(p=>{
     p.classList.remove('open');
   });
-  // 새 페이지 열기
   setTimeout(()=>{
     openDetail(pageName);
   }, 50);
 }
 function updateCatLinks(page, activeName){
-  page.querySelectorAll('.detail-cat-links a').forEach(a=>{
+  page.querySelectorAll('.detail-dropdown a').forEach(a=>{
     const linkName = a.getAttribute('onclick').match(/switchDetail\('(.+?)'\)/);
     if(linkName && linkName[1] === activeName){
       a.classList.add('active');
@@ -429,10 +508,59 @@ function updateCatLinks(page, activeName){
     }
   });
 }
+function toggleDetailMenu(btn){
+  const dropdown = btn.nextElementSibling;
+  dropdown.classList.toggle('show');
+}
+// 바깥 클릭 시 드롭다운 닫기
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.detail-menu-wrap')){
+    document.querySelectorAll('.detail-dropdown').forEach(d=>d.classList.remove('show'));
+  }
+});
 // Attach click to first wcard (AI Creative)
 document.querySelectorAll('.wcard')[0].addEventListener('click',function(){
   openDetail('ai-creative');
 });
+
+/* DETAIL SLIDE SCROLL — 배경 페이드 전환 */
+(function(){
+  const detailPages = document.querySelectorAll('.detail-page');
+  
+  detailPages.forEach(page => {
+    page.addEventListener('scroll', function(){
+      const scene = page.querySelector('.detail-scene');
+      if(!scene) return;
+      const slides = scene.querySelectorAll('.detail-slide');
+      const slideCount = slides.length;
+      if(slideCount <= 1) return;
+      
+      const scrollTop = page.scrollTop;
+      const vh = window.innerHeight;
+      // 각 슬라이드 전환 구간: 100vh당 1슬라이드
+      const progress = scrollTop / vh;
+      const currentIndex = Math.min(Math.floor(progress), slideCount - 1);
+      
+      slides.forEach((slide, i) => {
+        if(i === currentIndex){
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+      
+      // 마지막 슬라이드면 스크롤 힌트 숨기기
+      const hint = scene.querySelector('.detail-scroll-hint');
+      if(hint){
+        if(currentIndex >= slideCount - 1){
+          hint.style.opacity = '0';
+        } else {
+          hint.style.opacity = '0.5';
+        }
+      }
+    });
+  });
+})();
 
 </script>
 
