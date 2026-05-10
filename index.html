@@ -137,11 +137,13 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   50%{transform:translateY(6px);}
 }
 
-/* Detail Nav — Back 좌측 + 카테고리 우측 */
+/* Detail Nav — fixed + blur, 메인 네비와 동일 */
 .detail-nav{
-  position:absolute;top:0;left:0;right:0;z-index:1010;
+  position:fixed;top:0;left:0;right:0;z-index:1010;
   display:flex;justify-content:space-between;align-items:center;
   padding:18px 40px;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  background:rgba(255,255,255,0.6);
 }
 .detail-back{
   font-family:'Pretendard',sans-serif;font-size:22px;font-weight:500;
@@ -151,9 +153,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   transition:opacity 0.5s ease 0.2s;
 }
 .detail-back:hover{opacity:0.55;}
-/* 점 세개 메뉴 버튼 */
+
+/* 우측: 점 세개 + 인라인 카테고리 */
 .detail-menu-wrap{
-  position:relative;
+  display:flex;align-items:center;
   opacity:0;
   transition:opacity 0.5s ease 0.35s;
 }
@@ -169,37 +172,31 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .detail-menu-btn:hover .dot{opacity:0.4;}
 
-/* 드롭다운 패널 */
-.detail-dropdown{
-  position:absolute;top:calc(100% + 12px);right:0;
-  background:rgba(255,255,255,0.95);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-radius:2px;
-  box-shadow:0 2px 20px rgba(0,0,0,0.06);
-  padding:14px 0;
-  min-width:180px;
+/* 인라인 카테고리 — 점 좌측으로 펼침 */
+.detail-inline-cats{
+  display:flex;align-items:center;gap:24px;
+  overflow:hidden;
+  max-width:0;
   opacity:0;
-  transform:translateY(-4px);
-  pointer-events:none;
-  transition:opacity 0.2s ease, transform 0.2s ease;
+  margin-right:0;
+  transition:max-width 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease, margin-right 0.4s ease;
 }
-.detail-dropdown.show{
+.detail-inline-cats.show{
+  max-width:1200px;
   opacity:1;
-  transform:translateY(0);
-  pointer-events:auto;
+  margin-right:20px;
 }
-.detail-dropdown a{
-  display:block;
-  font-family:'StackSansNotch',sans-serif;font-size:13px;font-weight:400;
-  color:#000;text-decoration:none;letter-spacing:0.06em;
-  padding:8px 24px;
-  opacity:0.3;
+.detail-inline-cats a{
+  font-family:'Pretendard',sans-serif;font-size:22px;font-weight:500;
+  color:#000;text-decoration:none;letter-spacing:-0.01em;
+  opacity:0.4;
   transition:opacity 0.2s;
   cursor:pointer;
   text-transform:uppercase;
+  white-space:nowrap;
 }
-.detail-dropdown a:hover{opacity:0.7;}
-.detail-dropdown a.active{opacity:1;font-weight:600;}
+.detail-inline-cats a:hover{opacity:1;}
+.detail-inline-cats a.active{opacity:1;font-weight:700;}
 
 .detail-page.open .detail-back,
 .detail-page.open .detail-menu-wrap{opacity:1;}
@@ -337,16 +334,16 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="detail-nav">
     <a class="detail-back" onclick="closeDetail()">← Back</a>
     <div class="detail-menu-wrap">
-      <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </button>
-      <div class="detail-dropdown">
+      <div class="detail-inline-cats">
         <a class="active" onclick="switchDetail('ai-creative')">AI Creative</a>
         <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
         <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
         <a onclick="switchDetail('style-challenge')">Style Challenge</a>
         <a onclick="switchDetail('promotional-content')">Promotional Content</a>
       </div>
+      <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
     </div>
   </div>
 
@@ -479,8 +476,8 @@ function openDetail(pageName){
   page.scrollTop = 0;
   document.body.style.overflow='hidden';
   updateCatLinks(page, pageName);
-  // 드롭다운 닫기
-  page.querySelectorAll('.detail-dropdown').forEach(d=>d.classList.remove('show'));
+  // 인라인 카테고리 닫기
+  page.querySelectorAll('.detail-inline-cats').forEach(c=>c.classList.remove('show'));
 }
 function closeDetail(){
   document.querySelectorAll('.detail-page').forEach(p=>{
@@ -499,7 +496,7 @@ function switchDetail(pageName){
   }, 50);
 }
 function updateCatLinks(page, activeName){
-  page.querySelectorAll('.detail-dropdown a').forEach(a=>{
+  page.querySelectorAll('.detail-inline-cats a').forEach(a=>{
     const linkName = a.getAttribute('onclick').match(/switchDetail\('(.+?)'\)/);
     if(linkName && linkName[1] === activeName){
       a.classList.add('active');
@@ -509,13 +506,13 @@ function updateCatLinks(page, activeName){
   });
 }
 function toggleDetailMenu(btn){
-  const dropdown = btn.nextElementSibling;
-  dropdown.classList.toggle('show');
+  const cats = btn.parentElement.querySelector('.detail-inline-cats');
+  cats.classList.toggle('show');
 }
-// 바깥 클릭 시 드롭다운 닫기
+// 바깥 클릭 시 인라인 카테고리 닫기
 document.addEventListener('click', function(e){
   if(!e.target.closest('.detail-menu-wrap')){
-    document.querySelectorAll('.detail-dropdown').forEach(d=>d.classList.remove('show'));
+    document.querySelectorAll('.detail-inline-cats').forEach(c=>c.classList.remove('show'));
   }
 });
 // Attach click to first wcard (AI Creative)
