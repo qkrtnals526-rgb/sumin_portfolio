@@ -36,29 +36,26 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 #nav.light .nav-datetime,#nav.light .nav-portfolio,#nav.light .nav-links a{color:#fff;}
 
 /* COVER */
-#s-cover{width:100%;aspect-ratio:16/9;background:url('cover1.png') center/cover no-repeat;}
+#s-cover-wrap{position:relative;height:200vh;}
+#s-cover{position:sticky;top:0;width:100%;aspect-ratio:16/9;background:url('cover1.png') center/cover no-repeat;}
 
-/* INTRO — 스크롤하면 아래에서 올라오는 효과 */
-#s-intro-wrap{
+/* INTRO — 스크롤시 커버 위로 올라와 덮는 효과 */
+#s-cover-wrap{
   position:relative;
   width:100%;
   aspect-ratio:16/9;
-  /* 커버 아래에 살짝 겹쳐서 올라오는 느낌 */
-  margin-top:-4px;
 }
 #s-intro{
-  width:100%;height:100%;
+  position:sticky;
+  top:0;
+  width:100%;
+  aspect-ratio:16/9;
   background:url('intro1.png') center/cover no-repeat;
-  position:relative;overflow:hidden;
-  /* 처음엔 아래에서 시작 */
-  transform:translateY(80px);
-  opacity:0;
-  transition:none;
-}
-#s-intro.slide-up{
-  transform:translateY(0);
-  opacity:1;
-  transition:transform 1.1s cubic-bezier(0.16,1,0.3,1), opacity 0.9s ease;
+  overflow:hidden;
+  /* 처음엔 화면 아래에 숨겨져 있음 */
+  transform:translateY(100%);
+  z-index:10;
+  will-change:transform;
 }
 .svg-roll-wrap{position:absolute;left:8%;top:56.8%;height:16.1%;width:39%;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .svg-roll-track{display:flex;flex-direction:column;width:100%;}
@@ -126,13 +123,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   </div>
 </nav>
 
-<section id="s-cover"></section>
-
-<div id="s-intro-wrap"><section id="s-intro">
+<div id="s-cover-wrap">
+  <section id="s-cover"></section>
+  <section id="s-intro">
   <div class="svg-roll-wrap">
     <div class="svg-roll-track" id="svgTrack"></div>
   </div>
-</section></div>
+  </section>
+</div>
 
 <section id="s-about1">
   <span class="since-text" id="sinceT">SINCE 1998</span>
@@ -205,20 +203,28 @@ function showSvg(name){
 }
 setTimeout(()=>{showSvg('graphics');setInterval(()=>{svgCur=(svgCur+1)%svgSlots.length;showSvg(svgSlots[svgCur]);},2400);},1000);
 
-/* INTRO SLIDE UP */
+/* INTRO SLIDE UP — 스크롤하면 커버 위로 올라와 덮음 */
 (function(){
-  const cover = document.getElementById('s-cover');
   const intro = document.getElementById('s-intro');
-  let triggered = false;
-  const obs = new IntersectionObserver(([e]) => {
-    // 커버가 화면에서 40% 이상 사라지면 인트로 올라옴
-    if(!triggered && e.intersectionRatio < 0.6){
-      triggered = true;
-      intro.classList.add('slide-up');
-      obs.disconnect();
-    }
-  }, {threshold: [0, 0.3, 0.6, 1]});
-  obs.observe(cover);
+  const coverWrap = document.getElementById('s-cover-wrap');
+
+  function updateIntro(){
+    if(!coverWrap || !intro) return;
+    const wrapRect = coverWrap.getBoundingClientRect();
+    const wrapH = coverWrap.offsetHeight;
+
+    // 커버 wrap 안에서 얼마나 스크롤했는지 (0~1)
+    // wrapRect.top: 0이면 커버 상단이 뷰포트 상단
+    // wrapRect.top: -wrapH이면 커버가 완전히 지나감
+    const scrolled = Math.max(0, Math.min(1, -wrapRect.top / wrapH));
+
+    // intro: 100% 아래에서 시작 → 0% (완전히 올라옴)
+    const translateY = (1 - scrolled) * 100;
+    intro.style.transform = `translateY(${translateY}%)`;
+  }
+
+  window.addEventListener('scroll', updateIntro, {passive:true});
+  updateIntro();
 })();
 
 /* NAV COLOR */
