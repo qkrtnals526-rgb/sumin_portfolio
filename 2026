@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PARK SUMiN — Portfolio</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+@font-face {
+  font-family: 'StackSansNotch';
+  src: url('StackSansNotch-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; background:#000; overflow-x:hidden; }
+
+/* ══ NAV ══ */
+#nav {
+  position:fixed; top:0; left:0; right:0; z-index:999;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:20px 40px;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.nav-logo { font-size:22px; font-weight:700; color:#000; letter-spacing:-0.01em; text-transform:uppercase; transition:color 0.4s; }
+.nav-links { display:flex; gap:40px; }
+.nav-links a { font-size:22px; font-weight:500; text-decoration:none; color:#000; opacity:0.6; transition:opacity 0.2s,color 0.4s; }
+.nav-links a:hover { opacity:1; }
+#nav.light .nav-logo, #nav.light .nav-links a { color:#fff; }
+
+/* ══ S1: COVER — image only ══ */
+#s-cover {
+  width:100%; aspect-ratio:16/9;
+  background:url('cover1.png') center/cover no-repeat;
+}
+
+/* ══ S2: INTRO — image bg + rolling text overlay ══ */
+#s-intro {
+  width:100%; aspect-ratio:16/9;
+  background:url('intro1.png') center/cover no-repeat;
+  position:relative;
+  overflow:hidden;
+}
+
+/*
+  Bracket gap measured from intro1.png (3600×2025):
+  - Horizontal: 6.2% to 49.4% of width → rolling goes from ~6.2%
+  - Vertical center: 64.8% of height
+  - Line height: ~16.1% of height
+  Rolling text sits inside the bracket gap:
+    left: 6.2% + a little padding
+    top: 56.8%
+    height: 16.1%
+    width: up to ~43% (gap width)
+*/
+.rolling-overlay {
+  position:absolute;
+  /* left edge just inside [ bracket */
+  left: 7.2%;
+  /* vertical: top of line 2 */
+  top: 56.8%;
+  height: 16.1%;
+  /* width = bracket gap */
+  width: 42%;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+}
+
+.roll-track {
+  display:flex;
+  flex-direction:column;
+  transition:transform 0.65s cubic-bezier(0.77,0,0.175,1);
+  width:100%;
+}
+
+.roll-item {
+  display:flex;
+  align-items:center;
+  height:16.1vh; /* fallback */
+  white-space:nowrap;
+  font-family:'StackSansNotch',sans-serif;
+  font-weight:500;
+  color:#fff;
+  /* font size matches the surrounding text in intro1:
+     line height is 16.1% of 2025px = ~326px at full res.
+     At viewport width ~1200px (typical), section height = 675px,
+     so 16.1% of 675 = ~109px. Use % of section height via vw proxy. */
+  font-size: 14.5vw; /* ~174px at 1200px → scales with vw like the image */
+  line-height:1;
+}
+
+/* ══ S3: ABOUT GRADIENT ══ */
+#s-about1 {
+  width:100%; aspect-ratio:1200/531;
+  background:linear-gradient(180deg,
+    #1B37FF 0%, #1222e0 14%, #060058 40%, #010018 60%, #000000 73%
+  );
+  display:flex; align-items:flex-end; justify-content:space-between;
+  padding:0 3.33% 5.5%;
+  position:relative; overflow:hidden;
+}
+#s-about1::before {
+  content:''; position:absolute; left:-20%; top:0; width:140%; height:70%;
+  background:radial-gradient(ellipse at 50% 40%, rgba(60,90,255,0.32) 0%, transparent 60%);
+  animation:gw 10s ease-in-out infinite alternate; pointer-events:none;
+}
+#s-about1::after {
+  content:''; position:absolute; left:0; top:15%; width:110%; height:50%;
+  background:radial-gradient(ellipse at 40% 55%, rgba(30,60,210,0.18) 0%, transparent 58%);
+  animation:gw 14s ease-in-out 3s infinite alternate-reverse; pointer-events:none;
+}
+
+/* SINCE 1998 — floats up on scroll */
+.since-text {
+  font-family:'StackSansNotch',sans-serif;
+  font-size:clamp(40px, 8.3vw, 100px);
+  font-weight:500; color:#fff;
+  letter-spacing:-0.02em; line-height:1; text-transform:uppercase;
+  position:relative; z-index:2;
+  opacity:0; transform:translateY(30px);
+  transition:opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
+}
+.since-text.in { opacity:1; transform:translateY(0); }
+
+/* 05.26 — floats up on scroll, slight delay */
+.since-date {
+  font-family:'StackSansNotch',sans-serif;
+  font-size:clamp(14px, 2.3vw, 28px);
+  font-weight:300; color:rgba(255,255,255,0.75);
+  letter-spacing:0.05em; align-self:flex-end;
+  position:relative; z-index:2;
+  opacity:0; transform:translateY(20px);
+  transition:opacity 1s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 1s cubic-bezier(0.16,1,0.3,1) 0.18s;
+}
+.since-date.in { opacity:1; transform:translateY(0); }
+
+/* ══ S4: ABOUT BLACK — image ══ */
+#s-about2 {
+  width:100%; aspect-ratio:16/9;
+  background:url('about2.png') center/cover no-repeat;
+}
+
+/* ══ S5: WORK HEADER ══ */
+#s-work1 {
+  width:100%; aspect-ratio:1200/480;
+  background:#000;
+  display:flex; align-items:flex-end; justify-content:space-between;
+  padding:0 3.33% 7%;
+}
+
+/* FEATURED WORK — floats up on scroll */
+.work-title {
+  font-family:'StackSansNotch',sans-serif;
+  font-size:clamp(32px, 7.5vw, 90px);
+  font-weight:500; color:#fff;
+  letter-spacing:-0.01em; line-height:1; text-transform:uppercase;
+  opacity:0; transform:translateY(30px);
+  transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.work-title.in { opacity:1; transform:translateY(0); }
+
+/* PREVIEW — floats up on scroll, slight delay */
+.work-preview {
+  font-family:'Pretendard',sans-serif;
+  font-size:clamp(10px, 1.2vw, 14px);
+  font-weight:500; color:#fff;
+  letter-spacing:0.1em; text-transform:uppercase; align-self:flex-end;
+  opacity:0; transform:translateY(20px);
+  transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s;
+}
+.work-preview.in { opacity:1; transform:translateY(0); }
+
+/* ══ S6: WORK CARDS — scroll-driven horizontal slide ══ */
+#s-work2 {
+  width:100%; height:300vh;
+  position:relative; background:#000;
+}
+.work-sticky {
+  position:sticky; top:0; height:100vh;
+  overflow:hidden; display:flex; flex-direction:column; justify-content:flex-start;
+}
+.cards-track-wrap {
+  flex:1; display:flex; align-items:center;
+  overflow:hidden; padding:4vh 3.33% 4vh;
+}
+.cards-track {
+  display:flex; gap:1.5%; will-change:transform;
+}
+.wcard {
+  flex:0 0 28vw; height:72vh;
+  border-radius:10px; overflow:hidden;
+  position:relative; cursor:pointer; background:#1a1a1a;
+}
+.wcard-inner {
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px;
+  transition:transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.wcard:hover .wcard-inner { transform:scale(1.04); }
+.wcard-dim { position:absolute; inset:0; background:rgba(0,0,0,0); transition:background 0.4s; z-index:2; border-radius:10px; }
+.wcard:hover .wcard-dim { background:rgba(0,0,0,0.44); }
+.wcard-info {
+  position:absolute; bottom:0; left:0; right:0;
+  padding:50px 20px 20px;
+  background:linear-gradient(transparent,rgba(0,0,0,0.85));
+  z-index:3; opacity:0; transform:translateY(8px);
+  transition:opacity 0.35s, transform 0.35s; border-radius:0 0 10px 10px;
+}
+.wcard:hover .wcard-info { opacity:1; transform:translateY(0); }
+.wcard-info p { font-size:13px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#fff; }
+.wcard-info span { font-size:11px; color:rgba(255,255,255,0.42); }
+.ph1{background:#1a1a1a;} .ph2{background:#141414;} .ph3{background:#111;} .ph4{background:#0d0d0d;}
+
+.work-footer { padding:0 3.33% 3vh; display:flex; justify-content:flex-end; }
+.work-footer p { font-family:'Pretendard',sans-serif; font-size:clamp(8px,1vw,12px); font-weight:400; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.3); }
+
+@keyframes gw {
+  from { transform:translateX(-4%) translateY(0); }
+  to   { transform:translateX(4%) translateY(-18px); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">PORTFOLIO</div>
+  <div class="nav-links">
+    <a href="#s-intro">About</a>
+    <a href="#s-work1">Work</a>
+  </div>
+</nav>
+
+<!-- S1: COVER — image only -->
+<section id="s-cover"></section>
+
+<!-- S2: INTRO — image bg + rolling text in bracket gap -->
+<section id="s-intro">
+  <div class="rolling-overlay">
+    <div class="roll-track" id="rt"></div>
+  </div>
+</section>
+
+<!-- S3: ABOUT GRADIENT -->
+<section id="s-about1">
+  <span class="since-text" id="sinceT">SINCE 1998</span>
+  <span class="since-date" id="sinceD">05. 26</span>
+</section>
+
+<!-- S4: ABOUT BLACK — image only -->
+<section id="s-about2"></section>
+
+<!-- S5: WORK HEADER -->
+<section id="s-work1">
+  <span class="work-title" id="workT">FEATURED WORK</span>
+  <span class="work-preview" id="workP">PREVIEW</span>
+</section>
+
+<!-- S6: WORK CARDS — scroll-driven -->
+<section id="s-work2">
+  <div class="work-sticky">
+    <div class="cards-track-wrap">
+      <div class="cards-track" id="cardsTrack">
+
+        <div class="wcard ph1">
+          <div class="wcard-inner">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="16" r="9" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+              <path d="M6 42c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="wcard-dim"></div>
+          <div class="wcard-info"><p>Fashion Editorial</p><span>KREAM · 2025</span></div>
+        </div>
+
+        <div class="wcard ph2">
+          <div class="wcard-inner">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,0.15);text-transform:uppercase">STYLE</div>
+            <div style="font-size:clamp(18px,2.5vw,30px);font-weight:700;color:rgba(255,255,255,0.13)">CHALLENGE</div>
+          </div>
+          <div class="wcard-dim"></div>
+          <div class="wcard-info"><p>Style Challenge</p><span>Campaign · 2025</span></div>
+        </div>
+
+        <div class="wcard ph3">
+          <div class="wcard-inner">
+            <div style="border:1.5px solid rgba(255,255,255,0.14);padding:14px 20px;text-align:center">
+              <div style="font-size:clamp(14px,1.8vw,22px);font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:.05em">KREAM DRAW</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:4px">KREAM DRAW</div>
+            </div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.15);margin-top:10px">당첨 수 없는 100명 당첨 기회</div>
+          </div>
+          <div class="wcard-dim"></div>
+          <div class="wcard-info"><p>Promotional Contents</p><span>KREAM DRAW · 2024</span></div>
+        </div>
+
+        <div class="wcard ph4">
+          <div class="wcard-inner">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <rect x="2" y="2" width="19" height="19" stroke="rgba(255,255,255,0.11)" stroke-width="1.5"/>
+              <rect x="27" y="2" width="19" height="19" stroke="rgba(255,255,255,0.07)" stroke-width="1.5"/>
+              <rect x="2" y="27" width="19" height="19" stroke="rgba(255,255,255,0.05)" stroke-width="1.5"/>
+              <rect x="27" y="27" width="19" height="19" stroke="rgba(255,255,255,0.03)" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="wcard-dim"></div>
+          <div class="wcard-info"><p>AI Creative</p><span>Personal · 2024</span></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="work-footer">
+      <p>© 2026 SUMIN PARK ALL RIGHTS RESERVED.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ── ROLLING WORDS ── */
+const words = ['GRAPHICS', 'CONTENT', 'CREATIVE'];
+let cur = 0;
+const rt = document.getElementById('rt');
+
+// Build items
+rt.innerHTML = '';
+words.forEach(w => {
+  const s = document.createElement('div');
+  s.className = 'roll-item';
+  s.textContent = w;
+  rt.appendChild(s);
+});
+
+// Set each item height = container height (set after layout)
+function syncItemHeights() {
+  const container = document.querySelector('.rolling-overlay');
+  const h = container.offsetHeight;
+  document.querySelectorAll('.roll-item').forEach(el => {
+    el.style.height = h + 'px';
+  });
+}
+window.addEventListener('load', syncItemHeights);
+window.addEventListener('resize', syncItemHeights);
+
+// Roll
+setInterval(() => {
+  cur = (cur + 1) % words.length;
+  const h = document.querySelector('.rolling-overlay').offsetHeight;
+  rt.style.transform = `translateY(-${cur * h}px)`;
+  rt.style.transition = 'transform 0.65s cubic-bezier(0.77,0,0.175,1)';
+}, 2400);
+
+/* ── NAV COLOR ── */
+const nav     = document.getElementById('nav');
+const introEl = document.getElementById('s-intro');
+const workEl  = document.getElementById('s-work1');
+function updateNav() {
+  const sy = window.scrollY + 2;
+  if (sy >= introEl.offsetTop && sy < workEl.offsetTop + workEl.offsetHeight) {
+    nav.classList.add('light');
+  } else {
+    nav.classList.remove('light');
+  }
+}
+window.addEventListener('scroll', updateNav, { passive:true });
+updateNav();
+
+/* ── SCROLL-DRIVEN CARD SLIDE ── */
+const work2 = document.getElementById('s-work2');
+const track  = document.getElementById('cardsTrack');
+function updateCards() {
+  const rect    = work2.getBoundingClientRect();
+  const totalH  = work2.offsetHeight - window.innerHeight;
+  const scrolled = -rect.top;
+  const progress = Math.max(0, Math.min(1, scrolled / totalH));
+  const maxShift = Math.max(0, track.scrollWidth - window.innerWidth * 0.9333);
+  track.style.transition = 'none';
+  track.style.transform  = `translateX(-${progress * maxShift}px)`;
+}
+window.addEventListener('scroll', updateCards, { passive:true });
+updateCards();
+
+/* ── FLOAT-UP REVEALS ── */
+function watchEl(triggerEl, targets, threshold = 0.15) {
+  if (!triggerEl) return;
+  const obs = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) {
+      targets.forEach(t => t && t.classList.add('in'));
+      obs.disconnect();
+    }
+  }, { threshold });
+  obs.observe(triggerEl);
+}
+
+// SINCE 1998 + 05.26
+watchEl(document.getElementById('sinceT'), [
+  document.getElementById('sinceT'),
+  document.getElementById('sinceD')
+]);
+
+// FEATURED WORK + PREVIEW
+watchEl(document.getElementById('workT'), [
+  document.getElementById('workT'),
+  document.getElementById('workP')
+]);
+</script>
+</body>
+</html>
