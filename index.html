@@ -139,55 +139,32 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 #page-ai-creative.open .detail-bg{opacity:1;}
 
-/* VIEW SVG 버튼
-   스크린샷 역산: left=45.3%, top=25.63%  */
-.detail-view-btn{
-  position:absolute;
-  left:45.3%;
-  top:25.6%;
-  width:5.92%;   /* 71/1200 */
-  z-index:6;
-  cursor:pointer;
-  opacity:0;
-  transition:opacity 0.5s ease 0.55s, filter 0.2s;
-  display:block;
-}
-.detail-view-btn img{
-  width:100%;height:auto;display:block;
-}
-#page-ai-creative.open .detail-view-btn{opacity:1;}
-.detail-view-btn:hover{filter:opacity(0.4);}
 
-/* work_frame SVG
-   스크린샷 역산: left=58.07%, top=3.29%
-   width=389/1200=32.42% */
-.detail-frame-wrap{
+
+/* 영상: 프레임 없이 배경 위에 직접 배치
+   회색 영역 위, 바텀라인이 (01)과 맞춤 (~93%) */
+.detail-video-wrap{
   position:absolute;
   left:58.07%;
-  top:3.29%;
+  bottom:7%;       /* 바텀라인 = (01) 하단과 맞춤 */
   width:32.42%;
   aspect-ratio:389/584;
   z-index:4;
+  overflow:hidden;
   opacity:0;
   transform:translateY(20px) scale(0.98);
 }
-#page-ai-creative.open .detail-frame-wrap{
-  animation:dRevealFrame 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+#page-ai-creative.open .detail-video-wrap{
+  animation:dRevealVideo 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
 }
 
-.detail-frame-svg{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  display:block;
-}
-.detail-frame-video{
-  position:absolute;inset:0;
+.detail-video-raw{
   width:100%;height:100%;
   object-fit:cover;
   display:block;
 }
 
-@keyframes dRevealFrame{
+@keyframes dRevealVideo{
   from{opacity:0;transform:translateY(20px) scale(0.98);}
   to{opacity:1;transform:translateY(0) scale(1);}
 }
@@ -252,19 +229,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <!-- 배경: aicreative.png 그대로 -->
       <img class="detail-bg" src="aicreative.png" alt="AI Creative">
 
-      <!-- VIEW 버튼 SVG -->
-      <a href="https://kream.co.kr/content/14438" target="_blank" class="detail-view-btn">
-        <img src="view.svg" alt="VIEW ↗">
-      </a>
-
-      <!-- work_frame SVG + 영상 오버레이 -->
-      <div class="detail-frame-wrap">
-        <!-- SVG 프레임 (배경 rect) -->
-        <svg class="detail-frame-svg" width="389" height="584" viewBox="0 0 389 584" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-          <rect width="389" height="584" fill="#DFDFDF"/>
-        </svg>
-        <!-- 영상: SVG rect 위에 완전히 덮음 -->
-        <video class="detail-frame-video" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
+      <!-- 영상: 프레임 없이 배경 위에 바로 배치 -->
+      <div class="detail-video-wrap">
+        <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
       </div>
 
     </div>
