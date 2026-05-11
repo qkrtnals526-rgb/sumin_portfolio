@@ -292,44 +292,44 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .detail-nav.dark .detail-menu-btn .dot{background:#fff;}
 .detail-nav.dark .detail-inline-cats a{color:#fff;}
 
-/* 3D Artwork 카드 갤러리 */
-.da-gallery-section{
+/* 3D Artwork lvcover 호버 딤 */
+.da-horizontal-strip{
   display:flex;
-  gap:clamp(12px,1.7vw,20px);
-  padding:clamp(30px,5.5vw,70px) 0 clamp(30px,5.5vw,70px) 4.17%;
-  width:100%;
-  box-sizing:border-box;
-  background:#F5F5F5;
-}
-.da-gallery-card{
-  flex:0 0 23.9%;
-  aspect-ratio:287/528;
-  border-radius:10px;
-  overflow:hidden;
-  position:relative;
-  cursor:default;
-  text-decoration:none;
-  display:block;
-}
-a.da-gallery-card{
-  cursor:pointer;
-}
-.da-gallery-card img{
-  width:100%;
+  flex-direction:row;
+  width:auto!important;
   height:100%;
-  object-fit:cover;
+}
+.da-horizontal-strip img,
+.da-horizontal-strip .da-card-link{
+  width:auto!important;
+  height:100%;
+  flex-shrink:0;
   display:block;
 }
-.da-gallery-dim{
+.da-horizontal-strip .da-card-link img{
+  height:100%;
+  width:auto!important;
+}
+.da-card-link{
+  position:relative;
+  display:block;
+  cursor:pointer;
+  text-decoration:none;
+}
+.da-card-link img{
+  width:100%;
+  display:block;
+}
+.da-card-dim{
   position:absolute;inset:0;
   background:rgba(0,0,0,0);
   transition:background 0.35s;
   z-index:2;
 }
-a.da-gallery-card:hover .da-gallery-dim{
+.da-card-link:hover .da-card-dim{
   background:rgba(0,0,0,0.5);
 }
-.da-gallery-cta{
+.da-card-cta{
   position:absolute;
   inset:0;
   display:flex;
@@ -344,7 +344,7 @@ a.da-gallery-card:hover .da-gallery-dim{
   transition:opacity 0.35s;
   letter-spacing:0.03em;
 }
-a.da-gallery-card:hover .da-gallery-cta{
+.da-card-link:hover .da-card-cta{
   opacity:1;
 }
 
@@ -717,32 +717,22 @@ a.da-gallery-card:hover .da-gallery-cta{
           </div>
         </div>
       </div>
-      <!-- Slide 2: 2025 TREND LEVEL TEST (스크롤로 이어지는 구조) -->
+      <!-- Slide 2: 2025 TREND LEVEL TEST -->
       <div class="detail-slide" data-slide="1" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork2-1.png" alt="3D Artwork 02">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="da-strip-2">
-            <div class="detail-scroll-strip" id="da-strip-2">
-              <img src="3DArtworkThumbnail.png" alt="" style="width:100%;display:block;">
-              <div class="da-gallery-section">
-                <a href="https://content.kream.co.kr/trendtest" target="_blank" class="da-gallery-card">
-                  <img src="lvcover.png" alt="Level Test Cover">
-                  <div class="da-gallery-dim"></div>
-                  <span class="da-gallery-cta">Start Test</span>
-                </a>
-                <div class="da-gallery-card">
-                  <img src="lv1.jpg" alt="Lv.1">
-                </div>
-                <div class="da-gallery-card">
-                  <img src="lv2.jpg" alt="Lv.2">
-                </div>
-                <div class="da-gallery-card">
-                  <img src="lv3.jpg" alt="Lv.3">
-                </div>
-                <div class="da-gallery-card">
-                  <img src="lv4.jpg" alt="Lv.4">
-                </div>
-              </div>
+            <div class="detail-scroll-strip da-horizontal-strip" id="da-strip-2">
+              <img src="3DArtworkThumbnail.png" alt="">
+              <a href="https://content.kream.co.kr/trendtest" target="_blank" class="da-card-link">
+                <img src="lvcover.png" alt="Level Test Cover">
+                <div class="da-card-dim"></div>
+                <span class="da-card-cta">Start Test</span>
+              </a>
+              <img src="lv1.jpg" alt="Lv.1">
+              <img src="lv2.jpg" alt="Lv.2">
+              <img src="lv3.jpg" alt="Lv.3">
+              <img src="lv4.jpg" alt="Lv.4">
             </div>
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
@@ -987,15 +977,29 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
           const strip = slide.querySelector('.detail-scroll-strip');
           if(strip){
             const frame = strip.parentElement;
-            const frameH = frame.offsetHeight;
-            const stripH = strip.scrollHeight;
-            const maxShift = Math.max(0, stripH - frameH);
-            if(i === currentIndex){
-              strip.style.transform = `translateY(-${slideProgress * maxShift}px)`;
-            } else if(i < currentIndex){
-              strip.style.transform = `translateY(-${maxShift}px)`;
+            const isHorizontal = strip.classList.contains('da-horizontal-strip');
+            if(isHorizontal){
+              const frameW = frame.offsetWidth;
+              const stripW = strip.scrollWidth;
+              const maxShift = Math.max(0, stripW - frameW);
+              if(i === currentIndex){
+                strip.style.transform = `translateX(-${slideProgress * maxShift}px)`;
+              } else if(i < currentIndex){
+                strip.style.transform = `translateX(-${maxShift}px)`;
+              } else {
+                strip.style.transform = `translateX(0px)`;
+              }
             } else {
-              strip.style.transform = `translateY(0px)`;
+              const frameH = frame.offsetHeight;
+              const stripH = strip.scrollHeight;
+              const maxShift = Math.max(0, stripH - frameH);
+              if(i === currentIndex){
+                strip.style.transform = `translateY(-${slideProgress * maxShift}px)`;
+              } else if(i < currentIndex){
+                strip.style.transform = `translateY(-${maxShift}px)`;
+              } else {
+                strip.style.transform = `translateY(0px)`;
+              }
             }
           }
         });
