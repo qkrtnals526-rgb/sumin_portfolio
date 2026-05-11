@@ -292,18 +292,17 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .detail-nav.dark .detail-menu-btn .dot{background:#fff;}
 .detail-nav.dark .detail-inline-cats a{color:#fff;}
 
-/* 3D Artwork 카드 갤러리 (wcard 스타일) */
-.da-gallery{
+/* 3D Artwork 카드 갤러리 */
+.da-gallery-section{
   display:flex;
-  gap:clamp(12px,1.5vw,24px);
-  padding:clamp(24px,4vh,60px) 0;
+  gap:clamp(12px,1.7vw,20px);
+  padding:clamp(30px,5.5vw,70px) 0 clamp(30px,5.5vw,70px) 4.17%;
   width:100%;
   box-sizing:border-box;
-  justify-content:center;
+  background:#F5F5F5;
 }
 .da-gallery-card{
-  flex:0 0 auto;
-  width:23.9%;
+  flex:0 0 23.9%;
   aspect-ratio:287/528;
   border-radius:10px;
   overflow:hidden;
@@ -725,7 +724,7 @@ a.da-gallery-card:hover .da-gallery-cta{
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="da-strip-2">
             <div class="detail-scroll-strip" id="da-strip-2">
               <img src="3DArtworkThumbnail.png" alt="" style="width:100%;display:block;">
-              <div class="da-gallery">
+              <div class="da-gallery-section">
                 <a href="https://content.kream.co.kr/trendtest" target="_blank" class="da-gallery-card">
                   <img src="lvcover.png" alt="Level Test Cover">
                   <div class="da-gallery-dim"></div>
