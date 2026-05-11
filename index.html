@@ -292,67 +292,128 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .detail-nav.dark .detail-menu-btn .dot{background:#fff;}
 .detail-nav.dark .detail-inline-cats a{color:#fff;}
 
-/* 3D Artwork lvcover 호버 딤 */
-.da-horizontal-strip{
+/* 3D Artwork 모달 갤러리 */
+.da-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,0.85);
+  align-items:center;
+  justify-content:center;
+}
+.da-modal.show{
   display:flex;
-  flex-direction:row;
-  width:auto!important;
-  height:100%;
 }
-.da-horizontal-strip > img,
-.da-horizontal-strip > .da-card-link{
-  width:100%!important;
-  min-width:100%;
-  height:auto;
-  flex-shrink:0;
-  display:block;
-  object-fit:cover;
-}
-.da-horizontal-strip .da-card-link{
-  width:100%!important;
-  min-width:100%;
-}
-.da-horizontal-strip .da-card-link img{
-  width:100%!important;
-  height:auto;
-  display:block;
-}
-.da-card-link{
+.da-modal-inner{
   position:relative;
-  display:block;
+  width:clamp(280px,28vw,400px);
+  max-height:90vh;
+}
+.da-modal-close{
+  position:absolute;
+  top:-40px;
+  right:0;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:24px;
   cursor:pointer;
+  z-index:3;
+  padding:4px 8px;
+}
+.da-modal-viewport{
+  position:relative;
+  width:100%;
+  aspect-ratio:287/528;
+  overflow:hidden;
+  border-radius:10px;
+}
+.da-modal-slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity 0.4s;
+  display:block;
   text-decoration:none;
 }
-.da-card-link img{
+.da-modal-slide.active{
+  opacity:1;
+}
+.da-modal-slide img{
   width:100%;
+  height:100%;
+  object-fit:cover;
   display:block;
 }
-.da-card-dim{
+.da-modal-slide-link{
+  cursor:pointer;
+}
+.da-modal-dim{
   position:absolute;inset:0;
   background:rgba(0,0,0,0);
   transition:background 0.35s;
   z-index:2;
+  border-radius:10px;
 }
-.da-card-link:hover .da-card-dim{
+.da-modal-slide-link:hover .da-modal-dim{
   background:rgba(0,0,0,0.5);
 }
-.da-card-cta{
-  position:absolute;
-  inset:0;
+.da-modal-cta{
+  position:absolute;inset:0;
   display:flex;
   align-items:center;
   justify-content:center;
   font-family:'Pretendard',sans-serif;
-  font-size:clamp(16px,1.4vw,22px);
+  font-size:clamp(18px,1.6vw,24px);
   font-weight:700;
   color:#fff;
   z-index:3;
   opacity:0;
   transition:opacity 0.35s;
-  letter-spacing:0.03em;
+  letter-spacing:0.05em;
 }
-.da-card-link:hover .da-card-cta{
+.da-modal-slide-link:hover .da-modal-cta{
   opacity:1;
+}
+.da-modal-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(255,255,255,0.15);
+  border:none;
+  color:#fff;
+  font-size:32px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background 0.2s;
+}
+.da-modal-arrow:hover{
+  background:rgba(255,255,255,0.3);
+}
+.da-modal-prev{left:-60px;}
+.da-modal-next{right:-60px;}
+.da-modal-dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:16px;
+}
+.da-modal-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.3);
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.da-modal-dot.active{
+  background:#fff;
 }
 
 /* 사운드 토글 버튼 */
@@ -728,19 +789,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="1" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork2-1.png" alt="3D Artwork 02">
-          <div class="detail-video-wrap fe-scroll-frame" data-strip-id="da-strip-2">
-            <div class="detail-scroll-strip da-horizontal-strip" id="da-strip-2">
-              <img src="3DArtworkThumbnail.png" alt="">
-              <a href="https://content.kream.co.kr/trendtest" target="_blank" class="da-card-link">
-                <img src="lvcover.png" alt="Level Test Cover">
-                <div class="da-card-dim"></div>
-                <span class="da-card-cta">Start Test</span>
-              </a>
-              <img src="lv1.jpg" alt="Lv.1">
-              <img src="lv2.jpg" alt="Lv.2">
-              <img src="lv3.jpg" alt="Lv.3">
-              <img src="lv4.jpg" alt="Lv.4">
-            </div>
+          <div style="position:absolute;left:58.07%;bottom:7%;width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;">
+            <img src="3DArtworkThumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text">Scroll</span>
@@ -752,6 +802,34 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
     <!-- 스크롤 스페이서 -->
     <div class="detail-spacer" id="da-spacer"></div>
+  </div>
+  <!-- 모달 갤러리 -->
+  <div class="da-modal" id="da-modal">
+    <div class="da-modal-inner">
+      <button class="da-modal-close" onclick="closeDaModal()">✕</button>
+      <button class="da-modal-arrow da-modal-prev" onclick="slideDaModal(-1)">‹</button>
+      <div class="da-modal-viewport">
+        <a href="https://content.kream.co.kr/trendtest" target="_blank" class="da-modal-slide da-modal-slide-link active">
+          <img src="lvcover.png" alt="Level Test Cover">
+          <div class="da-modal-dim"></div>
+          <span class="da-modal-cta">START TEST</span>
+        </a>
+        <div class="da-modal-slide">
+          <img src="lv1.jpg" alt="Lv.1">
+        </div>
+        <div class="da-modal-slide">
+          <img src="lv2.jpg" alt="Lv.2">
+        </div>
+        <div class="da-modal-slide">
+          <img src="lv3.jpg" alt="Lv.3">
+        </div>
+        <div class="da-modal-slide">
+          <img src="lv4.jpg" alt="Lv.4">
+        </div>
+      </div>
+      <button class="da-modal-arrow da-modal-next" onclick="slideDaModal(1)">›</button>
+      <div class="da-modal-dots" id="da-modal-dots"></div>
+    </div>
   </div>
 </div>
 
@@ -984,29 +1062,15 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
           const strip = slide.querySelector('.detail-scroll-strip');
           if(strip){
             const frame = strip.parentElement;
-            const isHorizontal = strip.classList.contains('da-horizontal-strip');
-            if(isHorizontal){
-              const frameW = frame.offsetWidth;
-              const stripW = strip.scrollWidth;
-              const maxShift = Math.max(0, stripW - frameW);
-              if(i === currentIndex){
-                strip.style.transform = `translateX(-${slideProgress * maxShift}px)`;
-              } else if(i < currentIndex){
-                strip.style.transform = `translateX(-${maxShift}px)`;
-              } else {
-                strip.style.transform = `translateX(0px)`;
-              }
+            const frameH = frame.offsetHeight;
+            const stripH = strip.scrollHeight;
+            const maxShift = Math.max(0, stripH - frameH);
+            if(i === currentIndex){
+              strip.style.transform = `translateY(-${slideProgress * maxShift}px)`;
+            } else if(i < currentIndex){
+              strip.style.transform = `translateY(-${maxShift}px)`;
             } else {
-              const frameH = frame.offsetHeight;
-              const stripH = strip.scrollHeight;
-              const maxShift = Math.max(0, stripH - frameH);
-              if(i === currentIndex){
-                strip.style.transform = `translateY(-${slideProgress * maxShift}px)`;
-              } else if(i < currentIndex){
-                strip.style.transform = `translateY(-${maxShift}px)`;
-              } else {
-                strip.style.transform = `translateY(0px)`;
-              }
+              strip.style.transform = `translateY(0px)`;
             }
           }
         });
@@ -1202,6 +1266,97 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+})();
+
+/* 3D Artwork 모달 갤러리 */
+(function(){
+  const modal = document.getElementById('da-modal');
+  if(!modal) return;
+  const slides = modal.querySelectorAll('.da-modal-slide');
+  const dotsWrap = document.getElementById('da-modal-dots');
+  let currentSlide = 0;
+  
+  // 도트 생성
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'da-modal-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goToSlide(i);
+    dotsWrap.appendChild(dot);
+  });
+  
+  function goToSlide(idx){
+    currentSlide = idx;
+    slides.forEach((s, i) => {
+      if(i === idx) s.classList.add('active');
+      else s.classList.remove('active');
+    });
+    dotsWrap.querySelectorAll('.da-modal-dot').forEach((d, i) => {
+      if(i === idx) d.classList.add('active');
+      else d.classList.remove('active');
+    });
+  }
+  
+  window.slideDaModal = function(dir){
+    let next = currentSlide + dir;
+    if(next < 0) next = slides.length - 1;
+    if(next >= slides.length) next = 0;
+    goToSlide(next);
+  };
+  
+  window.closeDaModal = function(){
+    modal.classList.remove('show');
+    document.getElementById('page-3d-artwork').style.overflow = 'auto';
+  };
+  
+  // 스크롤 트리거: 3D Artwork 슬라이드 2에서 스크롤 내리면 모달 표시
+  const daPage = document.getElementById('page-3d-artwork');
+  if(daPage){
+    daPage.addEventListener('scroll', function(){
+      const scene = daPage.querySelector('.detail-scene');
+      if(!scene) return;
+      const slides2 = scene.querySelectorAll('.detail-slide');
+      if(slides2.length < 2) return;
+      const activeSlide = scene.querySelector('.detail-slide.active');
+      if(!activeSlide) return;
+      const slideIdx = parseInt(activeSlide.getAttribute('data-slide'));
+      
+      // 슬라이드 2(인덱스 1)에서 스크롤이 일정 이상이면 모달 표시
+      if(slideIdx === 1){
+        const spacer = scene.querySelector('.detail-spacer');
+        const totalScroll = spacer ? spacer.offsetHeight : window.innerHeight * slides2.length;
+        const perSlide = totalScroll / slides2.length;
+        const slideLocalScroll = daPage.scrollTop - (1 * perSlide);
+        const slideProgress = Math.max(0, Math.min(1, slideLocalScroll / perSlide));
+        
+        if(slideProgress > 0.3 && !modal.classList.contains('show')){
+          modal.classList.add('show');
+          goToSlide(0);
+        }
+      } else {
+        if(modal.classList.contains('show')){
+          modal.classList.remove('show');
+        }
+      }
+    });
+  }
+  
+  // 모달 바깥 클릭 시 닫기
+  modal.addEventListener('click', function(e){
+    if(e.target === modal){
+      closeDaModal();
+    }
+  });
+  
+  // ESC 키로 닫기
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && modal.classList.contains('show')){
+      closeDaModal();
+    }
+    if(modal.classList.contains('show')){
+      if(e.key === 'ArrowLeft') slideDaModal(-1);
+      if(e.key === 'ArrowRight') slideDaModal(1);
+    }
+  });
 })();
 </script>
 </body>
