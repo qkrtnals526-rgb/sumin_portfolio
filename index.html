@@ -296,15 +296,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .da-gallery{
   display:flex;
   gap:clamp(12px,1.5vw,24px);
-  align-items:center;
-  justify-content:center;
-  padding:0 4%;
+  padding:clamp(24px,4vh,60px) 0;
   width:100%;
   box-sizing:border-box;
+  justify-content:center;
 }
 .da-gallery-card{
   flex:0 0 auto;
-  width:clamp(160px,14vw,220px);
+  width:23.9%;
   aspect-ratio:287/528;
   border-radius:10px;
   overflow:hidden;
@@ -719,41 +718,38 @@ a.da-gallery-card:hover .da-gallery-cta{
           </div>
         </div>
       </div>
-      <!-- Slide 2: 2025 TREND LEVEL TEST -->
+      <!-- Slide 2: 2025 TREND LEVEL TEST (스크롤로 이어지는 구조) -->
       <div class="detail-slide" data-slide="1" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork2-1.png" alt="3D Artwork 02">
-          <div style="position:absolute;left:58.07%;bottom:7%;width:32.42%;z-index:4;">
-            <img src="3DArtworkThumbnail.png" alt="" style="width:100%;display:block;">
+          <div class="detail-video-wrap fe-scroll-frame" data-strip-id="da-strip-2">
+            <div class="detail-scroll-strip" id="da-strip-2">
+              <img src="3DArtworkThumbnail.png" alt="" style="width:100%;display:block;">
+              <div class="da-gallery">
+                <a href="https://content.kream.co.kr/trendtest" target="_blank" class="da-gallery-card">
+                  <img src="lvcover.png" alt="Level Test Cover">
+                  <div class="da-gallery-dim"></div>
+                  <span class="da-gallery-cta">Start Test</span>
+                </a>
+                <div class="da-gallery-card">
+                  <img src="lv1.jpg" alt="Lv.1">
+                </div>
+                <div class="da-gallery-card">
+                  <img src="lv2.jpg" alt="Lv.2">
+                </div>
+                <div class="da-gallery-card">
+                  <img src="lv3.jpg" alt="Lv.3">
+                </div>
+                <div class="da-gallery-card">
+                  <img src="lv4.jpg" alt="Lv.4">
+                </div>
+              </div>
+            </div>
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text">Scroll</span>
             <div class="scroll-hint-line"></div>
             <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Slide 3: TREND LEVEL TEST 카드 갤러리 -->
-      <div class="detail-slide" data-slide="2" style="background:#F5F5F5;">
-        <div class="detail-slide-inner" style="display:flex;align-items:center;justify-content:center;">
-          <div class="da-gallery">
-            <a href="https://content.kream.co.kr/trendtest" target="_blank" class="da-gallery-card">
-              <img src="lvcover.png" alt="Level Test Cover">
-              <div class="da-gallery-dim"></div>
-              <span class="da-gallery-cta">Start Test</span>
-            </a>
-            <div class="da-gallery-card">
-              <img src="lv1.jpg" alt="Lv.1">
-            </div>
-            <div class="da-gallery-card">
-              <img src="lv2.jpg" alt="Lv.2">
-            </div>
-            <div class="da-gallery-card">
-              <img src="lv3.jpg" alt="Lv.3">
-            </div>
-            <div class="da-gallery-card">
-              <img src="lv4.jpg" alt="Lv.4">
-            </div>
           </div>
         </div>
       </div>
