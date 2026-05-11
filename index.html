@@ -383,9 +383,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   background:rgba(255,255,255,0.15);
   border:none;
   color:#fff;
-  font-size:32px;
-  width:44px;
-  height:44px;
+  font-size:28px;
+  width:48px;
+  height:48px;
   border-radius:50%;
   cursor:pointer;
   z-index:3;
@@ -393,12 +393,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   align-items:center;
   justify-content:center;
   transition:background 0.2s;
+  line-height:1;
+  padding:0;
 }
 .da-modal-arrow:hover{
   background:rgba(255,255,255,0.3);
 }
-.da-modal-prev{left:-60px;}
-.da-modal-next{right:-60px;}
+.da-modal-prev{left:-68px;}
+.da-modal-next{right:-68px;}
 .da-modal-dots{
   display:flex;
   justify-content:center;
@@ -810,7 +812,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <button class="da-modal-arrow da-modal-prev" onclick="slideDaModal(-1)">‹</button>
       <div class="da-modal-viewport">
         <a href="https://content.kream.co.kr/trendtest" target="_blank" class="da-modal-slide da-modal-slide-link active">
-          <img src="lvcover.png" alt="Level Test Cover">
+          <video src="lvcover.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>
           <div class="da-modal-dim"></div>
           <span class="da-modal-cta">START TEST</span>
         </a>
