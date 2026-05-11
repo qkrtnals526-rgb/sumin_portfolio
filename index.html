@@ -299,16 +299,23 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   width:auto!important;
   height:100%;
 }
-.da-horizontal-strip img,
-.da-horizontal-strip .da-card-link{
-  width:auto!important;
-  height:100%;
+.da-horizontal-strip > img,
+.da-horizontal-strip > .da-card-link{
+  width:100%!important;
+  min-width:100%;
+  height:auto;
   flex-shrink:0;
   display:block;
+  object-fit:cover;
+}
+.da-horizontal-strip .da-card-link{
+  width:100%!important;
+  min-width:100%;
 }
 .da-horizontal-strip .da-card-link img{
-  height:100%;
-  width:auto!important;
+  width:100%!important;
+  height:auto;
+  display:block;
 }
 .da-card-link{
   position:relative;
