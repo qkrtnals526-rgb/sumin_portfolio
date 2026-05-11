@@ -255,6 +255,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 
 
+/* 인트로 슬라이드: 풀스크린 배경 이미지 */
+.detail-slide-intro{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+}
+.detail-slide-intro .detail-intro-bg{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
 /* 영상: 프레임 없이 배경 위에 직접 배치
    회색 영역 위, 바텀라인이 (01)과 맞춤 */
 .detail-video-wrap{
@@ -522,8 +534,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="ai-scene">
     <div class="detail-canvas">
+      <!-- Intro 1 -->
+      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#000;">
+        <img class="detail-intro-bg" src="aicreativeintro.png" alt="AI Creative Intro 01">
+      </div>
       <!-- Slide 1: SELLER WEEK -->
-      <div class="detail-slide active" data-slide="0" style="background:#fff;">
+      <div class="detail-slide" data-slide="1" style="background:#fff;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative.png" alt="AI Creative 01">
           <div class="detail-video-wrap">
@@ -531,8 +547,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Intro 2 -->
+      <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#000;">
+        <img class="detail-intro-bg" src="aicreative2intro.png" alt="AI Creative Intro 02">
+      </div>
       <!-- Slide 2: 몽벨 해외직구 -->
-      <div class="detail-slide" data-slide="1" style="background:#DEE1E5;">
+      <div class="detail-slide" data-slide="3" style="background:#DEE1E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative2.png" alt="AI Creative 02">
           <div class="detail-video-wrap">
@@ -540,8 +560,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Intro 3 -->
+      <div class="detail-slide detail-slide-intro" data-slide="4" style="background:#000;">
+        <img class="detail-intro-bg" src="aicreative3intro.png" alt="AI Creative Intro 03">
+      </div>
       <!-- Slide 3: 스프링 시즌오프 -->
-      <div class="detail-slide" data-slide="2" style="background:#FAFFE6;">
+      <div class="detail-slide" data-slide="5" style="background:#FAFFE6;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative3.png" alt="AI Creative 03">
           <div class="detail-video-wrap">
@@ -581,8 +605,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="fe-scene">
     <div class="detail-canvas">
+      <!-- Intro 1 -->
+      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#000;">
+        <img class="detail-intro-bg" src="Fashioneditorialintro.png" alt="Fashion Editorial Intro 01">
+      </div>
       <!-- Slide 1: HONDA MOTORCYCLE -->
-      <div class="detail-slide active" data-slide="0" style="background:#151515;">
+      <div class="detail-slide" data-slide="1" style="background:#151515;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial.png" alt="Fashion Editorial 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-1">
@@ -616,8 +644,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Intro 2 -->
+      <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#000;">
+        <img class="detail-intro-bg" src="Fashioneditorial2intro.png" alt="Fashion Editorial Intro 02">
+      </div>
       <!-- Slide 2: 일광전구 -->
-      <div class="detail-slide" data-slide="1" style="background:#F5F5F5;">
+      <div class="detail-slide" data-slide="3" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial2.png" alt="Fashion Editorial 02">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-2">
@@ -644,8 +676,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Intro 3 -->
+      <div class="detail-slide detail-slide-intro" data-slide="4" style="background:#000;">
+        <img class="detail-intro-bg" src="Fashioneditorial3intro.png" alt="Fashion Editorial Intro 03">
+      </div>
       <!-- Slide 3: 조셉앤스테이시 × 몬치치 -->
-      <div class="detail-slide" data-slide="2" style="background:#F7E9EB;">
+      <div class="detail-slide" data-slide="5" style="background:#F7E9EB;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial3.png" alt="Fashion Editorial 03">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-3">
@@ -672,8 +708,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Intro 4 -->
+      <div class="detail-slide detail-slide-intro" data-slide="6" style="background:#000;">
+        <img class="detail-intro-bg" src="Fashioneditorial4intro.png" alt="Fashion Editorial Intro 04">
+      </div>
       <!-- Slide 4: KREAM 도산 스토어 윈터 룩북 -->
-      <div class="detail-slide" data-slide="3" style="background:#C1CCCE;">
+      <div class="detail-slide" data-slide="7" style="background:#C1CCCE;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial4.png" alt="Fashion Editorial 04">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-4">
@@ -726,8 +766,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="pc-scene">
     <div class="detail-canvas">
+      <!-- Intro 1 -->
+      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#000;">
+        <img class="detail-intro-bg" src="Promotionalintro.png" alt="Promotional Content Intro">
+      </div>
       <!-- Slide 1: 디저트 테이블 -->
-      <div class="detail-slide active" data-slide="0" style="background:#F5F5F5;">
+      <div class="detail-slide" data-slide="1" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Promotional.png" alt="Promotional Content 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="pc-strip-1">
@@ -782,8 +826,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="da-scene">
     <div class="detail-canvas">
+      <!-- Intro 1 -->
+      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#000;">
+        <img class="detail-intro-bg" src="3DArtworkintro.png" alt="3D Artwork Intro 01">
+      </div>
       <!-- Slide 1: KREAM DRAW -->
-      <div class="detail-slide active" data-slide="0" style="background:#004ED5;">
+      <div class="detail-slide" data-slide="1" style="background:#004ED5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork.png" alt="3D Artwork 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="da-strip-1" style="bottom:0;">
@@ -798,8 +846,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Intro 2 -->
+      <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#000;">
+        <img class="detail-intro-bg" src="3DArtwork2-1intro.png" alt="3D Artwork Intro 02">
+      </div>
       <!-- Slide 2: 2025 TREND LEVEL TEST -->
-      <div class="detail-slide" data-slide="1" style="background:#F5F5F5;">
+      <div class="detail-slide" data-slide="3" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork2-1.png" alt="3D Artwork 02">
           <div style="position:absolute;left:58.07%;bottom:7%;width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;">
@@ -1333,12 +1385,12 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
       if(!activeSlide) return;
       const slideIdx = parseInt(activeSlide.getAttribute('data-slide'));
       
-      // 슬라이드 2(인덱스 1)에서 스크롤이 일정 이상이면 모달 표시
-      if(slideIdx === 1){
+      // 슬라이드 2(인덱스 3, 인트로 포함)에서 스크롤이 일정 이상이면 모달 표시
+      if(slideIdx === 3){
         const spacer = scene.querySelector('.detail-spacer');
         const totalScroll = spacer ? spacer.offsetHeight : window.innerHeight * slides2.length;
         const perSlide = totalScroll / slides2.length;
-        const slideLocalScroll = daPage.scrollTop - (1 * perSlide);
+        const slideLocalScroll = daPage.scrollTop - (3 * perSlide);
         const slideProgress = Math.max(0, Math.min(1, slideLocalScroll / perSlide));
         
         if(slideProgress > 0.3 && !modal.classList.contains('show')){
