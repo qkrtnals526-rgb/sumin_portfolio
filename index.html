@@ -246,7 +246,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 /* ── STYLE CHALLENGE PAGE ────────────────────────────── */
 .sc-page-inner{
-  position:relative; width:100%; height:100%;
+  position:relative; width:100%; min-height:100vh;
   overflow:hidden; display:flex; flex-direction:column;
   background:#FFFFFF url('stylechallenge1.png') center/cover no-repeat;
 }
@@ -270,10 +270,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sc-gallery-wrap{
   position:relative; z-index:2;
   flex:1; display:flex; align-items:center;
-  padding: 42px 0 38px; overflow:hidden;
+  padding: 42px 0 60px; overflow:visible;
 }
 .sc-gallery{
-  display:flex; gap:20px; padding: 0 56px;
+  display:flex; gap:20px; padding: 0 56px 20px;
   overflow-x:auto; overflow-y:visible;
   scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
   cursor:grab; scrollbar-width:none;
@@ -282,10 +282,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sc-gallery.dragging{cursor:grabbing; scroll-behavior:auto;}
 .sc-card{
   flex-shrink:0;
-  width: clamp(160px, 18vw, 260px);
+  width: calc((100vw - 192px) / 3);
   aspect-ratio: 9/16;
   position:relative; border-radius:10px;
-  overflow:hidden; cursor:pointer;
+  /* overflow:hidden 제거 — 호버 확대 시 짤림 방지 */
+  cursor:pointer;
   transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease;
 }
 .sc-card:hover{
@@ -294,15 +295,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .sc-card-thumb{
   width:100%; height:100%; object-fit:cover; display:block;
+  border-radius:10px;
   transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
 }
 .sc-card:hover .sc-card-thumb{ transform: scale(1.07); }
 .sc-card-overlay{
   position:absolute; inset:0;
   background: linear-gradient(0deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.3) 45%, transparent 70%);
+  border-radius:10px;
   opacity:0; transition: opacity 0.3s ease;
   display:flex; flex-direction:column; justify-content:flex-end;
   padding: 20px 16px; gap:10px;
+  overflow:hidden;
 }
 .sc-card:hover .sc-card-overlay{ opacity:1; }
 .sc-card-info{ color:#fff; }
@@ -1094,7 +1098,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   </div>
 
   <div class="sc-page-inner">
-    <img class="sc-bg" src="stylechallenge1.png" alt="" style="background:#FFFFFF;">
     <div class="sc-header">
       <span class="sc-title">STYLE CHALLENGE</span>
       <span class="sc-year">'25-'26</span>
@@ -1115,14 +1118,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
 
         <!-- 02 블랙 -->
-        <div class="sc-card" onclick="openScModal('black.mp4','BLACKREAM CHALLENGE','2025.11.07')">
-          <img class="sc-card-thumb" src="black.jpg" alt="BLACKREAM CHALLENGE">
+        <div class="sc-card" onclick="openScModal('black.mp4','블랙크림 챌린지','2025.11.07')">
+          <img class="sc-card-thumb" src="black.jpg" alt="블랙크림 챌린지">
           <div class="sc-card-overlay">
             <div class="sc-card-info">
-              <div class="sc-card-name">BLACKREAM CHALLENGE</div>
+              <div class="sc-card-name">블랙크림 챌린지</div>
               <div class="sc-card-date">2025.11.07</div>
             </div>
-            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('black.mp4','BLACKREAM CHALLENGE','2025.11.07')">VIEW</button>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('black.mp4','블랙크림 챌린지','2025.11.07')">VIEW</button>
           </div>
         </div>
 
