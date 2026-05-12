@@ -1360,10 +1360,10 @@ function closeDetail(){
   document.body.style.overflow='';
 }
 function switchDetail(pageName){
-  if(pageName === 'fashion-editorial') feAudioReady = true;
   const page = document.getElementById('page-'+pageName);
   if(!page) return;
-  muteAllDetailVideos();
+  muteAllDetailVideos(); // 먼저 정지 (feAudioReady = false 포함)
+  if(pageName === 'fashion-editorial') feAudioReady = true; // FE면 다시 true
   document.querySelectorAll('.detail-page').forEach(p=>{
     p.classList.remove('open');
   });
