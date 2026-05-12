@@ -1166,6 +1166,24 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
   openDetail('3d-artwork');
 });
 
+/* AI Creative / 3D Artwork 스페이서 높이 동적 설정 (스트립 없는 페이지) */
+(function(){
+  function setNoStripSpacers(){
+    document.querySelectorAll('.detail-scene').forEach(scene => {
+      const strips = scene.querySelectorAll('.detail-scroll-strip');
+      if(strips.length > 0) return; // 스트립 있는 페이지는 calcFeSpacers가 담당
+      const spacer = scene.querySelector('.detail-spacer');
+      if(!spacer) return;
+      const slides = scene.querySelectorAll('.detail-slide');
+      // 슬라이드당 0.5vh 기준, 마지막 슬라이드 감상 여유 +1vh
+      const needed = (slides.length - 1) * 0.5 + 1;
+      spacer.style.height = needed * 100 + 'vh';
+    });
+  }
+  setNoStripSpacers();
+  window.addEventListener('resize', setNoStripSpacers);
+})();
+
 /* DETAIL SLIDE SCROLL — 통합 스크롤 로직 */
 (function(){
   const detailPages = document.querySelectorAll('.detail-page');
@@ -1535,10 +1553,12 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
       
       // 슬라이드 2(인덱스 3, 인트로 포함)에서 스크롤이 일정 이상이면 모달 표시
       if(slideIdx === 3){
-        const spacer = scene.querySelector('.detail-spacer');
-        const totalScroll = spacer ? spacer.offsetHeight : window.innerHeight * slides2.length;
-        const perSlide = totalScroll / slides2.length;
-        const slideLocalScroll = daPage.scrollTop - (3 * perSlide);
+        // AI Creative식 전환: scrollTop / (vh * 0.5) 기준
+        const vh = window.innerHeight;
+        // data-slide=3은 progress 3.x 구간 → scrollTop 범위: [3*vh*0.5, 4*vh*0.5)
+        const slideStart = 3 * vh * 0.5;
+        const perSlide = vh * 0.5;
+        const slideLocalScroll = daPage.scrollTop - slideStart;
         const slideProgress = Math.max(0, Math.min(1, slideLocalScroll / perSlide));
         
         if(slideProgress > 0.3 && !modal.classList.contains('show')){
