@@ -255,39 +255,24 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .sc-page-inner{
   position:absolute; inset:0;
-  display:flex; flex-direction:column;
   z-index:0;
 }
 .sc-bg-layer{
   position:absolute; inset:0;
   background: #FFFFFF url('stylechallenge1.png') center/cover no-repeat;
   z-index:0;
+  pointer-events:none;
 }
 .sc-content{
-  position:relative; z-index:1;
-  width:100%; height:100%;
+  position:absolute; inset:0; z-index:1;
   display:flex; flex-direction:column;
-  overflow:hidden; pointer-events:all;
+  justify-content:center;
+  overflow:hidden;
 }
-.sc-header{
-  padding: 72px 56px 0;
-  display:flex; align-items:flex-end; gap:18px;
-  flex-shrink:0;
-}
-.sc-title{
-  font-family:'StackSansNotch',sans-serif;
-  font-size: clamp(48px,6.5vw,96px);
-  font-weight:800; letter-spacing:-0.02em; line-height:1; color:#000;
-}
-.sc-year{
-  font-family:'StackSansNotch',sans-serif;
-  font-size: clamp(22px,2.8vw,42px);
-  font-weight:700; color:#4ABFBF;
-  letter-spacing:0.02em; line-height:1; margin-bottom:0.15em;
-}
+
 .sc-gallery-wrap{
-  flex:1; display:flex; align-items:center;
-  padding: 42px 0 60px; overflow:visible;
+  display:flex; align-items:center;
+  padding: 0; overflow:visible;
 }
 .sc-gallery{
   display:flex; gap:20px; padding: 0 56px 20px;
@@ -1118,10 +1103,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     <div class="sc-bg-layer"></div>
     <!-- 콘텐츠 레이어 -->
     <div class="sc-content">
-      <div class="sc-header">
-        <span class="sc-title">STYLE CHALLENGE</span>
-        <span class="sc-year">'25-'26</span>
-      </div>
       <div class="sc-gallery-wrap">
         <div class="sc-gallery" id="scGallery">
 
