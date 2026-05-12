@@ -269,12 +269,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .sc-gallery-wrap{
   position:absolute;
-  bottom:60px; left:0; right:0;
+  bottom:80px; left:0; right:0;
   display:flex; align-items:flex-end;
   overflow:visible; z-index:2;
 }
 .sc-gallery{
-  display:flex; gap:35px; padding: 0 56px 20px;
+  display:flex; gap:65px; padding: 0 56px 20px;
   overflow-x:auto; overflow-y:visible;
   scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
   cursor:grab; scrollbar-width:none;
@@ -283,7 +283,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sc-gallery.dragging{cursor:grabbing; scroll-behavior:auto;}
 .sc-card{
   flex-shrink:0;
-  width: clamp(150px, calc(65vh * 9 / 16), 260px);
+  width: calc(55vh * 9 / 16);
   aspect-ratio: 9/16;
   position:relative; border-radius:10px;
   /* overflow:hidden 제거 — 호버 확대 시 짤림 방지 */
