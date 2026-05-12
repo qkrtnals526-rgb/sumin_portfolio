@@ -302,7 +302,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sc-card:hover .sc-card-thumb{ transform: none; }
 .sc-card-overlay{
   position:absolute; inset:0;
-  background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 50%, transparent 75%);
+  background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 35%, rgba(0,0,0,0.1) 65%, transparent 100%);
   border-radius:10px;
   opacity:0; transition: opacity 0.3s ease;
   display:flex; flex-direction:column; justify-content:flex-end;
@@ -353,6 +353,35 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .sc-modal-info-name{ font-size:18px; font-weight:700; margin-bottom:3px; }
 .sc-modal-info-date{ font-size:12px; opacity:0.65; letter-spacing:0.06em; }
+/* SC 가로 스크롤 힌트 */
+.sc-scroll-hint{
+  position:absolute;
+  bottom:44px; right:48px;
+  display:flex; align-items:center; gap:8px;
+  opacity:0.55; z-index:10;
+  pointer-events:none;
+  animation: scHintBounce 2s ease-in-out infinite;
+}
+@keyframes scHintBounce{
+  0%,100%{ transform:translateX(0); }
+  50%{ transform:translateX(6px); }
+}
+.sc-hint-text{
+  font-family:'StackSansNotch',sans-serif;
+  font-size:10px; font-weight:400;
+  color:#000; letter-spacing:0.14em;
+  text-transform:uppercase;
+  writing-mode:horizontal-tb;
+}
+.sc-hint-line{
+  width:36px; height:1px; background:#000;
+}
+.sc-hint-arrow{
+  width:0; height:0;
+  border-top:4px solid transparent;
+  border-bottom:4px solid transparent;
+  border-left:6px solid #000;
+}
 /* ── STYLE CHALLENGE END ──────────────────────────────── */
 
 /* 슬라이드 opacity는 JS가 제어 */
@@ -1179,6 +1208,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
 
         </div>
+      </div>
+      <!-- 가로 스크롤 힌트 -->
+      <div class="sc-scroll-hint">
+        <span class="sc-hint-text">Slide</span>
+        <div class="sc-hint-line"></div>
+        <div class="sc-hint-arrow"></div>
       </div>
     </div>
   </div>
