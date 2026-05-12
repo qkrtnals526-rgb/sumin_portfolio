@@ -1242,6 +1242,7 @@ if(location.hash) history.replaceState(null, '', location.pathname);
 const feAudio = new Audio('1.mp4');
 feAudio.loop = true;
 feAudio.preload = 'auto';
+let feAudioReady = false; // 유저 클릭 후 true
 // 브라우저 autoplay 정책: 첫 유저 인터랙션 후 재생 대기열
 let feAudioPending = false;
 document.addEventListener('click', function onFirstClick(){
@@ -1341,18 +1342,17 @@ function openDetail(pageName){
   updateCatLinks(page, pageName);
   page.querySelectorAll('.detail-inline-cats').forEach(c=>c.classList.remove('show'));
   updateDetailNavColor(page);
-  // Fashion Editorial 열 때 BGM 재생
-  if(pageName === 'fashion-editorial'){
-    feAudio.currentTime = 0;
-    feAudio.play().then(()=>{
-      feAudioPending = false;
-    }).catch(()=>{
-      feAudioPending = true; // 첫 클릭 시 재생
-    });
-    const btn = document.getElementById('fe-sound-btn');
-    if(btn){
-      btn.querySelector('.sound-icon-off').style.display = 'none';
-      btn.querySelector('.sound-icon-on').style.display = 'block';
+  // Fashion Editorial 이외 페이지 열 때 BGM 정지
+  if(pageName !== 'fashion-editorial'){
+    // 다른 페이지 열 때 BGM 정지
+    if(!feAudio.paused){
+      feAudio.pause();
+      feAudio.currentTime = 0;
+      const btn = document.getElementById('fe-sound-btn');
+      if(btn){
+        btn.querySelector('.sound-icon-off').style.display = 'block';
+        btn.querySelector('.sound-icon-on').style.display = 'none';
+      }
     }
   }
 }
@@ -1494,6 +1494,8 @@ document.querySelectorAll('.wcard')[0].addEventListener('click',function(){
 });
 // Attach click to second wcard (Fashion Editorial)
 document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
+  feAudio.currentTime = 0;
+  feAudioReady = true; // 유저 클릭 컨텍스트 기억
   openDetail('fashion-editorial');
 });
 // Attach click to fifth wcard (Promotional Content)
@@ -1675,13 +1677,19 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
         activeHint.style.opacity = isLast ? '0' : '0.5';
       }
 
-      // 사운드 자동 음소거
-      // FE slide1 벗어나면 BGM 정지
+      // FE BGM 제어: 작업 슬라이드(intro 아닌 슬라이드)일 때만 소리
       const sndBtn = document.getElementById('fe-sound-btn');
-      if(sndBtn && currentIndex !== 0 && !feAudio.paused){
-        feAudio.pause();
-        sndBtn.querySelector('.sound-icon-off').style.display = 'block';
-        sndBtn.querySelector('.sound-icon-on').style.display = 'none';
+      if(sndBtn && scene.id === 'fe-scene'){
+        const isWorkSlide = !slides[currentIndex].classList.contains('detail-slide-intro');
+        if(isWorkSlide && feAudio.paused && feAudioReady){
+          feAudio.play().catch(()=>{});
+          sndBtn.querySelector('.sound-icon-off').style.display = 'none';
+          sndBtn.querySelector('.sound-icon-on').style.display = 'block';
+        } else if(!isWorkSlide && !feAudio.paused){
+          feAudio.pause();
+          sndBtn.querySelector('.sound-icon-off').style.display = 'block';
+          sndBtn.querySelector('.sound-icon-on').style.display = 'none';
+        }
       }
 
       // 다크/라이트 네비
