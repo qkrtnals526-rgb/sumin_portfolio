@@ -218,7 +218,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 /* 스크롤 높이를 만들어주는 스페이서 */
 .detail-spacer{
-  height:500vh; /* 스크롤 감도 조절: 높을수록 천천히 */
+  height:300vh; /* 스크롤 감도 조절: 높을수록 천천히 */
   pointer-events:none;
 }
 
@@ -1189,16 +1189,16 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
         let slideLocalScroll = scrollTop - (rawIndex * perSlide);
         let slideProgress = Math.max(0, Math.min(1, slideLocalScroll / perSlide));
         
-        // 작업 → 다음 인트로 전환 시 dead zone: 80% 이후에만 넘어감
+        // 작업 → 다음 인트로 전환 시 dead zone: 92% 이후에만 넘어감
         const nextEl = rawIndex + 1 < slideCount ? slides[rawIndex + 1] : null;
         const curIsWork = !slides[rawIndex].classList.contains('detail-slide-intro');
         const nextIsIntro = nextEl && nextEl.classList.contains('detail-slide-intro');
-        if(curIsWork && nextIsIntro && slideProgress >= 0.8){
-          // 80~100%를 0~100%로 리매핑해서 다음 슬라이드로 전환
+        if(curIsWork && nextIsIntro && slideProgress >= 0.92){
+          // 92~100%를 0~100%로 리매핑해서 다음 슬라이드로 전환
           rawIndex = rawIndex + 1;
-          slideProgress = (slideProgress - 0.8) / 0.2;
+          slideProgress = (slideProgress - 0.92) / 0.08;
           slideLocalScroll = slideProgress * perSlide;
-        } else if(curIsWork && nextIsIntro && slideProgress < 0.8){
+        } else if(curIsWork && nextIsIntro && slideProgress < 0.92){
           // 아직 전환하지 않음, 현재 슬라이드 유지
         }
         const currentIndex = rawIndex;
@@ -1294,7 +1294,8 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
         
       } else if(slideCount > 1){
         // AI Creative식 전환 (스트립 없음)
-        const progress = scrollTop / vh;
+        // 슬라이드당 0.5vh — 스크롤 2번에 다음 슬라이드로 전환
+        const progress = scrollTop / (vh * 0.5);
         const currentIndex = Math.min(Math.floor(progress), slideCount - 1);
         const localProgress = progress - currentIndex;
         slides.forEach((slide, i) => {
@@ -1389,7 +1390,7 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
         });
         if(totalRatio > 0){
           const isFE = scene.id === 'fe-scene';
-          const multiplier = isFE ? 650 : 250;
+          const multiplier = isFE ? 1100 : 500;
           spacer.style.height = Math.round(totalRatio * multiplier) + 'vh';
         }
       };
