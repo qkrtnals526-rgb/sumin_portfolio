@@ -1215,12 +1215,17 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
         len = introCount === 0 ? INTRO_FIRST_PX() : INTRO_REST_PX();
         introCount++;
       } else if(hasStrips){
+        // 스트립 아이템 개수 × 고정 px — 로드 전후 일관성 보장
+        // 각 아이템이 프레임 높이만큼이라고 가정, 거기에 STRIP_SLOW 배율 적용
         const strip = slide.querySelector('.detail-scroll-strip');
+        const itemCount = strip ? strip.children.length : 1;
         const frame = strip ? strip.parentElement : null;
         const frameH = frame ? frame.offsetHeight : vh();
-        const stripH = strip ? strip.scrollHeight : frameH;
-        const overflow = Math.max(0, stripH - frameH);
-        len = Math.max(overflow * STRIP_SLOW, STRIP_MIN());
+        // frameH가 0이면 vh 사용 (페이지 열기 전 상태)
+        const unitH = frameH > 10 ? frameH : vh() * 0.6;
+        // 아이템이 프레임을 넘치는 개수만큼 × 배율
+        const overflowItems = Math.max(1, itemCount - 1);
+        len = overflowItems * unitH * STRIP_SLOW;
       } else {
         len = NONSTRIP_PX();
       }
@@ -1230,12 +1235,16 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
     return segs;
   }
 
+  // ── 세그먼트 캐시 (scene별) ──────────────────────────────────────
+  const segCache = new WeakMap();
+
   // ── 스페이서 높이 세팅 ────────────────────────────────────────────
   function applySpacers(){
     document.querySelectorAll('.detail-scene').forEach(scene => {
       const spacer = scene.querySelector('.detail-spacer');
       if(!spacer) return;
       const segs = buildSegments(scene);
+      segCache.set(scene, segs);
       if(!segs.length) return;
       const last = segs[segs.length-1];
       const total = last.start + last.len + vh();
@@ -1243,16 +1252,9 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
     });
   }
 
-  // 초기 + 리사이즈 + 미디어 로드 후 재계산
   applySpacers();
   window.addEventListener('resize', applySpacers);
-  setTimeout(applySpacers, 500);
-  setTimeout(applySpacers, 1500);
-  setTimeout(applySpacers, 4000);
-  document.querySelectorAll('.detail-scroll-strip img, .detail-scroll-strip video').forEach(el => {
-    el.addEventListener('load', applySpacers);
-    el.addEventListener('loadedmetadata', applySpacers);
-  });
+  setTimeout(applySpacers, 300);
 
   // ── 스크롤 핸들러 ─────────────────────────────────────────────────
   document.querySelectorAll('.detail-page').forEach(page => {
@@ -1262,7 +1264,7 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
       const slides = Array.from(scene.querySelectorAll('.detail-slide'));
       const slideCount = slides.length;
       const scrollTop = page.scrollTop;
-      const segs = buildSegments(scene);
+      const segs = segCache.get(scene) || buildSegments(scene);
 
       // 현재 슬라이드 인덱스 + 구간 내 progress
       let currentIndex = slideCount - 1;
