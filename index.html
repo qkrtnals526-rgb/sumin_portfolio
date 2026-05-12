@@ -246,7 +246,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 /* ── STYLE CHALLENGE PAGE ────────────────────────────── */
 .sc-page-inner{
-  position:relative; width:100%; height:100vh;
+  position:absolute; inset:0;
   overflow:hidden;
   background:#FFFFFF url('stylechallenge1.png') center/cover no-repeat;
 }
@@ -283,7 +283,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sc-gallery.dragging{cursor:grabbing; scroll-behavior:auto;}
 .sc-card{
   flex-shrink:0;
-  width: 200px;
+  width: clamp(200px, calc(85vh * 9 / 16), 340px);
   aspect-ratio: 9/16;
   position:relative; border-radius:10px;
   /* overflow:hidden 제거 — 호버 확대 시 짤림 방지 */
@@ -1104,7 +1104,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </div>
 
 <!-- STYLE CHALLENGE DETAIL PAGE -->
-<div id="page-style-challenge" class="detail-page" style="background:#FFFFFF;">
+<div id="page-style-challenge" class="detail-page" style="background:#FFFFFF;overflow:hidden;">
   <div class="detail-nav">
     <a class="detail-back" onclick="closeDetail()">← Back</a>
     <div class="detail-menu-wrap">
