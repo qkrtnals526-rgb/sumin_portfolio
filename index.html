@@ -248,9 +248,20 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .detail-slide{
   opacity:0;
   transition:opacity 0.6s ease;
+  z-index:1;
 }
 .detail-slide.active{
   opacity:1;
+}
+/* 인트로 슬라이드는 항상 뒤에 깔림 */
+.detail-slide-intro{
+  z-index:0!important;
+}
+/* 인트로 다음 슬라이드: 위에서 내려오는 효과 */
+.detail-slide.slide-down{
+  opacity:1;
+  z-index:2;
+  transition:none;
 }
 
 
@@ -1181,8 +1192,34 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
         const slideProgress = Math.max(0, Math.min(1, slideLocalScroll / perSlide));
         
         slides.forEach((slide, i) => {
-          if(i === currentIndex) slide.classList.add('active');
-          else slide.classList.remove('active');
+          const isIntro = slide.classList.contains('detail-slide-intro');
+          const prevSlide = i > 0 ? slides[i-1] : null;
+          const prevIsIntro = prevSlide && prevSlide.classList.contains('detail-slide-intro');
+          
+          if(isIntro && i === currentIndex && i + 1 < slideCount){
+            slide.classList.add('active');
+            slide.classList.remove('slide-down');
+            slide.style.transform = '';
+            const nextSlide = slides[i+1];
+            const coverProgress = Math.max(0, Math.min(1, slideProgress * 2.5));
+            const yOffset = (1 - coverProgress) * 100;
+            nextSlide.classList.add('slide-down');
+            nextSlide.style.transform = `translateY(${yOffset}%)`;
+          } else if(prevIsIntro && i === currentIndex){
+            slide.classList.add('active');
+            slide.classList.remove('slide-down');
+            slide.style.transform = 'translateY(0)';
+          } else if(i === currentIndex){
+            slide.classList.add('active');
+            slide.classList.remove('slide-down');
+            slide.style.transform = '';
+          } else if(prevIsIntro && i === currentIndex + 1){
+            // 인트로에서 위에서 처리 중
+          } else {
+            slide.classList.remove('active');
+            slide.classList.remove('slide-down');
+            slide.style.transform = '';
+          }
           // 각 슬라이드의 스트립 제어
           const strip = slide.querySelector('.detail-scroll-strip');
           if(strip){
@@ -1241,14 +1278,44 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
         }
         
       } else if(slideCount > 1){
-        // AI Creative식 페이드 전환 (스트립 없음)
+        // AI Creative식 전환 (스트립 없음)
         const progress = scrollTop / vh;
         const currentIndex = Math.min(Math.floor(progress), slideCount - 1);
+        const localProgress = progress - currentIndex;
         slides.forEach((slide, i) => {
-          if(i === currentIndex) slide.classList.add('active');
-          else slide.classList.remove('active');
+          const isIntro = slide.classList.contains('detail-slide-intro');
+          const prevSlide = i > 0 ? slides[i-1] : null;
+          const prevIsIntro = prevSlide && prevSlide.classList.contains('detail-slide-intro');
+          
+          if(isIntro && i === currentIndex && i + 1 < slideCount){
+            slide.classList.add('active');
+            slide.classList.remove('slide-down');
+            slide.style.transform = '';
+            const nextSlide = slides[i+1];
+            const coverProgress = Math.max(0, Math.min(1, localProgress * 2.5));
+            const yOffset = (1 - coverProgress) * 100;
+            nextSlide.classList.add('slide-down');
+            nextSlide.style.transform = `translateY(${yOffset}%)`;
+          } else if(prevIsIntro && i === currentIndex){
+            slide.classList.add('active');
+            slide.classList.remove('slide-down');
+            slide.style.transform = 'translateY(0)';
+          } else if(i === currentIndex){
+            slide.classList.add('active');
+            slide.classList.remove('slide-down');
+            slide.style.transform = '';
+          } else if(prevIsIntro && i === currentIndex + 1){
+            // 인트로에서 처리 중
+          } else {
+            slide.classList.remove('active');
+            slide.classList.remove('slide-down');
+            slide.style.transform = '';
+          }
         });
-        const hint = scene.querySelector('.detail-scroll-hint');
+        const activeSlide2 = slides[currentIndex];
+        const hint = activeSlide2 ? activeSlide2.querySelector('.detail-scroll-hint') : scene.querySelector('.detail-scroll-hint');
+        const allHints2 = scene.querySelectorAll('.detail-scroll-hint');
+        allHints2.forEach(h => h.style.opacity = '0');
         if(hint) hint.style.opacity = currentIndex >= slideCount - 1 ? '0' : '0.5';
       }
       
