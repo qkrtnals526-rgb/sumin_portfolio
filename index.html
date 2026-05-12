@@ -617,10 +617,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <nav id="nav">
   <div class="nav-datetime" id="navTime"></div>
   <div class="nav-right">
-    <a href="#s-cover" class="nav-portfolio">PORTFOLIO</a>
+    <a href="javascript:void(0)" onclick="document.getElementById('s-cover').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)" class="nav-portfolio">PORTFOLIO</a>
     <div class="nav-links">
-      <a href="#s-about2">About</a>
-      <a href="#s-work2">Work</a>
+      <a href="javascript:void(0)" onclick="document.getElementById('s-about2').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">About</a>
+      <a href="javascript:void(0)" onclick="document.getElementById('s-work2').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">Work</a>
     </div>
   </div>
 </nav>
@@ -1234,6 +1234,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </div>
 
 <script>
+
+/* URL 해시 제거 */
+if(location.hash) history.replaceState(null, '', location.pathname);
+
 /* CLOCK */
 function updateClock(){
   const now=new Date();
