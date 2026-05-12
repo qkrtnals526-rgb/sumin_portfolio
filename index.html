@@ -356,31 +356,30 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* SC 가로 스크롤 힌트 */
 .sc-scroll-hint{
   position:absolute;
-  bottom:40px; right:48px;
-  display:flex; flex-direction:row; align-items:center; gap:6px;
-  opacity:0.5; z-index:10;
+  bottom:14px; right:48px;
+  display:flex; flex-direction:row; align-items:center; gap:8px;
+  opacity:0.45; z-index:10;
   pointer-events:none;
   animation: scHintBounce 2s ease-in-out infinite;
 }
 @keyframes scHintBounce{
   0%,100%{ transform:translateX(0); }
-  50%{ transform:translateX(6px); }
+  50%{ transform:translateX(7px); }
 }
 .sc-hint-text{
   font-family:'StackSansNotch',sans-serif;
   font-size:10px; font-weight:400;
   color:#000; letter-spacing:0.12em;
   text-transform:uppercase;
-  writing-mode:vertical-rl;
-  transform:rotate(180deg);
+  writing-mode:horizontal-tb;
 }
 .sc-hint-line{
-  width:1px; height:32px; background:#000; opacity:0.4;
+  width:32px; height:1px; background:#000; opacity:0.5;
 }
 .sc-hint-arrow{
   width:8px; height:8px;
   border-right:1px solid #000; border-bottom:1px solid #000;
-  transform:rotate(-45deg); opacity:0.4;
+  transform:rotate(-45deg); opacity:0.5;
 }
 /* ── STYLE CHALLENGE END ──────────────────────────────── */
 
