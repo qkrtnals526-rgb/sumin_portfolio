@@ -218,7 +218,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 /* 스크롤 높이를 만들어주는 스페이서 */
 .detail-spacer{
-  height:360vh; /* 스크롤 감도 조절: 높을수록 천천히 */
+  height:500vh; /* 스크롤 감도 조절: 높을수록 천천히 */
   pointer-events:none;
 }
 
@@ -589,12 +589,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
             <video class="detail-video-raw" src="spring.mp4" autoplay loop muted playsinline></video>
           </div>
         </div>
-      </div>
-      <!-- 스크롤 힌트 -->
-      <div class="detail-scroll-hint" id="ai-scroll-hint" style="bottom:9%;">
-        <span class="scroll-hint-text">Scroll</span>
-        <div class="scroll-hint-line"></div>
-        <div class="scroll-hint-arrow"></div>
       </div>
     </div>
     <!-- 스크롤 높이용 스페이서 -->
@@ -1197,8 +1191,8 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
             const stripH = strip.scrollHeight;
             const maxShift = Math.max(0, stripH - frameH);
             if(i === currentIndex){
-              // 작업 슬라이드 진입 시 딜레이: 앞 15% 구간은 스트립 정지
-              const deadZone = 0.15;
+              // 작업 슬라이드 진입 시 딜레이: 앞 25% 구간은 스트립 정지
+              const deadZone = 0.25;
               const adjustedProgress = Math.max(0, (slideProgress - deadZone) / (1 - deadZone));
               strip.style.transform = `translateY(-${adjustedProgress * maxShift}px)`;
             } else if(i < currentIndex){
@@ -1312,7 +1306,7 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
           }
         });
         if(totalRatio > 0){
-          spacer.style.height = Math.round(totalRatio * 180) + 'vh';
+          spacer.style.height = Math.round(totalRatio * 250) + 'vh';
         }
       };
       setTimeout(check, 500);
