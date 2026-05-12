@@ -589,11 +589,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 /* 사운드 토글 버튼 */
 .sound-toggle{
-  position:sticky;
-  bottom:12px;
-  float:right;
-  margin-right:12px;
-  z-index:50;
+  position:absolute;
+  /* detail-video-wrap 우측 하단에 맞춤 */
+  right: calc(100% - 58.07% - 32.42% + 12px);
+  bottom: calc(7% + 12px);
+  z-index:20;
   width:36px;height:36px;
   border-radius:50%;
   background:rgba(0,0,0,0.55);
@@ -603,7 +603,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   display:flex;align-items:center;justify-content:center;
   transition:background 0.2s;
   backdrop-filter:blur(8px);
-  pointer-events:all;
 }
 .sound-toggle:hover{background:rgba(0,0,0,0.8);}
 
@@ -805,17 +804,17 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="14.png" alt="">
               <img src="15.jpg" alt="">
             </div>
-            <!-- 사운드 토글 버튼 — 프레임 하단 우측 -->
-            <button class="sound-toggle" id="fe-sound-btn" onclick="toggleSound()">
-              <svg class="sound-icon-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-              <svg class="sound-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-            </button>
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
             <div class="scroll-hint-line" style="background:#fff;"></div>
             <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
           </div>
+          <!-- 사운드 토글 버튼: detail-slide-inner 직접 자식, 프레임 우측 하단 -->
+          <button class="sound-toggle" id="fe-sound-btn" onclick="toggleSound()">
+            <svg class="sound-icon-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            <svg class="sound-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          </button>
         </div>
       </div>
       <!-- Intro 2 -->
@@ -1051,6 +1050,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
             <div class="scroll-hint-line" style="background:#fff;"></div>
             <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
           </div>
+          <!-- 사운드 토글 버튼: detail-slide-inner 직접 자식, 프레임 우측 하단 -->
+          <button class="sound-toggle" id="fe-sound-btn" onclick="toggleSound()">
+            <svg class="sound-icon-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            <svg class="sound-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          </button>
         </div>
       </div>
       <!-- Intro 2 -->
