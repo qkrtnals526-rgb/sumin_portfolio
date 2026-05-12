@@ -106,10 +106,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   display:none;position:fixed;inset:0;z-index:1000;
   background:#fff;overflow-y:auto;overflow-x:hidden;
 }
-#page-style-challenge{
-  overflow:hidden !important;
-  background:#fff !important;
-}
 .detail-page.open{display:block;}
 
 /* 스크롤 힌트 아이콘 — 영상 우측 */
@@ -249,68 +245,73 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 
 /* ── STYLE CHALLENGE PAGE ────────────────────────────── */
-#page-style-challenge{
-  background:#FFFFFF !important;
-  overflow:hidden !important;
-}
 .sc-page-inner{
-  position:absolute; inset:0;
-  z-index:0;
+  position:relative; width:100%; min-height:100vh;
+  overflow:hidden; display:flex; flex-direction:column;
+  background:#FFFFFF url('stylechallenge1.png') center/cover no-repeat;
 }
-.sc-bg-layer{
-  position:absolute; inset:0;
-  background: #FFFFFF url('stylechallenge1.png') center/cover no-repeat;
-  z-index:0;
-  pointer-events:none;
+.sc-bg{ display:none; }
+.sc-header{
+  position:relative; z-index:2;
+  padding: 72px 56px 0;
+  display:flex; align-items:flex-end; gap:18px;
 }
-.sc-content{
-  position:absolute; inset:0; z-index:1;
-  display:flex; flex-direction:column;
-  justify-content:flex-end;
-  overflow:hidden;
-  padding-bottom:40px;
+.sc-title{
+  font-family:'StackSansNotch',sans-serif;
+  font-size: clamp(48px,6.5vw,96px);
+  font-weight:800; letter-spacing:-0.02em; line-height:1; color:#000;
 }
-
+.sc-year{
+  font-family:'StackSansNotch',sans-serif;
+  font-size: clamp(22px,2.8vw,42px);
+  font-weight:700; color:#4ABFBF;
+  letter-spacing:0.02em; line-height:1; margin-bottom:0.15em;
+}
 .sc-gallery-wrap{
-  display:flex; align-items:flex-end;
-  overflow:visible;
+  position:relative; z-index:2;
+  flex:1; display:flex; align-items:center;
+  padding: 42px 0 60px; overflow:visible;
 }
 .sc-gallery{
-  display:flex; gap:35px; padding: 0 56px 20px;
+  display:flex; gap:20px; padding: 0 56px 20px;
   overflow-x:auto; overflow-y:visible;
   scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
-  cursor:grab; scrollbar-width:none; width:100%;
+  cursor:grab; scrollbar-width:none;
 }
 .sc-gallery::-webkit-scrollbar{display:none;}
 .sc-gallery.dragging{cursor:grabbing; scroll-behavior:auto;}
 .sc-card{
   flex-shrink:0;
-  width: clamp(180px, 20vw, 300px);
+  width: calc((100vw - 192px) / 3);
   aspect-ratio: 9/16;
   position:relative; border-radius:10px;
+  /* overflow:hidden 제거 — 호버 확대 시 짤림 방지 */
   cursor:pointer;
   transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease;
 }
 .sc-card:hover{
-  box-shadow: 0 12px 32px rgba(0,0,0,0.22); z-index:10;
+  transform: scale(1.06) translateY(-6px);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.22); z-index:10;
 }
 .sc-card-thumb{
   width:100%; height:100%; object-fit:cover; display:block;
   border-radius:10px;
   transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
 }
-.sc-card:hover .sc-card-thumb{ transform: none; }
+.sc-card:hover .sc-card-thumb{ transform: scale(1.07); }
 .sc-card-overlay{
   position:absolute; inset:0;
-  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.4) 40%, transparent 70%);
+  background: linear-gradient(0deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.3) 45%, transparent 70%);
   border-radius:10px;
   opacity:0; transition: opacity 0.3s ease;
   display:flex; flex-direction:column; justify-content:flex-end;
   padding: 20px 16px; gap:10px;
+  overflow:hidden;
 }
 .sc-card:hover .sc-card-overlay{ opacity:1; }
 .sc-card-info{ color:#fff; }
-.sc-card-name{ font-family:'Pretendard',sans-serif; font-size:clamp(15px,1.4vw,20px); font-weight:600; line-height:1.2; letter-spacing:-0.01em; margin-bottom:4px; }
+.sc-card-num{ font-size:10px; font-weight:500; letter-spacing:0.12em; opacity:0.6; margin-bottom:4px; text-transform:uppercase; }
+.sc-card-name{ font-family:'Pretendard',sans-serif; font-size:clamp(15px,1.4vw,20px); font-weight:600; line-height:1.2; letter-spacing:-0.01em; margin-bottom:3px; }
 .sc-card-date{ font-family:'Pretendard',sans-serif; font-size:12px; font-weight:400; letter-spacing:0.06em; opacity:0.7; }
 .sc-card-btn{
   align-self:flex-start;
@@ -330,7 +331,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sc-modal.open{ opacity:1; pointer-events:all; }
 .sc-modal-inner{
   position:relative;
-  width: min(88vw, calc(88vh * 9/16));
+  width: min(92vw, calc(92vh * 9/16));
   aspect-ratio: 9/16; border-radius:12px;
   overflow:hidden; background:#000;
   transform: scale(0.92);
@@ -353,34 +354,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .sc-modal-info-name{ font-size:18px; font-weight:700; margin-bottom:3px; }
 .sc-modal-info-date{ font-size:12px; opacity:0.65; letter-spacing:0.06em; }
-/* SC 가로 스크롤 힌트 */
-.sc-scroll-hint{
-  position:absolute;
-  bottom:14px; right:48px;
-  display:flex; flex-direction:row; align-items:center; gap:8px;
-  opacity:0.45; z-index:10;
-  pointer-events:none;
-  animation: scHintBounce 2s ease-in-out infinite;
-}
-@keyframes scHintBounce{
-  0%,100%{ transform:translateX(0); }
-  50%{ transform:translateX(7px); }
-}
-.sc-hint-text{
-  font-family:'StackSansNotch',sans-serif;
-  font-size:10px; font-weight:400;
-  color:#000; letter-spacing:0.12em;
-  text-transform:uppercase;
-  writing-mode:horizontal-tb;
-}
-.sc-hint-line{
-  width:32px; height:1px; background:#000; opacity:0.5;
-}
-.sc-hint-arrow{
-  width:8px; height:8px;
-  border-right:1px solid #000; border-bottom:1px solid #000;
-  transform:rotate(-45deg); opacity:0.5;
-}
 /* ── STYLE CHALLENGE END ──────────────────────────────── */
 
 /* 슬라이드 opacity는 JS가 제어 */
@@ -590,7 +563,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* 사운드 토글 버튼 */
 
 
-
 @keyframes dRevealVideo{
   from{opacity:0;transform:translateY(20px) scale(0.98);}
   to{opacity:1;transform:translateY(0) scale(1);}
@@ -604,10 +576,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <nav id="nav">
   <div class="nav-datetime" id="navTime"></div>
   <div class="nav-right">
-    <a href="javascript:void(0)" onclick="document.getElementById('s-cover').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)" class="nav-portfolio">PORTFOLIO</a>
+    <a href="#s-cover" class="nav-portfolio">PORTFOLIO</a>
     <div class="nav-links">
-      <a href="javascript:void(0)" onclick="document.getElementById('s-about2').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">About</a>
-      <a href="javascript:void(0)" onclick="document.getElementById('s-work2').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">Work</a>
+      <a href="#s-about2">About</a>
+      <a href="#s-work2">Work</a>
     </div>
   </div>
 </nav>
@@ -682,7 +654,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="1" style="background:#E5E5E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative.png" alt="AI Creative 01">
-          <div class="detail-scroll-hint" style="bottom:9%;"><span class="scroll-hint-text">Scroll</span><div class="scroll-hint-line"></div><div class="scroll-hint-arrow"></div></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -703,7 +674,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="3" style="background:#DEE1E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative2.png" alt="AI Creative 02">
-          <div class="detail-scroll-hint" style="bottom:9%;"><span class="scroll-hint-text">Scroll</span><div class="scroll-hint-line"></div><div class="scroll-hint-arrow"></div></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="global.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -724,7 +694,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="5" style="background:#FAFFE6;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative3.png" alt="AI Creative 03">
-          <div class="detail-scroll-hint" style="bottom:9%;"><span class="scroll-hint-text">Scroll</span><div class="scroll-hint-line"></div><div class="scroll-hint-arrow"></div></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="spring.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -789,13 +758,13 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="14.png" alt="">
               <img src="15.jpg" alt="">
             </div>
+
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
             <div class="scroll-hint-line" style="background:#fff;"></div>
             <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
           </div>
-
         </div>
       </div>
       <!-- Intro 2 -->
@@ -919,7 +888,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     <!-- 스크롤 스페이서 -->
     <div class="detail-spacer" id="fe-spacer"></div>
   </div>
-
 </div>
 
 <!-- PROMOTIONAL CONTENT DETAIL PAGE -->
@@ -1032,7 +1000,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
             <div class="scroll-hint-line" style="background:#fff;"></div>
             <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
           </div>
-
         </div>
       </div>
       <!-- Intro 2 -->
@@ -1095,9 +1062,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </div>
 
 <!-- STYLE CHALLENGE DETAIL PAGE -->
-<div id="page-style-challenge" class="detail-page">
-  <!-- 네비 — 배경 위에 떠있음 -->
-  <div class="detail-nav" style="position:fixed;top:0;left:0;right:0;z-index:1002;background:transparent;">
+<div id="page-style-challenge" class="detail-page" style="background:#FFFFFF;">
+  <div class="detail-nav">
     <a class="detail-back" onclick="closeDetail()">← Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
@@ -1113,94 +1079,86 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 
-  <!-- 페이지 전체 래퍼 — fixed fullscreen -->
   <div class="sc-page-inner">
-    <!-- 배경 레이어 -->
-    <div class="sc-bg-layer"></div>
-    <!-- 콘텐츠 레이어 -->
-    <div class="sc-content">
-      <div class="sc-gallery-wrap">
-        <div class="sc-gallery" id="scGallery">
+    <div class="sc-header">
+      <span class="sc-title">STYLE CHALLENGE</span>
+      <span class="sc-year">'25-'26</span>
+    </div>
+    <div class="sc-gallery-wrap">
+      <div class="sc-gallery" id="scGallery">
 
-          <!-- 01 새봄 -->
-          <div class="sc-card" onclick="openScModal('saebom.mp4','새봄 챌린지','2026.04.03')">
-            <img class="sc-card-thumb" src="saebom.jpg" alt="새봄 챌린지">
-            <div class="sc-card-overlay">
-              <div class="sc-card-info">
-                <div class="sc-card-name">새봄 챌린지</div>
-                <div class="sc-card-date">2026.04.03</div>
-              </div>
-              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('saebom.mp4','새봄 챌린지','2026.04.03')">VIEW</button>
+        <!-- 01 새봄 -->
+        <div class="sc-card" onclick="openScModal('saebom.mp4','새봄 챌린지','2026.04.03')">
+          <img class="sc-card-thumb" src="saebom.jpg" alt="새봄 챌린지">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-name">새봄 챌린지</div>
+              <div class="sc-card-date">2026.04.03</div>
             </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('saebom.mp4','새봄 챌린지','2026.04.03')">VIEW</button>
           </div>
-
-          <!-- 02 블랙 -->
-          <div class="sc-card" onclick="openScModal('black.mp4','블랙크림 챌린지','2025.11.07')">
-            <img class="sc-card-thumb" src="black.jpg" alt="블랙크림 챌린지">
-            <div class="sc-card-overlay">
-              <div class="sc-card-info">
-                <div class="sc-card-name">블랙크림 챌린지</div>
-                <div class="sc-card-date">2025.11.07</div>
-              </div>
-              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('black.mp4','블랙크림 챌린지','2025.11.07')">VIEW</button>
-            </div>
-          </div>
-
-          <!-- 03 밀로 -->
-          <div class="sc-card" onclick="openScModal('millo.mp4','MILLO CHALLENGE','2026.01.22')">
-            <img class="sc-card-thumb" src="millo.jpg" alt="MILLO CHALLENGE">
-            <div class="sc-card-overlay">
-              <div class="sc-card-info">
-                <div class="sc-card-name">MILLO CHALLENGE</div>
-                <div class="sc-card-date">2026.01.22</div>
-              </div>
-              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('millo.mp4','MILLO CHALLENGE','2026.01.22')">VIEW</button>
-            </div>
-          </div>
-
-          <!-- 04 aeae -->
-          <div class="sc-card" onclick="openScModal('aeae.mp4','AEAE CHALLENGE','2025.05.15')">
-            <img class="sc-card-thumb" src="aeae.jpg" alt="AEAE CHALLENGE">
-            <div class="sc-card-overlay">
-              <div class="sc-card-info">
-                <div class="sc-card-name">AEAE CHALLENGE</div>
-                <div class="sc-card-date">2025.05.15</div>
-              </div>
-              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('aeae.mp4','AEAE CHALLENGE','2025.05.15')">VIEW</button>
-            </div>
-          </div>
-
-          <!-- 05 달맞이 -->
-          <div class="sc-card" onclick="openScModal('dalmaji.mp4','달맞이 챌린지','2025.10.02')">
-            <img class="sc-card-thumb" src="dalmaji.jpg" alt="달맞이 챌린지">
-            <div class="sc-card-overlay">
-              <div class="sc-card-info">
-                <div class="sc-card-name">달맞이 챌린지</div>
-                <div class="sc-card-date">2025.10.02</div>
-              </div>
-              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('dalmaji.mp4','달맞이 챌린지','2025.10.02')">VIEW</button>
-            </div>
-          </div>
-
-          <!-- 06 라스트 -->
-          <div class="sc-card" onclick="openScModal('lastone.mp4','LASTONE CHALLENGE','2025.08.13')">
-            <img class="sc-card-thumb" src="lastone.jpg" alt="LASTONE CHALLENGE">
-            <div class="sc-card-overlay">
-              <div class="sc-card-info">
-                <div class="sc-card-name">LASTONE CHALLENGE</div>
-                <div class="sc-card-date">2025.08.13</div>
-              </div>
-              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('lastone.mp4','LASTONE CHALLENGE','2025.08.13')">VIEW</button>
-            </div>
-          </div>
-
         </div>
-      </div>
-      <!-- 가로 스크롤 힌트 -->
-      <div class="sc-scroll-hint">
-        <span class="sc-hint-text">Slide</span>
-        <div class="sc-hint-line"></div>
-        <div class="sc-hint-arrow"></div>
+
+        <!-- 02 블랙 -->
+        <div class="sc-card" onclick="openScModal('black.mp4','블랙크림 챌린지','2025.11.07')">
+          <img class="sc-card-thumb" src="black.jpg" alt="블랙크림 챌린지">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-name">블랙크림 챌린지</div>
+              <div class="sc-card-date">2025.11.07</div>
+            </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('black.mp4','블랙크림 챌린지','2025.11.07')">VIEW</button>
+          </div>
+        </div>
+
+        <!-- 03 밀로 -->
+        <div class="sc-card" onclick="openScModal('millo.mp4','MILLO CHALLENGE','2026.01.22')">
+          <img class="sc-card-thumb" src="millo.jpg" alt="MILLO CHALLENGE">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-name">MILLO CHALLENGE</div>
+              <div class="sc-card-date">2026.01.22</div>
+            </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('millo.mp4','MILLO CHALLENGE','2026.01.22')">VIEW</button>
+          </div>
+        </div>
+
+        <!-- 04 aeae -->
+        <div class="sc-card" onclick="openScModal('aeae.mp4','AEAE CHALLENGE','2025.05.15')">
+          <img class="sc-card-thumb" src="aeae.jpg" alt="AEAE CHALLENGE">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-name">AEAE CHALLENGE</div>
+              <div class="sc-card-date">2025.05.15</div>
+            </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('aeae.mp4','AEAE CHALLENGE','2025.05.15')">VIEW</button>
+          </div>
+        </div>
+
+        <!-- 05 달맞이 -->
+        <div class="sc-card" onclick="openScModal('dalmaji.mp4','달맞이 챌린지','2025.10.02')">
+          <img class="sc-card-thumb" src="dalmaji.jpg" alt="달맞이 챌린지">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-name">달맞이 챌린지</div>
+              <div class="sc-card-date">2025.10.02</div>
+            </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('dalmaji.mp4','달맞이 챌린지','2025.10.02')">VIEW</button>
+          </div>
+        </div>
+
+        <!-- 06 라스트 -->
+        <div class="sc-card" onclick="openScModal('lastone.mp4','LASTONE CHALLENGE','2025.08.13')">
+          <img class="sc-card-thumb" src="lastone.jpg" alt="LASTONE CHALLENGE">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-name">LASTONE CHALLENGE</div>
+              <div class="sc-card-date">2025.08.13</div>
+            </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('lastone.mp4','LASTONE CHALLENGE','2025.08.13')">VIEW</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -1219,16 +1177,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </div>
 
 <script>
-
-/* URL 해시 제거 */
-if(location.hash) history.replaceState(null, '', location.pathname);
-
-/* FE BGM Audio */
+/* FE BGM — data-slide=1 진입 시 자동 재생, 이탈 시 정지 */
 const feAudio = new Audio('1.mp4');
 feAudio.loop = true;
-feAudio.preload = 'auto';
-let feAudioReady = false; // 유저 클릭 후 true
-
+let feAudioReady = false;
 
 /* CLOCK */
 function updateClock(){
@@ -1249,7 +1201,7 @@ const svgPaths={
   content:"M66.5996 43.1C66.1329 49.1 64.5996 54.3666 61.9996 58.9C59.4663 63.4333 55.8996 66.9666 51.2996 69.5C46.7663 71.9666 41.1996 73.2 34.5996 73.2C27.1996 73.2 20.8996 71.5666 15.6996 68.3C10.5663 64.9666 6.66628 60.5333 3.99961 55C1.33294 49.4666 -0.000390522 43.3 -0.000390522 36.5C-0.000390522 31.5 0.732943 26.8 2.19961 22.4C3.73294 17.9333 5.96628 14.0333 8.89961 10.7C11.8329 7.36664 15.4329 4.76664 19.6996 2.89997C24.0329 0.96664 28.9996 -2.64645e-05 34.5996 -2.64645e-05C43.9996 -2.64645e-05 51.3329 2.49997 56.5996 7.49997C61.9329 12.4333 65.1329 19.1 66.1996 27.5H52.6996C52.3663 25.2333 51.7663 23.1666 50.8996 21.3C50.0996 19.3666 48.9663 17.7 47.4996 16.3C46.0996 14.8333 44.3329 13.7 42.1996 12.9C40.1329 12.1 37.5996 11.7 34.5996 11.7C29.7329 11.7 25.6996 12.9 22.4996 15.3C19.3663 17.6333 17.0329 20.7 15.4996 24.5C14.0329 28.2333 13.2996 32.2333 13.2996 36.5C13.2996 40.8333 14.0329 44.9 15.4996 48.7C17.0329 52.5 19.3663 55.6 22.4996 58C25.6996 60.3333 29.7329 61.5 34.5996 61.5C37.8663 61.5 40.5996 61.0333 42.7996 60.1C45.0663 59.1 46.9329 57.7666 48.3996 56.1C49.9329 54.4333 51.0663 52.5 51.7996 50.3C52.5996 48.1 53.0996 45.7 53.2996 43.1H66.5996ZM105.963 73.2C98.5629 73.2 92.2629 71.5666 87.0629 68.3C81.9296 64.9666 78.0296 60.5333 75.3629 55C72.6962 49.4666 71.3629 43.3 71.3629 36.5C71.3629 31.5 72.0962 26.8 73.5629 22.4C75.0962 17.9333 77.3296 14.0333 80.2629 10.7C83.1962 7.36664 86.7962 4.76664 91.0629 2.89997C95.3962 0.96664 100.363 -2.64645e-05 105.963 -2.64645e-05C111.496 -2.64645e-05 116.396 0.96664 120.663 2.89997C124.996 4.76664 128.63 7.36664 131.563 10.7C134.496 14.0333 136.696 17.9333 138.163 22.4C139.696 26.8 140.463 31.5 140.463 36.5C140.463 43.3 139.13 49.4666 136.463 55C133.796 60.5333 129.896 64.9666 124.763 68.3C119.63 71.5666 113.363 73.2 105.963 73.2ZM105.963 61.5C110.83 61.5 114.83 60.3333 117.963 58C121.096 55.6 123.396 52.5 124.863 48.7C126.396 44.9 127.163 40.8333 127.163 36.5C127.163 32.2333 126.396 28.2333 124.863 24.5C123.396 20.7 121.096 17.6333 117.963 15.3C114.83 12.9 110.83 11.7 105.963 11.7C101.096 11.7 97.0629 12.9 93.8629 15.3C90.7296 17.6333 88.3962 20.7 86.8629 24.5C85.3962 28.2333 84.6629 32.2333 84.6629 36.5C84.6629 40.8333 85.3962 44.9 86.8629 48.7C88.3962 52.5 90.7296 55.6 93.8629 58C97.0629 60.3333 101.096 61.5 105.963 61.5ZM186.265 71.6L152.265 1.59997H166.265L200.165 71.6H186.265ZM147.665 1.59997H159.965V71.6H147.665V1.59997ZM192.565 1.59997H204.765V71.6H192.565V1.59997ZM232.943 1.59997H245.743V71.6H232.943V1.59997ZM211.043 1.59997H267.643V12.7H211.043V1.59997ZM273.986 65V1.59997H286.786V65H273.986ZM286.786 71.6V60.4H322.886V71.6H286.786ZM285.486 42V30.8H318.486V42H285.486ZM286.286 12.8V1.59997H322.486V12.8H286.286ZM369.691 71.6L335.691 1.59997H349.691L383.591 71.6H369.691ZM331.091 1.59997H343.391V71.6H331.091V1.59997ZM375.991 1.59997H388.191V71.6H375.991V1.59997ZM416.369 1.59997H429.169V71.6H416.369V1.59997ZM394.469 1.59997H451.069V12.7H394.469V1.59997Z",
   creative:"M66.5996 43.1001C66.1329 49.1001 64.5996 54.3668 61.9996 58.9001C59.4663 63.4334 55.8996 66.9668 51.2996 69.5001C46.7663 71.9668 41.1996 73.2001 34.5996 73.2001C27.1996 73.2001 20.8996 71.5668 15.6996 68.3001C10.5663 64.9668 6.66628 60.5334 3.99961 55.0001C1.33294 49.4668 -0.000390522 43.3001 -0.000390522 36.5001C-0.000390522 31.5001 0.732943 26.8001 2.19961 22.4001C3.73294 17.9334 5.96628 14.0334 8.89961 10.7001C11.8329 7.36676 15.4329 4.76676 19.6996 2.90009C24.0329 0.966762 28.9996 9.56059e-05 34.5996 9.56059e-05C43.9996 9.56059e-05 51.3329 2.5001 56.5996 7.50009C61.9329 12.4334 65.1329 19.1001 66.1996 27.5001H52.6996C52.3663 25.2334 51.7663 23.1668 50.8996 21.3001C50.0996 19.3668 48.9663 17.7001 47.4996 16.3001C46.0996 14.8334 44.3329 13.7001 42.1996 12.9001C40.1329 12.1001 37.5996 11.7001 34.5996 11.7001C29.7329 11.7001 25.6996 12.9001 22.4996 15.3001C19.3663 17.6334 17.0329 20.7001 15.4996 24.5001C14.0329 28.2334 13.2996 32.2334 13.2996 36.5001C13.2996 40.8334 14.0329 44.9001 15.4996 48.7001C17.0329 52.5001 19.3663 55.6001 22.4996 58.0001C25.6996 60.3334 29.7329 61.5001 34.5996 61.5001C37.8663 61.5001 40.5996 61.0334 42.7996 60.1001C45.0663 59.1001 46.9329 57.7668 48.3996 56.1001C49.9329 54.4334 51.0663 52.5001 51.7996 50.3001C52.5996 48.1001 53.0996 45.7001 53.2996 43.1001H66.5996ZM86.5629 35.7001H97.9629V46.9001H86.5629V35.7001ZM97.9629 35.7001C101.563 35.7001 104.63 35.3668 107.163 34.7001C109.763 34.0334 111.73 32.8668 113.063 31.2001C114.463 29.5334 115.163 27.2001 115.163 24.2001C115.163 21.2001 114.463 18.8668 113.063 17.2001C111.73 15.5334 109.763 14.3668 107.163 13.7001C104.63 13.0334 101.563 12.7001 97.9629 12.7001V1.60009C104.096 1.60009 109.43 2.33343 113.963 3.80009C118.563 5.2001 122.13 7.53343 124.663 10.8001C127.196 14.0668 128.463 18.5334 128.463 24.2001C128.463 29.8001 127.196 34.2668 124.663 37.6001C122.13 40.8668 118.563 43.2334 113.963 44.7001C109.43 46.1668 104.096 46.9001 97.9629 46.9001V35.7001ZM86.5629 1.60009H97.9629V12.7001H86.5629V1.60009ZM100.063 39.3001H112.763L128.463 71.6001H113.963L100.063 39.3001ZM86.5629 8.2001V71.6001H73.7629V8.2001H86.5629ZM137.021 65.0001V1.60009H149.821V65.0001H137.021ZM149.821 71.6001V60.4001H185.921V71.6001H149.821ZM148.521 42.0001V30.8001H181.521V42.0001H148.521ZM149.321 12.8001V1.60009H185.521V12.8001H149.321ZM212.631 1.60009H224.731L203.931 71.6001H190.731L212.631 1.60009ZM230.331 1.60009L252.431 71.6001H239.331L218.231 1.60009H230.331ZM202.531 45.0001H240.231V56.2001H202.531V45.0001ZM269.541 1.60009H282.341V71.6001H269.541V1.60009ZM247.641 1.60009H304.241V12.7001H247.641V1.60009ZM310.583 1.60009H323.383V71.6001H310.583V1.60009ZM351.721 71.6001L329.821 1.60009H343.021L363.821 71.6001H351.721ZM369.421 71.6001H357.321L378.421 1.60009H391.521L369.421 71.6001ZM398.036 65.0001V1.60009H410.836V65.0001H398.036ZM410.836 71.6001V60.4001H446.936V71.6001H410.836ZM409.536 42.0001V30.8001H442.536V42.0001H409.536ZM410.336 12.8001V1.60009H446.536V12.8001H410.336Z"
 };
-const svgVB={graphic:'0 0 416 74',content:'0 0 452 74',creative:'0 0 447 74'};
+const svgVB={graphic:'0 0 478 74',content:'0 0 452 74',creative:'0 0 447 74'};
 const track=document.getElementById('svgTrack');
 track.innerHTML='';
 const activeSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -1317,17 +1269,10 @@ function openDetail(pageName){
   page.scrollTop = 0;
   document.body.style.overflow='hidden';
   updateCatLinks(page, pageName);
+  // 인라인 카테고리 닫기
   page.querySelectorAll('.detail-inline-cats').forEach(c=>c.classList.remove('show'));
+  // 초기 네비 컬러 설정
   updateDetailNavColor(page);
-  // Fashion Editorial 이외 페이지 열 때 BGM 정지
-  if(pageName !== 'fashion-editorial'){
-    // 다른 페이지 열 때 BGM 정지
-    if(!feAudio.paused){
-      feAudio.pause();
-      feAudio.currentTime = 0;
-
-    }
-  }
 }
 function updateDetailNavColor(page){
   const scene = page.querySelector('.detail-scene');
@@ -1399,6 +1344,9 @@ function closeScModal(e){
 })();
 
 function closeDetail(){
+  feAudio.pause();
+  feAudio.currentTime = 0;
+  feAudioReady = false;
   // 모든 오디오 영상 음소거 + 버튼 리셋
   muteAllDetailVideos();
   document.querySelectorAll('.detail-page').forEach(p=>{
@@ -1407,6 +1355,7 @@ function closeDetail(){
   document.body.style.overflow='';
 }
 function switchDetail(pageName){
+  if(pageName === 'fashion-editorial') feAudioReady = true;
   const page = document.getElementById('page-'+pageName);
   if(!page) return;
   muteAllDetailVideos();
@@ -1418,8 +1367,8 @@ function switchDetail(pageName){
   }, 50);
 }
 function muteAllDetailVideos(){
-  feAudio.pause();
-  feAudio.currentTime = 0;
+  const vid = document.getElementById('fe-video-1');
+  if(vid) vid.muted = true;
 }
 function updateCatLinks(page, activeName){
   page.querySelectorAll('.detail-inline-cats a').forEach(a=>{
@@ -1443,13 +1392,7 @@ document.addEventListener('click', function(e){
 });
 
 /* 사운드 토글 */
-);
 
-  } else {
-    feAudio.pause();
-
-  }
-}
 // Attach click to first wcard (AI Creative)
 document.querySelectorAll('.wcard')[0].addEventListener('click',function(){
   openDetail('ai-creative');
@@ -1638,13 +1581,12 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
         activeHint.style.opacity = isLast ? '0' : '0.5';
       }
 
-      // FE BGM: data-slide=1 슬라이드에서만 소리
+      // FE BGM 제어
       if(scene.id === 'fe-scene'){
-        const curSlideEl = slides[currentIndex];
-        const isFeSlide1 = curSlideEl && curSlideEl.getAttribute('data-slide') === '1';
-        if(isFeSlide1 && feAudio.paused && feAudioReady){
+        const isSlide1 = slides[currentIndex] && slides[currentIndex].getAttribute('data-slide') === '1';
+        if(isSlide1 && feAudio.paused && feAudioReady){
           feAudio.play().catch(()=>{});
-        } else if(!isFeSlide1 && !feAudio.paused){
+        } else if(!isSlide1 && !feAudio.paused){
           feAudio.pause();
         }
       }
