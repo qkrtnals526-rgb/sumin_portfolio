@@ -245,16 +245,30 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 
 /* ── STYLE CHALLENGE PAGE ────────────────────────────── */
-.sc-page-inner{
-  position:relative; width:100%; min-height:100vh;
-  overflow:hidden; display:flex; flex-direction:column;
-  background:#FFFFFF url('stylechallenge1.png') center/cover no-repeat;
+#page-style-challenge{
+  background:#FFFFFF !important;
+  overflow:hidden !important;
 }
-.sc-bg{ display:none; }
+.sc-page-inner{
+  position:fixed; inset:0;
+  display:flex; flex-direction:column;
+  z-index:0; pointer-events:none;
+}
+.sc-bg-layer{
+  position:absolute; inset:0;
+  background: #FFFFFF url('stylechallenge1.png') center/cover no-repeat;
+  z-index:0;
+}
+.sc-content{
+  position:relative; z-index:1;
+  width:100%; height:100%;
+  display:flex; flex-direction:column;
+  overflow:hidden; pointer-events:all;
+}
 .sc-header{
-  position:relative; z-index:2;
   padding: 72px 56px 0;
   display:flex; align-items:flex-end; gap:18px;
+  flex-shrink:0;
 }
 .sc-title{
   font-family:'StackSansNotch',sans-serif;
@@ -268,7 +282,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   letter-spacing:0.02em; line-height:1; margin-bottom:0.15em;
 }
 .sc-gallery-wrap{
-  position:relative; z-index:2;
   flex:1; display:flex; align-items:center;
   padding: 42px 0 60px; overflow:visible;
 }
@@ -276,22 +289,21 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   display:flex; gap:20px; padding: 0 56px 20px;
   overflow-x:auto; overflow-y:visible;
   scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
-  cursor:grab; scrollbar-width:none;
+  cursor:grab; scrollbar-width:none; width:100%;
 }
 .sc-gallery::-webkit-scrollbar{display:none;}
 .sc-gallery.dragging{cursor:grabbing; scroll-behavior:auto;}
 .sc-card{
   flex-shrink:0;
-  width: calc((100vw - 192px) / 3);
+  width: clamp(180px, 20vw, 300px);
   aspect-ratio: 9/16;
   position:relative; border-radius:10px;
-  /* overflow:hidden 제거 — 호버 확대 시 짤림 방지 */
   cursor:pointer;
   transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease;
 }
 .sc-card:hover{
   transform: scale(1.06) translateY(-6px);
-  box-shadow: 0 24px 48px rgba(0,0,0,0.22); z-index:10;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.28); z-index:10;
 }
 .sc-card-thumb{
   width:100%; height:100%; object-fit:cover; display:block;
@@ -301,17 +313,15 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sc-card:hover .sc-card-thumb{ transform: scale(1.07); }
 .sc-card-overlay{
   position:absolute; inset:0;
-  background: linear-gradient(0deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.3) 45%, transparent 70%);
+  background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 50%, transparent 75%);
   border-radius:10px;
   opacity:0; transition: opacity 0.3s ease;
   display:flex; flex-direction:column; justify-content:flex-end;
   padding: 20px 16px; gap:10px;
-  overflow:hidden;
 }
 .sc-card:hover .sc-card-overlay{ opacity:1; }
 .sc-card-info{ color:#fff; }
-.sc-card-num{ font-size:10px; font-weight:500; letter-spacing:0.12em; opacity:0.6; margin-bottom:4px; text-transform:uppercase; }
-.sc-card-name{ font-family:'Pretendard',sans-serif; font-size:clamp(15px,1.4vw,20px); font-weight:600; line-height:1.2; letter-spacing:-0.01em; margin-bottom:3px; }
+.sc-card-name{ font-family:'Pretendard',sans-serif; font-size:clamp(15px,1.4vw,20px); font-weight:600; line-height:1.2; letter-spacing:-0.01em; margin-bottom:4px; }
 .sc-card-date{ font-family:'Pretendard',sans-serif; font-size:12px; font-weight:400; letter-spacing:0.06em; opacity:0.7; }
 .sc-card-btn{
   align-self:flex-start;
@@ -331,7 +341,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sc-modal.open{ opacity:1; pointer-events:all; }
 .sc-modal-inner{
   position:relative;
-  width: min(92vw, calc(92vh * 9/16));
+  width: min(88vw, calc(88vh * 9/16));
   aspect-ratio: 9/16; border-radius:12px;
   overflow:hidden; background:#000;
   transform: scale(0.92);
@@ -1080,8 +1090,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </div>
 
 <!-- STYLE CHALLENGE DETAIL PAGE -->
-<div id="page-style-challenge" class="detail-page" style="background:#FFFFFF;">
-  <div class="detail-nav">
+<div id="page-style-challenge" class="detail-page">
+  <!-- 네비 — 배경 위에 떠있음 -->
+  <div class="detail-nav" style="position:fixed;top:0;left:0;right:0;z-index:1002;background:transparent;">
     <a class="detail-back" onclick="closeDetail()">← Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
@@ -1097,86 +1108,92 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 
+  <!-- 페이지 전체 래퍼 — fixed fullscreen -->
   <div class="sc-page-inner">
-    <div class="sc-header">
-      <span class="sc-title">STYLE CHALLENGE</span>
-      <span class="sc-year">'25-'26</span>
-    </div>
-    <div class="sc-gallery-wrap">
-      <div class="sc-gallery" id="scGallery">
+    <!-- 배경 레이어 -->
+    <div class="sc-bg-layer"></div>
+    <!-- 콘텐츠 레이어 -->
+    <div class="sc-content">
+      <div class="sc-header">
+        <span class="sc-title">STYLE CHALLENGE</span>
+        <span class="sc-year">'25-'26</span>
+      </div>
+      <div class="sc-gallery-wrap">
+        <div class="sc-gallery" id="scGallery">
 
-        <!-- 01 새봄 -->
-        <div class="sc-card" onclick="openScModal('saebom.mp4','새봄 챌린지','2026.04.03')">
-          <img class="sc-card-thumb" src="saebom.jpg" alt="새봄 챌린지">
-          <div class="sc-card-overlay">
-            <div class="sc-card-info">
-              <div class="sc-card-name">새봄 챌린지</div>
-              <div class="sc-card-date">2026.04.03</div>
+          <!-- 01 새봄 -->
+          <div class="sc-card" onclick="openScModal('saebom.mp4','새봄 챌린지','2026.04.03')">
+            <img class="sc-card-thumb" src="saebom.jpg" alt="새봄 챌린지">
+            <div class="sc-card-overlay">
+              <div class="sc-card-info">
+                <div class="sc-card-name">새봄 챌린지</div>
+                <div class="sc-card-date">2026.04.03</div>
+              </div>
+              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('saebom.mp4','새봄 챌린지','2026.04.03')">VIEW</button>
             </div>
-            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('saebom.mp4','새봄 챌린지','2026.04.03')">VIEW</button>
           </div>
-        </div>
 
-        <!-- 02 블랙 -->
-        <div class="sc-card" onclick="openScModal('black.mp4','블랙크림 챌린지','2025.11.07')">
-          <img class="sc-card-thumb" src="black.jpg" alt="블랙크림 챌린지">
-          <div class="sc-card-overlay">
-            <div class="sc-card-info">
-              <div class="sc-card-name">블랙크림 챌린지</div>
-              <div class="sc-card-date">2025.11.07</div>
+          <!-- 02 블랙 -->
+          <div class="sc-card" onclick="openScModal('black.mp4','블랙크림 챌린지','2025.11.07')">
+            <img class="sc-card-thumb" src="black.jpg" alt="블랙크림 챌린지">
+            <div class="sc-card-overlay">
+              <div class="sc-card-info">
+                <div class="sc-card-name">블랙크림 챌린지</div>
+                <div class="sc-card-date">2025.11.07</div>
+              </div>
+              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('black.mp4','블랙크림 챌린지','2025.11.07')">VIEW</button>
             </div>
-            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('black.mp4','블랙크림 챌린지','2025.11.07')">VIEW</button>
           </div>
-        </div>
 
-        <!-- 03 밀로 -->
-        <div class="sc-card" onclick="openScModal('millo.mp4','MILLO CHALLENGE','2026.01.22')">
-          <img class="sc-card-thumb" src="millo.jpg" alt="MILLO CHALLENGE">
-          <div class="sc-card-overlay">
-            <div class="sc-card-info">
-              <div class="sc-card-name">MILLO CHALLENGE</div>
-              <div class="sc-card-date">2026.01.22</div>
+          <!-- 03 밀로 -->
+          <div class="sc-card" onclick="openScModal('millo.mp4','MILLO CHALLENGE','2026.01.22')">
+            <img class="sc-card-thumb" src="millo.jpg" alt="MILLO CHALLENGE">
+            <div class="sc-card-overlay">
+              <div class="sc-card-info">
+                <div class="sc-card-name">MILLO CHALLENGE</div>
+                <div class="sc-card-date">2026.01.22</div>
+              </div>
+              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('millo.mp4','MILLO CHALLENGE','2026.01.22')">VIEW</button>
             </div>
-            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('millo.mp4','MILLO CHALLENGE','2026.01.22')">VIEW</button>
           </div>
-        </div>
 
-        <!-- 04 aeae -->
-        <div class="sc-card" onclick="openScModal('aeae.mp4','AEAE CHALLENGE','2025.05.15')">
-          <img class="sc-card-thumb" src="aeae.jpg" alt="AEAE CHALLENGE">
-          <div class="sc-card-overlay">
-            <div class="sc-card-info">
-              <div class="sc-card-name">AEAE CHALLENGE</div>
-              <div class="sc-card-date">2025.05.15</div>
+          <!-- 04 aeae -->
+          <div class="sc-card" onclick="openScModal('aeae.mp4','AEAE CHALLENGE','2025.05.15')">
+            <img class="sc-card-thumb" src="aeae.jpg" alt="AEAE CHALLENGE">
+            <div class="sc-card-overlay">
+              <div class="sc-card-info">
+                <div class="sc-card-name">AEAE CHALLENGE</div>
+                <div class="sc-card-date">2025.05.15</div>
+              </div>
+              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('aeae.mp4','AEAE CHALLENGE','2025.05.15')">VIEW</button>
             </div>
-            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('aeae.mp4','AEAE CHALLENGE','2025.05.15')">VIEW</button>
           </div>
-        </div>
 
-        <!-- 05 달맞이 -->
-        <div class="sc-card" onclick="openScModal('dalmaji.mp4','달맞이 챌린지','2025.10.02')">
-          <img class="sc-card-thumb" src="dalmaji.jpg" alt="달맞이 챌린지">
-          <div class="sc-card-overlay">
-            <div class="sc-card-info">
-              <div class="sc-card-name">달맞이 챌린지</div>
-              <div class="sc-card-date">2025.10.02</div>
+          <!-- 05 달맞이 -->
+          <div class="sc-card" onclick="openScModal('dalmaji.mp4','달맞이 챌린지','2025.10.02')">
+            <img class="sc-card-thumb" src="dalmaji.jpg" alt="달맞이 챌린지">
+            <div class="sc-card-overlay">
+              <div class="sc-card-info">
+                <div class="sc-card-name">달맞이 챌린지</div>
+                <div class="sc-card-date">2025.10.02</div>
+              </div>
+              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('dalmaji.mp4','달맞이 챌린지','2025.10.02')">VIEW</button>
             </div>
-            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('dalmaji.mp4','달맞이 챌린지','2025.10.02')">VIEW</button>
           </div>
-        </div>
 
-        <!-- 06 라스트 -->
-        <div class="sc-card" onclick="openScModal('lastone.mp4','LASTONE CHALLENGE','2025.08.13')">
-          <img class="sc-card-thumb" src="lastone.jpg" alt="LASTONE CHALLENGE">
-          <div class="sc-card-overlay">
-            <div class="sc-card-info">
-              <div class="sc-card-name">LASTONE CHALLENGE</div>
-              <div class="sc-card-date">2025.08.13</div>
+          <!-- 06 라스트 -->
+          <div class="sc-card" onclick="openScModal('lastone.mp4','LASTONE CHALLENGE','2025.08.13')">
+            <img class="sc-card-thumb" src="lastone.jpg" alt="LASTONE CHALLENGE">
+            <div class="sc-card-overlay">
+              <div class="sc-card-info">
+                <div class="sc-card-name">LASTONE CHALLENGE</div>
+                <div class="sc-card-date">2025.08.13</div>
+              </div>
+              <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('lastone.mp4','LASTONE CHALLENGE','2025.08.13')">VIEW</button>
             </div>
-            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('lastone.mp4','LASTONE CHALLENGE','2025.08.13')">VIEW</button>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
   </div>
