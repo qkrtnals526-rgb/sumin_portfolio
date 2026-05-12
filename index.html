@@ -244,6 +244,116 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   display:block;
 }
 
+/* ── STYLE CHALLENGE PAGE ────────────────────────────── */
+.sc-page-inner{
+  position:relative; width:100%; height:100%;
+  overflow:hidden; display:flex; flex-direction:column;
+}
+.sc-bg{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:center; z-index:0;
+}
+.sc-header{
+  position:relative; z-index:2;
+  padding: 72px 56px 0;
+  display:flex; align-items:flex-end; gap:18px;
+}
+.sc-title{
+  font-family:'StackSansNotch',sans-serif;
+  font-size: clamp(48px,6.5vw,96px);
+  font-weight:800; letter-spacing:-0.02em; line-height:1; color:#000;
+}
+.sc-year{
+  font-family:'StackSansNotch',sans-serif;
+  font-size: clamp(22px,2.8vw,42px);
+  font-weight:700; color:#4ABFBF;
+  letter-spacing:0.02em; line-height:1; margin-bottom:0.15em;
+}
+.sc-gallery-wrap{
+  position:relative; z-index:2;
+  flex:1; display:flex; align-items:center;
+  padding: 32px 0 48px; overflow:hidden;
+}
+.sc-gallery{
+  display:flex; gap:20px; padding: 0 56px;
+  overflow-x:auto; overflow-y:visible;
+  scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
+  cursor:grab; scrollbar-width:none;
+}
+.sc-gallery::-webkit-scrollbar{display:none;}
+.sc-gallery.dragging{cursor:grabbing; scroll-behavior:auto;}
+.sc-card{
+  flex-shrink:0;
+  width: clamp(160px, 18vw, 260px);
+  aspect-ratio: 9/16;
+  position:relative; border-radius:10px;
+  overflow:hidden; cursor:pointer;
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease;
+}
+.sc-card:hover{
+  transform: scale(1.06) translateY(-6px);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.22); z-index:10;
+}
+.sc-card-thumb{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.sc-card:hover .sc-card-thumb{ transform: scale(1.07); }
+.sc-card-overlay{
+  position:absolute; inset:0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.3) 45%, transparent 70%);
+  opacity:0; transition: opacity 0.3s ease;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding: 20px 16px; gap:10px;
+}
+.sc-card:hover .sc-card-overlay{ opacity:1; }
+.sc-card-info{ color:#fff; }
+.sc-card-num{ font-size:10px; font-weight:500; letter-spacing:0.12em; opacity:0.6; margin-bottom:4px; text-transform:uppercase; }
+.sc-card-name{ font-size:clamp(13px,1.4vw,18px); font-weight:700; line-height:1.2; letter-spacing:-0.01em; margin-bottom:3px; }
+.sc-card-date{ font-size:10px; font-weight:400; letter-spacing:0.06em; opacity:0.7; }
+.sc-card-btn{
+  align-self:flex-start;
+  background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.5);
+  color:#fff; font-size:10px; font-weight:600;
+  letter-spacing:0.12em; text-transform:uppercase;
+  padding:6px 14px; border-radius:20px; cursor:pointer;
+  transition: background 0.2s, border-color 0.2s; backdrop-filter:blur(4px);
+}
+.sc-card-btn:hover{ background:rgba(255,255,255,0.3); border-color:#fff; }
+.sc-modal{
+  position:fixed; inset:0; z-index:9999;
+  background:rgba(0,0,0,0.88);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition: opacity 0.3s ease;
+}
+.sc-modal.open{ opacity:1; pointer-events:all; }
+.sc-modal-inner{
+  position:relative;
+  width: min(92vw, calc(92vh * 9/16));
+  aspect-ratio: 9/16; border-radius:12px;
+  overflow:hidden; background:#000;
+  transform: scale(0.92);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.sc-modal.open .sc-modal-inner{ transform: scale(1); }
+.sc-modal video{ width:100%; height:100%; object-fit:cover; display:block; }
+.sc-modal-close{
+  position:absolute; top:14px; right:14px;
+  width:34px; height:34px; border-radius:50%;
+  background:rgba(0,0,0,0.5); border:none; color:#fff;
+  font-size:16px; cursor:pointer; z-index:2;
+  display:flex; align-items:center; justify-content:center;
+  backdrop-filter:blur(6px); transition: background 0.2s;
+}
+.sc-modal-close:hover{ background:rgba(0,0,0,0.8); }
+.sc-modal-info{
+  position:absolute; bottom:0; left:0; right:0;
+  padding:20px; background:linear-gradient(transparent, rgba(0,0,0,0.7)); color:#fff;
+}
+.sc-modal-info-name{ font-size:18px; font-weight:700; margin-bottom:3px; }
+.sc-modal-info-date{ font-size:12px; opacity:0.65; letter-spacing:0.06em; }
+/* ── STYLE CHALLENGE END ──────────────────────────────── */
+
 /* 슬라이드 opacity는 JS가 제어 */
 .detail-slide{
   opacity:0;
@@ -967,6 +1077,128 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   </div>
 </div>
 
+<!-- STYLE CHALLENGE DETAIL PAGE -->
+<div id="page-style-challenge" class="detail-page">
+  <div class="detail-nav">
+    <a class="detail-back" onclick="closeDetail()">← Back</a>
+    <div class="detail-menu-wrap">
+      <div class="detail-inline-cats">
+        <a onclick="switchDetail('ai-creative')">AI Creative</a>
+        <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+        <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+        <a class="active" onclick="switchDetail('style-challenge')">Style Challenge</a>
+        <a onclick="switchDetail('promotional-content')">Promotional Content</a>
+      </div>
+      <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="sc-page-inner">
+    <img class="sc-bg" src="stylechallenge.png" alt="">
+    <div class="sc-header">
+      <span class="sc-title">STYLE CHALLENGE</span>
+      <span class="sc-year">'25-'26</span>
+    </div>
+    <div class="sc-gallery-wrap">
+      <div class="sc-gallery" id="scGallery">
+
+        <!-- 01 새봄 -->
+        <div class="sc-card" onclick="openScModal('새봄.mp4','새봄 챌린지','2026.04.03')">
+          <img class="sc-card-thumb" src="새봄.jpg" alt="새봄 챌린지">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-num">01 / 06</div>
+              <div class="sc-card-name">새봄 챌린지</div>
+              <div class="sc-card-date">2026.04.03</div>
+            </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('새봄.mp4','새봄 챌린지','2026.04.03')">VIEW</button>
+          </div>
+        </div>
+
+        <!-- 02 블랙 -->
+        <div class="sc-card" onclick="openScModal('블랙.mp4','BLACKREAM CHALLENGE','2025.11.07')">
+          <img class="sc-card-thumb" src="블랙.jpg" alt="BLACKREAM CHALLENGE">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-num">02 / 06</div>
+              <div class="sc-card-name">BLACKREAM CHALLENGE</div>
+              <div class="sc-card-date">2025.11.07</div>
+            </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('블랙.mp4','BLACKREAM CHALLENGE','2025.11.07')">VIEW</button>
+          </div>
+        </div>
+
+        <!-- 03 밀로 -->
+        <div class="sc-card" onclick="openScModal('밀로.mp4','MILLO CHALLENGE','2026.01.22')">
+          <img class="sc-card-thumb" src="밀로.jpg" alt="MILLO CHALLENGE">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-num">03 / 06</div>
+              <div class="sc-card-name">MILLO CHALLENGE</div>
+              <div class="sc-card-date">2026.01.22</div>
+            </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('밀로.mp4','MILLO CHALLENGE','2026.01.22')">VIEW</button>
+          </div>
+        </div>
+
+        <!-- 04 aeae -->
+        <div class="sc-card" onclick="openScModal('aeae.mp4','aeae CHALLENGE','2025.05.15')">
+          <img class="sc-card-thumb" src="aeae.jpg" alt="aeae CHALLENGE">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-num">04 / 06</div>
+              <div class="sc-card-name">aeae CHALLENGE</div>
+              <div class="sc-card-date">2025.05.15</div>
+            </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('aeae.mp4','aeae CHALLENGE','2025.05.15')">VIEW</button>
+          </div>
+        </div>
+
+        <!-- 05 달맞이 -->
+        <div class="sc-card" onclick="openScModal('달맞이.mp4','달맞이 챌린지','2025.10.02')">
+          <img class="sc-card-thumb" src="달맞이.jpg" alt="달맞이 챌린지">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-num">05 / 06</div>
+              <div class="sc-card-name">달맞이 챌린지</div>
+              <div class="sc-card-date">2025.10.02</div>
+            </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('달맞이.mp4','달맞이 챌린지','2025.10.02')">VIEW</button>
+          </div>
+        </div>
+
+        <!-- 06 라스트 -->
+        <div class="sc-card" onclick="openScModal('라스트.mp4','LASTONE CHALLENGE','2025.08.13')">
+          <img class="sc-card-thumb" src="라스트.jpg" alt="LASTONE CHALLENGE">
+          <div class="sc-card-overlay">
+            <div class="sc-card-info">
+              <div class="sc-card-num">06 / 06</div>
+              <div class="sc-card-name">LASTONE CHALLENGE</div>
+              <div class="sc-card-date">2025.08.13</div>
+            </div>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('라스트.mp4','LASTONE CHALLENGE','2025.08.13')">VIEW</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- SC 비디오 모달 -->
+  <div class="sc-modal" id="scModal" onclick="closeScModal(event)">
+    <div class="sc-modal-inner">
+      <button class="sc-modal-close" onclick="closeScModal()">✕</button>
+      <video id="scModalVideo" src="" loop playsinline></video>
+      <div class="sc-modal-info">
+        <div class="sc-modal-info-name" id="scModalName"></div>
+        <div class="sc-modal-info-date" id="scModalDate"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 /* CLOCK */
 function updateClock(){
@@ -1089,6 +1321,46 @@ function isDetailColorDark(color){
   if(isNaN(r)) r=255; if(isNaN(g)) g=255; if(isNaN(b)) b=255;
   return (r*0.299 + g*0.587 + b*0.114) < 128;
 }
+/* STYLE CHALLENGE — 모달 + 드래그 스크롤 */
+function openScModal(src, name, date){
+  const modal = document.getElementById('scModal');
+  const video = document.getElementById('scModalVideo');
+  const nameEl = document.getElementById('scModalName');
+  const dateEl = document.getElementById('scModalDate');
+  video.src = src;
+  nameEl.textContent = name;
+  dateEl.textContent = date;
+  modal.classList.add('open');
+  video.play();
+}
+function closeScModal(e){
+  if(e && e.target !== document.getElementById('scModal') && !e.target.classList.contains('sc-modal-close')) return;
+  const modal = document.getElementById('scModal');
+  const video = document.getElementById('scModalVideo');
+  modal.classList.remove('open');
+  video.pause();
+  video.src = '';
+}
+// 갤러리 드래그 스크롤
+(function(){
+  const gallery = document.getElementById('scGallery');
+  if(!gallery) return;
+  let isDown = false, startX, scrollLeft;
+  gallery.addEventListener('mousedown', e => {
+    isDown = true; gallery.classList.add('dragging');
+    startX = e.pageX - gallery.offsetLeft;
+    scrollLeft = gallery.scrollLeft;
+  });
+  gallery.addEventListener('mouseleave', () => { isDown = false; gallery.classList.remove('dragging'); });
+  gallery.addEventListener('mouseup', () => { isDown = false; gallery.classList.remove('dragging'); });
+  gallery.addEventListener('mousemove', e => {
+    if(!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - gallery.offsetLeft;
+    gallery.scrollLeft = scrollLeft - (x - startX) * 1.2;
+  });
+})();
+
 function closeDetail(){
   // 모든 오디오 영상 음소거 + 버튼 리셋
   muteAllDetailVideos();
