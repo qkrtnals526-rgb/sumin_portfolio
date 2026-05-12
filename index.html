@@ -802,12 +802,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="14.png" alt="">
               <img src="15.jpg" alt="">
             </div>
-            <!-- 사운드 토글 버튼 -->
-            <button class="sound-toggle" id="fe-sound-btn" onclick="toggleSound()">
-              <svg class="sound-icon-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-              <svg class="sound-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-            </button>
           </div>
+          <!-- 사운드 토글 버튼 — scroll-frame 밖으로 -->
+          <button class="sound-toggle" id="fe-sound-btn" onclick="toggleSound()" style="z-index:20;">
+            <svg class="sound-icon-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            <svg class="sound-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          </button>
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
             <div class="scroll-hint-line" style="background:#fff;"></div>
@@ -1241,6 +1241,16 @@ if(location.hash) history.replaceState(null, '', location.pathname);
 /* FE BGM Audio */
 const feAudio = new Audio('1.mp4');
 feAudio.loop = true;
+feAudio.preload = 'auto';
+// 브라우저 autoplay 정책: 첫 유저 인터랙션 후 재생 대기열
+let feAudioPending = false;
+document.addEventListener('click', function onFirstClick(){
+  if(feAudioPending){
+    feAudio.play().catch(()=>{});
+    feAudioPending = false;
+  }
+  document.removeEventListener('click', onFirstClick);
+}, {once: false});
 
 /* CLOCK */
 function updateClock(){
@@ -1334,7 +1344,11 @@ function openDetail(pageName){
   // Fashion Editorial 열 때 BGM 재생
   if(pageName === 'fashion-editorial'){
     feAudio.currentTime = 0;
-    feAudio.play().catch(()=>{});
+    feAudio.play().then(()=>{
+      feAudioPending = false;
+    }).catch(()=>{
+      feAudioPending = true; // 첫 클릭 시 재생
+    });
     const btn = document.getElementById('fe-sound-btn');
     if(btn){
       btn.querySelector('.sound-icon-off').style.display = 'none';
