@@ -1228,9 +1228,13 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
             const stripH = strip.scrollHeight;
             const maxShift = Math.max(0, stripH - frameH);
             if(i === currentIndex){
-              // 감속 커브: sqrt로 앞부분은 빠르고 뒷부분은 느리게
-              const eased = Math.sqrt(slideProgress);
-              strip.style.transform = `translateY(-${eased * maxShift}px)`;
+              const isIntroSlide = slide.classList.contains('detail-slide-intro');
+              if(!isIntroSlide){
+                const eased = Math.sqrt(slideProgress);
+                strip.style.transform = `translateY(-${eased * maxShift}px)`;
+              } else {
+                strip.style.transform = `translateY(-${slideProgress * maxShift}px)`;
+              }
             } else if(i < currentIndex){
               strip.style.transform = `translateY(-${maxShift}px)`;
             } else {
