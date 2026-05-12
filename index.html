@@ -1177,9 +1177,15 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
 (function(){
 
   // ── 상수 ──────────────────────────────────────────────────────────
-  const INTRO_PX  = () => window.innerHeight;        // 인트로: 1vh
-  const STRIP_SLOW = 4.5;   // 스트립 높이 대비 스크롤 배율 (클수록 느림)
-  const NONSTRIP_PX = () => window.innerHeight;      // AI/3D 작업: 1vh
+  const vh = () => window.innerHeight;
+  // 첫번째 인트로(index=0): 1vh, 나머지 인트로: 3vh (잠깐 멈추는 효과)
+  const INTRO_FIRST_PX = () => vh();
+  const INTRO_REST_PX  = () => vh() * 3;
+  // FE/PC 스트립: 실제 overflow에 배율 적용, 최소 5vh 보장
+  const STRIP_SLOW = 5.5;
+  const STRIP_MIN  = () => vh() * 5;
+  // AI/3D 작업: 1vh
+  const NONSTRIP_PX = () => vh();
 
   // ── 유틸 ──────────────────────────────────────────────────────────
   function isColorDark(color){
@@ -1197,24 +1203,24 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
 
   // ── 각 scene의 슬라이드별 구간(px) 계산 ──────────────────────────
   function buildSegments(scene){
-    const slides = scene.querySelectorAll('.detail-slide');
+    const slides = Array.from(scene.querySelectorAll('.detail-slide'));
     const hasStrips = scene.querySelectorAll('.detail-scroll-strip').length > 0;
-    const segs = []; // {start, len} px
+    const segs = [];
     let cursor = 0;
+    let introCount = 0;
     slides.forEach(slide => {
       const isIntro = slide.classList.contains('detail-slide-intro');
       let len;
       if(isIntro){
-        len = INTRO_PX();
+        len = introCount === 0 ? INTRO_FIRST_PX() : INTRO_REST_PX();
+        introCount++;
       } else if(hasStrips){
-        // 스트립 높이 기반
         const strip = slide.querySelector('.detail-scroll-strip');
         const frame = strip ? strip.parentElement : null;
-        const frameH = frame ? frame.offsetHeight : window.innerHeight;
+        const frameH = frame ? frame.offsetHeight : vh();
         const stripH = strip ? strip.scrollHeight : frameH;
         const overflow = Math.max(0, stripH - frameH);
-        // 스트립이 없거나 차이가 없으면 최소 2vh 보장
-        len = Math.max(overflow * STRIP_SLOW, window.innerHeight * 2);
+        len = Math.max(overflow * STRIP_SLOW, STRIP_MIN());
       } else {
         len = NONSTRIP_PX();
       }
@@ -1232,17 +1238,21 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
       const segs = buildSegments(scene);
       if(!segs.length) return;
       const last = segs[segs.length-1];
-      // 마지막 슬라이드 감상 여유 +1vh
-      const total = last.start + last.len + window.innerHeight;
+      const total = last.start + last.len + vh();
       spacer.style.height = Math.round(total) + 'px';
     });
   }
 
-  // 초기 + 리사이즈 + 이미지/비디오 로드 후 재계산
+  // 초기 + 리사이즈 + 미디어 로드 후 재계산
   applySpacers();
   window.addEventListener('resize', applySpacers);
-  setTimeout(applySpacers, 600);
-  setTimeout(applySpacers, 2000);
+  setTimeout(applySpacers, 500);
+  setTimeout(applySpacers, 1500);
+  setTimeout(applySpacers, 4000);
+  document.querySelectorAll('.detail-scroll-strip img, .detail-scroll-strip video').forEach(el => {
+    el.addEventListener('load', applySpacers);
+    el.addEventListener('loadedmetadata', applySpacers);
+  });
 
   // ── 스크롤 핸들러 ─────────────────────────────────────────────────
   document.querySelectorAll('.detail-page').forEach(page => {
@@ -1270,12 +1280,15 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
         const prevIsIntro = i > 0 && slides[i-1].classList.contains('detail-slide-intro');
 
         if(isIntro && i === currentIndex && i + 1 < slideCount){
-          // 인트로 활성: 다음 작업 슬라이드를 위에서 내려오게
           slide.classList.add('active');
           slide.classList.remove('slide-down');
           slide.style.transform = '';
           const nextSlide = slides[i+1];
-          const coverP = Math.max(0, Math.min(1, slideProgress * 2.5));
+          // 첫 번째 인트로(i===0)는 pause 없이 바로, 나머지는 앞 60% 멈춤 후 진입
+          const isFirstIntro = i === 0;
+          const transitionStart = isFirstIntro ? 0 : 0.6;
+          const coverP = slideProgress < transitionStart ? 0
+            : Math.min(1, (slideProgress - transitionStart) / (1 - transitionStart));
           nextSlide.classList.add('slide-down');
           nextSlide.style.transform = `translateY(${(1-coverP)*100}%)`;
         } else if(prevIsIntro && i === currentIndex){
