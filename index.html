@@ -287,8 +287,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   display:block;
 }
 
-/* 에디토리얼용: 프레임 안에서 콘텐츠가 스크롤되는 스트립 */
-.fe-scroll-frame{
+/* 에디토리얼용: 프레임 하단 여백 제거 (에디토리얼 페이지에서만) */
+#page-fashion-editorial .fe-scroll-frame{
   bottom:0!important;
   aspect-ratio:auto!important;
   top:7%;
@@ -898,7 +898,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="1" style="background:#004ED5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork.png" alt="3D Artwork 01">
-          <div class="detail-video-wrap fe-scroll-frame" data-strip-id="da-strip-1" style="bottom:7%;top:auto;transform:none;aspect-ratio:389/584;">
+          <div class="detail-video-wrap" data-strip-id="da-strip-1" style="top:50%;bottom:auto;transform:translateY(-50%);">
             <div class="detail-scroll-strip" id="da-strip-1">
               <video src="3DArtwork1.mp4" autoplay loop muted playsinline></video>
             </div>
@@ -1228,7 +1228,9 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
             const stripH = strip.scrollHeight;
             const maxShift = Math.max(0, stripH - frameH);
             if(i === currentIndex){
-              strip.style.transform = `translateY(-${slideProgress * maxShift}px)`;
+              // 감속 커브: sqrt로 앞부분은 빠르고 뒷부분은 느리게
+              const eased = Math.sqrt(slideProgress);
+              strip.style.transform = `translateY(-${eased * maxShift}px)`;
             } else if(i < currentIndex){
               strip.style.transform = `translateY(-${maxShift}px)`;
             } else {
