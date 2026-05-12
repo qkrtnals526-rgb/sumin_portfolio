@@ -1171,13 +1171,18 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
   function setNoStripSpacers(){
     document.querySelectorAll('.detail-scene').forEach(scene => {
       const strips = scene.querySelectorAll('.detail-scroll-strip');
-      if(strips.length > 0) return; // 스트립 있는 페이지는 calcFeSpacers가 담당
+      if(strips.length > 0) return;
       const spacer = scene.querySelector('.detail-spacer');
       if(!spacer) return;
       const slides = scene.querySelectorAll('.detail-slide');
-      // 슬라이드당 0.5vh 기준, 마지막 슬라이드 감상 여유 +1vh
-      const needed = (slides.length - 1) * 0.5 + 1;
-      spacer.style.height = needed * 100 + 'vh';
+      // 인트로=1, 작업=6 weight. 작업 슬라이드당 100vh 확보
+      const INTRO_W = 1, WORK_W = 6;
+      const totalWeight = Array.from(slides).reduce((a, s) =>
+        a + (s.classList.contains('detail-slide-intro') ? INTRO_W : WORK_W), 0);
+      // 작업 슬라이드 1개 = 100vh → totalWeight 기준 전체 높이 산출
+      const workCount = Array.from(slides).filter(s => !s.classList.contains('detail-slide-intro')).length;
+      const totalVh = workCount > 0 ? (totalWeight / WORK_W) * 100 : slides.length * 100;
+      spacer.style.height = Math.round(totalVh) + 'vh';
     });
   }
   setNoStripSpacers();
@@ -1199,27 +1204,32 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
       const hasStrips = scene.querySelectorAll('.detail-scroll-strip').length > 0;
       
       if(hasStrips && slideCount > 1){
-        // 에디토리얼 멀티슬라이드: 각 슬라이드별 스크롤 구간 배분
+        // 에디토리얼 멀티슬라이드: 슬라이드 타입별 스크롤 구간 차등 배분
+        // 인트로(첫번째 제외): 전체의 8% / 작업 슬라이드: 전체의 92%를 작업수로 나눔
         const spacer = scene.querySelector('.detail-spacer');
         const totalScroll = spacer ? spacer.offsetHeight : vh * slideCount;
-        const perSlide = totalScroll / slideCount;
-        let rawIndex = Math.min(Math.floor(scrollTop / perSlide), slideCount - 1);
-        let slideLocalScroll = scrollTop - (rawIndex * perSlide);
-        let slideProgress = Math.max(0, Math.min(1, slideLocalScroll / perSlide));
-        
-        // 작업 → 다음 인트로 전환 시 dead zone: 92% 이후에만 넘어감
-        const nextEl = rawIndex + 1 < slideCount ? slides[rawIndex + 1] : null;
-        const curIsWork = !slides[rawIndex].classList.contains('detail-slide-intro');
-        const nextIsIntro = nextEl && nextEl.classList.contains('detail-slide-intro');
-        if(curIsWork && nextIsIntro && slideProgress >= 0.92){
-          // 92~100%를 0~100%로 리매핑해서 다음 슬라이드로 전환
-          rawIndex = rawIndex + 1;
-          slideProgress = (slideProgress - 0.92) / 0.08;
-          slideLocalScroll = slideProgress * perSlide;
-        } else if(curIsWork && nextIsIntro && slideProgress < 0.92){
-          // 아직 전환하지 않음, 현재 슬라이드 유지
+
+        // 각 슬라이드의 weight 계산 (첫 인트로 포함 모든 인트로=1, 작업=6)
+        const INTRO_W = 1, WORK_W = 6;
+        const weights = Array.from(slides).map(s =>
+          s.classList.contains('detail-slide-intro') ? INTRO_W : WORK_W
+        );
+        const totalWeight = weights.reduce((a, b) => a + b, 0);
+        // 각 슬라이드 구간의 절대 스크롤 시작점 계산
+        const starts = [];
+        let acc = 0;
+        weights.forEach(w => { starts.push(acc); acc += totalScroll * (w / totalWeight); });
+        const ends = weights.map((w, i) => starts[i] + totalScroll * (w / totalWeight));
+
+        // 현재 scrollTop이 어느 슬라이드 구간인지 찾기
+        let currentIndex = slideCount - 1;
+        for(let i = 0; i < slideCount; i++){
+          if(scrollTop < ends[i]){ currentIndex = i; break; }
         }
-        const currentIndex = rawIndex;
+        const segLen = ends[currentIndex] - starts[currentIndex];
+        let slideProgress = segLen > 0
+          ? Math.max(0, Math.min(1, (scrollTop - starts[currentIndex]) / segLen))
+          : 0;
         
         slides.forEach((slide, i) => {
           const isIntro = slide.classList.contains('detail-slide-intro');
@@ -1311,11 +1321,28 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
         }
         
       } else if(slideCount > 1){
-        // AI Creative식 전환 (스트립 없음)
-        // 슬라이드당 0.5vh — 스크롤 2번에 다음 슬라이드로 전환
-        const progress = scrollTop / (vh * 0.5);
-        const currentIndex = Math.min(Math.floor(progress), slideCount - 1);
-        const localProgress = progress - currentIndex;
+        // AI Creative / 3D Artwork (스트립 없음) — weight 기반 전환
+        // 인트로=1, 작업=6 비율로 구간 배분
+        const INTRO_W2 = 1, WORK_W2 = 6;
+        const weights3 = Array.from(slides).map(s =>
+          s.classList.contains('detail-slide-intro') ? INTRO_W2 : WORK_W2
+        );
+        const totalWeight3 = weights3.reduce((a, b) => a + b, 0);
+        const spacer3 = scene.querySelector('.detail-spacer');
+        const totalScroll3 = spacer3 ? spacer3.offsetHeight : vh * slideCount;
+        const starts3 = [];
+        let acc3 = 0;
+        weights3.forEach(w => { starts3.push(acc3); acc3 += totalScroll3 * (w / totalWeight3); });
+        const ends3 = weights3.map((w, i) => starts3[i] + totalScroll3 * (w / totalWeight3));
+
+        let currentIndex = slideCount - 1;
+        for(let i = 0; i < slideCount; i++){
+          if(scrollTop < ends3[i]){ currentIndex = i; break; }
+        }
+        const segLen3 = ends3[currentIndex] - starts3[currentIndex];
+        const localProgress = segLen3 > 0
+          ? Math.max(0, Math.min(1, (scrollTop - starts3[currentIndex]) / segLen3))
+          : 0;
         slides.forEach((slide, i) => {
           const isIntro = slide.classList.contains('detail-slide-intro');
           const prevSlide = i > 0 ? slides[i-1] : null;
@@ -1553,15 +1580,23 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
       
       // 슬라이드 2(인덱스 3, 인트로 포함)에서 스크롤이 일정 이상이면 모달 표시
       if(slideIdx === 3){
-        // AI Creative식 전환: scrollTop / (vh * 0.5) 기준
-        const vh = window.innerHeight;
-        // data-slide=3은 progress 3.x 구간 → scrollTop 범위: [3*vh*0.5, 4*vh*0.5)
-        const slideStart = 3 * vh * 0.5;
-        const perSlide = vh * 0.5;
-        const slideLocalScroll = daPage.scrollTop - slideStart;
-        const slideProgress = Math.max(0, Math.min(1, slideLocalScroll / perSlide));
+        // weight 기반 구간 계산 (INTRO_W=1, WORK_W=6, slideCount=4)
+        const vh2 = window.innerHeight;
+        const spacer2 = scene.querySelector('.detail-spacer');
+        const totalScroll2 = spacer2 ? spacer2.offsetHeight : vh2 * slides2.length;
+        const INTRO_W = 1, WORK_W = 6;
+        const weights2 = Array.from(slides2).map(s =>
+          s.classList.contains('detail-slide-intro') ? INTRO_W : WORK_W
+        );
+        const totalWeight2 = weights2.reduce((a, b) => a + b, 0);
+        const starts2 = [];
+        let acc2 = 0;
+        weights2.forEach(w => { starts2.push(acc2); acc2 += totalScroll2 * (w / totalWeight2); });
+        const segLen2 = totalScroll2 * (weights2[3] / totalWeight2);
+        const slideLocalScroll2 = daPage.scrollTop - starts2[3];
+        const slideProgress2 = Math.max(0, Math.min(1, slideLocalScroll2 / segLen2));
         
-        if(slideProgress > 0.3 && !modal.classList.contains('show')){
+        if(slideProgress2 > 0.3 && !modal.classList.contains('show')){
           modal.classList.add('show');
           goToSlide(0);
         }
