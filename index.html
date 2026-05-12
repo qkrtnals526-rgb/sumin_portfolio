@@ -898,7 +898,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="1" style="background:#004ED5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork.png" alt="3D Artwork 01">
-          <div class="detail-video-wrap fe-scroll-frame" data-strip-id="da-strip-1" style="bottom:auto;top:50%;transform:translateY(-50%);">
+          <div class="detail-video-wrap fe-scroll-frame" data-strip-id="da-strip-1" style="bottom:7%;top:auto;transform:none;aspect-ratio:389/584;">
             <div class="detail-scroll-strip" id="da-strip-1">
               <video src="3DArtwork1.mp4" autoplay loop muted playsinline></video>
             </div>
@@ -1228,10 +1228,7 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
             const stripH = strip.scrollHeight;
             const maxShift = Math.max(0, stripH - frameH);
             if(i === currentIndex){
-              // 작업 슬라이드 진입 시 딜레이: 앞 25% 구간은 스트립 정지
-              const deadZone = 0.25;
-              const adjustedProgress = Math.max(0, (slideProgress - deadZone) / (1 - deadZone));
-              strip.style.transform = `translateY(-${adjustedProgress * maxShift}px)`;
+              strip.style.transform = `translateY(-${slideProgress * maxShift}px)`;
             } else if(i < currentIndex){
               strip.style.transform = `translateY(-${maxShift}px)`;
             } else {
@@ -1374,7 +1371,7 @@ document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
         });
         if(totalRatio > 0){
           const isFE = scene.id === 'fe-scene';
-          const multiplier = isFE ? 400 : 250;
+          const multiplier = isFE ? 650 : 250;
           spacer.style.height = Math.round(totalRatio * multiplier) + 'vh';
         }
       };
