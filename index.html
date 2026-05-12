@@ -1325,10 +1325,18 @@ function openDetail(pageName){
   page.scrollTop = 0;
   document.body.style.overflow='hidden';
   updateCatLinks(page, pageName);
-  // 인라인 카테고리 닫기
   page.querySelectorAll('.detail-inline-cats').forEach(c=>c.classList.remove('show'));
-  // 초기 네비 컬러 설정
   updateDetailNavColor(page);
+  // Fashion Editorial 열 때 소리 자동 켜기
+  if(pageName === 'fashion-editorial'){
+    const vid = document.getElementById('fe-video-1');
+    const btn = document.getElementById('fe-sound-btn');
+    if(vid && btn){
+      vid.muted = false;
+      btn.querySelector('.sound-icon-off').style.display = 'none';
+      btn.querySelector('.sound-icon-on').style.display = 'block';
+    }
+  }
 }
 function updateDetailNavColor(page){
   const scene = page.querySelector('.detail-scene');
