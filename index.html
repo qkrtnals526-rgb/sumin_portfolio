@@ -309,12 +309,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sc-card:hover .sc-card-overlay{ opacity:1; }
 .sc-card-info{ color:#fff; }
 .sc-card-num{ font-size:10px; font-weight:500; letter-spacing:0.12em; opacity:0.6; margin-bottom:4px; text-transform:uppercase; }
-.sc-card-name{ font-size:clamp(13px,1.4vw,18px); font-weight:700; line-height:1.2; letter-spacing:-0.01em; margin-bottom:3px; }
-.sc-card-date{ font-size:10px; font-weight:400; letter-spacing:0.06em; opacity:0.7; }
+.sc-card-name{ font-family:'Pretendard',sans-serif; font-size:clamp(15px,1.4vw,20px); font-weight:600; line-height:1.2; letter-spacing:-0.01em; margin-bottom:3px; }
+.sc-card-date{ font-family:'Pretendard',sans-serif; font-size:12px; font-weight:400; letter-spacing:0.06em; opacity:0.7; }
 .sc-card-btn{
   align-self:flex-start;
   background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.5);
-  color:#fff; font-size:10px; font-weight:600;
+  color:#fff; font-size:12px; font-weight:600;
   letter-spacing:0.12em; text-transform:uppercase;
   padding:6px 14px; border-radius:20px; cursor:pointer;
   transition: background 0.2s, border-color 0.2s; backdrop-filter:blur(4px);
@@ -1096,7 +1096,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   </div>
 
   <div class="sc-page-inner">
-    <img class="sc-bg" src="stylechallenge.png" alt="">
+    <img class="sc-bg" src="stylechallenge1.png" alt="" style="background:#FFFFFF;">
     <div class="sc-header">
       <span class="sc-title">STYLE CHALLENGE</span>
       <span class="sc-year">'25-'26</span>
@@ -1109,7 +1109,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <img class="sc-card-thumb" src="새봄.jpg" alt="새봄 챌린지">
           <div class="sc-card-overlay">
             <div class="sc-card-info">
-              <div class="sc-card-num">01 / 06</div>
               <div class="sc-card-name">새봄 챌린지</div>
               <div class="sc-card-date">2026.04.03</div>
             </div>
@@ -1122,7 +1121,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <img class="sc-card-thumb" src="블랙.jpg" alt="BLACKREAM CHALLENGE">
           <div class="sc-card-overlay">
             <div class="sc-card-info">
-              <div class="sc-card-num">02 / 06</div>
               <div class="sc-card-name">BLACKREAM CHALLENGE</div>
               <div class="sc-card-date">2025.11.07</div>
             </div>
@@ -1135,7 +1133,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <img class="sc-card-thumb" src="밀로.jpg" alt="MILLO CHALLENGE">
           <div class="sc-card-overlay">
             <div class="sc-card-info">
-              <div class="sc-card-num">03 / 06</div>
               <div class="sc-card-name">MILLO CHALLENGE</div>
               <div class="sc-card-date">2026.01.22</div>
             </div>
@@ -1144,15 +1141,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
 
         <!-- 04 aeae -->
-        <div class="sc-card" onclick="openScModal('aeae.mp4','aeae CHALLENGE','2025.05.15')">
-          <img class="sc-card-thumb" src="aeae.jpg" alt="aeae CHALLENGE">
+        <div class="sc-card" onclick="openScModal('aeae.mp4','AEAE CHALLENGE','2025.05.15')">
+          <img class="sc-card-thumb" src="aeae.jpg" alt="AEAE CHALLENGE">
           <div class="sc-card-overlay">
             <div class="sc-card-info">
-              <div class="sc-card-num">04 / 06</div>
-              <div class="sc-card-name">aeae CHALLENGE</div>
+              <div class="sc-card-name">AEAE CHALLENGE</div>
               <div class="sc-card-date">2025.05.15</div>
             </div>
-            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('aeae.mp4','aeae CHALLENGE','2025.05.15')">VIEW</button>
+            <button class="sc-card-btn" onclick="event.stopPropagation();openScModal('aeae.mp4','AEAE CHALLENGE','2025.05.15')">VIEW</button>
           </div>
         </div>
 
@@ -1161,7 +1157,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <img class="sc-card-thumb" src="달맞이.jpg" alt="달맞이 챌린지">
           <div class="sc-card-overlay">
             <div class="sc-card-info">
-              <div class="sc-card-num">05 / 06</div>
               <div class="sc-card-name">달맞이 챌린지</div>
               <div class="sc-card-date">2025.10.02</div>
             </div>
@@ -1174,7 +1169,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <img class="sc-card-thumb" src="라스트.jpg" alt="LASTONE CHALLENGE">
           <div class="sc-card-overlay">
             <div class="sc-card-info">
-              <div class="sc-card-num">06 / 06</div>
               <div class="sc-card-name">LASTONE CHALLENGE</div>
               <div class="sc-card-date">2025.08.13</div>
             </div>
@@ -1436,6 +1430,10 @@ document.querySelectorAll('.wcard')[4].addEventListener('click',function(){
 // Attach click to third wcard (3D Artwork)
 document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
   openDetail('3d-artwork');
+});
+// Attach click to fourth wcard (Style Challenge)
+document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
+  openDetail('style-challenge');
 });
 
 /* =====================================================================
