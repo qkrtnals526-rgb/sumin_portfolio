@@ -266,16 +266,17 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .sc-content{
   position:absolute; inset:0; z-index:1;
   display:flex; flex-direction:column;
-  justify-content:center;
+  justify-content:flex-end;
   overflow:hidden;
+  padding-bottom:40px;
 }
 
 .sc-gallery-wrap{
-  display:flex; align-items:center;
-  padding: 0; overflow:visible;
+  display:flex; align-items:flex-end;
+  overflow:visible;
 }
 .sc-gallery{
-  display:flex; gap:20px; padding: 0 56px 20px;
+  display:flex; gap:35px; padding: 0 56px 20px;
   overflow-x:auto; overflow-y:visible;
   scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
   cursor:grab; scrollbar-width:none; width:100%;
@@ -291,15 +292,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease;
 }
 .sc-card:hover{
-  transform: scale(1.06) translateY(-6px);
-  box-shadow: 0 24px 48px rgba(0,0,0,0.28); z-index:10;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.22); z-index:10;
 }
 .sc-card-thumb{
   width:100%; height:100%; object-fit:cover; display:block;
   border-radius:10px;
   transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
 }
-.sc-card:hover .sc-card-thumb{ transform: scale(1.07); }
+.sc-card:hover .sc-card-thumb{ transform: none; }
 .sc-card-overlay{
   position:absolute; inset:0;
   background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 50%, transparent 75%);
