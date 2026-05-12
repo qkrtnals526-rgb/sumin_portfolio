@@ -218,7 +218,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 /* 스크롤 높이를 만들어주는 스페이서 */
 .detail-spacer{
-  height:200vh; /* 슬라이드 수 - 1 × 100vh */
+  height:300vh; /* 스크롤 감도 조절: 높을수록 천천히 */
   pointer-events:none;
 }
 
@@ -247,13 +247,26 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* 슬라이드 opacity는 JS가 제어 */
 .detail-slide{
   opacity:0;
-  transition:opacity 0.6s ease;
+  transition:none;
+  z-index:1;
 }
 .detail-slide.active{
   opacity:1;
 }
+/* 인트로 슬라이드는 항상 뒤에 깔림 */
+.detail-slide-intro{
+  z-index:0!important;
+}
+/* 인트로 다음 슬라이드: 위에서 내려오는 효과 */
+.detail-slide.slide-down{
+  opacity:1;
+  z-index:2;
+  transition:none;
+}
 
 
+
+/* 인트로 슬라이드 */
 
 /* 영상: 프레임 없이 배경 위에 직접 배치
    회색 영역 위, 바텀라인이 (01)과 맞춤 */
@@ -265,6 +278,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   aspect-ratio:389/584;
   z-index:4;
   overflow:hidden;
+  border-radius:5px;
 }
 
 .detail-video-raw{
@@ -273,7 +287,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   display:block;
 }
 
-/* 에디토리얼용: 프레임 안에서 콘텐츠가 스크롤되는 스트립 */
+/* 에디토리얼용: 프레임 하단 여백 제거 (에디토리얼 페이지에서만) */
+#page-fashion-editorial .fe-scroll-frame{
+  bottom:0!important;
+  aspect-ratio:auto!important;
+  top:7%;
+}
 .detail-scroll-strip{
   position:absolute;
   top:0;left:0;
@@ -291,6 +310,143 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .detail-nav.dark .detail-back{color:#fff;}
 .detail-nav.dark .detail-menu-btn .dot{background:#fff;}
 .detail-nav.dark .detail-inline-cats a{color:#fff;}
+
+/* 3D Artwork 모달 갤러리 */
+.da-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,0.85);
+  align-items:center;
+  justify-content:center;
+}
+.da-modal.show{
+  display:flex;
+}
+.da-modal-inner{
+  position:relative;
+  width:clamp(280px,28vw,400px);
+  max-height:90vh;
+}
+.da-modal-close{
+  position:absolute;
+  top:-40px;
+  right:0;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:24px;
+  cursor:pointer;
+  z-index:3;
+  padding:4px 8px;
+}
+.da-modal-viewport{
+  position:relative;
+  width:100%;
+  aspect-ratio:287/528;
+  overflow:hidden;
+  border-radius:10px;
+}
+.da-modal-slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity 0.4s;
+  display:block;
+  text-decoration:none;
+}
+.da-modal-slide.active{
+  opacity:1;
+}
+.da-modal-slide img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.da-modal-slide-link{
+  cursor:pointer;
+}
+.da-modal-dim{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,0);
+  transition:background 0.35s;
+  z-index:2;
+  border-radius:10px;
+}
+.da-modal-slide-link:hover .da-modal-dim{
+  background:rgba(0,0,0,0.5);
+}
+.da-modal-cta{
+  position:absolute;inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Pretendard',sans-serif;
+  font-size:clamp(18px,1.6vw,24px);
+  font-weight:700;
+  color:#fff;
+  z-index:3;
+  opacity:0;
+  transition:opacity 0.35s;
+  letter-spacing:0.05em;
+}
+.da-modal-slide-link:hover .da-modal-cta{
+  opacity:1;
+}
+.da-modal-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-60%);
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.25);
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:
+    0 4px 30px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    inset 0 -1px 0 rgba(255,255,255,0.05);
+  color:rgba(255,255,255,0.9);
+  font-size:22px;
+  cursor:pointer;
+  z-index:3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all 0.3s;
+  padding:0;
+  line-height:1;
+}
+.da-modal-arrow:hover{
+  background:rgba(255,255,255,0.15);
+  border-color:rgba(255,255,255,0.4);
+  box-shadow:
+    0 4px 30px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.3),
+    inset 0 -1px 0 rgba(255,255,255,0.08);
+}
+.da-modal-prev{left:-76px;}
+.da-modal-next{right:-76px;}
+.da-modal-dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:16px;
+}
+.da-modal-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.3);
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.da-modal-dot.active{
+  background:#fff;
+}
 
 /* 사운드 토글 버튼 */
 .sound-toggle{
@@ -385,8 +541,19 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="ai-scene">
     <div class="detail-canvas">
+      <!-- Intro 1 -->
+      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#FFFFFF;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="aicreativeintro.png" alt="AI Creative Intro 01">
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
       <!-- Slide 1: SELLER WEEK -->
-      <div class="detail-slide active" data-slide="0" style="background:#fff;">
+      <div class="detail-slide" data-slide="1" style="background:#E5E5E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative.png" alt="AI Creative 01">
           <div class="detail-video-wrap">
@@ -394,8 +561,19 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Intro 2 -->
+      <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#FFFFFF;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="aicreative2intro.png" alt="AI Creative Intro 02">
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
       <!-- Slide 2: 몽벨 해외직구 -->
-      <div class="detail-slide" data-slide="1" style="background:#DEE1E5;">
+      <div class="detail-slide" data-slide="3" style="background:#DEE1E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative2.png" alt="AI Creative 02">
           <div class="detail-video-wrap">
@@ -403,20 +581,25 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Intro 3 -->
+      <div class="detail-slide detail-slide-intro" data-slide="4" style="background:#FFFFFF;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="aicreative3intro.png" alt="AI Creative Intro 03">
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
       <!-- Slide 3: 스프링 시즌오프 -->
-      <div class="detail-slide" data-slide="2" style="background:#FAFFE6;">
+      <div class="detail-slide" data-slide="5" style="background:#FAFFE6;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative3.png" alt="AI Creative 03">
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="spring.mp4" autoplay loop muted playsinline></video>
           </div>
         </div>
-      </div>
-      <!-- 스크롤 힌트 -->
-      <div class="detail-scroll-hint" id="ai-scroll-hint" style="bottom:9%;">
-        <span class="scroll-hint-text">Scroll</span>
-        <div class="scroll-hint-line"></div>
-        <div class="scroll-hint-arrow"></div>
       </div>
     </div>
     <!-- 스크롤 높이용 스페이서 -->
@@ -444,8 +627,19 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="fe-scene">
     <div class="detail-canvas">
+      <!-- Intro 1 -->
+      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#FFFFFF;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="Fashioneditorialintro.png" alt="Fashion Editorial Intro 01">
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
       <!-- Slide 1: HONDA MOTORCYCLE -->
-      <div class="detail-slide active" data-slide="0" style="background:#151515;">
+      <div class="detail-slide" data-slide="1" style="background:#151515;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial.png" alt="Fashion Editorial 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-1">
@@ -479,8 +673,19 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Intro 2 -->
+      <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#FFFFFF;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="Fashioneditorial2intro.png" alt="Fashion Editorial Intro 02">
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
       <!-- Slide 2: 일광전구 -->
-      <div class="detail-slide" data-slide="1" style="background:#F5F5F5;">
+      <div class="detail-slide" data-slide="3" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial2.png" alt="Fashion Editorial 02">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-2">
@@ -507,8 +712,19 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Intro 3 -->
+      <div class="detail-slide detail-slide-intro" data-slide="4" style="background:#FFFFFF;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="Fashioneditorial3intro.png" alt="Fashion Editorial Intro 03">
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
       <!-- Slide 3: 조셉앤스테이시 × 몬치치 -->
-      <div class="detail-slide" data-slide="2" style="background:#F7E9EB;">
+      <div class="detail-slide" data-slide="5" style="background:#F7E9EB;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial3.png" alt="Fashion Editorial 03">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-3">
@@ -535,8 +751,19 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
+      <!-- Intro 4 -->
+      <div class="detail-slide detail-slide-intro" data-slide="6" style="background:#FFFFFF;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="Fashioneditorial4intro.png" alt="Fashion Editorial Intro 04">
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
       <!-- Slide 4: KREAM 도산 스토어 윈터 룩북 -->
-      <div class="detail-slide" data-slide="3" style="background:#C1CCCE;">
+      <div class="detail-slide" data-slide="7" style="background:#C1CCCE;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial4.png" alt="Fashion Editorial 04">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-4">
@@ -589,8 +816,19 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="pc-scene">
     <div class="detail-canvas">
+      <!-- Intro 1 -->
+      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#FFFFFF;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="Promotionalintro.png" alt="Promotional Content Intro">
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
       <!-- Slide 1: 디저트 테이블 -->
-      <div class="detail-slide active" data-slide="0" style="background:#F5F5F5;">
+      <div class="detail-slide" data-slide="1" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Promotional.png" alt="Promotional Content 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="pc-strip-1">
@@ -625,6 +863,110 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   </div>
 </div>
 
+<!-- 3D ARTWORK DETAIL PAGE -->
+<div id="page-3d-artwork" class="detail-page">
+  <div class="detail-nav dark">
+    <a class="detail-back" onclick="closeDetail()">← Back</a>
+    <div class="detail-menu-wrap">
+      <div class="detail-inline-cats">
+        <a onclick="switchDetail('ai-creative')">AI Creative</a>
+        <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+        <a class="active" onclick="switchDetail('3d-artwork')">3D Artwork</a>
+        <a onclick="switchDetail('style-challenge')">Style Challenge</a>
+        <a onclick="switchDetail('promotional-content')">Promotional Content</a>
+      </div>
+      <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="detail-scene" id="da-scene">
+    <div class="detail-canvas">
+      <!-- Intro 1 -->
+      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#FFFFFF;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="3DArtworkintro.png" alt="3D Artwork Intro 01">
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 1: KREAM DRAW -->
+      <div class="detail-slide" data-slide="1" style="background:#004ED5;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="3DArtwork.png" alt="3D Artwork 01">
+          <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
+            <video src="3DArtwork1.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+          </div>
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
+            <div class="scroll-hint-line" style="background:#fff;"></div>
+            <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Intro 2 -->
+      <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#FFFFFF;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="3DArtwork2-1intro.png" alt="3D Artwork Intro 02">
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 2: 2025 TREND LEVEL TEST -->
+      <div class="detail-slide" data-slide="3" style="background:#F5F5F5;">
+        <div class="detail-slide-inner">
+          <img class="detail-bg" src="3DArtwork2-1.png" alt="3D Artwork 02">
+          <div style="position:absolute;left:58.07%;bottom:7%;width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;">
+            <img src="3DArtworkThumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div class="detail-scroll-hint" style="bottom:9%;">
+            <span class="scroll-hint-text">Scroll</span>
+            <div class="scroll-hint-line"></div>
+            <div class="scroll-hint-arrow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 스크롤 스페이서 -->
+    <div class="detail-spacer" id="da-spacer"></div>
+  </div>
+  <!-- 모달 갤러리 -->
+  <div class="da-modal" id="da-modal">
+    <div class="da-modal-inner">
+      <button class="da-modal-close" onclick="closeDaModal()">✕</button>
+      <button class="da-modal-arrow da-modal-prev" onclick="slideDaModal(-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+      <div class="da-modal-viewport">
+        <a href="https://content.kream.co.kr/trendtest" target="_blank" class="da-modal-slide da-modal-slide-link active">
+          <video src="lvcover.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+          <div class="da-modal-dim"></div>
+          <span class="da-modal-cta">START TEST</span>
+        </a>
+        <div class="da-modal-slide">
+          <img src="lv1.jpg" alt="Lv.1">
+        </div>
+        <div class="da-modal-slide">
+          <img src="lv2.jpg" alt="Lv.2">
+        </div>
+        <div class="da-modal-slide">
+          <img src="lv3.jpg" alt="Lv.3">
+        </div>
+        <div class="da-modal-slide">
+          <img src="lv4.jpg" alt="Lv.4">
+        </div>
+      </div>
+      <button class="da-modal-arrow da-modal-next" onclick="slideDaModal(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+      <div class="da-modal-dots" id="da-modal-dots"></div>
+    </div>
+  </div>
+</div>
+
 <script>
 /* CLOCK */
 function updateClock(){
@@ -638,14 +980,14 @@ function updateClock(){
 updateClock(); setInterval(updateClock,1000);
 
 /* SVG ROLLING */
-const svgSlots=['graphics','content','creative'];
+const svgSlots=['graphic','content','creative'];
 let svgCur=0;
 const svgPaths={
-  graphics:"M34.5996 73.2C27.1996 73.2 20.8996 71.5666 15.6996 68.3C10.5663 64.9666 6.66628 60.5333 3.99961 55C1.33294 49.4666 -0.000390522 43.3 -0.000390522 36.5C-0.000390522 31.5 0.732943 26.8 2.19961 22.4C3.73294 17.9333 5.96628 14.0333 8.89961 10.7C11.8329 7.36664 15.4329 4.76664 19.6996 2.89997C24.0329 0.96664 28.9996 -2.64645e-05 34.5996 -2.64645e-05C43.9996 -2.64645e-05 51.3329 2.49997 56.5996 7.49997C61.9329 12.4333 65.1329 19.1 66.1996 27.5H52.6996C52.3663 25.2333 51.7663 23.1666 50.8996 21.3C50.0996 19.3666 48.9663 17.7 47.4996 16.3C46.0996 14.8333 44.3329 13.7 42.1996 12.9C40.1329 12.1 37.5996 11.7 34.5996 11.7C29.7329 11.7 25.6996 12.9 22.4996 15.3C19.3663 17.6333 17.0329 20.7 15.4996 24.5C14.0329 28.2333 13.2996 32.2333 13.2996 36.5C13.2996 40.8333 14.0329 44.9 15.4996 48.7C17.0329 52.5 19.3663 55.6 22.4996 58C25.6996 60.3333 29.7329 61.5 34.5996 61.5C37.9996 61.5 40.9329 61 43.3996 60C45.8663 59 47.8663 57.6 49.3996 55.8C50.9996 54 52.0996 51.9 52.6996 49.5C53.3663 47.0333 53.5663 44.3333 53.2996 41.4L57.8996 44.7H34.5996V33.5H66.4996C67.0996 42.1666 66.1996 49.4666 63.7996 55.4C61.3996 61.2666 57.7329 65.7 52.7996 68.7C47.8663 71.7 41.7996 73.2 34.5996 73.2ZM87.4418 35.7H98.8418V46.9H87.4418V35.7ZM98.8418 35.7C102.442 35.7 105.508 35.3666 108.042 34.7C110.642 34.0333 112.608 32.8666 113.942 31.2C115.342 29.5333 116.042 27.2 116.042 24.2C116.042 21.2 115.342 18.8666 113.942 17.2C112.608 15.5333 110.642 14.3666 108.042 13.7C105.508 13.0333 102.442 12.7 98.8418 12.7V1.59997C104.975 1.59997 110.308 2.3333 114.842 3.79997C119.442 5.19997 123.008 7.53331 125.542 10.8C128.075 14.0666 129.342 18.5333 129.342 24.2C129.342 29.8 128.075 34.2666 125.542 37.6C123.008 40.8666 119.442 43.2333 114.842 44.7C110.308 46.1666 104.975 46.9 98.8418 46.9V35.7ZM87.4418 1.59997H98.8418V12.7H87.4418V1.59997ZM100.942 39.3H113.642L129.342 71.6H114.842L100.942 39.3ZM87.4418 8.19998V71.6H74.6418V8.19998H87.4418ZM155.916 1.59997H168.016L147.216 71.6H134.016L155.916 1.59997ZM173.616 1.59997L195.716 71.6H182.616L161.516 1.59997H173.616ZM145.816 45H183.516V56.2H145.816V45ZM215.032 36.7H225.932V47.9H215.032V36.7ZM225.932 36.7C229.532 36.7 232.598 36.4 235.132 35.8C237.732 35.1333 239.698 33.9333 241.032 32.2C242.432 30.4666 243.132 27.9666 243.132 24.7C243.132 21.4333 242.432 18.9333 241.032 17.2C239.698 15.4666 237.732 14.3 235.132 13.7C232.598 13.0333 229.532 12.7 225.932 12.7V1.59997C232.132 1.59997 237.498 2.36664 242.032 3.89997C246.632 5.36664 250.165 7.79997 252.632 11.2C255.165 14.5333 256.432 19.0333 256.432 24.7C256.432 30.3 255.165 34.8 252.632 38.2C250.165 41.6 246.632 44.0666 242.032 45.6C237.498 47.1333 232.132 47.9 225.932 47.9V36.7ZM215.032 1.59997H225.932V12.7H215.032V1.59997ZM215.032 8.19998V71.6H202.232V8.19998H215.032ZM263.146 1.59997H275.946V71.6H263.146V1.59997ZM306.846 1.59997H319.546V71.6H306.846V1.59997ZM268.146 30.8H317.346V42H268.146V30.8ZM329.236 1.59997H342.036V71.6H329.236V1.59997ZM415.873 43.1C415.406 49.1 413.873 54.3666 411.273 58.9C408.74 63.4333 405.173 66.9666 400.573 69.5C396.04 71.9666 390.473 73.2 383.873 73.2C376.473 73.2 370.173 71.5666 364.973 68.3C359.84 64.9666 355.94 60.5333 353.273 55C350.606 49.4666 349.273 43.3 349.273 36.5C349.273 31.5 350.006 26.8 351.473 22.4C353.006 17.9333 355.24 14.0333 358.173 10.7C361.106 7.36664 364.706 4.76664 368.973 2.89997C373.306 0.96664 378.273 -2.64645e-05 383.873 -2.64645e-05C393.273 -2.64645e-05 400.606 2.49997 405.873 7.49997C411.206 12.4333 414.406 19.1 415.473 27.5H401.973C401.64 25.2333 401.04 23.1666 400.173 21.3C399.373 19.3666 398.24 17.7 396.773 16.3C395.373 14.8333 393.606 13.7 391.473 12.9C389.406 12.1 386.873 11.7 383.873 11.7C379.006 11.7 374.973 12.9 371.773 15.3C368.64 17.6333 366.306 20.7 364.773 24.5C363.306 28.2333 362.573 32.2333 362.573 36.5C362.573 40.8333 363.306 44.9 364.773 48.7C366.306 52.5 368.64 55.6 371.773 58C374.973 60.3333 379.006 61.5 383.873 61.5C387.14 61.5 389.873 61.0333 392.073 60.1C394.34 59.1 396.206 57.7666 397.673 56.1C399.206 54.4333 400.34 52.5 401.073 50.3C401.873 48.1 402.373 45.7 402.573 43.1H415.873ZM434.35 49.3C434.617 51.8333 435.45 54.0333 436.85 55.9C438.25 57.7 440.084 59.1 442.35 60.1C444.684 61.0333 447.284 61.5 450.15 61.5C454.217 61.5 457.55 60.7666 460.15 59.3C462.75 57.8333 464.05 55.6333 464.05 52.7C464.05 50.7 463.284 49.1333 461.75 48C460.217 46.8 458.184 45.8666 455.65 45.2C453.117 44.4666 450.35 43.7666 447.35 43.1C444.35 42.4333 441.317 41.6666 438.25 40.8C435.25 39.8666 432.484 38.6333 429.95 37.1C427.417 35.5 425.384 33.4 423.85 30.8C422.317 28.1333 421.55 24.7333 421.55 20.6C421.55 16.6666 422.717 13.1666 425.05 10.1C427.384 6.96664 430.617 4.49997 434.75 2.69997C438.95 0.899974 443.75 -2.64645e-05 449.15 -2.64645e-05C454.284 -2.64645e-05 458.884 1.03331 462.95 3.09997C467.084 5.16664 470.317 7.99997 472.65 11.6C475.05 15.1333 476.25 19.2 476.25 23.8H462.85C462.584 20 461.284 17.0333 458.95 14.9C456.684 12.7666 453.25 11.7 448.65 11.7C444.184 11.7 440.75 12.5333 438.35 14.2C436.017 15.8666 434.85 18 434.85 20.6C434.85 22.8 435.617 24.5333 437.15 25.8C438.684 27.0666 440.717 28.0666 443.25 28.8C445.784 29.5333 448.55 30.2 451.55 30.8C454.617 31.4 457.65 32.1666 460.65 33.1C463.65 33.9666 466.417 35.1666 468.95 36.7C471.484 38.1666 473.517 40.2 475.05 42.8C476.584 45.3333 477.35 48.6333 477.35 52.7C477.35 59.1666 474.917 64.2 470.05 67.8C465.184 71.4 458.35 73.2 449.55 73.2C444.15 73.2 439.317 72.1666 435.05 70.1C430.784 68.0333 427.384 65.2 424.85 61.6C422.317 58 420.95 53.9 420.75 49.3H434.35Z",
+  graphic:"M34.5996 73.2C27.1996 73.2 20.8996 71.5666 15.6996 68.3C10.5663 64.9666 6.66628 60.5333 3.99961 55C1.33294 49.4666 -0.000390522 43.3 -0.000390522 36.5C-0.000390522 31.5 0.732943 26.8 2.19961 22.4C3.73294 17.9333 5.96628 14.0333 8.89961 10.7C11.8329 7.36664 15.4329 4.76664 19.6996 2.89997C24.0329 0.96664 28.9996 -2.64645e-05 34.5996 -2.64645e-05C43.9996 -2.64645e-05 51.3329 2.49997 56.5996 7.49997C61.9329 12.4333 65.1329 19.1 66.1996 27.5H52.6996C52.3663 25.2333 51.7663 23.1666 50.8996 21.3C50.0996 19.3666 48.9663 17.7 47.4996 16.3C46.0996 14.8333 44.3329 13.7 42.1996 12.9C40.1329 12.1 37.5996 11.7 34.5996 11.7C29.7329 11.7 25.6996 12.9 22.4996 15.3C19.3663 17.6333 17.0329 20.7 15.4996 24.5C14.0329 28.2333 13.2996 32.2333 13.2996 36.5C13.2996 40.8333 14.0329 44.9 15.4996 48.7C17.0329 52.5 19.3663 55.6 22.4996 58C25.6996 60.3333 29.7329 61.5 34.5996 61.5C37.9996 61.5 40.9329 61 43.3996 60C45.8663 59 47.8663 57.6 49.3996 55.8C50.9996 54 52.0996 51.9 52.6996 49.5C53.3663 47.0333 53.5663 44.3333 53.2996 41.4L57.8996 44.7H34.5996V33.5H66.4996C67.0996 42.1666 66.1996 49.4666 63.7996 55.4C61.3996 61.2666 57.7329 65.7 52.7996 68.7C47.8663 71.7 41.7996 73.2 34.5996 73.2ZM87.4418 35.7H98.8418V46.9H87.4418V35.7ZM98.8418 35.7C102.442 35.7 105.508 35.3666 108.042 34.7C110.642 34.0333 112.608 32.8666 113.942 31.2C115.342 29.5333 116.042 27.2 116.042 24.2C116.042 21.2 115.342 18.8666 113.942 17.2C112.608 15.5333 110.642 14.3666 108.042 13.7C105.508 13.0333 102.442 12.7 98.8418 12.7V1.59997C104.975 1.59997 110.308 2.3333 114.842 3.79997C119.442 5.19997 123.008 7.53331 125.542 10.8C128.075 14.0666 129.342 18.5333 129.342 24.2C129.342 29.8 128.075 34.2666 125.542 37.6C123.008 40.8666 119.442 43.2333 114.842 44.7C110.308 46.1666 104.975 46.9 98.8418 46.9V35.7ZM87.4418 1.59997H98.8418V12.7H87.4418V1.59997ZM100.942 39.3H113.642L129.342 71.6H114.842L100.942 39.3ZM87.4418 8.19998V71.6H74.6418V8.19998H87.4418ZM155.916 1.59997H168.016L147.216 71.6H134.016L155.916 1.59997ZM173.616 1.59997L195.716 71.6H182.616L161.516 1.59997H173.616ZM145.816 45H183.516V56.2H145.816V45ZM215.032 36.7H225.932V47.9H215.032V36.7ZM225.932 36.7C229.532 36.7 232.598 36.4 235.132 35.8C237.732 35.1333 239.698 33.9333 241.032 32.2C242.432 30.4666 243.132 27.9666 243.132 24.7C243.132 21.4333 242.432 18.9333 241.032 17.2C239.698 15.4666 237.732 14.3 235.132 13.7C232.598 13.0333 229.532 12.7 225.932 12.7V1.59997C232.132 1.59997 237.498 2.36664 242.032 3.89997C246.632 5.36664 250.165 7.79997 252.632 11.2C255.165 14.5333 256.432 19.0333 256.432 24.7C256.432 30.3 255.165 34.8 252.632 38.2C250.165 41.6 246.632 44.0666 242.032 45.6C237.498 47.1333 232.132 47.9 225.932 47.9V36.7ZM215.032 1.59997H225.932V12.7H215.032V1.59997ZM215.032 8.19998V71.6H202.232V8.19998H215.032ZM263.146 1.59997H275.946V71.6H263.146V1.59997ZM306.846 1.59997H319.546V71.6H306.846V1.59997ZM268.146 30.8H317.346V42H268.146V30.8ZM329.236 1.59997H342.036V71.6H329.236V1.59997ZM415.873 43.1C415.406 49.1 413.873 54.3666 411.273 58.9C408.74 63.4333 405.173 66.9666 400.573 69.5C396.04 71.9666 390.473 73.2 383.873 73.2C376.473 73.2 370.173 71.5666 364.973 68.3C359.84 64.9666 355.94 60.5333 353.273 55C350.606 49.4666 349.273 43.3 349.273 36.5C349.273 31.5 350.006 26.8 351.473 22.4C353.006 17.9333 355.24 14.0333 358.173 10.7C361.106 7.36664 364.706 4.76664 368.973 2.89997C373.306 0.96664 378.273 -2.64645e-05 383.873 -2.64645e-05C393.273 -2.64645e-05 400.606 2.49997 405.873 7.49997C411.206 12.4333 414.406 19.1 415.473 27.5H401.973C401.64 25.2333 401.04 23.1666 400.173 21.3C399.373 19.3666 398.24 17.7 396.773 16.3C395.373 14.8333 393.606 13.7 391.473 12.9C389.406 12.1 386.873 11.7 383.873 11.7C379.006 11.7 374.973 12.9 371.773 15.3C368.64 17.6333 366.306 20.7 364.773 24.5C363.306 28.2333 362.573 32.2333 362.573 36.5C362.573 40.8333 363.306 44.9 364.773 48.7C366.306 52.5 368.64 55.6 371.773 58C374.973 60.3333 379.006 61.5 383.873 61.5C387.14 61.5 389.873 61.0333 392.073 60.1C394.34 59.1 396.206 57.7666 397.673 56.1C399.206 54.4333 400.34 52.5 401.073 50.3C401.873 48.1 402.373 45.7 402.573 43.1H415.873ZM434.35 49.3C434.617 51.8333 435.45 54.0333 436.85 55.9C438.25 57.7 440.084 59.1 442.35 60.1C444.684 61.0333 447.284 61.5 450.15 61.5C454.217 61.5 457.55 60.7666 460.15 59.3C462.75 57.8333 464.05 55.6333 464.05 52.7C464.05 50.7 463.284 49.1333 461.75 48C460.217 46.8 458.184 45.8666 455.65 45.2C453.117 44.4666 450.35 43.7666 447.35 43.1C444.35 42.4333 441.317 41.6666 438.25 40.8C435.25 39.8666 432.484 38.6333 429.95 37.1C427.417 35.5 425.384 33.4 423.85 30.8C422.317 28.1333 421.55 24.7333 421.55 20.6C421.55 16.6666 422.717 13.1666 425.05 10.1C427.384 6.96664 430.617 4.49997 434.75 2.69997C438.95 0.899974 443.75 -2.64645e-05 449.15 -2.64645e-05C454.284 -2.64645e-05 458.884 1.03331 462.95 3.09997C467.084 5.16664 470.317 7.99997 472.65 11.6C475.05 15.1333 476.25 19.2 476.25 23.8H462.85C462.584 20 461.284 17.0333 458.95 14.9C456.684 12.7666 453.25 11.7 448.65 11.7C444.184 11.7 440.75 12.5333 438.35 14.2C436.017 15.8666 434.85 18 434.85 20.6C434.85 22.8 435.617 24.5333 437.15 25.8C438.684 27.0666 440.717 28.0666 443.25 28.8C445.784 29.5333 448.55 30.2 451.55 30.8C454.617 31.4 457.65 32.1666 460.65 33.1C463.65 33.9666 466.417 35.1666 468.95 36.7C471.484 38.1666 473.517 40.2 475.05 42.8C476.584 45.3333 477.35 48.6333 477.35 52.7C477.35 59.1666 474.917 64.2 470.05 67.8C465.184 71.4 458.35 73.2 449.55 73.2C444.15 73.2 439.317 72.1666 435.05 70.1C430.784 68.0333 427.384 65.2 424.85 61.6C422.317 58 420.95 53.9 420.75 49.3H434.35Z",
   content:"M66.5996 43.1C66.1329 49.1 64.5996 54.3666 61.9996 58.9C59.4663 63.4333 55.8996 66.9666 51.2996 69.5C46.7663 71.9666 41.1996 73.2 34.5996 73.2C27.1996 73.2 20.8996 71.5666 15.6996 68.3C10.5663 64.9666 6.66628 60.5333 3.99961 55C1.33294 49.4666 -0.000390522 43.3 -0.000390522 36.5C-0.000390522 31.5 0.732943 26.8 2.19961 22.4C3.73294 17.9333 5.96628 14.0333 8.89961 10.7C11.8329 7.36664 15.4329 4.76664 19.6996 2.89997C24.0329 0.96664 28.9996 -2.64645e-05 34.5996 -2.64645e-05C43.9996 -2.64645e-05 51.3329 2.49997 56.5996 7.49997C61.9329 12.4333 65.1329 19.1 66.1996 27.5H52.6996C52.3663 25.2333 51.7663 23.1666 50.8996 21.3C50.0996 19.3666 48.9663 17.7 47.4996 16.3C46.0996 14.8333 44.3329 13.7 42.1996 12.9C40.1329 12.1 37.5996 11.7 34.5996 11.7C29.7329 11.7 25.6996 12.9 22.4996 15.3C19.3663 17.6333 17.0329 20.7 15.4996 24.5C14.0329 28.2333 13.2996 32.2333 13.2996 36.5C13.2996 40.8333 14.0329 44.9 15.4996 48.7C17.0329 52.5 19.3663 55.6 22.4996 58C25.6996 60.3333 29.7329 61.5 34.5996 61.5C37.8663 61.5 40.5996 61.0333 42.7996 60.1C45.0663 59.1 46.9329 57.7666 48.3996 56.1C49.9329 54.4333 51.0663 52.5 51.7996 50.3C52.5996 48.1 53.0996 45.7 53.2996 43.1H66.5996ZM105.963 73.2C98.5629 73.2 92.2629 71.5666 87.0629 68.3C81.9296 64.9666 78.0296 60.5333 75.3629 55C72.6962 49.4666 71.3629 43.3 71.3629 36.5C71.3629 31.5 72.0962 26.8 73.5629 22.4C75.0962 17.9333 77.3296 14.0333 80.2629 10.7C83.1962 7.36664 86.7962 4.76664 91.0629 2.89997C95.3962 0.96664 100.363 -2.64645e-05 105.963 -2.64645e-05C111.496 -2.64645e-05 116.396 0.96664 120.663 2.89997C124.996 4.76664 128.63 7.36664 131.563 10.7C134.496 14.0333 136.696 17.9333 138.163 22.4C139.696 26.8 140.463 31.5 140.463 36.5C140.463 43.3 139.13 49.4666 136.463 55C133.796 60.5333 129.896 64.9666 124.763 68.3C119.63 71.5666 113.363 73.2 105.963 73.2ZM105.963 61.5C110.83 61.5 114.83 60.3333 117.963 58C121.096 55.6 123.396 52.5 124.863 48.7C126.396 44.9 127.163 40.8333 127.163 36.5C127.163 32.2333 126.396 28.2333 124.863 24.5C123.396 20.7 121.096 17.6333 117.963 15.3C114.83 12.9 110.83 11.7 105.963 11.7C101.096 11.7 97.0629 12.9 93.8629 15.3C90.7296 17.6333 88.3962 20.7 86.8629 24.5C85.3962 28.2333 84.6629 32.2333 84.6629 36.5C84.6629 40.8333 85.3962 44.9 86.8629 48.7C88.3962 52.5 90.7296 55.6 93.8629 58C97.0629 60.3333 101.096 61.5 105.963 61.5ZM186.265 71.6L152.265 1.59997H166.265L200.165 71.6H186.265ZM147.665 1.59997H159.965V71.6H147.665V1.59997ZM192.565 1.59997H204.765V71.6H192.565V1.59997ZM232.943 1.59997H245.743V71.6H232.943V1.59997ZM211.043 1.59997H267.643V12.7H211.043V1.59997ZM273.986 65V1.59997H286.786V65H273.986ZM286.786 71.6V60.4H322.886V71.6H286.786ZM285.486 42V30.8H318.486V42H285.486ZM286.286 12.8V1.59997H322.486V12.8H286.286ZM369.691 71.6L335.691 1.59997H349.691L383.591 71.6H369.691ZM331.091 1.59997H343.391V71.6H331.091V1.59997ZM375.991 1.59997H388.191V71.6H375.991V1.59997ZM416.369 1.59997H429.169V71.6H416.369V1.59997ZM394.469 1.59997H451.069V12.7H394.469V1.59997Z",
   creative:"M66.5996 43.1001C66.1329 49.1001 64.5996 54.3668 61.9996 58.9001C59.4663 63.4334 55.8996 66.9668 51.2996 69.5001C46.7663 71.9668 41.1996 73.2001 34.5996 73.2001C27.1996 73.2001 20.8996 71.5668 15.6996 68.3001C10.5663 64.9668 6.66628 60.5334 3.99961 55.0001C1.33294 49.4668 -0.000390522 43.3001 -0.000390522 36.5001C-0.000390522 31.5001 0.732943 26.8001 2.19961 22.4001C3.73294 17.9334 5.96628 14.0334 8.89961 10.7001C11.8329 7.36676 15.4329 4.76676 19.6996 2.90009C24.0329 0.966762 28.9996 9.56059e-05 34.5996 9.56059e-05C43.9996 9.56059e-05 51.3329 2.5001 56.5996 7.50009C61.9329 12.4334 65.1329 19.1001 66.1996 27.5001H52.6996C52.3663 25.2334 51.7663 23.1668 50.8996 21.3001C50.0996 19.3668 48.9663 17.7001 47.4996 16.3001C46.0996 14.8334 44.3329 13.7001 42.1996 12.9001C40.1329 12.1001 37.5996 11.7001 34.5996 11.7001C29.7329 11.7001 25.6996 12.9001 22.4996 15.3001C19.3663 17.6334 17.0329 20.7001 15.4996 24.5001C14.0329 28.2334 13.2996 32.2334 13.2996 36.5001C13.2996 40.8334 14.0329 44.9001 15.4996 48.7001C17.0329 52.5001 19.3663 55.6001 22.4996 58.0001C25.6996 60.3334 29.7329 61.5001 34.5996 61.5001C37.8663 61.5001 40.5996 61.0334 42.7996 60.1001C45.0663 59.1001 46.9329 57.7668 48.3996 56.1001C49.9329 54.4334 51.0663 52.5001 51.7996 50.3001C52.5996 48.1001 53.0996 45.7001 53.2996 43.1001H66.5996ZM86.5629 35.7001H97.9629V46.9001H86.5629V35.7001ZM97.9629 35.7001C101.563 35.7001 104.63 35.3668 107.163 34.7001C109.763 34.0334 111.73 32.8668 113.063 31.2001C114.463 29.5334 115.163 27.2001 115.163 24.2001C115.163 21.2001 114.463 18.8668 113.063 17.2001C111.73 15.5334 109.763 14.3668 107.163 13.7001C104.63 13.0334 101.563 12.7001 97.9629 12.7001V1.60009C104.096 1.60009 109.43 2.33343 113.963 3.80009C118.563 5.2001 122.13 7.53343 124.663 10.8001C127.196 14.0668 128.463 18.5334 128.463 24.2001C128.463 29.8001 127.196 34.2668 124.663 37.6001C122.13 40.8668 118.563 43.2334 113.963 44.7001C109.43 46.1668 104.096 46.9001 97.9629 46.9001V35.7001ZM86.5629 1.60009H97.9629V12.7001H86.5629V1.60009ZM100.063 39.3001H112.763L128.463 71.6001H113.963L100.063 39.3001ZM86.5629 8.2001V71.6001H73.7629V8.2001H86.5629ZM137.021 65.0001V1.60009H149.821V65.0001H137.021ZM149.821 71.6001V60.4001H185.921V71.6001H149.821ZM148.521 42.0001V30.8001H181.521V42.0001H148.521ZM149.321 12.8001V1.60009H185.521V12.8001H149.321ZM212.631 1.60009H224.731L203.931 71.6001H190.731L212.631 1.60009ZM230.331 1.60009L252.431 71.6001H239.331L218.231 1.60009H230.331ZM202.531 45.0001H240.231V56.2001H202.531V45.0001ZM269.541 1.60009H282.341V71.6001H269.541V1.60009ZM247.641 1.60009H304.241V12.7001H247.641V1.60009ZM310.583 1.60009H323.383V71.6001H310.583V1.60009ZM351.721 71.6001L329.821 1.60009H343.021L363.821 71.6001H351.721ZM369.421 71.6001H357.321L378.421 1.60009H391.521L369.421 71.6001ZM398.036 65.0001V1.60009H410.836V65.0001H398.036ZM410.836 71.6001V60.4001H446.936V71.6001H410.836ZM409.536 42.0001V30.8001H442.536V42.0001H409.536ZM410.336 12.8001V1.60009H446.536V12.8001H410.336Z"
 };
-const svgVB={graphics:'0 0 478 74',content:'0 0 452 74',creative:'0 0 447 74'};
+const svgVB={graphic:'0 0 478 74',content:'0 0 452 74',creative:'0 0 447 74'};
 const track=document.getElementById('svgTrack');
 track.innerHTML='';
 const activeSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -667,7 +1009,7 @@ function showSvg(name){
     }));
   },420);
 }
-setTimeout(()=>{showSvg('graphics');setInterval(()=>{svgCur=(svgCur+1)%svgSlots.length;showSvg(svgSlots[svgCur]);},2400);},1000);
+setTimeout(()=>{showSvg('graphic');setInterval(()=>{svgCur=(svgCur+1)%svgSlots.length;showSvg(svgSlots[svgCur]);},2400);},1000);
 
 /* NAV COLOR */
 const nav=document.getElementById('nav');
@@ -819,163 +1161,183 @@ document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
 document.querySelectorAll('.wcard')[4].addEventListener('click',function(){
   openDetail('promotional-content');
 });
+// Attach click to third wcard (3D Artwork)
+document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
+  openDetail('3d-artwork');
+});
 
-/* DETAIL SLIDE SCROLL — 통합 스크롤 로직 */
+/* =====================================================================
+   DETAIL SCROLL — 완전 재설계
+   각 슬라이드에 명시적 px 구간을 직접 할당:
+   - 인트로 슬라이드      : 1 * vh  (스크롤 한 번에 바로 다음으로)
+   - FE/PC 작업 슬라이드  : stripH * STRIP_SLOW  (스트립 느리게)
+   - AI/3D 작업 슬라이드  : 1 * vh  (스크롤 한 번에 바로 다음으로)
+   스페이서 = 모든 구간 합산. calcFeSpacers 완전 제거.
+===================================================================== */
 (function(){
-  const detailPages = document.querySelectorAll('.detail-page');
-  
-  detailPages.forEach(page => {
+
+  // ── 상수 ──────────────────────────────────────────────────────────
+  const INTRO_PX  = () => window.innerHeight;        // 인트로: 1vh
+  const STRIP_SLOW = 4.5;   // 스트립 높이 대비 스크롤 배율 (클수록 느림)
+  const NONSTRIP_PX = () => window.innerHeight;      // AI/3D 작업: 1vh
+
+  // ── 유틸 ──────────────────────────────────────────────────────────
+  function isColorDark(color){
+    let r,g,b;
+    const m = color.match(/rgb\w*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+    if(m){ r=+m[1];g=+m[2];b=+m[3]; }
+    else{
+      let h=color.replace('#','');
+      if(h.length===3) h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+      r=parseInt(h.substr(0,2),16);g=parseInt(h.substr(2,2),16);b=parseInt(h.substr(4,2),16);
+    }
+    if(isNaN(r))r=255;if(isNaN(g))g=255;if(isNaN(b))b=255;
+    return (r*0.299+g*0.587+b*0.114)<128;
+  }
+
+  // ── 각 scene의 슬라이드별 구간(px) 계산 ──────────────────────────
+  function buildSegments(scene){
+    const slides = scene.querySelectorAll('.detail-slide');
+    const hasStrips = scene.querySelectorAll('.detail-scroll-strip').length > 0;
+    const segs = []; // {start, len} px
+    let cursor = 0;
+    slides.forEach(slide => {
+      const isIntro = slide.classList.contains('detail-slide-intro');
+      let len;
+      if(isIntro){
+        len = INTRO_PX();
+      } else if(hasStrips){
+        // 스트립 높이 기반
+        const strip = slide.querySelector('.detail-scroll-strip');
+        const frame = strip ? strip.parentElement : null;
+        const frameH = frame ? frame.offsetHeight : window.innerHeight;
+        const stripH = strip ? strip.scrollHeight : frameH;
+        const overflow = Math.max(0, stripH - frameH);
+        // 스트립이 없거나 차이가 없으면 최소 2vh 보장
+        len = Math.max(overflow * STRIP_SLOW, window.innerHeight * 2);
+      } else {
+        len = NONSTRIP_PX();
+      }
+      segs.push({ start: cursor, len });
+      cursor += len;
+    });
+    return segs;
+  }
+
+  // ── 스페이서 높이 세팅 ────────────────────────────────────────────
+  function applySpacers(){
+    document.querySelectorAll('.detail-scene').forEach(scene => {
+      const spacer = scene.querySelector('.detail-spacer');
+      if(!spacer) return;
+      const segs = buildSegments(scene);
+      if(!segs.length) return;
+      const last = segs[segs.length-1];
+      // 마지막 슬라이드 감상 여유 +1vh
+      const total = last.start + last.len + window.innerHeight;
+      spacer.style.height = Math.round(total) + 'px';
+    });
+  }
+
+  // 초기 + 리사이즈 + 이미지/비디오 로드 후 재계산
+  applySpacers();
+  window.addEventListener('resize', applySpacers);
+  setTimeout(applySpacers, 600);
+  setTimeout(applySpacers, 2000);
+
+  // ── 스크롤 핸들러 ─────────────────────────────────────────────────
+  document.querySelectorAll('.detail-page').forEach(page => {
     page.addEventListener('scroll', function(){
       const scene = page.querySelector('.detail-scene');
       if(!scene) return;
-      const slides = scene.querySelectorAll('.detail-slide');
+      const slides = Array.from(scene.querySelectorAll('.detail-slide'));
       const slideCount = slides.length;
       const scrollTop = page.scrollTop;
-      const vh = window.innerHeight;
-      const hasStrips = scene.querySelectorAll('.detail-scroll-strip').length > 0;
-      
-      if(hasStrips && slideCount > 1){
-        // 에디토리얼 멀티슬라이드: 각 슬라이드별 스크롤 구간 배분
-        const spacer = scene.querySelector('.detail-spacer');
-        const totalScroll = spacer ? spacer.offsetHeight : vh * slideCount;
-        const perSlide = totalScroll / slideCount;
-        const currentIndex = Math.min(Math.floor(scrollTop / perSlide), slideCount - 1);
-        const slideLocalScroll = scrollTop - (currentIndex * perSlide);
-        const slideProgress = Math.max(0, Math.min(1, slideLocalScroll / perSlide));
-        
-        slides.forEach((slide, i) => {
-          if(i === currentIndex) slide.classList.add('active');
-          else slide.classList.remove('active');
-          // 각 슬라이드의 스트립 제어
-          const strip = slide.querySelector('.detail-scroll-strip');
-          if(strip){
-            const frame = strip.parentElement;
-            const frameH = frame.offsetHeight;
-            const stripH = strip.scrollHeight;
-            const maxShift = Math.max(0, stripH - frameH);
-            if(i === currentIndex){
-              strip.style.transform = `translateY(-${slideProgress * maxShift}px)`;
-            } else if(i < currentIndex){
-              strip.style.transform = `translateY(-${maxShift}px)`;
-            } else {
-              strip.style.transform = `translateY(0px)`;
-            }
-          }
-        });
-        
-        // 스크롤 힌트
-        const activeSlide = slides[currentIndex];
-        const allHints = scene.querySelectorAll('.detail-scroll-hint');
-        allHints.forEach(h => h.style.opacity = '0');
-        const activeHint = activeSlide ? activeSlide.querySelector('.detail-scroll-hint') : null;
-        if(activeHint){
-          const isLast = currentIndex >= slideCount - 1 && slideProgress >= 0.95;
-          activeHint.style.opacity = isLast ? '0' : '0.5';
+      const segs = buildSegments(scene);
+
+      // 현재 슬라이드 인덱스 + 구간 내 progress
+      let currentIndex = slideCount - 1;
+      for(let i = 0; i < slideCount; i++){
+        if(scrollTop < segs[i].start + segs[i].len){ currentIndex = i; break; }
+      }
+      const seg = segs[currentIndex];
+      const slideProgress = seg.len > 0
+        ? Math.max(0, Math.min(1, (scrollTop - seg.start) / seg.len))
+        : 1;
+
+      // 각 슬라이드 표시 처리
+      slides.forEach((slide, i) => {
+        const isIntro = slide.classList.contains('detail-slide-intro');
+        const prevIsIntro = i > 0 && slides[i-1].classList.contains('detail-slide-intro');
+
+        if(isIntro && i === currentIndex && i + 1 < slideCount){
+          // 인트로 활성: 다음 작업 슬라이드를 위에서 내려오게
+          slide.classList.add('active');
+          slide.classList.remove('slide-down');
+          slide.style.transform = '';
+          const nextSlide = slides[i+1];
+          const coverP = Math.max(0, Math.min(1, slideProgress * 2.5));
+          nextSlide.classList.add('slide-down');
+          nextSlide.style.transform = `translateY(${(1-coverP)*100}%)`;
+        } else if(prevIsIntro && i === currentIndex){
+          slide.classList.add('active');
+          slide.classList.remove('slide-down');
+          slide.style.transform = 'translateY(0)';
+        } else if(i === currentIndex){
+          slide.classList.add('active');
+          slide.classList.remove('slide-down');
+          slide.style.transform = '';
+        } else if(prevIsIntro && i === currentIndex + 1){
+          // 인트로에서 처리 중 — 위 isIntro 분기에서 이미 설정됨
+        } else {
+          slide.classList.remove('active');
+          slide.classList.remove('slide-down');
+          slide.style.transform = '';
         }
-        
-        // Slide 1 벗어나면 사운드 자동 음소거
-        const vid1 = document.getElementById('fe-video-1');
-        const sndBtn = document.getElementById('fe-sound-btn');
-        if(vid1 && sndBtn){
-          if(currentIndex !== 0 && !vid1.muted){
-            vid1.muted = true;
-            sndBtn.querySelector('.sound-icon-off').style.display = 'block';
-            sndBtn.querySelector('.sound-icon-on').style.display = 'none';
-          }
-        }
-        
-      } else if(hasStrips && slideCount === 1){
-        // 에디토리얼 싱글슬라이드
-        const strip = scene.querySelector('.detail-scroll-strip');
+
+        // 스트립 스크롤 제어
+        const strip = slide.querySelector('.detail-scroll-strip');
         if(strip){
           const frame = strip.parentElement;
-          const frameH = frame.offsetHeight;
-          const stripH = strip.scrollHeight;
-          const maxShift = Math.max(0, stripH - frameH);
-          const spacer = scene.querySelector('.detail-spacer');
-          const totalScroll = spacer ? spacer.offsetHeight : vh;
-          const p = Math.max(0, Math.min(1, scrollTop / totalScroll));
-          strip.style.transform = `translateY(-${p * maxShift}px)`;
-          const hint = scene.querySelector('.detail-scroll-hint');
-          if(hint) hint.style.opacity = p >= 0.95 ? '0' : '0.5';
+          const maxShift = Math.max(0, strip.scrollHeight - frame.offsetHeight);
+          if(i === currentIndex && !slide.classList.contains('detail-slide-intro')){
+            strip.style.transform = `translateY(-${slideProgress * maxShift}px)`;
+          } else if(i < currentIndex){
+            strip.style.transform = `translateY(-${maxShift}px)`;
+          } else {
+            strip.style.transform = 'translateY(0px)';
+          }
         }
-        
-      } else if(slideCount > 1){
-        // AI Creative식 페이드 전환 (스트립 없음)
-        const progress = scrollTop / vh;
-        const currentIndex = Math.min(Math.floor(progress), slideCount - 1);
-        slides.forEach((slide, i) => {
-          if(i === currentIndex) slide.classList.add('active');
-          else slide.classList.remove('active');
-        });
-        const hint = scene.querySelector('.detail-scroll-hint');
-        if(hint) hint.style.opacity = currentIndex >= slideCount - 1 ? '0' : '0.5';
+      });
+
+      // 스크롤 힌트
+      scene.querySelectorAll('.detail-scroll-hint').forEach(h => h.style.opacity = '0');
+      const activeHint = slides[currentIndex]?.querySelector('.detail-scroll-hint');
+      if(activeHint){
+        const isLast = currentIndex >= slideCount-1 && slideProgress >= 0.95;
+        activeHint.style.opacity = isLast ? '0' : '0.5';
       }
-      
-      // 다크/라이트 네비 전환
+
+      // 사운드 자동 음소거
+      const vid1 = document.getElementById('fe-video-1');
+      const sndBtn = document.getElementById('fe-sound-btn');
+      if(vid1 && sndBtn && currentIndex !== 0 && !vid1.muted){
+        vid1.muted = true;
+        sndBtn.querySelector('.sound-icon-off').style.display = 'block';
+        sndBtn.querySelector('.sound-icon-on').style.display = 'none';
+      }
+
+      // 다크/라이트 네비
       const nav = page.querySelector('.detail-nav');
-      if(nav && slideCount > 1){
+      if(nav){
         const activeSlide = scene.querySelector('.detail-slide.active');
         if(activeSlide){
-          const bg = activeSlide.getAttribute('style')?.match(/background\s*:\s*([^;]+)/)?.[1]?.trim() || activeSlide.style.background || '#fff';
-          const isDark = isColorDark(bg);
-          if(isDark) nav.classList.add('dark');
-          else nav.classList.remove('dark');
+          const bg = activeSlide.getAttribute('style')?.match(/background\s*:\s*([^;]+)/)?.[1]?.trim() || '#fff';
+          isColorDark(bg) ? nav.classList.add('dark') : nav.classList.remove('dark');
         }
       }
     });
   });
-  
-  // 배경색이 어두운지 판단 (hex, rgb 둘 다 지원)
-  function isColorDark(color){
-    let r,g,b;
-    const rgbMatch = color.match(/rgb\w*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
-    if(rgbMatch){
-      r = parseInt(rgbMatch[1]);
-      g = parseInt(rgbMatch[2]);
-      b = parseInt(rgbMatch[3]);
-    } else {
-      let hex = color.replace('#','');
-      if(hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
-      r = parseInt(hex.substr(0,2),16);
-      g = parseInt(hex.substr(2,2),16);
-      b = parseInt(hex.substr(4,2),16);
-    }
-    if(isNaN(r)) r=255; if(isNaN(g)) g=255; if(isNaN(b)) b=255;
-    return (r*0.299 + g*0.587 + b*0.114) < 128;
-  }
-})();
 
-/* 에디토리얼 스페이서 높이 동적 계산 — 모든 스트립 합산 */
-(function(){
-  function calcFeSpacers(){
-    const scenes = document.querySelectorAll('.detail-scene');
-    scenes.forEach(scene => {
-      const strips = scene.querySelectorAll('.detail-scroll-strip');
-      const spacer = scene.querySelector('.detail-spacer');
-      if(strips.length === 0 || !spacer) return;
-      
-      const check = () => {
-        let totalRatio = 0;
-        strips.forEach(strip => {
-          const frame = strip.parentElement;
-          const frameH = frame.offsetHeight;
-          const stripH = strip.scrollHeight;
-          if(frameH > 0){
-            totalRatio += stripH / frameH;
-          }
-        });
-        if(totalRatio > 0){
-          spacer.style.height = Math.round(totalRatio * 100) + 'vh';
-        }
-      };
-      setTimeout(check, 500);
-      setTimeout(check, 2000);
-      setTimeout(check, 5000);
-      window.addEventListener('resize', check);
-    });
-  }
-  calcFeSpacers();
 })();
 
 </script>
@@ -1054,6 +1416,104 @@ document.querySelectorAll('.wcard')[4].addEventListener('click',function(){
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+})();
+
+/* 3D Artwork 모달 갤러리 */
+(function(){
+  const modal = document.getElementById('da-modal');
+  if(!modal) return;
+  const slides = modal.querySelectorAll('.da-modal-slide');
+  const dotsWrap = document.getElementById('da-modal-dots');
+  let currentSlide = 0;
+  
+  // 도트 생성
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'da-modal-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goToSlide(i);
+    dotsWrap.appendChild(dot);
+  });
+  
+  function goToSlide(idx){
+    currentSlide = idx;
+    slides.forEach((s, i) => {
+      if(i === idx) s.classList.add('active');
+      else s.classList.remove('active');
+    });
+    dotsWrap.querySelectorAll('.da-modal-dot').forEach((d, i) => {
+      if(i === idx) d.classList.add('active');
+      else d.classList.remove('active');
+    });
+  }
+  
+  window.slideDaModal = function(dir){
+    let next = currentSlide + dir;
+    if(next < 0) next = slides.length - 1;
+    if(next >= slides.length) next = 0;
+    goToSlide(next);
+  };
+  
+  window.closeDaModal = function(){
+    modal.classList.remove('show');
+    document.getElementById('page-3d-artwork').style.overflow = 'auto';
+  };
+  
+  // 스크롤 트리거: 3D Artwork 슬라이드 2에서 스크롤 내리면 모달 표시
+  const daPage = document.getElementById('page-3d-artwork');
+  if(daPage){
+    daPage.addEventListener('scroll', function(){
+      const scene = daPage.querySelector('.detail-scene');
+      if(!scene) return;
+      const slides2 = scene.querySelectorAll('.detail-slide');
+      if(slides2.length < 2) return;
+      const activeSlide = scene.querySelector('.detail-slide.active');
+      if(!activeSlide) return;
+      const slideIdx = parseInt(activeSlide.getAttribute('data-slide'));
+      
+      // 슬라이드 2(인덱스 3, 인트로 포함)에서 스크롤이 일정 이상이면 모달 표시
+      if(slideIdx === 3){
+        // buildSegments와 동일한 로직으로 구간 계산
+        const slides2arr = Array.from(slides2);
+        let cursor2 = 0;
+        const segs2 = slides2arr.map(s => {
+          const isI = s.classList.contains('detail-slide-intro');
+          const len = isI ? window.innerHeight : window.innerHeight;
+          const seg = { start: cursor2, len };
+          cursor2 += len;
+          return seg;
+        });
+        const seg3 = segs2[3];
+        const slideProgress2 = seg3 ? Math.max(0, Math.min(1, (daPage.scrollTop - seg3.start) / seg3.len)) : 0;
+        
+        if(slideProgress2 > 0.3 && !modal.classList.contains('show')){
+          modal.classList.add('show');
+          goToSlide(0);
+        }
+      } else {
+        if(modal.classList.contains('show')){
+          modal.classList.remove('show');
+        }
+      }
+    });
+  }
+  
+  // 모달 바깥 클릭 시 닫기
+  modal.addEventListener('click', function(e){
+    if(e.target === modal){
+      closeDaModal();
+    }
+  });
+  
+  // ESC 키로 닫기
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && modal.classList.contains('show')){
+      closeDaModal();
+    }
+    if(modal.classList.contains('show')){
+      if(e.key === 'ArrowLeft') slideDaModal(-1);
+      if(e.key === 'ArrowRight') slideDaModal(1);
+    }
+  });
 })();
 </script>
 </body>
