@@ -1228,15 +1228,7 @@ const feAudio = new Audio('1.mp4');
 feAudio.loop = true;
 feAudio.preload = 'auto';
 let feAudioReady = false; // 유저 클릭 후 true
-// 브라우저 autoplay 정책: 첫 유저 인터랙션 후 재생 대기열
-let feAudioPending = false;
-document.addEventListener('click', function onFirstClick(){
-  if(feAudioPending){
-    feAudio.play().catch(()=>{});
-    feAudioPending = false;
-  }
-  document.removeEventListener('click', onFirstClick);
-}, {once: false});
+
 
 /* CLOCK */
 function updateClock(){
@@ -1464,8 +1456,7 @@ document.querySelectorAll('.wcard')[0].addEventListener('click',function(){
 });
 // Attach click to second wcard (Fashion Editorial)
 document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
-  feAudio.currentTime = 0;
-  feAudioReady = true; // 유저 클릭 컨텍스트 기억
+  feAudioReady = true;
   openDetail('fashion-editorial');
 });
 // Attach click to fifth wcard (Promotional Content)
