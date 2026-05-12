@@ -1238,6 +1238,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* URL 해시 제거 */
 if(location.hash) history.replaceState(null, '', location.pathname);
 
+/* FE BGM Audio */
+const feAudio = new Audio('1.mp4');
+feAudio.loop = true;
+
 /* CLOCK */
 function updateClock(){
   const now=new Date();
@@ -1327,12 +1331,12 @@ function openDetail(pageName){
   updateCatLinks(page, pageName);
   page.querySelectorAll('.detail-inline-cats').forEach(c=>c.classList.remove('show'));
   updateDetailNavColor(page);
-  // Fashion Editorial 열 때 소리 자동 켜기
+  // Fashion Editorial 열 때 BGM 재생
   if(pageName === 'fashion-editorial'){
-    const vid = document.getElementById('fe-video-1');
+    feAudio.currentTime = 0;
+    feAudio.play().catch(()=>{});
     const btn = document.getElementById('fe-sound-btn');
-    if(vid && btn){
-      vid.muted = false;
+    if(btn){
       btn.querySelector('.sound-icon-off').style.display = 'none';
       btn.querySelector('.sound-icon-on').style.display = 'block';
     }
@@ -1427,11 +1431,9 @@ function switchDetail(pageName){
   }, 50);
 }
 function muteAllDetailVideos(){
-  const vid = document.getElementById('fe-video-1');
+  feAudio.pause();
+  feAudio.currentTime = 0;
   const btn = document.getElementById('fe-sound-btn');
-  if(vid){
-    vid.muted = true;
-  }
   if(btn){
     btn.querySelector('.sound-icon-off').style.display = 'block';
     btn.querySelector('.sound-icon-on').style.display = 'none';
@@ -1460,12 +1462,17 @@ document.addEventListener('click', function(e){
 
 /* 사운드 토글 */
 function toggleSound(){
-  const vid = document.getElementById('fe-video-1');
   const btn = document.getElementById('fe-sound-btn');
-  if(!vid || !btn) return;
-  vid.muted = !vid.muted;
-  btn.querySelector('.sound-icon-off').style.display = vid.muted ? 'block' : 'none';
-  btn.querySelector('.sound-icon-on').style.display = vid.muted ? 'none' : 'block';
+  if(!btn) return;
+  if(feAudio.paused){
+    feAudio.play().catch(()=>{});
+    btn.querySelector('.sound-icon-off').style.display = 'none';
+    btn.querySelector('.sound-icon-on').style.display = 'block';
+  } else {
+    feAudio.pause();
+    btn.querySelector('.sound-icon-off').style.display = 'block';
+    btn.querySelector('.sound-icon-on').style.display = 'none';
+  }
 }
 // Attach click to first wcard (AI Creative)
 document.querySelectorAll('.wcard')[0].addEventListener('click',function(){
@@ -1655,10 +1662,10 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
       }
 
       // 사운드 자동 음소거
-      const vid1 = document.getElementById('fe-video-1');
+      // FE slide1 벗어나면 BGM 정지
       const sndBtn = document.getElementById('fe-sound-btn');
-      if(vid1 && sndBtn && currentIndex !== 0 && !vid1.muted){
-        vid1.muted = true;
+      if(sndBtn && currentIndex !== 0 && !feAudio.paused){
+        feAudio.pause();
         sndBtn.querySelector('.sound-icon-off').style.display = 'block';
         sndBtn.querySelector('.sound-icon-on').style.display = 'none';
       }
