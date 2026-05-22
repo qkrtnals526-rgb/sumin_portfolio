@@ -41,26 +41,26 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   background:url('cover1.png') center/cover no-repeat;
   position:relative;overflow:hidden;
 }
-/* name SVG overlay */
-#nameSvgBase{
+/* SVG overlays */
+.svgMaskEl {
   position:absolute;
-  left:4.17%; top:10.22%;
-  width:91.69%; height:23.70%;
   pointer-events:none;
-  z-index:2;
   display:block;
-  /* mask: radial gradient applied via JS */
-  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 100%);
-  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 100%);
+  /* start fully hidden — mask reveals only at cursor */
+  -webkit-mask-image: radial-gradient(ellipse 0% 0% at 50% 50%, black 0%, transparent 0%);
+  mask-image: radial-gradient(ellipse 0% 0% at 50% 50%, black 0%, transparent 0%);
+  transition: -webkit-mask-image 0s, mask-image 0s;
 }
-/* overlay for focus effect */
-#svgFocusOverlay{
-  position:absolute;
+#nameSvgBase {
   left:4.17%; top:10.22%;
   width:91.69%; height:23.70%;
-  pointer-events:none;
-  z-index:3;
-  mix-blend-mode:multiply;
+  z-index:2;
+}
+#sinceSvgBase {
+  /* '25-'26: cx=50%, top=62.42%, w=20.06%, h=8.40% */
+  left:39.97%; top:62.42%;
+  width:20.06%; height:8.40%;
+  z-index:2;
 }
 
 /* INTRO */
@@ -659,8 +659,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </nav>
 
 <section id="s-cover">
-  <img id="nameSvgBase" src="name.svg" alt="PARK SUMiN">
-  <div id="svgFocusOverlay"></div>
+  <img id="nameSvgBase"  class="svgMaskEl" src="name.svg"  alt="PARK SUMiN">
+  <img id="sinceSvgBase" class="svgMaskEl" src="since.svg" alt="25-26">
 </section>
 
 <section id="s-intro">
@@ -1915,53 +1915,85 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
 
 
 
+
+
+
 <!-- COVER SVG FOCUS -->
 <script>
 (function(){
   const section = document.getElementById('s-cover');
-  const svg     = document.getElementById('nameSvgBase');
-  if(!section || !svg) return;
+  const els = [
+    document.getElementById('nameSvgBase'),
+    document.getElementById('sinceSvgBase'),
+  ].filter(Boolean);
+  if(!section || !els.length) return;
 
-  let rawMx = -1, smMx = 0.5;
+  let rawX = -1, rawY = -1;
+  let smX  = 0.5, smY = 0.5;
+
+  // Focus zone size (normalized to each element's own rect)
+  const FOCUS_W = 28;  // % of element width — ellipse horizontal radius
+  const FOCUS_H = 120; // % — tall ellipse so full height is revealed
+  const BLUR_EDGE = 18; // % — soft blur edge width
 
   document.addEventListener('mousemove', e => {
-    const rect = svg.getBoundingClientRect();
-    // Only react when cursor is near the SVG area
-    const relX = (e.clientX - rect.left) / rect.width;
-    const relY = (e.clientY - rect.top)  / rect.height;
-    if(relX >= -0.1 && relX <= 1.1 && relY >= -0.5 && relY <= 1.5){
-      rawMx = relX;
-    } else {
-      rawMx = -1;
-    }
+    rawX = e.clientX;
+    rawY = e.clientY;
   });
+  document.addEventListener('mouseleave', () => { rawX = -1; rawY = -1; });
+
+  function applyMask(el, pctX, pctY, active){
+    if(!active){
+      // Fully hidden
+      const m = 'radial-gradient(ellipse 0% 0% at 50% 50%, black 0%, transparent 0%)';
+      el.style.webkitMaskImage = m;
+      el.style.maskImage = m;
+      return;
+    }
+    // Hard centre, soft blur edge, fully transparent outside
+    const inner = FOCUS_W;
+    const outer = FOCUS_W + BLUR_EDGE;
+    const m = `radial-gradient(ellipse ${outer}% ${FOCUS_H}% at ${pctX.toFixed(1)}% ${pctY.toFixed(1)}%,
+      black 0%,
+      black ${(inner/outer*100).toFixed(1)}%,
+      transparent 100%)`;
+    el.style.webkitMaskImage = m;
+    el.style.maskImage = m;
+  }
+
+  let prevSm = {x:0.5, y:0.5};
 
   function loop(){
     requestAnimationFrame(loop);
-    const target = rawMx >= 0 ? rawMx : 0.5;
-    smMx += (target - smMx) * 0.1;
 
-    const active = rawMx >= 0;
-
-    if(!active){
-      // Full opacity, no mask
-      svg.style.webkitMaskImage = 'none';
-      svg.style.maskImage = 'none';
-      svg.style.opacity = '1';
-      return;
+    // Smooth cursor
+    if(rawX >= 0){
+      smX += (rawX - smX) * 0.12;
+      smY += (rawY - smY) * 0.12;
     }
 
-    // Apply radial mask: bright at cursor, dim away
-    const pct = (smMx * 100).toFixed(1);
-    // Focus zone: bright center, fades to ~35% opacity at edges
-    const mask = `radial-gradient(ellipse 30% 120% at ${pct}% 50%, 
-      black 0%, 
-      black 35%, 
-      rgba(0,0,0,0.45) 65%, 
-      rgba(0,0,0,0.35) 100%)`;
-    svg.style.webkitMaskImage = mask;
-    svg.style.maskImage = mask;
-    svg.style.opacity = '1';
+    els.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if(!rect.width) return;
+
+      // Is cursor anywhere near the section?
+      const secRect = section.getBoundingClientRect();
+      const near = rawX >= secRect.left - 50 && rawX <= secRect.right + 50 &&
+                   rawY >= secRect.top  - 50 && rawY <= secRect.bottom + 50;
+
+      if(!near || rawX < 0){
+        applyMask(el, 50, 50, false);
+        return;
+      }
+
+      // Cursor position relative to this element (%)
+      const pctX = ((smX - rect.left) / rect.width)  * 100;
+      const pctY = ((smY - rect.top)  / rect.height) * 100;
+
+      // Active: cursor is within reasonable range of element
+      const active = pctX >= -20 && pctX <= 120 && pctY >= -50 && pctY <= 150;
+      applyMask(el, pctX, pctY, active);
+    });
   }
   loop();
 })();
