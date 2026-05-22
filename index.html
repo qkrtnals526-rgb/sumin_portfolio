@@ -44,7 +44,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* name SVG wrapper */
 #nameWrap {
   position:absolute;
-  left:4.167%; top:10.222%;
+  left:4.167%; top:7%;
   width:91.694%;
   height:auto;
   pointer-events:none;
@@ -69,6 +69,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   width:100%;aspect-ratio:16/9;
   background:url('intro1.png') center/cover no-repeat;
   position:relative;overflow:hidden;
+  transform:translateY(100%);
+  transition:transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+#s-intro.slide-in{
+  transform:translateY(0);
 }
 .svg-roll-wrap{position:absolute;left:8%;top:56.8%;height:16.1%;width:39%;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .svg-roll-track{display:flex;flex-direction:column;width:100%;}
@@ -635,6 +640,37 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   from{opacity:0;transform:translateY(20px) scale(0.98);}
   to{opacity:1;transform:translateY(0) scale(1);}
 }
+
+/* LOADING SCREEN */
+#loading-screen{
+  position:fixed;inset:0;
+  background:#fff;
+  z-index:99999;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:24px;
+  transition:opacity 0.6s ease, visibility 0.6s ease;
+}
+#loading-screen.hidden{
+  opacity:0;visibility:hidden;pointer-events:none;
+}
+.loading-bar-wrap{
+  width:200px;height:2px;
+  background:rgba(19,86,252,0.15);
+  border-radius:2px;overflow:hidden;
+}
+.loading-bar{
+  height:100%;width:0%;
+  background:#1356FC;
+  border-radius:2px;
+  transition:width 0.3s ease;
+}
+.loading-text{
+  font-family:'StackSansNotch',monospace;
+  font-size:13px;
+  letter-spacing:0.12em;
+  color:rgba(19,86,252,0.5);
+  text-transform:uppercase;
+}
 </style>
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://parksumin.vercel.app/">
@@ -646,6 +682,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </head>
 <body>
 
+
+<div id="loading-screen">
+  <div class="loading-text" id="loading-txt">LOADING</div>
+  <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>
+</div>
 <canvas id="sphereCanvas"></canvas>
 
 <nav id="nav">
@@ -2244,5 +2285,81 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
 })();
 </script>
 
+
+<!-- INTRO SLIDE + LOADING -->
+<script>
+// ── Intro slide-up on scroll ──
+(function(){
+  const intro = document.getElementById('s-intro');
+  const cover = document.getElementById('s-cover');
+  if(!intro || !cover) return;
+  function check(){
+    const introTop = intro.getBoundingClientRect().top;
+    if(introTop < window.innerHeight * 0.98){
+      intro.classList.add('slide-in');
+    }
+  }
+  window.addEventListener('scroll', check, {passive:true});
+  check();
+})();
+
+// ── Loading screen ──
+(function(){
+  const screen = document.getElementById('loading-screen');
+  const bar    = document.getElementById('loading-bar');
+  const txt    = document.getElementById('loading-txt');
+  if(!screen) return;
+
+  let progress = 0;
+
+  // Animate loading bar
+  function animateBar(target, duration, cb){
+    const start = performance.now();
+    const from  = progress;
+    function step(now){
+      const t = Math.min(1, (now - start) / duration);
+      progress = from + (target - from) * (1 - Math.pow(2, -10*t));
+      bar.style.width = progress + '%';
+      if(t < 1) requestAnimationFrame(step);
+      else { progress = target; bar.style.width = target + '%'; if(cb) cb(); }
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Track resource loading
+  const resources = [];
+  const imgs = ['cover1.png','intro1.png','about2.png'];
+  let loaded = 0;
+
+  animateBar(30, 400);
+
+  imgs.forEach(src => {
+    const img = new Image();
+    img.onload = img.onerror = () => {
+      loaded++;
+      const pct = 30 + (loaded/imgs.length) * 55;
+      animateBar(pct, 300);
+      if(loaded >= imgs.length) readyToShow();
+    };
+    img.src = src;
+  });
+
+  function readyToShow(){
+    animateBar(100, 400, () => {
+      setTimeout(() => {
+        screen.classList.add('hidden');
+      }, 200);
+    });
+  }
+
+  // Fallback: hide after 4s no matter what
+  setTimeout(readyToShow, 4000);
+
+  // Also hide when window fully loaded
+  window.addEventListener('load', () => {
+    setTimeout(readyToShow, 300);
+  });
+})();
+</script>
 </body>
 </html>
