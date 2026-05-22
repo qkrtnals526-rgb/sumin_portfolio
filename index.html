@@ -41,12 +41,27 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   background:url('cover1.png') center/cover no-repeat;
   position:relative;overflow:hidden;
 }
+/* name SVG overlay */
+#nameSvgWrap{
+  position:absolute;
+  left:4.17%; top:10.22%;
+  width:91.69%; height:23.70%;
+  z-index:2;
+  pointer-events:none;
+}
+#nameSvgWrap img{
+  width:100%; height:100%;
+  object-fit:fill;
+  display:block;
+}
 /* particle canvas over cover */
 #nameCanvas{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  pointer-events:none;
-  z-index:2;
+  position:absolute;
+  left:4.17%; top:10.22%;
+  width:91.69%; height:23.70%;
+  pointer-events:auto;
+  z-index:3;
+  cursor:none;
 }
 
 /* INTRO */
@@ -644,7 +659,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   </div>
 </nav>
 
-<section id="s-cover"><canvas id="nameCanvas"></canvas></section>
+<section id="s-cover">
+  <div id="nameSvgWrap">
+    <img src="name.svg" alt="PARK SUMiN" id="nameSvgImg">
+  </div>
+  <canvas id="nameCanvas"></canvas>
+</section>
 
 <section id="s-intro">
   <div class="svg-roll-wrap">
@@ -1887,53 +1907,49 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
 <!-- COVER PARTICLE EFFECT -->
 <script>
 (function(){
-  const section = document.getElementById('s-cover');
-  const canvas  = document.getElementById('nameCanvas');
+  const section  = document.getElementById('s-cover');
+  const canvas   = document.getElementById('nameCanvas');
+  const svgImg   = document.getElementById('nameSvgImg');
   if(!section || !canvas) return;
   const ctx = canvas.getContext('2d');
 
-  const DOT_SPACING = 5;
-  const DOT_RADIUS  = 1.6;
-  const REPEL_R     = 85;
-  const REPEL_FORCE = 1.7;
-  const LERP_BACK   = 0.11;
+  const DOT_SPACING = 4;   // sample density
+  const DOT_R       = 2.0; // dot draw radius
+  const COLOR       = '#1356FC';
 
   let particles = [];
-  let mx = -9999, my = -9999; // relative to section top-left
   let built = false;
+  let W = 0, H = 0;
 
-  function buildParticles() {
-    const rect = section.getBoundingClientRect();
-    const W = rect.width, H = rect.height;
-    canvas.width  = W;
-    canvas.height = H;
+  // Mouse pos relative to CANVAS
+  let mx = -9999, my = -9999;
+  let pmx = -9999, pmy = -9999; // prev mouse pos
 
-    // SVG 1099x161 → scale to ~80% of cover width
-    const svgW = 1099, svgH = 161;
-    const scale = (W * 0.80) / svgW;
-    const dW = svgW * scale, dH = svgH * scale;
-    // Position: horizontally centered, vertically top ~8% (matching cover1.png name position)
-    const offX = (W - dW) / 2;
-    const offY = H * 0.08;
+  function buildParticles(){
+    const rect = canvas.getBoundingClientRect();
+    W = canvas.width  = Math.round(rect.width);
+    H = canvas.height = Math.round(rect.height);
 
-    const off = document.createElement('canvas');
-    off.width  = Math.round(dW);
-    off.height = Math.round(dH);
+    // Render SVG into offscreen canvas at same size
+    const off  = document.createElement('canvas');
+    off.width  = W; off.height = H;
     const octx = off.getContext('2d');
 
-    const img = new Image();
+    const img  = new Image();
     img.onload = () => {
-      octx.drawImage(img, 0, 0, Math.round(dW), Math.round(dH));
-      const data = octx.getImageData(0, 0, off.width, off.height).data;
+      octx.drawImage(img, 0, 0, W, H);
+      const data = octx.getImageData(0, 0, W, H).data;
       particles = [];
-      for(let y = 0; y < off.height; y += DOT_SPACING){
-        for(let x = 0; x < off.width; x += DOT_SPACING){
-          const i = (y * off.width + x) * 4;
+      for(let y = 0; y < H; y += DOT_SPACING){
+        for(let x = 0; x < W; x += DOT_SPACING){
+          const i = (y * W + x) * 4;
           const r = data[i], g = data[i+1], b = data[i+2], a = data[i+3];
-          // Match blue fill #1356FC
           if(a > 80 && b > 140 && r < 120){
-            const wx = offX + x, wy = offY + y;
-            particles.push({ ox:wx, oy:wy, x:wx, y:wy, vx:0, vy:0, sc:false });
+            particles.push({
+              ox: x, oy: y,     // origin
+              x:  x, y:  y,     // current
+              vx: 0, vy: 0,     // velocity
+            });
           }
         }
       }
@@ -1942,82 +1958,88 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
     img.src = 'name.svg';
   }
 
-  // Build once cover is in viewport
+  // Build after load
   let initDone = false;
   function tryInit(){
     if(initDone) return;
-    const rect = section.getBoundingClientRect();
-    if(rect.width > 0){
-      initDone = true;
-      buildParticles();
-    }
+    const rect = canvas.getBoundingClientRect();
+    if(rect.width > 0){ initDone = true; buildParticles(); }
   }
-  window.addEventListener('load', tryInit);
-  window.addEventListener('resize', () => { initDone = false; built = false; tryInit(); });
+  window.addEventListener('load', () => setTimeout(tryInit, 100));
+  window.addEventListener('resize', () => { initDone = false; built = false; setTimeout(tryInit, 100); });
 
-  // Mouse: convert to cover-local coords
+  // Mouse — relative to canvas
   document.addEventListener('mousemove', e => {
-    const rect = section.getBoundingClientRect();
+    const rect = canvas.getBoundingClientRect();
+    pmx = mx; pmy = my;
     mx = e.clientX - rect.left;
     my = e.clientY - rect.top;
   });
   document.addEventListener('mouseleave', () => { mx = -9999; my = -9999; });
 
-  // Click = scatter
-  section.style.pointerEvents = 'auto';
-  canvas.style.pointerEvents  = 'auto';
-  canvas.addEventListener('click', () => {
-    const SCATTER_R = 70;
-    for(let i = 0; i < particles.length; i++){
-      const p = particles[i];
-      const dx = p.ox - mx, dy = p.oy - my;
-      const dist = Math.sqrt(dx*dx+dy*dy);
-      if(dist < SCATTER_R){
-        const angle = Math.atan2(dy, dx) + (Math.random()-0.5)*1.2;
-        const spd   = (1 - dist/SCATTER_R)*16 + Math.random()*8;
-        p.vx = Math.cos(angle)*spd;
-        p.vy = Math.sin(angle)*spd;
-        p.sc = true;
-      }
-    }
-  });
-
-  // Animation — only runs when cover is visible
   function frame(){
     requestAnimationFrame(frame);
     if(!built) return;
-    // Only draw if cover is near viewport
-    const rect = section.getBoundingClientRect();
-    if(rect.bottom < 0 || rect.top > window.innerHeight){ return; }
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#1356FC';
+    // Only animate when cover visible
+    const rect = section.getBoundingClientRect();
+    if(rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Mouse velocity (how fast cursor is moving)
+    const mvx = mx - pmx;
+    const mvy = my - pmy;
+    const mspeed = Math.sqrt(mvx*mvx + mvy*mvy);
+
+    // Disturb radius — bigger when moving fast
+    const DISTURB_R  = 40 + mspeed * 1.5;
+    const DISTURB_STR = 0.4 + mspeed * 0.08;
+
+    ctx.fillStyle = COLOR;
 
     for(let i = 0; i < particles.length; i++){
       const p = particles[i];
-      const dx = p.ox - mx, dy = p.oy - my;
-      const dist = Math.sqrt(dx*dx+dy*dy);
 
-      if(dist < REPEL_R && dist > 0.1){
-        const force = (1 - dist/REPEL_R) * REPEL_FORCE;
-        const tx = p.ox + (dx/dist)*force*REPEL_R;
-        const ty = p.oy + (dy/dist)*force*REPEL_R;
-        p.x += (tx - p.x) * 0.16;
-        p.y += (ty - p.y) * 0.16;
-        p.sc = false;
-      } else if(p.sc){
-        p.vx *= 0.92; p.vy *= 0.92;
-        p.x  += p.vx; p.y  += p.vy;
-        if(Math.abs(p.vx) < 0.4 && Math.abs(p.vy) < 0.4) p.sc = false;
-      } else {
-        p.x += (p.ox - p.x) * LERP_BACK;
-        p.y += (p.oy - p.y) * LERP_BACK;
+      // Distance from cursor
+      const dx = p.x - mx;
+      const dy = p.y - my;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+
+      if(dist < DISTURB_R && mspeed > 2){
+        // Scatter: add velocity in direction away from cursor path
+        // Perpendicular + outward scatter based on speed
+        const nx = dist > 0 ? dx/dist : 0;
+        const ny = dist > 0 ? dy/dist : 0;
+        const scatter = (1 - dist/DISTURB_R) * DISTURB_STR;
+        // Add some randomness to feel natural
+        const rand = (Math.random()-0.5) * scatter * 6;
+        p.vx += (nx * scatter * 12) + rand;
+        p.vy += (ny * scatter * 12) + (Math.random()-0.5)*rand;
       }
 
+      // Physics: apply velocity + damping + spring back to origin
+      p.vx *= 0.88;
+      p.vy *= 0.88;
+      p.x  += p.vx;
+      p.y  += p.vy;
+
+      // Spring back to origin
+      const ox_diff = p.ox - p.x;
+      const oy_diff = p.oy - p.y;
+      p.vx += ox_diff * 0.06;
+      p.vy += oy_diff * 0.06;
+
+      // Draw dot
       ctx.beginPath();
-      ctx.arc(p.x, p.y, DOT_RADIUS, 0, Math.PI*2);
+      ctx.arc(p.x, p.y, DOT_R, 0, Math.PI*2);
       ctx.fill();
     }
+
+    // Hide SVG img when particles are built (particles replace it)
+    if(svgImg) svgImg.style.opacity = '0';
+
+    pmx = mx; pmy = my;
   }
   requestAnimationFrame(frame);
 })();
