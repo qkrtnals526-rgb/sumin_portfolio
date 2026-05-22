@@ -67,7 +67,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* '25-'26 */
 #sinceBlur, #sinceSharp {
   left:39.972%; top:62.420%;
-  width:20.056%; height:8.395%;
+  width:20.056%;
+  height:auto;
 }
 
 /* INTRO */
@@ -1953,28 +1954,45 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
   });
   document.addEventListener('mouseleave', () => { rawX = -1; rawY = -1; });
 
-  // Each SVG has: [blurred base] + [sharp overlay masked to cursor]
-  // blurEl = always blurred (blur 16px)
-  // sharpEl = same SVG, no blur, masked to cursor zone only
+  // Dual layer per SVG:
+  // blurEl  = blur:16px, visible OUTSIDE cursor zone
+  // sharpEl = no blur,   visible ONLY at cursor zone
+  // Result: cursor=sharp, outside=blurred
   function applyEffect(blurEl, sharpEl, pctX, pctY, state){
     if(state === 'full'){
-      blurEl.style.opacity  = '0';   // hide blur layer
+      // Default: only sharp visible, no blur
+      blurEl.style.opacity = '0';
+      blurEl.style.webkitMaskImage = 'none';
+      blurEl.style.maskImage = 'none';
+      sharpEl.style.opacity = '1';
       sharpEl.style.webkitMaskImage = 'none';
       sharpEl.style.maskImage = 'none';
       return;
     }
-    // Focus state: show blur layer, mask sharp layer to cursor zone
-    blurEl.style.opacity = '1';
 
     const inner = FOCUS_W;
     const outer = FOCUS_W + BLUR_EDGE;
-    // Sharp layer: visible only at cursor zone
-    const m = `radial-gradient(ellipse ${outer}% ${FOCUS_H}% at ${pctX.toFixed(1)}% ${pctY.toFixed(1)}%,
+    const px = pctX.toFixed(1);
+    const py = pctY.toFixed(1);
+    const pct = (inner/outer*100).toFixed(1);
+
+    // Sharp: show ONLY at cursor zone
+    const mSharp = `radial-gradient(ellipse ${outer}% ${FOCUS_H}% at ${px}% ${py}%,
       black 0%,
-      black ${(inner/outer*100).toFixed(1)}%,
+      black ${pct}%,
       transparent 100%)`;
-    sharpEl.style.webkitMaskImage = m;
-    sharpEl.style.maskImage = m;
+    sharpEl.style.opacity = '1';
+    sharpEl.style.webkitMaskImage = mSharp;
+    sharpEl.style.maskImage = mSharp;
+
+    // Blur: show OUTSIDE cursor zone (inverted mask)
+    const mBlur = `radial-gradient(ellipse ${outer}% ${FOCUS_H}% at ${px}% ${py}%,
+      transparent 0%,
+      transparent ${pct}%,
+      black 100%)`;
+    blurEl.style.opacity = '1';
+    blurEl.style.webkitMaskImage = mBlur;
+    blurEl.style.maskImage = mBlur;
   }
 
   let prevSm = {x:0.5, y:0.5};
