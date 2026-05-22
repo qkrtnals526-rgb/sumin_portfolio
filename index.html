@@ -645,7 +645,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* LOADING SCREEN */
 #loading-screen{
   position:fixed;inset:0;
-  background:#fff;
+  background:#004ED5;
   z-index:99999;
   display:flex;align-items:center;justify-content:center;
   flex-direction:column;gap:24px;
@@ -656,20 +656,21 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .loading-bar-wrap{
   width:200px;height:2px;
-  background:rgba(19,86,252,0.15);
+  background:rgba(255,255,255,0.25);
   border-radius:2px;overflow:hidden;
 }
 .loading-bar{
   height:100%;width:0%;
-  background:#1356FC;
+  background:#fff;
   border-radius:2px;
   transition:width 0.3s ease;
 }
 .loading-text{
-  font-family:'StackSansNotch',monospace;
-  font-size:13px;
+  font-family:'StackSansNotch',sans-serif;
+  font-size:16px;
+  font-weight:400;
   letter-spacing:0.12em;
-  color:rgba(19,86,252,0.5);
+  color:#fff;
   text-transform:uppercase;
 }
 </style>
