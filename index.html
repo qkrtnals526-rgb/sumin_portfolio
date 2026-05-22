@@ -669,9 +669,16 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   font-family:'StackSansNotch',sans-serif;
   font-size:16px;
   font-weight:400;
-  letter-spacing:0.12em;
+  letter-spacing:0.06em;
   color:#fff;
-  text-transform:uppercase;
+}
+.loading-num{
+  font-family:'StackSansNotch',sans-serif;
+  font-size:16px;
+  font-weight:400;
+  color:#fff;
+  letter-spacing:0.04em;
+  min-width:36px;
 }
 </style>
   <meta property="og:type" content="website">
@@ -686,8 +693,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 
 <div id="loading-screen">
-  <div class="loading-text" id="loading-txt">LOADING</div>
-  <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>
+  <div class="loading-text" id="loading-txt">Loading</div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>
+    <div class="loading-num" id="loading-num">0</div>
+  </div>
 </div>
 <canvas id="sphereCanvas"></canvas>
 
@@ -2339,6 +2349,7 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
   let progress = 0;
 
   // Animate loading bar
+  const numEl = document.getElementById('loading-num');
   function animateBar(target, duration, cb){
     const start = performance.now();
     const from  = progress;
@@ -2346,8 +2357,9 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
       const t = Math.min(1, (now - start) / duration);
       progress = from + (target - from) * (1 - Math.pow(2, -10*t));
       bar.style.width = progress + '%';
+      if(numEl) numEl.textContent = Math.round(progress) + '%';
       if(t < 1) requestAnimationFrame(step);
-      else { progress = target; bar.style.width = target + '%'; if(cb) cb(); }
+      else { progress = target; bar.style.width = target + '%'; if(numEl) numEl.textContent = Math.round(target) + '%'; if(cb) cb(); }
     }
     requestAnimationFrame(step);
   }
