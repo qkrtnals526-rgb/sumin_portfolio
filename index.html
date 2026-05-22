@@ -41,25 +41,33 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   background:url('cover1.png') center/cover no-repeat;
   position:relative;overflow:hidden;
 }
-/* SVG overlays */
-.svgMaskEl {
+/* SVG overlays — dual layer: blur base + sharp mask */
+.svgBlurBase {
   position:absolute;
   pointer-events:none;
   display:block;
-  /* start fully visible */
-  -webkit-mask-image: none;
-  mask-image: none;
-}
-#nameSvgBase {
-  left:4.17%; top:10.22%;
-  width:91.69%; height:23.70%;
+  filter:blur(16px);
+  -webkit-filter:blur(16px);
+  opacity:0;  /* hidden until cursor enters */
   z-index:2;
 }
-#sinceSvgBase {
-  /* '25-'26: measured from cover1.png */
+.svgSharp {
+  position:absolute;
+  pointer-events:none;
+  display:block;
+  z-index:3;
+  -webkit-mask-image:none;
+  mask-image:none;
+}
+/* PARK SUMiN */
+#nameBlur, #nameSharp {
+  left:4.167%; top:10.222%;
+  width:91.694%; height:23.704%;
+}
+/* '25-'26 */
+#sinceBlur, #sinceSharp {
   left:39.972%; top:62.420%;
   width:20.056%; height:8.395%;
-  z-index:2;
 }
 
 /* INTRO */
@@ -658,8 +666,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </nav>
 
 <section id="s-cover">
-  <img id="nameSvgBase"  class="svgMaskEl" src="name.svg"  alt="PARK SUMiN">
-  <img id="sinceSvgBase" class="svgMaskEl" src="since.svg" alt="25-26">
+  <!-- PARK SUMiN: blur base + sharp overlay -->
+  <img id="nameBlur"  class="svgBlurBase" src="name.svg"  alt="">
+  <img id="nameSharp" class="svgSharp"    src="name.svg"  alt="PARK SUMiN">
+  <!-- '25-'26: blur base + sharp overlay -->
+  <img id="sinceBlur"  class="svgBlurBase" src="since.svg" alt="">
+  <img id="sinceSharp" class="svgSharp"    src="since.svg" alt="25-26">
 </section>
 
 <section id="s-intro">
@@ -1921,11 +1933,11 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
 <script>
 (function(){
   const section = document.getElementById('s-cover');
-  const els = [
-    document.getElementById('nameSvgBase'),
-    document.getElementById('sinceSvgBase'),
-  ].filter(Boolean);
-  if(!section || !els.length) return;
+  const pairs = [
+    { blur: document.getElementById('nameBlur'),  sharp: document.getElementById('nameSharp') },
+    { blur: document.getElementById('sinceBlur'), sharp: document.getElementById('sinceSharp') },
+  ].filter(p => p.blur && p.sharp);
+  if(!section || !pairs.length) return;
 
   let rawX = -1, rawY = -1;
   let smX  = 0.5, smY = 0.5;
@@ -1941,29 +1953,28 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
   });
   document.addEventListener('mouseleave', () => { rawX = -1; rawY = -1; });
 
-  function applyMask(el, pctX, pctY, state){
-    if(state === 'hidden'){
-      // Fully hidden (cursor inside section but away from element)
-      const m = 'radial-gradient(ellipse 0% 0% at 50% 50%, black 0%, transparent 0%)';
-      el.style.webkitMaskImage = m;
-      el.style.maskImage = m;
-      return;
-    }
+  // Each SVG has: [blurred base] + [sharp overlay masked to cursor]
+  // blurEl = always blurred (blur 16px)
+  // sharpEl = same SVG, no blur, masked to cursor zone only
+  function applyEffect(blurEl, sharpEl, pctX, pctY, state){
     if(state === 'full'){
-      // Fully visible — no mask
-      el.style.webkitMaskImage = 'none';
-      el.style.maskImage = 'none';
+      blurEl.style.opacity  = '0';   // hide blur layer
+      sharpEl.style.webkitMaskImage = 'none';
+      sharpEl.style.maskImage = 'none';
       return;
     }
-    // state === 'focus': Hard centre, soft blur edge, fully transparent outside
+    // Focus state: show blur layer, mask sharp layer to cursor zone
+    blurEl.style.opacity = '1';
+
     const inner = FOCUS_W;
     const outer = FOCUS_W + BLUR_EDGE;
+    // Sharp layer: visible only at cursor zone
     const m = `radial-gradient(ellipse ${outer}% ${FOCUS_H}% at ${pctX.toFixed(1)}% ${pctY.toFixed(1)}%,
       black 0%,
       black ${(inner/outer*100).toFixed(1)}%,
       transparent 100%)`;
-    el.style.webkitMaskImage = m;
-    el.style.maskImage = m;
+    sharpEl.style.webkitMaskImage = m;
+    sharpEl.style.maskImage = m;
   }
 
   let prevSm = {x:0.5, y:0.5};
@@ -1977,29 +1988,27 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
       smY += (rawY - smY) * 0.12;
     }
 
-    els.forEach(el => {
-      const rect = el.getBoundingClientRect();
+    pairs.forEach(({ blur, sharp }) => {
+      const rect = sharp.getBoundingClientRect();
       if(!rect.width) return;
 
       if(rawX < 0){
-        applyMask(el, 50, 50, 'full');
+        applyEffect(blur, sharp, 50, 50, 'full');
         return;
       }
 
-      // Only apply mask when cursor is directly on THIS svg element
+      // Only activate when cursor is directly over this SVG
       const onEl = smX >= rect.left && smX <= rect.right &&
                    smY >= rect.top  && smY <= rect.bottom;
 
       if(!onEl){
-        // Cursor not on this svg → fully visible
-        applyMask(el, 50, 50, 'full');
+        applyEffect(blur, sharp, 50, 50, 'full');
         return;
       }
 
-      // Cursor on this svg → focus mask
       const pctX = ((smX - rect.left) / rect.width)  * 100;
       const pctY = ((smY - rect.top)  / rect.height) * 100;
-      applyMask(el, pctX, pctY, 'focus');
+      applyEffect(blur, sharp, pctX, pctY, 'focus');
     });
   }
   loop();
