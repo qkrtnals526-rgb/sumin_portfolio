@@ -41,26 +41,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   background:url('cover1.png') center/cover no-repeat;
   position:relative;overflow:hidden;
 }
-/* Unicorn Studio overlay */
-#us-wrap {
+#glassCanvas{
   position:absolute;
   inset:0;
   width:100%;height:100%;
-  pointer-events:auto;
-  z-index:2;
-}
-#us-wrap > div {
-  width:100% !important;
-  height:100% !important;
-}
-/* White mask over watermark (bottom-right) */
-#us-wm-mask {
-  position:absolute;
-  bottom:0; right:0;
-  width:240px; height:56px;
-  background:#ffffff;
-  z-index:10;
   pointer-events:none;
+  z-index:2;
 }
 
 /* INTRO */
@@ -658,12 +644,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   </div>
 </nav>
 
-<section id="s-cover">
-  <div id="us-wrap">
-    <div style="width:100%;height:100%" data-us-project="a8ckIrESDNSjBOwMrBRM"></div>
-  </div>
-  <div id="us-wm-mask"></div>
-</section>
+<section id="s-cover"><canvas id="glassCanvas"></canvas></section>
 
 <section id="s-intro">
   <div class="svg-roll-wrap">
@@ -1903,7 +1884,229 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
 })();
 </script>
 
-<!-- Unicorn Studio -->
-<script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.1.12/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
+<!-- WebGL Glass Sphere -->
+<script>
+(function(){
+  const section = document.getElementById('s-cover');
+  const canvas  = document.getElementById('glassCanvas');
+  if(!section || !canvas) return;
+
+  const gl = canvas.getContext('webgl', {
+    alpha: true,
+    premultipliedAlpha: false,
+    antialias: true
+  });
+  if(!gl){ console.warn('WebGL not supported'); return; }
+
+  // ── Resize ──
+  function resize(){
+    canvas.width  = section.offsetWidth;
+    canvas.height = section.offsetHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); loadTexture(); });
+
+  // ── Shaders ──
+  const VS = `
+    attribute vec2 a_pos;
+    void main(){ gl_Position = vec4(a_pos, 0., 1.); }
+  `;
+
+  const FS = `
+    precision highp float;
+    uniform sampler2D u_tex;
+    uniform vec2  u_res;
+    uniform vec2  u_center;  // px from bottom-left
+    uniform float u_radius;
+    uniform float u_time;
+    uniform float u_alpha;
+
+    const float IOR   = 1.6;
+    const float DISP  = 0.04;
+    const vec3  LIGHT = normalize(vec3(-1., 1.2, 1.5));
+
+    void main(){
+      vec2 px   = gl_FragCoord.xy;
+      vec2 diff = px - u_center;
+      float d   = length(diff);
+      float r   = u_radius;
+
+      if(d > r){ gl_FragColor = vec4(0.); return; }
+
+      // Sphere normal
+      vec2  n2  = diff / r;
+      float nz  = sqrt(max(0., 1. - dot(n2, n2)));
+      vec3  N   = normalize(vec3(n2, nz));
+      vec3  V   = vec3(0., 0., 1.);
+
+      // Refraction
+      vec3 refDir = refract(-V, N, 1./IOR);
+      float depth = 0.45 * (1. - d/r);
+      vec2  offset = refDir.xy * depth;
+
+      // Base UV (y flipped for WebGL)
+      vec2 uv = vec2(px.x / u_res.x, (u_res.y - px.y) / u_res.y);
+
+      // Chromatic dispersion
+      float disp = DISP * (1. - d/r);
+      vec2  ab   = normalize(diff + 0.001) / u_res * r * disp * 2.;
+
+      float R = texture2D(u_tex, clamp(uv + offset + ab,  0., 1.)).r;
+      float G = texture2D(u_tex, clamp(uv + offset,       0., 1.)).g;
+      float B = texture2D(u_tex, clamp(uv + offset - ab,  0., 1.)).b;
+
+      // Fresnel
+      float fres = pow(1. - max(dot(N, V), 0.), 3.);
+
+      // Specular
+      vec3  H    = normalize(LIGHT + V);
+      float spec = pow(max(dot(N, H), 0.), 80.) * 0.9;
+
+      // Iridescent rim
+      float t = u_time * 0.5;
+      vec3 iri = vec3(
+        .5+.5*sin(t),
+        .5+.5*sin(t+2.094),
+        .5+.5*sin(t+4.189)
+      ) * fres * 0.55;
+
+      // Inner glass tint (very subtle white)
+      float innerGlow = (1. - d/r) * 0.08;
+
+      // Edge
+      float edge = smoothstep(r, r - 2., d);
+
+      vec3  col   = vec3(R, G, B) + vec3(spec) + iri + vec3(innerGlow);
+      float alpha = edge * u_alpha;
+      gl_FragColor = vec4(col * alpha, alpha);
+    }
+  `;
+
+  function makeShader(type, src){
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS))
+      console.error(gl.getShaderInfoLog(s));
+    return s;
+  }
+
+  const prog = gl.createProgram();
+  gl.attachShader(prog, makeShader(gl.VERTEX_SHADER,   VS));
+  gl.attachShader(prog, makeShader(gl.FRAGMENT_SHADER, FS));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER,
+    new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const posLoc = gl.getAttribLocation(prog, 'a_pos');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  const uTex    = gl.getUniformLocation(prog, 'u_tex');
+  const uRes    = gl.getUniformLocation(prog, 'u_res');
+  const uCenter = gl.getUniformLocation(prog, 'u_center');
+  const uRadius = gl.getUniformLocation(prog, 'u_radius');
+  const uTime   = gl.getUniformLocation(prog, 'u_time');
+  const uAlpha  = gl.getUniformLocation(prog, 'u_alpha');
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+  // ── Load cover1.png as texture ──
+  const tex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  // placeholder
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,
+    new Uint8Array([255,255,255,255]));
+
+  let texReady = false;
+
+  function loadTexture(){
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
+      texReady = true;
+    };
+    img.src = 'cover1.png';
+  }
+  loadTexture();
+
+  // ── Sphere state ──
+  const RADIUS = 110; // px
+  const INTRO_MS = 1600;
+  const t0 = performance.now();
+  let introComplete = false;
+  const initR = Math.max(window.innerWidth, window.innerHeight) * 0.75;
+
+  let curX = window.innerWidth  / 2;
+  let curY = window.innerHeight / 2;
+  let targetX = curX, targetY = curY;
+  let alpha = 0, targetAlpha = 0;
+
+  document.addEventListener('mousemove', e => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+  });
+
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function easeOutExpo(t){ return t>=1?1:1-Math.pow(2,-10*t); }
+
+  // Only show sphere when cursor is over cover section
+  function isOverCover(){
+    const r = section.getBoundingClientRect();
+    return targetX >= r.left && targetX <= r.right &&
+           targetY >= r.top  && targetY <= r.bottom;
+  }
+
+  // ── Render loop ──
+  function frame(now){
+    requestAnimationFrame(frame);
+
+    const elapsed = now - t0;
+    const introT  = Math.min(1, elapsed / INTRO_MS);
+    const eased   = easeOutExpo(introT);
+    if(introT >= 1) introComplete = true;
+
+    const displayR = introComplete ? RADIUS : lerp(initR, RADIUS, eased);
+    const lerpSpd  = introComplete ? 0.1 : 0.04;
+    curX = lerp(curX, targetX, lerpSpd);
+    curY = lerp(curY, targetY, lerpSpd);
+
+    // Fade in/out based on cursor position
+    targetAlpha = (introComplete && isOverCover()) ? 1 : (introComplete ? 0 : 1);
+    alpha = lerp(alpha, targetAlpha, 0.08);
+
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    if(texReady){
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.uniform1i(uTex, 0);
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      // Convert screen coords to canvas coords (canvas is inside section)
+      const rect = section.getBoundingClientRect();
+      const cx   = curX - rect.left;
+      const cy   = curY - rect.top;
+      gl.uniform2f(uCenter, cx, canvas.height - cy); // WebGL y-flip
+      gl.uniform1f(uRadius, displayR);
+      gl.uniform1f(uTime,   now * 0.001);
+      gl.uniform1f(uAlpha,  alpha);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+
 </body>
 </html>
