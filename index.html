@@ -46,10 +46,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   position:absolute;
   pointer-events:none;
   display:block;
-  /* start fully hidden — mask reveals only at cursor */
-  -webkit-mask-image: radial-gradient(ellipse 0% 0% at 50% 50%, black 0%, transparent 0%);
-  mask-image: radial-gradient(ellipse 0% 0% at 50% 50%, black 0%, transparent 0%);
-  transition: -webkit-mask-image 0s, mask-image 0s;
+  /* start fully visible */
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 #nameSvgBase {
   left:4.17%; top:10.22%;
@@ -57,9 +56,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   z-index:2;
 }
 #sinceSvgBase {
-  /* '25-'26: cx=50%, top=62.42%, w=20.06%, h=8.40% */
-  left:39.97%; top:62.42%;
-  width:20.06%; height:8.40%;
+  /* '25-'26: measured from cover1.png */
+  left:39.972%; top:62.420%;
+  width:20.056%; height:8.395%;
   z-index:2;
 }
 
@@ -1932,9 +1931,9 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
   let smX  = 0.5, smY = 0.5;
 
   // Focus zone size (normalized to each element's own rect)
-  const FOCUS_W = 28;  // % of element width — ellipse horizontal radius
+  const FOCUS_W = 14;  // % of element width — ellipse horizontal radius
   const FOCUS_H = 120; // % — tall ellipse so full height is revealed
-  const BLUR_EDGE = 18; // % — soft blur edge width
+  const BLUR_EDGE = 9; // % — soft blur edge width
 
   document.addEventListener('mousemove', e => {
     rawX = e.clientX;
@@ -1942,15 +1941,21 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
   });
   document.addEventListener('mouseleave', () => { rawX = -1; rawY = -1; });
 
-  function applyMask(el, pctX, pctY, active){
-    if(!active){
-      // Fully hidden
+  function applyMask(el, pctX, pctY, state){
+    if(state === 'hidden'){
+      // Fully hidden (cursor inside section but away from element)
       const m = 'radial-gradient(ellipse 0% 0% at 50% 50%, black 0%, transparent 0%)';
       el.style.webkitMaskImage = m;
       el.style.maskImage = m;
       return;
     }
-    // Hard centre, soft blur edge, fully transparent outside
+    if(state === 'full'){
+      // Fully visible — no mask
+      el.style.webkitMaskImage = 'none';
+      el.style.maskImage = 'none';
+      return;
+    }
+    // state === 'focus': Hard centre, soft blur edge, fully transparent outside
     const inner = FOCUS_W;
     const outer = FOCUS_W + BLUR_EDGE;
     const m = `radial-gradient(ellipse ${outer}% ${FOCUS_H}% at ${pctX.toFixed(1)}% ${pctY.toFixed(1)}%,
@@ -1976,23 +1981,25 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
       const rect = el.getBoundingClientRect();
       if(!rect.width) return;
 
-      // Is cursor anywhere near the section?
-      const secRect = section.getBoundingClientRect();
-      const near = rawX >= secRect.left - 50 && rawX <= secRect.right + 50 &&
-                   rawY >= secRect.top  - 50 && rawY <= secRect.bottom + 50;
-
-      if(!near || rawX < 0){
-        applyMask(el, 50, 50, false);
+      if(rawX < 0){
+        applyMask(el, 50, 50, 'full');
         return;
       }
 
-      // Cursor position relative to this element (%)
+      // Only apply mask when cursor is directly on THIS svg element
+      const onEl = smX >= rect.left && smX <= rect.right &&
+                   smY >= rect.top  && smY <= rect.bottom;
+
+      if(!onEl){
+        // Cursor not on this svg → fully visible
+        applyMask(el, 50, 50, 'full');
+        return;
+      }
+
+      // Cursor on this svg → focus mask
       const pctX = ((smX - rect.left) / rect.width)  * 100;
       const pctY = ((smY - rect.top)  / rect.height) * 100;
-
-      // Active: cursor is within reasonable range of element
-      const active = pctX >= -20 && pctX <= 120 && pctY >= -50 && pctY <= 150;
-      applyMask(el, pctX, pctY, active);
+      applyMask(el, pctX, pctY, 'focus');
     });
   }
   loop();
