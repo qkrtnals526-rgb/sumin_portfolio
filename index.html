@@ -1054,7 +1054,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork3-1.png" alt="3D Artwork 02">
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
-            <video src="p_funk_final.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+            <video id="pfunkVideo" src="p_funk_final.mp4" loop playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
@@ -1222,7 +1222,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork3-1.png" alt="3D Artwork - P.FUNK">
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
-            <video src="p_funk_final.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+            <video id="pfunkVideo" src="p_funk_final.mp4" loop playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
@@ -1482,7 +1482,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork3-1.png" alt="3D Artwork - P.FUNK">
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
-            <video src="p_funk_final.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+            <video id="pfunkVideo" src="p_funk_final.mp4" loop playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
@@ -2230,8 +2230,8 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
       if(!activeSlide) return;
       const slideIdx = parseInt(activeSlide.getAttribute('data-slide'));
       
-      // 슬라이드 2(인덱스 3, 인트로 포함)에서 스크롤이 일정 이상이면 모달 표시
-      if(slideIdx === 3){
+      // 슬라이드 4(인덱스 5, 인트로 포함)에서 스크롤이 일정 이상이면 모달 표시
+      if(slideIdx === 5){
         // buildSegments와 동일한 로직으로 구간 계산
         const slides2arr = Array.from(slides2);
         let cursor2 = 0;
@@ -2242,7 +2242,7 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
           cursor2 += len;
           return seg;
         });
-        const seg3 = segs2[3];
+        const seg3 = segs2[5];
         const slideProgress2 = seg3 ? Math.max(0, Math.min(1, (daPage.scrollTop - seg3.start) / seg3.len)) : 0;
         
         if(slideProgress2 > 0.3 && !modal.classList.contains('show')){
@@ -2274,6 +2274,65 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
       if(e.key === 'ArrowRight') slideDaModal(1);
     }
   });
+})();
+</script>
+
+<!-- P.FUNK AUDIO CONTROL -->
+<script>
+(function(){
+  const daPage = document.getElementById('page-3d-artwork');
+  if(!daPage) return;
+
+  function getPfunkVideo(){
+    return document.getElementById('pfunkVideo');
+  }
+
+  function checkAudio(){
+    const scene = daPage.querySelector('.detail-scene');
+    if(!scene) return;
+    const activeSlide = scene.querySelector('.detail-slide.active');
+    if(!activeSlide) return;
+    const slideIdx = parseInt(activeSlide.getAttribute('data-slide'));
+    const vid = getPfunkVideo();
+    if(!vid) return;
+
+    if(slideIdx === 3){
+      // On slide 3 — play with audio
+      if(vid.paused){
+        vid.volume = 1;
+        vid.muted = false;
+        vid.play().catch(() => {
+          // Autoplay blocked — try muted first then unmute
+          vid.muted = true;
+          vid.play().then(() => { vid.muted = false; });
+        });
+      }
+    } else {
+      // Off slide 3 — pause and reset
+      if(!vid.paused){
+        vid.pause();
+        vid.currentTime = 0;
+      }
+    }
+  }
+
+  // Watch for slide changes via scroll
+  daPage.addEventListener('scroll', checkAudio, {passive: true});
+
+  // Also watch when 3d-artwork page opens/closes
+  const observer = new MutationObserver(checkAudio);
+  observer.observe(daPage, { attributes: true, attributeFilter: ['class'] });
+
+  // Watch main page scroll for when user navigates away
+  document.addEventListener('scroll', function(){
+    const vid = getPfunkVideo();
+    if(!vid) return;
+    // If 3d-artwork page is not visible, pause
+    const rect = daPage.getBoundingClientRect();
+    if(rect.right < 0 || rect.left > window.innerWidth){
+      if(!vid.paused){ vid.pause(); vid.currentTime = 0; }
+    }
+  }, {passive: true});
 })();
 </script>
 
