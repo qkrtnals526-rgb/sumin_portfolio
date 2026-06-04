@@ -1038,33 +1038,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
-<!-- Intro 2: P.FUNK -->
+      <!-- Intro 2 -->
       <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="3DArtwork3-1intro.png" alt="3D Artwork Intro 02">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Slide 2: P.FUNK SELECTION -->
-      <div class="detail-slide" data-slide="3" style="background:#151515;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="3DArtwork3-1.png" alt="3D Artwork 02">
-          <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
-            <video id="pfunkVideo" src="p_funk_final.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
-          </div>
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
-            <div class="scroll-hint-line" style="background:#fff;"></div>
-            <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Intro 3 (was 2) -->
-      <div class="detail-slide detail-slide-intro" data-slide="4" style="background:#FFFFFF;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative2intro.png" alt="AI Creative Intro 02">
           <div class="detail-scroll-hint" style="bottom:9%;">
@@ -1206,33 +1181,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
-<!-- Intro 2: P.FUNK -->
-      <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="3DArtwork3-1intro.png" alt="3D Artwork Intro - P.FUNK">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Slide 2: P.FUNK SELECTION -->
-      <div class="detail-slide" data-slide="3" style="background:#151515;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="3DArtwork3-1.png" alt="3D Artwork - P.FUNK">
-          <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
-            <video id="pfunkVideo" src="p_funk_final.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
-          </div>
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
-            <div class="scroll-hint-line" style="background:#fff;"></div>
-            <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
-          </div>
-        </div>
-      </div>
       <!-- Intro 2 -->
-      <div class="detail-slide detail-slide-intro" data-slide="4" style="background:#FFFFFF;">
+      <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#FFFFFF;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial2intro.png" alt="Fashion Editorial Intro 02">
           <div class="detail-scroll-hint" style="bottom:9%;">
@@ -1243,7 +1193,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
       </div>
       <!-- Slide 2: 일광전구 -->
-      <div class="detail-slide" data-slide="5" style="background:#F5F5F5;">
+      <div class="detail-slide" data-slide="3" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial2.png" alt="Fashion Editorial 02">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-2">
@@ -2027,6 +1977,7 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
 
         if(isIntro && i === currentIndex && i + 1 < slideCount){
           slide.classList.add('active');
+          if(window.pfunkCheckAudio) pfunkCheckAudio(slide);
           slide.classList.remove('slide-down');
           slide.style.transform = '';
           const nextSlide = slides[i+1];
@@ -2039,10 +1990,12 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
           nextSlide.style.transform = `translateY(${(1-coverP)*100}%)`;
         } else if(prevIsIntro && i === currentIndex){
           slide.classList.add('active');
+          if(window.pfunkCheckAudio) pfunkCheckAudio(slide);
           slide.classList.remove('slide-down');
           slide.style.transform = 'translateY(0)';
         } else if(i === currentIndex){
           slide.classList.add('active');
+          if(window.pfunkCheckAudio) pfunkCheckAudio(slide);
           slide.classList.remove('slide-down');
           slide.style.transform = '';
         } else if(prevIsIntro && i === currentIndex + 1){
@@ -2279,66 +2232,25 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
 
 <!-- P.FUNK AUDIO CONTROL -->
 <script>
-(function(){
+// Global pfunk audio — called directly when slide activates
+window.pfunkCheckAudio = function(slideEl){
+  const vid = document.getElementById('pfunkVideo');
+  if(!vid) return;
+  const idx = slideEl ? parseInt(slideEl.getAttribute('data-slide')) : -1;
   const daPage = document.getElementById('page-3d-artwork');
-  if(!daPage) return;
-
-  function getVid(){ return document.getElementById('pfunkVideo'); }
-
-  function check(){
-    const vid = getVid();
-    if(!vid) return;
-
-    // Page must be open
-    if(!daPage.classList.contains('open')){
-      vid.muted = true; return;
-    }
-
-    // Check active slide — try both .active class and scroll position
-    let slideIdx = -1;
-    const activeSlide = daPage.querySelector('.detail-slide.active');
-    if(activeSlide){
-      slideIdx = parseInt(activeSlide.getAttribute('data-slide'));
-    } else {
-      // Fallback: check scroll position
-      const slides = Array.from(daPage.querySelectorAll('.detail-slide'));
-      const scrollTop = daPage.scrollTop;
-      const vh = window.innerHeight;
-      slideIdx = Math.round(scrollTop / vh);
-    }
-
-    if(slideIdx === 3){
-      vid.muted = false;
-      vid.volume = 1;
-    } else {
-      vid.muted = true;
-    }
+  const isOpen = daPage && daPage.classList.contains('open');
+  if(isOpen && idx === 3){
+    vid.muted = false;
+    vid.volume = 1;
+  } else {
+    vid.muted = true;
   }
+};
+</script>
 
-  // Watch scroll
-  daPage.addEventListener('scroll', check, {passive:true});
-
-  // Watch page open/close
-  const obs = new MutationObserver(check);
-  obs.observe(daPage, {attributes:true, attributeFilter:['class']});
-
-  // Watch slide active changes (delayed to let animation finish)
-  const slideObs = new MutationObserver(() => setTimeout(check, 50));
-  daPage.querySelectorAll('.detail-slide').forEach(s => {
-    slideObs.observe(s, {attributes:true, attributeFilter:['class']});
-  });
-
-  // Also intercept wcard click to 3d-artwork
-  // Patch openDetail globally
-  const _origOpen = window.openDetail;
-  window.openDetail = function(name){
-    if(_origOpen) _origOpen(name);
-    if(name === '3d-artwork') setTimeout(check, 300);
-    else { const vid=getVid(); if(vid) vid.muted=true; }
-  };
-
-  check();
-})();
+<!-- P.FUNK AUDIO CONTROL OLD -->
+<script>
+// pfunk audio handled by pfunkCheckAudio above
 </script>
 
 <!-- ZERO GRAVITY MAGNETIC -->
