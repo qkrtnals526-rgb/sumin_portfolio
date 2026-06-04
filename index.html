@@ -2285,17 +2285,29 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
 
   function getVid(){ return document.getElementById('pfunkVideo'); }
 
-  function isSlide3Active(){
-    if(!daPage.classList.contains('open')) return false;
-    const activeSlide = daPage.querySelector('.detail-slide.active');
-    if(!activeSlide) return false;
-    return parseInt(activeSlide.getAttribute('data-slide')) === 3;
-  }
-
   function check(){
     const vid = getVid();
     if(!vid) return;
-    if(isSlide3Active()){
+
+    // Page must be open
+    if(!daPage.classList.contains('open')){
+      vid.muted = true; return;
+    }
+
+    // Check active slide — try both .active class and scroll position
+    let slideIdx = -1;
+    const activeSlide = daPage.querySelector('.detail-slide.active');
+    if(activeSlide){
+      slideIdx = parseInt(activeSlide.getAttribute('data-slide'));
+    } else {
+      // Fallback: check scroll position
+      const slides = Array.from(daPage.querySelectorAll('.detail-slide'));
+      const scrollTop = daPage.scrollTop;
+      const vh = window.innerHeight;
+      slideIdx = Math.round(scrollTop / vh);
+    }
+
+    if(slideIdx === 3){
       vid.muted = false;
       vid.volume = 1;
     } else {
@@ -2303,18 +2315,27 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
     }
   }
 
-  // Watch scroll (slide changes inside page)
+  // Watch scroll
   daPage.addEventListener('scroll', check, {passive:true});
 
-  // Watch class changes on daPage (open/close)
+  // Watch page open/close
   const obs = new MutationObserver(check);
   obs.observe(daPage, {attributes:true, attributeFilter:['class']});
 
-  // Watch active class on slides
-  const sceneObs = new MutationObserver(check);
-  daPage.querySelectorAll('.detail-slide').forEach(slide => {
-    sceneObs.observe(slide, {attributes:true, attributeFilter:['class']});
+  // Watch slide active changes (delayed to let animation finish)
+  const slideObs = new MutationObserver(() => setTimeout(check, 50));
+  daPage.querySelectorAll('.detail-slide').forEach(s => {
+    slideObs.observe(s, {attributes:true, attributeFilter:['class']});
   });
+
+  // Also intercept wcard click to 3d-artwork
+  // Patch openDetail globally
+  const _origOpen = window.openDetail;
+  window.openDetail = function(name){
+    if(_origOpen) _origOpen(name);
+    if(name === '3d-artwork') setTimeout(check, 300);
+    else { const vid=getVid(); if(vid) vid.muted=true; }
+  };
 
   check();
 })();
