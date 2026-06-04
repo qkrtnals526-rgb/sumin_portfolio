@@ -1054,7 +1054,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork3-1.png" alt="3D Artwork 02">
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
-            <video id="pfunkVideo" src="p_funk_final.mp4" autoplay loop playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+            <video id="pfunkVideo" src="p_funk_final.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
@@ -1221,8 +1221,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="3" style="background:#151515;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork3-1.png" alt="3D Artwork - P.FUNK">
-          <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
-            <video id="pfunkVideo" src="p_funk_final.mp4" autoplay loop playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+          <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:882/880;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
+            <video id="pfunkVideo" src="p_funk_final.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
@@ -1481,8 +1481,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="3" style="background:#151515;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork3-1.png" alt="3D Artwork - P.FUNK">
-          <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
-            <video id="pfunkVideo" src="p_funk_final.mp4" autoplay loop playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+          <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:882/880;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
+            <video id="pfunkVideo" src="p_funk_final.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
           <div class="detail-scroll-hint" style="bottom:9%;">
             <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
@@ -2283,56 +2283,38 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
   const daPage = document.getElementById('page-3d-artwork');
   if(!daPage) return;
 
-  function getPfunkVideo(){
-    return document.getElementById('pfunkVideo');
+  function getVid(){ return document.getElementById('pfunkVideo'); }
+
+  function setAudio(active){
+    const vid = getVid();
+    if(!vid) return;
+    if(active){
+      vid.muted = false;
+      vid.volume = 1;
+    } else {
+      vid.muted = true;
+    }
   }
 
-  function checkAudio(){
+  function checkSlide(){
     const scene = daPage.querySelector('.detail-scene');
     if(!scene) return;
     const activeSlide = scene.querySelector('.detail-slide.active');
     if(!activeSlide) return;
     const slideIdx = parseInt(activeSlide.getAttribute('data-slide'));
-    const vid = getPfunkVideo();
-    if(!vid) return;
-
-    if(slideIdx === 3){
-      // On slide 3 — play with audio
-      if(vid.paused){
-        vid.volume = 1;
-        vid.muted = false;
-        vid.play().catch(() => {
-          // Autoplay blocked — try muted first then unmute
-          vid.muted = true;
-          vid.play().then(() => { vid.muted = false; });
-        });
-      }
-    } else {
-      // Off slide 3 — pause and reset
-      if(!vid.paused){
-        vid.pause();
-        vid.currentTime = 0;
-      }
-    }
+    // Only unmute on slide 3 (3DArtwork3-1)
+    setAudio(slideIdx === 3);
   }
 
-  // Watch for slide changes via scroll
-  daPage.addEventListener('scroll', checkAudio, {passive: true});
+  // Watch slide scroll
+  daPage.addEventListener('scroll', checkSlide, {passive:true});
 
-  // Also watch when 3d-artwork page opens/closes
-  const observer = new MutationObserver(checkAudio);
-  observer.observe(daPage, { attributes: true, attributeFilter: ['class'] });
+  // Watch page open/close (class changes on detail page)
+  const obs = new MutationObserver(checkSlide);
+  obs.observe(daPage, {attributes:true, attributeFilter:['class']});
 
-  // Watch main page scroll for when user navigates away
-  document.addEventListener('scroll', function(){
-    const vid = getPfunkVideo();
-    if(!vid) return;
-    // If 3d-artwork page is not visible, pause
-    const rect = daPage.getBoundingClientRect();
-    if(rect.right < 0 || rect.left > window.innerWidth){
-      if(!vid.paused){ vid.pause(); vid.currentTime = 0; }
-    }
-  }, {passive: true});
+  // Initial check
+  checkSlide();
 })();
 </script>
 
