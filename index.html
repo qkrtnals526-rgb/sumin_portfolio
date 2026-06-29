@@ -652,8 +652,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   display:block;
 }
 
-/* 에디토리얼용: 프레임 하단 여백 제거 (에디토리얼 페이지에서만) */
-#page-fashion-editorial .fe-scroll-frame{
+/* 에디토리얼/브랜드 콘텐츠용: 프레임 하단 여백 제거, 페이지 끝까지 채움 */
+#page-fashion-editorial .fe-scroll-frame,
+#page-brand-content .fe-scroll-frame,
+#page-brand-content-2 .fe-scroll-frame{
   bottom:0!important;
   aspect-ratio:auto!important;
   top:7%;
@@ -663,7 +665,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   top:0;left:0;
   width:100%;
   will-change:transform;
-  transition:none;
+  transition:transform 0.12s cubic-bezier(0.16,1,0.3,1);
 }
 .detail-scroll-strip img,
 .detail-scroll-strip video{
@@ -1523,7 +1525,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="detail-scene" id="fe-scene">
     <div class="detail-canvas">
       <!-- Slide 1: HONDA MOTORCYCLE -->
-      <div class="detail-slide active" data-slide="0" data-next-page="brand-content" data-next-slide="1" style="background:#151515;">
+      <div class="detail-slide active" data-slide="0" data-next-page="brand-content" data-next-slide="1" data-prev-page="brand-content-2" data-prev-slide="0" style="background:#151515;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial.png" alt="Fashion Editorial 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-1">
@@ -1550,7 +1552,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
       </div>
       <!-- Slide 2: 일광전구 -->
-      <div class="detail-slide" data-slide="1" data-next-page="brand-content" data-next-slide="2" style="background:#F5F5F5;">
+      <div class="detail-slide" data-slide="1" data-next-page="brand-content" data-next-slide="2" data-prev-page="brand-content" data-prev-slide="0" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial2.png" alt="Fashion Editorial 02">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-2">
@@ -1574,7 +1576,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
       </div>
       <!-- Slide 3: 조셉앤스테이시 × 몬치치 -->
-      <div class="detail-slide" data-slide="2" data-next-page="brand-content" data-next-slide="3" style="background:#F7E9EB;">
+      <div class="detail-slide" data-slide="2" data-next-page="brand-content" data-next-slide="3" data-prev-page="brand-content" data-prev-slide="1" style="background:#F7E9EB;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial3.png" alt="Fashion Editorial 03">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-3">
@@ -1598,7 +1600,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
       </div>
       <!-- Slide 4: KREAM 도산 스토어 윈터 룩북 -->
-      <div class="detail-slide" data-slide="3" data-next-page="brand-content-2" data-next-slide="0" style="background:#C1CCCE;">
+      <div class="detail-slide" data-slide="3" data-next-page="brand-content-2" data-next-slide="0" data-prev-page="brand-content" data-prev-slide="2" style="background:#C1CCCE;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial4.png" alt="Fashion Editorial 04">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-4">
@@ -1647,7 +1649,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="detail-scene" id="pc-scene">
     <div class="detail-canvas">
       <!-- Slide 1: 디저트 테이블 -->
-      <div class="detail-slide active" data-slide="0" style="background:#F5F5F5;">
+      <div class="detail-slide active" data-slide="0" data-next-page="brand-content" data-next-slide="0" data-prev-page="brand-content" data-prev-slide="3" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Promotional.png" alt="Promotional Content 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="pc-strip-1">
@@ -2169,8 +2171,23 @@ function openDetail(pageName, slideIndex){
   page.classList.remove('open');
   void page.offsetWidth;
   page.classList.add('open');
-  page.scrollTop = 0;
   document.body.style.overflow='hidden';
+
+  const isScrollPage = (pageName === 'brand-content' || pageName === 'brand-content-2');
+  if(isScrollPage && slideIndex !== undefined && window.getSlideScrollTop){
+    // 스크롤 페이지: 레이아웃 안정 후 해당 슬라이드 구간으로 점프
+    if(window.recalcDetailSpacers) window.recalcDetailSpacers();
+    requestAnimationFrame(() => {
+      if(window.recalcDetailSpacers) window.recalcDetailSpacers();
+      requestAnimationFrame(() => {
+        const top = window.getSlideScrollTop('page-'+pageName, slideIndex);
+        page.scrollTop = top;
+      });
+    });
+  } else {
+    page.scrollTop = 0;
+  }
+
   updateCatLinks(page, pageName);
   page.querySelectorAll('.detail-inline-cats').forEach(c=>c.classList.remove('show'));
   updateDetailNavColor(page);
@@ -2333,7 +2350,7 @@ let feAudioReady = false;
   const INTRO_FIRST_PX = () => vh();
   const INTRO_REST_PX  = () => vh() * 3;
   // FE/PC 스트립: 실제 overflow에 배율 적용, 최소 5vh 보장
-  const STRIP_SLOW = 5.5;
+  const STRIP_SLOW = 2.5;
   const STRIP_MIN  = () => vh() * 5;
   // AI/3D 작업: 1vh
   const NONSTRIP_PX = () => vh();
@@ -2412,6 +2429,21 @@ let feAudioReady = false;
   applySpacers();
   window.addEventListener('resize', applySpacers);
   setTimeout(applySpacers, 300);
+  window.recalcDetailSpacers = applySpacers;
+
+  // 외부(openDetail)에서 특정 슬라이드의 스크롤 시작 위치를 구할 수 있게 노출
+  window.getSlideScrollTop = function(pageId, slideIndex){
+    const page = document.getElementById(pageId);
+    if(!page) return 0;
+    const scene = page.querySelector('.detail-scene');
+    if(!scene) return 0;
+    const segs = segCache.get(scene) || buildSegments(scene);
+    if(!segs[slideIndex]) return 0;
+    // 해당 슬라이드 구간 시작점에서 살짝 안쪽(구간 길이의 2%)으로 점프해 경계 오차 방지
+    const seg = segs[slideIndex];
+    const inset = Math.min(seg.len * 0.02, 20);
+    return Math.round(seg.start + inset);
+  };
 
   // ── 스크롤 핸들러 ─────────────────────────────────────────────────
   document.querySelectorAll('.detail-page').forEach(page => {
@@ -2501,13 +2533,25 @@ let feAudioReady = false;
     const slideIdx = (slideIdxRaw !== null && slideIdxRaw !== undefined && slideIdxRaw !== '') ? parseInt(slideIdxRaw) : 0;
     muteAllDetailVideos();
     const currentPage = slide.closest('.detail-page');
+    const targetIsScroll = (page === 'brand-content' || page === 'brand-content-2');
+
     if(currentPage && currentPage.id === 'page-'+page){
-      const allSlides = currentPage.querySelectorAll('.detail-slide');
-      allSlides.forEach(s => { s.classList.remove('active'); s.style.transform=''; });
-      if(allSlides[slideIdx]) allSlides[slideIdx].classList.add('active');
-      currentPage.scrollTop = 0;
-      updateDetailNavColor(currentPage);
+      // 같은 페이지 내 이동
+      if(targetIsScroll && window.getSlideScrollTop){
+        // 스크롤 페이지: 목표 슬라이드 구간으로 스크롤 이동 → 핸들러가 active 처리
+        const top = window.getSlideScrollTop('page-'+page, slideIdx);
+        currentPage.scrollTop = top;
+        updateDetailNavColor(currentPage);
+      } else {
+        // 비스크롤 페이지: active 직접 교체
+        const allSlides = currentPage.querySelectorAll('.detail-slide');
+        allSlides.forEach(s => { s.classList.remove('active'); s.style.transform=''; });
+        if(allSlides[slideIdx]) allSlides[slideIdx].classList.add('active');
+        currentPage.scrollTop = 0;
+        updateDetailNavColor(currentPage);
+      }
     } else {
+      // 다른 페이지로 이동
       document.querySelectorAll('.detail-page').forEach(p => p.classList.remove('open'));
       openDetail(page, slideIdx);
     }
