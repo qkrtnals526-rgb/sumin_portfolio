@@ -114,36 +114,33 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   display:flex;align-items:center;justify-content:space-between;
   padding:0 5%;
   height:calc(100vh / 5.5);
-  border-bottom:none;
+  border-bottom:0.5px solid rgba(255,255,255,0.15);
   cursor:pointer;position:relative;overflow:hidden;
-  transition:background 0.4s cubic-bezier(0.16,1,0.3,1);
+  transition:none;
 }
-.cat-item:first-child{border-top:0.5px solid rgba(255,255,255,0.08);}
-.cat-item::before{
-  content:'';position:absolute;inset:0;
-  background:#004ED5;
-  transform:scaleX(0);transform-origin:left;
-  transition:transform 0.45s cubic-bezier(0.16,1,0.3,1);
-}
-.cat-item:hover::before{transform:scaleX(1);}
+.cat-item:first-child{border-top:0.5px solid rgba(255,255,255,0.15);}
+.cat-item::before{ display:none; }
+.cat-item:hover::before{ display:none; }
 .cat-item-name{
   font-family:'StackSansNotch',sans-serif;
   font-size:clamp(28px,5vw,72px);
   font-weight:400;
-  color:rgba(255,255,255,0.7);
+  color:#fff;
   letter-spacing:-0.02em;
   position:relative;z-index:1;
-  transition:color 0.3s;
+  transition:color 0.2s, transform 0.35s cubic-bezier(0.16,1,0.3,1), font-size 0.35s cubic-bezier(0.16,1,0.3,1);
+  line-height:1;
+  display:inline-block;
 }
-.cat-item:hover .cat-item-name{color:#fff;}
+.cat-item:hover .cat-item-name{color:#1356FC;transform:scale(1.04);transform-origin:left center;}
 .cat-item-arrow{
-  font-size:clamp(18px,2.5vw,32px);
-  color:rgba(255,255,255,0);
+  font-size:clamp(28px,3.5vw,52px);
+  color:#fff;
   position:relative;z-index:1;
-  transform:translate(-8px,8px);
-  transition:color 0.3s,transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  transition:color 0.2s, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  display:inline-block;
 }
-.cat-item:hover .cat-item-arrow{color:rgba(255,255,255,0.8);transform:translate(0,0);}
+.cat-item:hover .cat-item-arrow{color:#1356FC;transform:scale(1.12);}
 .work-footer{padding:0 3.33% 3vh;display:flex;justify-content:flex-end;}
 .work-footer p{font-family:'Pretendard',sans-serif;font-size:clamp(8px,1vw,12px);font-weight:400;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
 
@@ -194,12 +191,20 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .thumb-cat-area{padding:0 40px;margin-bottom:20px;}
 .thumb-cat-label{
-  font-family:'StackSansNotch',sans-serif;font-size:120px;font-weight:600;
+  font-family:'StackSansNotch',sans-serif;font-size:110px;font-weight:600;
   color:#fff;letter-spacing:-0.02em;text-transform:uppercase;margin-bottom:16px;line-height:1;
+}
+@keyframes labelSlideUp{
+  from{opacity:0;transform:translateY(40px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.thumb-page.open .thumb-cat-label.animate-in{
+  animation:labelSlideUp 0.65s cubic-bezier(0.16,1,0.3,1) forwards;
 }
 .thumb-nums{display:flex;gap:20px;margin-bottom:20px;}
 .thumb-num{
-  font-size:22px;font-weight:300;
+  font-family:'StackSansNotch',sans-serif;
+  font-size:24px;font-weight:400;
   color:rgba(255,255,255,0.5);letter-spacing:-0.02em;
   transition:opacity 0.2s;cursor:default;line-height:1;
 }
@@ -1241,11 +1246,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
         <div class="thumb-card-h" onclick="openDetail('ai-creative',1)">
           <img src="aicreative2_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">몽벨 해외직구</div></div></div>
+          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">montbell 해외직구</div></div></div>
         </div>
         <div class="thumb-card-h" onclick="openDetail('ai-creative',2)">
           <img src="aicreative3_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">스프링 시즌오프</div></div></div>
+          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">SPRING SEASON OFF</div></div></div>
         </div>
         <div class="thumb-card-h" onclick="openDetail('ai-creative',3)">
           <img src="aicreative4_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
@@ -1289,10 +1294,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <img src="Fashioneditorial_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
           <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">HONDA MOTORCYCLE APPAREL</div></div></div>
         </div>
-        <div class="thumb-card-h" onclick="openDetail('brand-content',1)">
-          <img src="Fashioneditorial2_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">일광전구</div></div></div>
-        </div>
         <div class="thumb-card-h" onclick="openDetail('brand-content',2)">
           <img src="Fashioneditorial3_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
           <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">조셉앤스테이시 × 몬치치</div></div></div>
@@ -1300,6 +1301,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="thumb-card-h" onclick="openDetail('brand-content',3)">
           <img src="Fashioneditorial4_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
           <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">KREAM 도산 스토어 윈터 룩북</div></div></div>
+        </div>
+        <div class="thumb-card-h" onclick="openDetail('brand-content',1)">
+          <img src="Fashioneditorial2_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">일광전구</div></div></div>
         </div>
         <div class="thumb-card-h" onclick="openDetail('brand-content-2',0)">
           <img src="Promotional_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
@@ -1373,7 +1378,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
       <div style="padding:16px 40px 12px;border-bottom:none;">
-      <div class="thumb-cat-label" style="color:rgba(0,0,0,1);margin-bottom:10px;">Challenge Reels</div>
+      <div class="thumb-cat-label" style="color:rgba(0,0,0,1);margin-bottom:10px;font-size:40px;">Challenge Reels</div>
       <div style="font-family:'Pretendard',sans-serif;font-size:16px;font-weight:400;color:rgba(0,0,0,0.6);line-height:1.5;letter-spacing:-0.01em;">유저들의 스타일링 콘텐츠 업로드를 유도하는 참여형 프로모션으로, 매 챌린지 컨셉에 맞춰 챌린지 영상을 작업했습니다. ㅣ 디자인 기여도 100%</div>
     </div>
   <div class="thumb-content" style="justify-content:flex-end;padding:0 0 40px;">
@@ -1464,7 +1469,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
-      <!-- Slide 2: 몽벨 해외직구 -->
+      <!-- Slide 2: montbell 해외직구 -->
       <div class="detail-slide" data-slide="1" data-next-page="ai-creative" data-next-slide="2" data-prev-page="ai-creative" data-prev-slide="0" style="background:#DEE1E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative2.png" alt="AI Creative 02">
@@ -1474,7 +1479,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           </div>
         </div>
       </div>
-      <!-- Slide 3: 스프링 시즌오프 -->
+      <!-- Slide 3: SPRING SEASON OFF -->
       <div class="detail-slide" data-slide="2" data-next-page="ai-creative" data-next-slide="3" data-prev-page="ai-creative" data-prev-slide="1" style="background:#FAFFE6;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative3.png" alt="AI Creative 03">
@@ -1528,7 +1533,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="detail-scene" id="fe-scene">
     <div class="detail-canvas">
       <!-- Slide 1: HONDA MOTORCYCLE -->
-      <div class="detail-slide active" data-slide="0" data-next-page="brand-content" data-next-slide="1" data-prev-page="brand-content-2" data-prev-slide="0" style="background:#151515;">
+      <div class="detail-slide active" data-slide="0" data-next-page="brand-content" data-next-slide="2" data-prev-page="brand-content-2" data-prev-slide="0" style="background:#151515;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial.png" alt="Fashion Editorial 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-1">
@@ -1555,7 +1560,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
       </div>
       <!-- Slide 2: 일광전구 -->
-      <div class="detail-slide" data-slide="1" data-next-page="brand-content" data-next-slide="2" data-prev-page="brand-content" data-prev-slide="0" style="background:#F5F5F5;">
+      <div class="detail-slide" data-slide="1" data-next-page="brand-content-2" data-next-slide="0" data-prev-page="brand-content" data-prev-slide="3" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial2.png" alt="Fashion Editorial 02">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-2">
@@ -1579,7 +1584,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
       </div>
       <!-- Slide 3: 조셉앤스테이시 × 몬치치 -->
-      <div class="detail-slide" data-slide="2" data-next-page="brand-content" data-next-slide="3" data-prev-page="brand-content" data-prev-slide="1" style="background:#F7E9EB;">
+      <div class="detail-slide" data-slide="2" data-next-page="brand-content" data-next-slide="3" data-prev-page="brand-content" data-prev-slide="0" style="background:#F7E9EB;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial3.png" alt="Fashion Editorial 03">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-3">
@@ -1603,7 +1608,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         </div>
       </div>
       <!-- Slide 4: KREAM 도산 스토어 윈터 룩북 -->
-      <div class="detail-slide" data-slide="3" data-next-page="brand-content-2" data-next-slide="0" data-prev-page="brand-content" data-prev-slide="2" style="background:#C1CCCE;">
+      <div class="detail-slide" data-slide="3" data-next-page="brand-content" data-next-slide="1" data-prev-page="brand-content" data-prev-slide="2" style="background:#C1CCCE;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial4.png" alt="Fashion Editorial 04">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-4">
@@ -1652,7 +1657,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="detail-scene" id="pc-scene">
     <div class="detail-canvas">
       <!-- Slide 1: 디저트 테이블 -->
-      <div class="detail-slide active" data-slide="0" data-next-page="brand-content" data-next-slide="0" data-prev-page="brand-content" data-prev-slide="3" style="background:#F5F5F5;">
+      <div class="detail-slide active" data-slide="0" data-next-page="brand-content" data-next-slide="0" data-prev-page="brand-content" data-prev-slide="1" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Promotional.png" alt="Promotional Content 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="pc-strip-1">
@@ -1961,6 +1966,15 @@ function openThumbPage(catId){
   document.querySelectorAll('.thumb-page').forEach(p => p.classList.remove('open'));
   const page = document.getElementById('thumb-' + catId);
   if(!page) return;
+  // 챌린지 제외 카테고리명 슬라이드업 애니메이션
+  if(catId !== 'challenge-reels'){
+    const label = page.querySelector('.thumb-cat-label');
+    if(label){
+      label.classList.remove('animate-in');
+      void label.offsetWidth;
+      label.classList.add('animate-in');
+    }
+  }
   page.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
