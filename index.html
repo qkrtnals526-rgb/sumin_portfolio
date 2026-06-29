@@ -492,11 +492,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* Challenge Reels 카드 */
 .cr-card{
   flex-shrink:0;
-  width:calc((100vh - 320px) * 9/16);
+  width:calc((100vh - 280px) * 9/16);
   aspect-ratio:9/16;
-  position:relative;border-radius:10px;
+  position:relative;border-radius:10px;overflow:hidden;
   cursor:pointer;
-  margin-bottom:44px;
 }
 .cr-thumb{
   position:absolute;inset:0;
@@ -514,17 +513,21 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .cr-card:hover .cr-video{opacity:1;}
 .cr-card .sc-card-overlay{border-radius:10px;}
 .cr-card-label{
-  position:absolute;bottom:-44px;left:0;right:0;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 2px;
+  position:absolute;bottom:0;left:0;right:0;
+  padding:32px 14px 14px;
+  background:linear-gradient(0deg,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.2) 60%,transparent 100%);
+  backdrop-filter:blur(0px);
+  display:flex;align-items:flex-end;justify-content:space-between;
+  border-radius:0 0 10px 10px;
 }
 .cr-card-title{
-  font-family:'Pretendard',sans-serif;font-size:13px;font-weight:500;
-  color:rgba(0,0,0,0.7);letter-spacing:-0.01em;
+  font-family:'Pretendard',sans-serif;font-size:13px;font-weight:600;
+  color:#fff;letter-spacing:-0.01em;line-height:1.3;
 }
 .cr-card-view{
   font-family:'Pretendard',sans-serif;font-size:11px;font-weight:400;
-  color:rgba(0,0,0,0.4);letter-spacing:0.08em;text-transform:uppercase;
+  color:rgba(255,255,255,0.6);letter-spacing:0.1em;text-transform:uppercase;
+  flex-shrink:0;
 }
 .sc-modal{
   position:fixed; inset:0; z-index:9999;
@@ -1356,7 +1359,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="cr-card" data-src="saebom.mp4" data-name="새봄 챌린지" data-date="2026.04.03">
           <video class="cr-video" src="saebom.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="saebom.jpg" alt="새봄 챌린지">
-          <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">새봄 챌린지</div><div class="sc-card-date">2026.04.03</div></div></div>
+          
           <div class="cr-card-label">
             <span class="cr-card-title">새봄 챌린지</span>
             <span class="cr-card-view">VIEW</span>
@@ -1365,7 +1368,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="cr-card" data-src="black.mp4" data-name="블랙크림 챌린지" data-date="2025.11.07">
           <video class="cr-video" src="black.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="black.jpg" alt="블랙크림 챌린지">
-          <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">블랙크림 챌린지</div><div class="sc-card-date">2025.11.07</div></div></div>
+          
           <div class="cr-card-label">
             <span class="cr-card-title">블랙크림 챌린지</span>
             <span class="cr-card-view">VIEW</span>
@@ -1374,7 +1377,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="cr-card" data-src="millo.mp4" data-name="MILLO CHALLENGE" data-date="2026.01.22">
           <video class="cr-video" src="millo.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="millo.jpg" alt="MILLO CHALLENGE">
-          <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">MILLO CHALLENGE</div><div class="sc-card-date">2026.01.22</div></div></div>
+          
           <div class="cr-card-label">
             <span class="cr-card-title">MILLO CHALLENGE</span>
             <span class="cr-card-view">VIEW</span>
@@ -1383,7 +1386,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="cr-card" data-src="aeae.mp4" data-name="AEAE CHALLENGE" data-date="2025.05.15">
           <video class="cr-video" src="aeae.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="aeae.jpg" alt="AEAE CHALLENGE">
-          <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">AEAE CHALLENGE</div><div class="sc-card-date">2025.05.15</div></div></div>
+          
           <div class="cr-card-label">
             <span class="cr-card-title">AEAE CHALLENGE</span>
             <span class="cr-card-view">VIEW</span>
@@ -1392,7 +1395,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="cr-card" data-src="dalmaji.mp4" data-name="달맞이 챌린지" data-date="2025.10.02">
           <video class="cr-video" src="dalmaji.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="dalmaji.jpg" alt="달맞이 챌린지">
-          <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">달맞이 챌린지</div><div class="sc-card-date">2025.10.02</div></div></div>
+          
           <div class="cr-card-label">
             <span class="cr-card-title">달맞이 챌린지</span>
             <span class="cr-card-view">VIEW</span>
@@ -1401,7 +1404,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="cr-card" data-src="lastone.mp4" data-name="LASTONE CHALLENGE" data-date="2025.08.13">
           <video class="cr-video" src="lastone.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="lastone.jpg" alt="LASTONE CHALLENGE">
-          <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">LASTONE CHALLENGE</div><div class="sc-card-date">2025.08.13</div></div></div>
+          
           <div class="cr-card-label">
             <span class="cr-card-title">LASTONE CHALLENGE</span>
             <span class="cr-card-view">VIEW</span>
@@ -1849,15 +1852,16 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 
-  <!-- SC 비디오 모달 -->
-  <div class="sc-modal" id="scModal" onclick="closeScModal(event)">
-    <div class="sc-modal-inner">
-      <button class="sc-modal-close" onclick="closeScModal()">✕</button>
-      <video id="scModalVideo" src="" loop playsinline></video>
-      <div class="sc-modal-info">
-        <div class="sc-modal-info-name" id="scModalName"></div>
-        <div class="sc-modal-info-date" id="scModalDate"></div>
-      </div>
+</div>
+
+<!-- SC 비디오 모달 — body level -->
+<div class="sc-modal" id="scModal" onclick="closeScModal(event)">
+  <div class="sc-modal-inner">
+    <button class="sc-modal-close" onclick="closeScModal()">✕</button>
+    <video id="scModalVideo" src="" loop playsinline></video>
+    <div class="sc-modal-info">
+      <div class="sc-modal-info-name" id="scModalName"></div>
+      <div class="sc-modal-info-date" id="scModalDate"></div>
     </div>
   </div>
 </div>
@@ -2118,13 +2122,10 @@ function openScModal(src, name, date){
   video.pause();
   video.src = src;
   video.load();
-  const tryPlay = () => {
+  video.addEventListener('canplay', function handler(){
+    video.removeEventListener('canplay', handler);
     video.play().catch(()=>{});
-    feAudio.currentTime = 0;
-    feAudio.play().catch(()=>{});
-  };
-  video.addEventListener('canplay', tryPlay, { once: true });
-  setTimeout(tryPlay, 300);
+  });
 }
 
 /* cr-card hover 무음재생 + 클릭 팝업 */
@@ -2153,8 +2154,6 @@ function closeScModal(e){
   modal.classList.remove('open');
   video.pause();
   video.src = '';
-  feAudio.pause();
-  feAudio.currentTime = 0;
 }
 // 갤러리 드래그 스크롤
 (function(){
