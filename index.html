@@ -1354,7 +1354,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
       <div style="padding:16px 40px 12px;border-bottom:none;">
-      <div class="thumb-cat-label" style="color:rgba(0,0,0,1);margin-bottom:6px;">Challenge Reels</div>
+      <div class="thumb-cat-label" style="color:rgba(0,0,0,1);margin-bottom:10px;">Challenge Reels</div>
       <div style="font-family:'Pretendard',sans-serif;font-size:16px;font-weight:400;color:rgba(0,0,0,0.6);line-height:1.5;letter-spacing:-0.01em;">유저들의 스타일링 콘텐츠 업로드를 유도하는 참여형 프로모션으로, 매 챌린지 컨셉에 맞춰 챌린지 영상을 작업했습니다. ㅣ 디자인 기여도 100%</div>
     </div>
   <div class="thumb-content" style="justify-content:flex-end;padding:0 0 40px;">
@@ -2219,7 +2219,8 @@ function openScModal(src, name, date){
     card.addEventListener('mouseenter', () => {
       if(hoverVideo) hoverVideo.play().catch(()=>{});
     });
-    card.addEventListener('mouseleave', () => {
+    card.addEventListener('mouseleave', (e) => {
+      if(card.contains(e.relatedTarget)) return;
       if(hoverVideo){ hoverVideo.pause(); hoverVideo.currentTime = 0; }
     });
     card.addEventListener('click', () => {
