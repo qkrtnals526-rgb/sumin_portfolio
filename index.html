@@ -656,7 +656,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* 에디토리얼/브랜드 콘텐츠용: 프레임 하단 여백 제거, 페이지 끝까지 채움 */
 #page-fashion-editorial .fe-scroll-frame,
 #page-brand-content .fe-scroll-frame,
-#page-brand-content-2 .fe-scroll-frame{
+#page-brand-content-2 .fe-scroll-frame,
+#page-ai-creative .fe-scroll-frame{
   bottom:0!important;
   aspect-ratio:auto!important;
   top:7%;
@@ -2181,7 +2182,7 @@ function openDetail(pageName, slideIndex){
   document.body.style.overflow='hidden';
   page.scrollTop = 0;
 
-  const isScrollPage = (pageName === 'brand-content' || pageName === 'brand-content-2');
+  const isScrollPage = (pageName === 'brand-content' || pageName === 'brand-content-2' || pageName === 'ai-creative');
   if(isScrollPage){
     // active 슬라이드 기준으로 스페이서 재계산 + 배경음 처리
     if(window.recalcDetailSpacers) window.recalcDetailSpacers();
@@ -2442,9 +2443,16 @@ let feAudioReady = false;
       if(!spacer) return;
       const page = scene.closest('.detail-page');
       const isBrand = page && (page.id === 'page-brand-content' || page.id === 'page-brand-content-2');
-      if(!isBrand){
+      const isAi = page && page.id === 'page-ai-creative';
+      // brand-content는 항상 spacer, ai-creative는 active 슬라이드에 strip 있을 때만
+      if(!isBrand && !isAi){
         spacer.style.height = '0px';
         return;
+      }
+      if(isAi){
+        const active = scene.querySelector('.detail-slide.active');
+        const strip = active ? active.querySelector('.detail-scroll-strip') : null;
+        if(!strip){ spacer.style.height = '0px'; return; }
       }
       const len = activeStripScrollLen(scene);
       spacer.style.height = Math.round(len) + 'px';
@@ -2469,12 +2477,13 @@ let feAudioReady = false;
       const scene = page.querySelector('.detail-scene');
       if(!scene) return;
       const isScrollPage = (page.id === 'page-brand-content' || page.id === 'page-brand-content-2');
-      if(!isScrollPage) return;
+      const isAiStrip = page.id === 'page-ai-creative';
+      if(!isScrollPage && !isAiStrip) return;
 
       const active = scene.querySelector('.detail-slide.active');
       if(!active) return;
       const strip = active.querySelector('.detail-scroll-strip');
-      if(!strip) return;
+      if(!strip) return; // ai-creative에서 strip 없는 슬라이드는 패스
 
       const frame = strip.parentElement;
       const frameH = frame ? frame.offsetHeight : vh();
