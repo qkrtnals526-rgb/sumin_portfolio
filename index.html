@@ -492,10 +492,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* Challenge Reels 카드 */
 .cr-card{
   flex-shrink:0;
-  width:calc((100vh - 280px) * 9/16);
+  width:calc((100vh - 320px) * 9/16);
   aspect-ratio:9/16;
-  position:relative;border-radius:10px;overflow:hidden;
+  position:relative;border-radius:10px;
   cursor:pointer;
+  margin-bottom:44px;
 }
 .cr-thumb{
   position:absolute;inset:0;
@@ -512,6 +513,19 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .cr-card:hover .cr-thumb{opacity:0;}
 .cr-card:hover .cr-video{opacity:1;}
 .cr-card .sc-card-overlay{border-radius:10px;}
+.cr-card-label{
+  position:absolute;bottom:-44px;left:0;right:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 2px;
+}
+.cr-card-title{
+  font-family:'Pretendard',sans-serif;font-size:13px;font-weight:500;
+  color:rgba(0,0,0,0.7);letter-spacing:-0.01em;
+}
+.cr-card-view{
+  font-family:'Pretendard',sans-serif;font-size:11px;font-weight:400;
+  color:rgba(0,0,0,0.4);letter-spacing:0.08em;text-transform:uppercase;
+}
 .sc-modal{
   position:fixed; inset:0; z-index:9999;
   background:rgba(0,0,0,0.88);
@@ -1343,31 +1357,55 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <video class="cr-video" src="saebom.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="saebom.jpg" alt="새봄 챌린지">
           <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">새봄 챌린지</div><div class="sc-card-date">2026.04.03</div></div></div>
+          <div class="cr-card-label">
+            <span class="cr-card-title">새봄 챌린지</span>
+            <span class="cr-card-view">VIEW</span>
+          </div>
         </div>
         <div class="cr-card" data-src="black.mp4" data-name="블랙크림 챌린지" data-date="2025.11.07">
           <video class="cr-video" src="black.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="black.jpg" alt="블랙크림 챌린지">
           <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">블랙크림 챌린지</div><div class="sc-card-date">2025.11.07</div></div></div>
+          <div class="cr-card-label">
+            <span class="cr-card-title">블랙크림 챌린지</span>
+            <span class="cr-card-view">VIEW</span>
+          </div>
         </div>
         <div class="cr-card" data-src="millo.mp4" data-name="MILLO CHALLENGE" data-date="2026.01.22">
           <video class="cr-video" src="millo.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="millo.jpg" alt="MILLO CHALLENGE">
           <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">MILLO CHALLENGE</div><div class="sc-card-date">2026.01.22</div></div></div>
+          <div class="cr-card-label">
+            <span class="cr-card-title">MILLO CHALLENGE</span>
+            <span class="cr-card-view">VIEW</span>
+          </div>
         </div>
         <div class="cr-card" data-src="aeae.mp4" data-name="AEAE CHALLENGE" data-date="2025.05.15">
           <video class="cr-video" src="aeae.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="aeae.jpg" alt="AEAE CHALLENGE">
           <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">AEAE CHALLENGE</div><div class="sc-card-date">2025.05.15</div></div></div>
+          <div class="cr-card-label">
+            <span class="cr-card-title">AEAE CHALLENGE</span>
+            <span class="cr-card-view">VIEW</span>
+          </div>
         </div>
         <div class="cr-card" data-src="dalmaji.mp4" data-name="달맞이 챌린지" data-date="2025.10.02">
           <video class="cr-video" src="dalmaji.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="dalmaji.jpg" alt="달맞이 챌린지">
           <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">달맞이 챌린지</div><div class="sc-card-date">2025.10.02</div></div></div>
+          <div class="cr-card-label">
+            <span class="cr-card-title">달맞이 챌린지</span>
+            <span class="cr-card-view">VIEW</span>
+          </div>
         </div>
         <div class="cr-card" data-src="lastone.mp4" data-name="LASTONE CHALLENGE" data-date="2025.08.13">
           <video class="cr-video" src="lastone.mp4" muted loop playsinline preload="none"></video>
           <img class="cr-thumb" src="lastone.jpg" alt="LASTONE CHALLENGE">
           <div class="sc-card-overlay"><div class="sc-card-info"><div class="sc-card-name">LASTONE CHALLENGE</div><div class="sc-card-date">2025.08.13</div></div></div>
+          <div class="cr-card-label">
+            <span class="cr-card-title">LASTONE CHALLENGE</span>
+            <span class="cr-card-view">VIEW</span>
+          </div>
         </div>
       </div>
     </div>
@@ -2069,44 +2107,44 @@ function isDetailColorDark(color){
 }
 /* STYLE CHALLENGE — 모달 + 드래그 스크롤 */
 function openScModal(src, name, date){
-  feAudio.pause(); feAudio.currentTime = 0;
   const modal = document.getElementById('scModal');
   const video = document.getElementById('scModalVideo');
   const nameEl = document.getElementById('scModalName');
   const dateEl = document.getElementById('scModalDate');
   if(!modal || !video) return;
-  video.pause();
-  video.removeAttribute('src');
-  video.load();
-  video.src = src;
   nameEl.textContent = name;
   dateEl.textContent = date;
   modal.classList.add('open');
-  video.play().catch(()=>{});
-  feAudio.play().catch(()=>{});
+  video.pause();
+  video.src = src;
+  video.load();
+  const tryPlay = () => {
+    video.play().catch(()=>{});
+    feAudio.currentTime = 0;
+    feAudio.play().catch(()=>{});
+  };
+  video.addEventListener('canplay', tryPlay, { once: true });
+  setTimeout(tryPlay, 300);
 }
 
 /* cr-card hover 무음재생 + 클릭 팝업 */
 (function(){
-  function initCrCards(){
-    document.querySelectorAll('.cr-card').forEach(card => {
-      const video = card.querySelector('.cr-video');
-      const src = card.getAttribute('data-src');
-      const name = card.getAttribute('data-name');
-      const date = card.getAttribute('data-date');
-      card.addEventListener('mouseenter', () => {
-        if(video){ video.play().catch(()=>{}); }
-      });
-      card.addEventListener('mouseleave', () => {
-        if(video){ video.pause(); video.currentTime = 0; }
-      });
-      card.addEventListener('click', () => {
-        if(video){ video.pause(); video.currentTime = 0; }
-        openScModal(src, name, date);
-      });
+  document.querySelectorAll('.cr-card').forEach(card => {
+    const hoverVideo = card.querySelector('.cr-video');
+    const src = card.getAttribute('data-src');
+    const name = card.getAttribute('data-name');
+    const date = card.getAttribute('data-date');
+    card.addEventListener('mouseenter', () => {
+      if(hoverVideo) hoverVideo.play().catch(()=>{});
     });
-  }
-  initCrCards();
+    card.addEventListener('mouseleave', () => {
+      if(hoverVideo){ hoverVideo.pause(); hoverVideo.currentTime = 0; }
+    });
+    card.addEventListener('click', () => {
+      if(hoverVideo){ hoverVideo.pause(); hoverVideo.currentTime = 0; }
+      openScModal(src, name, date);
+    });
+  });
 })();
 function closeScModal(e){
   if(e && e.target !== document.getElementById('scModal') && !e.target.classList.contains('sc-modal-close')) return;
