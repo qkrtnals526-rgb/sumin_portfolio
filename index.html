@@ -247,6 +247,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .detail-page{
   display:none;position:fixed;inset:0;z-index:1000;
   background:#fff;overflow-y:auto;overflow-x:hidden;
+  overscroll-behavior:none;
 }
 .detail-page.open{display:block;}
 
@@ -2307,7 +2308,7 @@ function switchDetail(pageName){
 }
 function muteAllDetailVideos(){
   const vid = document.getElementById('fe-video-1');
-  if(vid){ vid.muted = true; vid.pause(); }
+  if(vid){ vid.muted = true; }
   feAudio.pause();
   feAudio.currentTime = 0;
   feAudioReady = false;
@@ -2441,7 +2442,7 @@ let feAudioReady = false;
   applySpacers();
   window.addEventListener('resize', applySpacers);
   setTimeout(applySpacers, 300);
-  // 이미지/영상 로드 후 재계산
+  // 이미지/영상 로드 후 재계산 — handleHondaAudio 호출 없이 spacer만
   setTimeout(applySpacers, 1000);
   setTimeout(applySpacers, 2500);
   window.recalcDetailSpacers = applySpacers;
@@ -2450,7 +2451,9 @@ let feAudioReady = false;
 
   // ── 스크롤 핸들러 ─────────────────────────────────────────────────
   document.querySelectorAll('.detail-page').forEach(page => {
+    let isSettingScroll = false;
     page.addEventListener('scroll', function(){
+      if(isSettingScroll) return;
       const scene = page.querySelector('.detail-scene');
       if(!scene) return;
       const isScrollPage = (page.id === 'page-brand-content' || page.id === 'page-brand-content-2');
@@ -2467,14 +2470,16 @@ let feAudioReady = false;
       const itemCount = strip.children.length;
       const maxShift = overflow > 0 ? overflow : Math.max(1, itemCount - 1) * frameH;
       const spacerLen = maxShift * STRIP_SLOW;
-      const scrollTop = page.scrollTop;
+      const scrollTop = Math.min(page.scrollTop, spacerLen);
       const progress = spacerLen > 0 ? Math.max(0, Math.min(1, scrollTop / spacerLen)) : 0;
 
       strip.style.transform = `translateY(-${progress * maxShift}px)`;
 
-      // 맨 끝에 도달하면 scrollTop을 spacerLen으로 고정 (들썩임 방지)
-      if(scrollTop > spacerLen){
+      // 맨 끝 초과 시 강제 고정 (들썩임 방지)
+      if(page.scrollTop > spacerLen){
+        isSettingScroll = true;
         page.scrollTop = spacerLen;
+        requestAnimationFrame(() => { isSettingScroll = false; });
       }
 
       const hint = active.querySelector('.detail-scroll-hint');
@@ -2500,28 +2505,23 @@ let feAudioReady = false;
     handleHondaAudio(pageEl);
   }
 
-  // 혼다(fe-scene, slide 0) active면 배경음 ON + 영상 재생, 아니면 OFF
-  // feAudio.paused 체크로 중복 재생 방지
+  // 혼다(fe-scene, slide 0) active면 fe-video-1 unmute로 배경음, 아니면 mute+pause
   function handleHondaAudio(pageEl){
     const scene = pageEl.querySelector('.detail-scene');
-    if(!scene || scene.id !== 'fe-scene'){ feAudio.pause(); return; }
+    const vid = document.getElementById('fe-video-1');
+    if(!scene || scene.id !== 'fe-scene'){
+      if(vid){ vid.muted = true; }
+      return;
+    }
     const active = scene.querySelector('.detail-slide.active');
     const isHonda = active && active.getAttribute('data-slide') === '0';
-    const vid = document.getElementById('fe-video-1');
     if(isHonda){
-      if(vid && vid.paused){
+      if(vid){
         vid.muted = false;
-        vid.play().catch(() => { vid.muted = true; vid.play().catch(()=>{}); });
-      }
-      if(feAudio.paused){
-        feAudioReady = true;
-        feAudio.play().catch(()=>{});
+        if(vid.paused) vid.play().catch(()=>{ vid.muted = true; });
       }
     } else {
-      if(vid){ vid.muted = true; vid.pause(); }
-      feAudio.pause();
-      feAudio.currentTime = 0;
-      feAudioReady = false;
+      if(vid){ vid.muted = true; }
     }
   }
   window.handleHondaAudio = handleHondaAudio;
