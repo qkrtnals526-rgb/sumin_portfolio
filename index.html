@@ -2464,7 +2464,6 @@ let feAudioReady = false;
       const frame = strip.parentElement;
       const frameH = frame ? frame.offsetHeight : vh();
       const overflow = Math.max(0, strip.scrollHeight - frameH);
-      // overflow 0이면 아이템 추정
       const itemCount = strip.children.length;
       const maxShift = overflow > 0 ? overflow : Math.max(1, itemCount - 1) * frameH;
       const spacerLen = maxShift * STRIP_SLOW;
@@ -2472,6 +2471,11 @@ let feAudioReady = false;
       const progress = spacerLen > 0 ? Math.max(0, Math.min(1, scrollTop / spacerLen)) : 0;
 
       strip.style.transform = `translateY(-${progress * maxShift}px)`;
+
+      // 맨 끝에 도달하면 scrollTop을 spacerLen으로 고정 (들썩임 방지)
+      if(scrollTop > spacerLen){
+        page.scrollTop = spacerLen;
+      }
 
       const hint = active.querySelector('.detail-scroll-hint');
       if(hint && !hint.classList.contains('next-work-btn')){
@@ -2497,6 +2501,7 @@ let feAudioReady = false;
   }
 
   // 혼다(fe-scene, slide 0) active면 배경음 ON + 영상 재생, 아니면 OFF
+  // feAudio.paused 체크로 중복 재생 방지
   function handleHondaAudio(pageEl){
     const scene = pageEl.querySelector('.detail-scene');
     if(!scene || scene.id !== 'fe-scene'){ feAudio.pause(); return; }
@@ -2504,19 +2509,16 @@ let feAudioReady = false;
     const isHonda = active && active.getAttribute('data-slide') === '0';
     const vid = document.getElementById('fe-video-1');
     if(isHonda){
-      // 영상 재생
-      if(vid){
+      if(vid && vid.paused){
         vid.muted = false;
         vid.play().catch(() => { vid.muted = true; vid.play().catch(()=>{}); });
       }
-      // 배경음 재생
-      feAudioReady = true;
-      feAudio.currentTime = 0;
-      feAudio.play().catch(()=>{});
+      if(feAudio.paused){
+        feAudioReady = true;
+        feAudio.play().catch(()=>{});
+      }
     } else {
-      // 영상 멈춤
       if(vid){ vid.muted = true; vid.pause(); }
-      // 배경음 멈춤
       feAudio.pause();
       feAudio.currentTime = 0;
       feAudioReady = false;
