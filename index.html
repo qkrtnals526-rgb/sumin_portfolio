@@ -659,13 +659,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   bottom:0!important;
   aspect-ratio:auto!important;
   top:7%;
+  border-radius:5px 5px 0 0!important;
 }
 .detail-scroll-strip{
   position:absolute;
   top:0;left:0;
   width:100%;
   will-change:transform;
-  transition:transform 0.12s cubic-bezier(0.16,1,0.3,1);
+  transition:transform 0.35s cubic-bezier(0.22,1,0.36,1);
 }
 .detail-scroll-strip img,
 .detail-scroll-strip video{
@@ -2165,27 +2166,29 @@ function openDetail(pageName, slideIndex){
   if(!page) return;
   if(slideIndex !== undefined){
     const slides = page.querySelectorAll('.detail-slide');
-    slides.forEach(s => { s.classList.remove('active'); s.style.transform = ''; });
+    slides.forEach(s => {
+      s.classList.remove('active');
+      s.style.transform = '';
+      const st = s.querySelector('.detail-scroll-strip');
+      if(st) st.style.transform = 'translateY(0px)';
+    });
     if(slides[slideIndex]) slides[slideIndex].classList.add('active');
   }
   page.classList.remove('open');
   void page.offsetWidth;
   page.classList.add('open');
   document.body.style.overflow='hidden';
+  page.scrollTop = 0;
 
   const isScrollPage = (pageName === 'brand-content' || pageName === 'brand-content-2');
-  if(isScrollPage && slideIndex !== undefined && window.getSlideScrollTop){
-    // 스크롤 페이지: 레이아웃 안정 후 해당 슬라이드 구간으로 점프
+  if(isScrollPage){
+    // active 슬라이드 기준으로 스페이서 재계산 + 배경음 처리
     if(window.recalcDetailSpacers) window.recalcDetailSpacers();
     requestAnimationFrame(() => {
       if(window.recalcDetailSpacers) window.recalcDetailSpacers();
-      requestAnimationFrame(() => {
-        const top = window.getSlideScrollTop('page-'+pageName, slideIndex);
-        page.scrollTop = top;
-      });
+      page.scrollTop = 0;
+      if(window.handleHondaAudio) window.handleHondaAudio(page);
     });
-  } else {
-    page.scrollTop = 0;
   }
 
   updateCatLinks(page, pageName);
@@ -2406,7 +2409,19 @@ let feAudioReady = false;
   // ── 세그먼트 캐시 (scene별) ──────────────────────────────────────
   const segCache = new WeakMap();
 
-  // ── 스페이서 높이 세팅 ────────────────────────────────────────────
+  // active 슬라이드의 strip 스크롤 분량(px) 계산
+  function activeStripScrollLen(scene){
+    const active = scene.querySelector('.detail-slide.active');
+    if(!active) return 0;
+    const strip = active.querySelector('.detail-scroll-strip');
+    if(!strip) return 0;
+    const frame = strip.parentElement;
+    const frameH = frame ? frame.offsetHeight : vh();
+    const overflow = Math.max(0, strip.scrollHeight - frameH);
+    return overflow * STRIP_SLOW;
+  }
+
+  // ── 스페이서 높이 세팅 — active 슬라이드의 strip 분량만 ───────────
   function applySpacers(){
     document.querySelectorAll('.detail-scene').forEach(scene => {
       const spacer = scene.querySelector('.detail-spacer');
@@ -2417,12 +2432,8 @@ let feAudioReady = false;
         spacer.style.height = '0px';
         return;
       }
-      const segs = buildSegments(scene);
-      segCache.set(scene, segs);
-      if(!segs.length) return;
-      const last = segs[segs.length-1];
-      const total = last.start + last.len + vh();
-      spacer.style.height = Math.round(total) + 'px';
+      const len = activeStripScrollLen(scene);
+      spacer.style.height = Math.round(len) + 'px';
     });
   }
 
@@ -2431,125 +2442,81 @@ let feAudioReady = false;
   setTimeout(applySpacers, 300);
   window.recalcDetailSpacers = applySpacers;
 
-  // 외부(openDetail)에서 특정 슬라이드의 스크롤 시작 위치를 구할 수 있게 노출
-  window.getSlideScrollTop = function(pageId, slideIndex){
-    const page = document.getElementById(pageId);
-    if(!page) return 0;
-    const scene = page.querySelector('.detail-scene');
-    if(!scene) return 0;
-    const segs = segCache.get(scene) || buildSegments(scene);
-    if(!segs[slideIndex]) return 0;
-    // 해당 슬라이드 구간 시작점에서 살짝 안쪽(구간 길이의 2%)으로 점프해 경계 오차 방지
-    const seg = segs[slideIndex];
-    const inset = Math.min(seg.len * 0.02, 20);
-    return Math.round(seg.start + inset);
-  };
+  // 슬라이드 전환은 버튼이 직접 처리하므로 스크롤 점프 함수는 0 반환(맨 위)
+  window.getSlideScrollTop = function(){ return 0; };
 
-  // ── 스크롤 핸들러 ─────────────────────────────────────────────────
+  // ── 스크롤 핸들러 — active 슬라이드의 strip만 스크롤 (슬라이드 전환 없음) ──
   document.querySelectorAll('.detail-page').forEach(page => {
     page.addEventListener('scroll', function(){
       const scene = page.querySelector('.detail-scene');
       if(!scene) return;
-      // 스크롤 기반 전환은 Brand Content 계열만. 나머지(AI/3D)는 버튼 클릭으로만 전환.
       const isScrollPage = (page.id === 'page-brand-content' || page.id === 'page-brand-content-2');
       if(!isScrollPage) return;
-      const slides = Array.from(scene.querySelectorAll('.detail-slide'));
-      const slideCount = slides.length;
+
+      const active = scene.querySelector('.detail-slide.active');
+      if(!active) return;
+      const strip = active.querySelector('.detail-scroll-strip');
+      if(!strip) return;
+
+      const frame = strip.parentElement;
+      const maxShift = Math.max(0, strip.scrollHeight - frame.offsetHeight);
+      const spacerLen = maxShift * STRIP_SLOW;
       const scrollTop = page.scrollTop;
-      const segs = segCache.get(scene) || buildSegments(scene);
+      const progress = spacerLen > 0 ? Math.max(0, Math.min(1, scrollTop / spacerLen)) : 0;
 
-      // 현재 슬라이드 인덱스 + 구간 내 progress
-      let currentIndex = slideCount - 1;
-      for(let i = 0; i < slideCount; i++){
-        if(scrollTop < segs[i].start + segs[i].len){ currentIndex = i; break; }
+      strip.style.transform = `translateY(-${progress * maxShift}px)`;
+
+      // 스크롤 힌트: 끝까지 가면 숨김
+      const hint = active.querySelector('.detail-scroll-hint');
+      if(hint && !hint.classList.contains('next-work-btn')){
+        hint.style.opacity = progress >= 0.95 ? '0' : '0.5';
       }
-      const seg = segs[currentIndex];
-      const slideProgress = seg.len > 0
-        ? Math.max(0, Math.min(1, (scrollTop - seg.start) / seg.len))
-        : 1;
-
-      // 현재 active 슬라이드만 표시 (슬라이드 전환 없음)
-      slides.forEach((slide, i) => {
-        if(i === currentIndex){
-          slide.classList.add('active');
-          slide.classList.remove('slide-down');
-          slide.style.transform = '';
-        } else {
-          slide.classList.remove('active');
-          slide.classList.remove('slide-down');
-          slide.style.transform = '';
-        }
-
-        // 스트립 스크롤 제어
-        const strip = slide.querySelector('.detail-scroll-strip');
-        if(strip){
-          const frame = strip.parentElement;
-          const maxShift = Math.max(0, strip.scrollHeight - frame.offsetHeight);
-          if(i === currentIndex && !slide.classList.contains('detail-slide-intro')){
-            strip.style.transform = `translateY(-${slideProgress * maxShift}px)`;
-          } else if(i < currentIndex){
-            strip.style.transform = `translateY(-${maxShift}px)`;
-          } else {
-            strip.style.transform = 'translateY(0px)';
-          }
-        }
-      });
-
-      // 스크롤 힌트
-      scene.querySelectorAll('.detail-scroll-hint').forEach(h => h.style.opacity = '0');
-      const activeHint = slides[currentIndex]?.querySelector('.detail-scroll-hint');
-      if(activeHint){
-        const isLast = currentIndex >= slideCount-1 && slideProgress >= 0.95;
-        activeHint.style.opacity = isLast ? '0' : '0.5';
-      }
-
-      // FE BGM: data-slide=1에서만 재생
-      if(scene.id === 'fe-scene'){
-        const isSlide1 = slides[currentIndex] && slides[currentIndex].getAttribute('data-slide') === '1';
-        if(isSlide1 && feAudio.paused && feAudioReady){
-          feAudio.play().catch(()=>{});
-        } else if(!isSlide1 && !feAudio.paused){
-          feAudio.pause();
-        }
-      }
-
-      // 다크/라이트 네비
-      const nav = page.querySelector('.detail-nav');
-      if(nav){
-        const activeSlide = scene.querySelector('.detail-slide.active');
-        if(activeSlide){
-          const bg = activeSlide.getAttribute('style')?.match(/background\s*:\s*([^;]+)/)?.[1]?.trim() || '#fff';
-          isColorDark(bg) ? nav.classList.add('dark') : nav.classList.remove('dark');
-        }
-      }
-
-      // 슬라이드 전환(slide-down)은 모든 페이지에서 비활성화
-      // Brand Content만 strip 스크롤 유지, 나머지는 스크롤 없음
     });
   });
 
   // Next Work 버튼 바인딩 — 위 꺽쇠=이전 작업, 아래 꺽쇠=다음 작업
+  function setActiveSlide(pageEl, slideIdx){
+    const allSlides = pageEl.querySelectorAll('.detail-slide');
+    allSlides.forEach(s => {
+      s.classList.remove('active');
+      s.style.transform='';
+      const st = s.querySelector('.detail-scroll-strip');
+      if(st) st.style.transform = 'translateY(0px)';
+    });
+    if(allSlides[slideIdx]) allSlides[slideIdx].classList.add('active');
+    pageEl.scrollTop = 0;
+    if(window.recalcDetailSpacers) window.recalcDetailSpacers();
+    updateDetailNavColor(pageEl);
+    handleHondaAudio(pageEl);
+  }
+
+  // 혼다(fe-scene, slide 0) active면 배경음 ON, 아니면 OFF
+  function handleHondaAudio(pageEl){
+    const scene = pageEl.querySelector('.detail-scene');
+    if(!scene || scene.id !== 'fe-scene'){ feAudio.pause(); return; }
+    const active = scene.querySelector('.detail-slide.active');
+    const isHonda = active && active.getAttribute('data-slide') === '0';
+    const vid = document.getElementById('fe-video-1');
+    if(isHonda){
+      if(vid) vid.muted = false;
+      feAudioReady = true;
+      feAudio.play().catch(()=>{});
+    } else {
+      if(vid) vid.muted = true;
+      feAudio.pause();
+      feAudio.currentTime = 0;
+    }
+  }
+  window.handleHondaAudio = handleHondaAudio;
+
   function goToWork(slide, page, slideIdxRaw){
     const slideIdx = (slideIdxRaw !== null && slideIdxRaw !== undefined && slideIdxRaw !== '') ? parseInt(slideIdxRaw) : 0;
     muteAllDetailVideos();
     const currentPage = slide.closest('.detail-page');
-    const targetIsScroll = (page === 'brand-content' || page === 'brand-content-2');
 
     if(currentPage && currentPage.id === 'page-'+page){
-      // 같은 페이지 내 이동
-      if(targetIsScroll && window.getSlideScrollTop){
-        // 스크롤 페이지: 목표 슬라이드 구간으로 스크롤 이동 → 핸들러가 active 처리
-        const top = window.getSlideScrollTop('page-'+page, slideIdx);
-        currentPage.scrollTop = top;
-        updateDetailNavColor(currentPage);
-      } else {
-        // 비스크롤 페이지: active 직접 교체
-        const allSlides = currentPage.querySelectorAll('.detail-slide');
-        allSlides.forEach(s => { s.classList.remove('active'); s.style.transform=''; });
-        if(allSlides[slideIdx]) allSlides[slideIdx].classList.add('active');
-        currentPage.scrollTop = 0;
-        updateDetailNavColor(currentPage);
-      }
+      // 같은 페이지 내 이동 — active 직접 교체
+      setActiveSlide(currentPage, slideIdx);
     } else {
       // 다른 페이지로 이동
       document.querySelectorAll('.detail-page').forEach(p => p.classList.remove('open'));
