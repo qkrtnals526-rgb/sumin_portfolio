@@ -133,6 +133,67 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 #page-ai-creative.open{display:block;}
 
+/* ── PROGRESS BAR ── */
+.detail-progress-bar{
+  position:fixed;top:0;left:0;right:0;z-index:1020;
+  height:2px;background:rgba(0,0,0,0.08);
+  pointer-events:none;opacity:0;transition:opacity 0.4s;
+}
+.detail-page.open .detail-progress-bar{opacity:1;}
+.detail-progress-fill{
+  height:100%;width:0%;
+  background:#000;
+  transition:width 0.15s linear;
+}
+.detail-nav.dark ~ .detail-progress-bar .detail-progress-fill,
+.detail-page.open .detail-progress-bar.bar-light .detail-progress-fill{background:#fff;}
+
+/* ── WORK NAV (Prev / Next) ── */
+.detail-work-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:1015;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 40px;
+  border-top:0.5px solid rgba(0,0,0,0.1);
+  background:rgba(255,255,255,0.9);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  opacity:0;pointer-events:none;
+  transition:opacity 0.4s ease;
+}
+.detail-page.open .detail-work-nav{opacity:1;pointer-events:auto;}
+.detail-nav.dark + .detail-work-nav,
+.detail-work-nav.nav-dark{
+  background:rgba(0,0,0,0.85);
+  border-top-color:rgba(255,255,255,0.1);
+}
+.work-nav-btn{
+  display:flex;align-items:center;gap:10px;
+  cursor:pointer;text-decoration:none;background:none;border:none;padding:6px 0;
+  transition:opacity 0.2s;
+}
+.work-nav-btn:hover{opacity:0.5;}
+.work-nav-btn.hidden{visibility:hidden;pointer-events:none;}
+.work-nav-label{
+  font-family:'StackSansNotch',sans-serif;font-size:10px;font-weight:300;
+  letter-spacing:0.14em;color:#000;text-transform:uppercase;
+  display:block;margin-bottom:2px;
+}
+.work-nav-title{
+  font-family:'Pretendard',sans-serif;font-size:13px;font-weight:500;
+  color:#000;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.work-nav-arrow{
+  font-size:20px;line-height:1;color:#000;
+}
+.work-nav-divider{
+  width:0.5px;height:28px;background:rgba(0,0,0,0.15);
+}
+/* 다크 배경일 때 */
+.detail-work-nav.nav-dark .work-nav-label,
+.detail-work-nav.nav-dark .work-nav-title,
+.detail-work-nav.nav-dark .work-nav-arrow{color:#fff;}
+.detail-work-nav.nav-dark .work-nav-divider{background:rgba(255,255,255,0.15);}
+.detail-progress-bar.bar-dark .detail-progress-fill{background:#fff;}
+
 /* detail-page generic class for shared animations */
 .detail-page{
   display:none;position:fixed;inset:0;z-index:1000;
@@ -999,6 +1060,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 <!-- AI CREATIVE DETAIL PAGE -->
 <div id="page-ai-creative" class="detail-page">
+  <div class="detail-progress-bar" id="progress-ai-creative"><div class="detail-progress-fill"></div></div>
+  <div class="detail-work-nav" id="worknav-ai-creative">
+    <button class="work-nav-btn" id="prev-ai-creative" onclick="workNavGo('ai-creative',-1)">
+      <span class="work-nav-arrow">←</span>
+      <div><span class="work-nav-label">Prev</span><span class="work-nav-title" id="prev-title-ai-creative"></span></div>
+    </button>
+    <div class="work-nav-divider"></div>
+    <button class="work-nav-btn" id="next-ai-creative" onclick="workNavGo('ai-creative',1)" style="flex-direction:row-reverse;text-align:right;">
+      <span class="work-nav-arrow">→</span>
+      <div><span class="work-nav-label">Next</span><span class="work-nav-title" id="next-title-ai-creative"></span></div>
+    </button>
+  </div>
   <div class="detail-nav">
     <a class="detail-back" onclick="closeDetail()">← Back</a>
     <div class="detail-menu-wrap">
@@ -1121,6 +1194,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 <!-- FASHION EDITORIAL DETAIL PAGE -->
 <div id="page-fashion-editorial" class="detail-page">
+  <div class="detail-progress-bar bar-dark" id="progress-fashion-editorial"><div class="detail-progress-fill"></div></div>
+  <div class="detail-work-nav nav-dark" id="worknav-fashion-editorial">
+    <button class="work-nav-btn" id="prev-fashion-editorial" onclick="workNavGo('fashion-editorial',-1)">
+      <span class="work-nav-arrow">←</span>
+      <div><span class="work-nav-label">Prev</span><span class="work-nav-title" id="prev-title-fashion-editorial"></span></div>
+    </button>
+    <div class="work-nav-divider"></div>
+    <button class="work-nav-btn" id="next-fashion-editorial" onclick="workNavGo('fashion-editorial',1)" style="flex-direction:row-reverse;text-align:right;">
+      <span class="work-nav-arrow">→</span>
+      <div><span class="work-nav-label">Next</span><span class="work-nav-title" id="next-title-fashion-editorial"></span></div>
+    </button>
+  </div>
   <div class="detail-nav dark">
     <a class="detail-back" onclick="closeDetail()">← Back</a>
     <div class="detail-menu-wrap">
@@ -1306,6 +1391,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 <!-- PROMOTIONAL CONTENT DETAIL PAGE -->
 <div id="page-promotional-content" class="detail-page">
+  <div class="detail-progress-bar" id="progress-promotional-content"><div class="detail-progress-fill"></div></div>
+  <div class="detail-work-nav" id="worknav-promotional-content">
+    <button class="work-nav-btn" id="prev-promotional-content" onclick="workNavGo('promotional-content',-1)">
+      <span class="work-nav-arrow">←</span>
+      <div><span class="work-nav-label">Prev</span><span class="work-nav-title" id="prev-title-promotional-content"></span></div>
+    </button>
+    <div class="work-nav-divider"></div>
+    <button class="work-nav-btn" id="next-promotional-content" onclick="workNavGo('promotional-content',1)" style="flex-direction:row-reverse;text-align:right;">
+      <span class="work-nav-arrow">→</span>
+      <div><span class="work-nav-label">Next</span><span class="work-nav-title" id="next-title-promotional-content"></span></div>
+    </button>
+  </div>
   <div class="detail-nav">
     <a class="detail-back" onclick="closeDetail()">← Back</a>
     <div class="detail-menu-wrap">
@@ -1373,6 +1470,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 <!-- 3D ARTWORK DETAIL PAGE -->
 <div id="page-3d-artwork" class="detail-page">
+  <div class="detail-progress-bar bar-dark" id="progress-3d-artwork"><div class="detail-progress-fill"></div></div>
+  <div class="detail-work-nav nav-dark" id="worknav-3d-artwork">
+    <button class="work-nav-btn" id="prev-3d-artwork" onclick="workNavGo('3d-artwork',-1)">
+      <span class="work-nav-arrow">←</span>
+      <div><span class="work-nav-label">Prev</span><span class="work-nav-title" id="prev-title-3d-artwork"></span></div>
+    </button>
+    <div class="work-nav-divider"></div>
+    <button class="work-nav-btn" id="next-3d-artwork" onclick="workNavGo('3d-artwork',1)" style="flex-direction:row-reverse;text-align:right;">
+      <span class="work-nav-arrow">→</span>
+      <div><span class="work-nav-label">Next</span><span class="work-nav-title" id="next-title-3d-artwork"></span></div>
+    </button>
+  </div>
   <div class="detail-nav dark">
     <a class="detail-back" onclick="closeDetail()">← Back</a>
     <div class="detail-menu-wrap">
@@ -1714,6 +1823,12 @@ function openDetail(pageName){
   page.querySelectorAll('.detail-inline-cats').forEach(c=>c.classList.remove('show'));
   // 초기 네비 컬러 설정
   updateDetailNavColor(page);
+  // work nav 초기 상태 설정
+  const scene = page.querySelector('.detail-scene');
+  if(scene){
+    const slides = Array.from(scene.querySelectorAll('.detail-slide'));
+    if(window.updateWorkNav) updateWorkNav(pageName, slides, 0);
+  }
 }
 function updateDetailNavColor(page){
   const scene = page.querySelector('.detail-scene');
@@ -2048,9 +2163,119 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
           isColorDark(bg) ? nav.classList.add('dark') : nav.classList.remove('dark');
         }
       }
+
+      // ── 프로그레스 바 업데이트 ──
+      const segsAll = segCache.get(scene) || buildSegments(scene);
+      const totalLen = segsAll.length > 0 ? segsAll[segsAll.length-1].start + segsAll[segsAll.length-1].len : 1;
+      const pct = Math.min(100, Math.max(0, (scrollTop / totalLen) * 100));
+      const progressBar = page.querySelector('.detail-progress-fill');
+      if(progressBar) progressBar.style.width = pct + '%';
+
+      // ── Work Nav 업데이트 ──
+      const pageId = page.id.replace('page-', '');
+      updateWorkNav(pageId, slides, currentIndex);
     });
   });
 
+})();
+
+/* ── WORK NAV 데이터 + 로직 ── */
+(function(){
+  // 각 카테고리의 작업물 타이틀 정의 (intro 슬라이드 순서대로)
+  const WORK_TITLES = {
+    'ai-creative': ['SELLER WEEK', '몽벨 해외직구', '스프링 시즌오프', 'HERA SENSUAL NUDE GLOSS'],
+    'fashion-editorial': ['HONDA MOTORCYCLE APPAREL', '일광전구', '조셉앤스테이시 × 몬치치', 'KREAM 도산 스토어 윈터 룩북'],
+    'promotional-content': ['디저트 테이블'],
+    '3d-artwork': ['KREAM DRAW', 'P.FUNK SELECTION', '2025 TREND LEVEL TEST'],
+  };
+
+  // 현재 작업물 인덱스 추적 (intro 기준)
+  window.updateWorkNav = function(pageId, slides, currentSlideIndex){
+    const titles = WORK_TITLES[pageId];
+    if(!titles) return;
+
+    // intro 슬라이드 인덱스들 수집
+    const introIndices = [];
+    slides.forEach((s, i) => {
+      if(s.classList.contains('detail-slide-intro')) introIndices.push(i);
+    });
+
+    // 현재 어떤 작업물(intro 그룹)에 속하는지 계산
+    let workIdx = 0;
+    for(let i = 0; i < introIndices.length; i++){
+      if(currentSlideIndex >= introIndices[i]) workIdx = i;
+    }
+
+    const prevBtn = document.getElementById('prev-' + pageId);
+    const nextBtn = document.getElementById('next-' + pageId);
+    const prevTitle = document.getElementById('prev-title-' + pageId);
+    const nextTitle = document.getElementById('next-title-' + pageId);
+    if(!prevBtn || !nextBtn) return;
+
+    // 첫 번째 작업물 = Prev 숨김
+    if(workIdx === 0){
+      prevBtn.classList.add('hidden');
+    } else {
+      prevBtn.classList.remove('hidden');
+      if(prevTitle) prevTitle.textContent = titles[workIdx - 1] || '';
+    }
+
+    // 마지막 작업물 = Next 숨김
+    if(workIdx >= introIndices.length - 1){
+      nextBtn.classList.add('hidden');
+    } else {
+      nextBtn.classList.remove('hidden');
+      if(nextTitle) nextTitle.textContent = titles[workIdx + 1] || '';
+    }
+  };
+
+  // Prev/Next 버튼 클릭 시 해당 작업물 intro로 스크롤
+  window.workNavGo = function(pageId, dir){
+    const page = document.getElementById('page-' + pageId);
+    if(!page) return;
+    const scene = page.querySelector('.detail-scene');
+    if(!scene) return;
+    const slides = Array.from(scene.querySelectorAll('.detail-slide'));
+
+    const introIndices = [];
+    slides.forEach((s, i) => {
+      if(s.classList.contains('detail-slide-intro')) introIndices.push(i);
+    });
+
+    // 현재 작업물 인덱스
+    let workIdx = 0;
+    const activeSlide = scene.querySelector('.detail-slide.active');
+    const currentSlideIndex = activeSlide ? slides.indexOf(activeSlide) : 0;
+    for(let i = 0; i < introIndices.length; i++){
+      if(currentSlideIndex >= introIndices[i]) workIdx = i;
+    }
+
+    const targetWork = workIdx + dir;
+    if(targetWork < 0 || targetWork >= introIndices.length) return;
+
+    // 해당 intro 슬라이드의 스크롤 위치로 이동
+    // buildSegments 재활용
+    const INTRO_FIRST_PX = window.innerHeight * 1.5;
+    const INTRO_REST_PX  = window.innerHeight * 1.2;
+    const segs = [];
+    let cursor = 0, introCount = 0;
+    slides.forEach(slide => {
+      const isIntro = slide.classList.contains('detail-slide-intro');
+      let len;
+      if(isIntro){
+        len = introCount === 0 ? INTRO_FIRST_PX : INTRO_REST_PX;
+        introCount++;
+      } else {
+        len = window.innerHeight;
+      }
+      segs.push({ start: cursor, len });
+      cursor += len;
+    });
+
+    const targetIntroSlideIdx = introIndices[targetWork];
+    const targetScrollTop = segs[targetIntroSlideIdx]?.start || 0;
+    page.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
+  };
 })();
 
 </script>
