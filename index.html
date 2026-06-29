@@ -263,29 +263,40 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .detail-page.open .detail-scroll-hint{opacity:0.5;}
 .detail-scroll-hint:hover{opacity:0.8 !important;}
 .detail-scroll-hint.next-work-btn{
-  flex-direction:row !important;
+  flex-direction:column !important;
   align-items:center;
-  gap:10px;
+  justify-content:center;
+  gap:0;
   bottom:5% !important;
-  right:0.5% !important;
-  padding:10px 20px;
+  right:2% !important;
+  padding:18px 14px;
   border-radius:100px;
-  background:rgba(255,255,255,0.15);
+  background:rgba(220,220,220,0.55);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
-  border:0.5px solid rgba(255,255,255,0.25);
+  border:0.5px solid rgba(200,200,200,0.5);
   cursor:pointer;
   width:auto !important;
   animation:none !important;
+  min-width:44px;
+}
+.detail-scroll-hint.next-work-btn.dark-bg{
+  background:rgba(255,255,255,0.15);
+  border-color:rgba(255,255,255,0.25);
 }
 .detail-scroll-hint.next-work-btn .scroll-hint-text{
   writing-mode:horizontal-tb !important;
-  font-size:12px;font-weight:400;
-  letter-spacing:0.1em;text-transform:uppercase;
+  font-size:11px;font-weight:500;
+  letter-spacing:0.05em;
   transition:opacity 0.2s;
+  line-height:1;
 }
 .next-work-arrow{font-size:16px;transition:transform 0.3s ease,opacity 0.2s;}
-.next-work-btn:hover{opacity:0.7 !important;}
+.next-work-btn:hover{opacity:0.65 !important;}
+.next-work-symbol{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  user-select:none;
+}
 .scroll-hint-text{
   font-family:'StackSansNotch',sans-serif;font-size:10px;font-weight:400;
   color:#000;letter-spacing:0.12em;text-transform:uppercase;
@@ -1191,7 +1202,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <!-- AI Creative 썸네일 -->
 <div id="thumb-ai-creative" class="thumb-page">
   <div class="thumb-page-nav">
-    <a class="thumb-page-back" onclick="closeThumbPage()">← Back</a>
+    <a class="thumb-page-back" onclick="closeThumbPage()">↖ Back</a>
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-ai">
         <a class="active" onclick="openThumbPage('ai-creative')">AI Creative</a>
@@ -1240,7 +1251,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <!-- Brand Content 썸네일 -->
 <div id="thumb-brand-content" class="thumb-page">
   <div class="thumb-page-nav">
-    <a class="thumb-page-back" onclick="closeThumbPage()">← Back</a>
+    <a class="thumb-page-back" onclick="closeThumbPage()">↖ Back</a>
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-bc">
         <a onclick="openThumbPage('ai-creative')">AI Creative</a>
@@ -1294,7 +1305,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <!-- 3D Artwork 썸네일 -->
 <div id="thumb-3d-artwork" class="thumb-page">
   <div class="thumb-page-nav">
-    <a class="thumb-page-back" onclick="closeThumbPage()">← Back</a>
+    <a class="thumb-page-back" onclick="closeThumbPage()">↖ Back</a>
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-3d">
         <a onclick="openThumbPage('ai-creative')">AI Creative</a>
@@ -1338,7 +1349,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <!-- Challenge Reels 썸네일 -->
 <div id="thumb-challenge-reels" class="thumb-page" style="background:#fff;overflow:hidden;">
   <div class="thumb-page-nav" style="">
-    <a class="thumb-page-back" style="color:rgba(0,0,0,0.45);" onclick="closeThumbPage()">← Back</a>
+    <a class="thumb-page-back" style="color:rgba(0,0,0,0.45);" onclick="closeThumbPage()">↖ Back</a>
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-cr">
         <a style="color:rgba(0,0,0,0.35);" onclick="openThumbPage('ai-creative')">AI Creative</a>
@@ -1419,7 +1430,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <!-- AI CREATIVE DETAIL PAGE -->
 <div id="page-ai-creative" class="detail-page">
   <div class="detail-nav">
-    <a class="detail-back" onclick="goBackToThumb('ai-creative')">← Back</a>
+    <a class="detail-back" onclick="goBackToThumb('ai-creative')">↖ Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
         <a class="active" onclick="switchDetail('ai-creative')">AI Creative</a>
@@ -1439,7 +1450,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide active" data-slide="0" data-next-page="ai-creative" data-next-slide="1" style="background:#E5E5E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative.png" alt="AI Creative 01">
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(0,0,0,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -1449,7 +1460,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="1" data-next-page="ai-creative" data-next-slide="2" style="background:#DEE1E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative2.png" alt="AI Creative 02">
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(0,0,0,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="global.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -1459,7 +1470,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="2" data-next-page="ai-creative" data-next-slide="3" style="background:#FAFFE6;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative3.png" alt="AI Creative 03">
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(0,0,0,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="spring.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -1480,7 +1491,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="hera_7.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(0,0,0,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
     </div>
@@ -1492,7 +1503,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <!-- FASHION EDITORIAL DETAIL PAGE -->
 <div id="page-brand-content" class="detail-page">
   <div class="detail-nav dark">
-    <a class="detail-back" onclick="goBackToThumb('brand-content')">← Back</a>
+    <a class="detail-back" onclick="goBackToThumb('brand-content')">↖ Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
@@ -1532,7 +1543,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
             </div>
 
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(255,255,255,0.5);">Next Work</span><span class="next-work-arrow" style="color:rgba(255,255,255,0.5);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(255,255,255,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
       <!-- Slide 2: 일광전구 -->
@@ -1556,7 +1567,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="2-13.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(0,0,0,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
       <!-- Slide 3: 조셉앤스테이시 × 몬치치 -->
@@ -1580,7 +1591,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="3-13.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(0,0,0,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
       <!-- Slide 4: KREAM 도산 스토어 윈터 룩북 -->
@@ -1604,7 +1615,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <video src="4-13.mp4" autoplay loop muted playsinline></video>
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(0,0,0,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
     </div>
@@ -1616,7 +1627,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <!-- PROMOTIONAL CONTENT DETAIL PAGE -->
 <div id="page-brand-content-2" class="detail-page">
   <div class="detail-nav">
-    <a class="detail-back" onclick="goBackToThumb('brand-content')">← Back</a>
+    <a class="detail-back" onclick="goBackToThumb('brand-content')">↖ Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
@@ -1655,7 +1666,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="5-15.png" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(0,0,0,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
     </div>
@@ -1667,7 +1678,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <!-- 3D ARTWORK DETAIL PAGE -->
 <div id="page-3d-artwork" class="detail-page">
   <div class="detail-nav dark">
-    <a class="detail-back" onclick="goBackToThumb('3d-artwork')">← Back</a>
+    <a class="detail-back" onclick="goBackToThumb('3d-artwork')">↖ Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
@@ -1690,7 +1701,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
             <video src="3DArtwork1.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(255,255,255,0.5);">Next Work</span><span class="next-work-arrow" style="color:rgba(255,255,255,0.5);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(255,255,255,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
       <!-- Slide 2: P.FUNK SELECTION -->
@@ -1700,7 +1711,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
             <video id="pfunkVideo" src="p_funk_final.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(255,255,255,0.5);">Next Work</span><span class="next-work-arrow" style="color:rgba(255,255,255,0.5);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(255,255,255,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
       <!-- Slide 2: 2025 TREND LEVEL TEST -->
@@ -1710,7 +1721,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <div style="position:absolute;left:58.07%;bottom:7%;width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;">
             <img src="3DArtworkThumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↗</span></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:20px;height:1px;background:rgba(0,0,0,0.2);"></div><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
     </div>
@@ -1753,7 +1764,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <!-- STYLE CHALLENGE DETAIL PAGE -->
 <div id="page-challenge-reels" class="detail-page" style="background:#FFFFFF;overflow:hidden;">
   <div class="detail-nav">
-    <a class="detail-back" onclick="goBackToThumb('challenge-reels')">← Back</a>
+    <a class="detail-back" onclick="goBackToThumb('challenge-reels')">↖ Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
