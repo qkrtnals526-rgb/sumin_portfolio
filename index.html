@@ -105,21 +105,118 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .work-preview{font-family:'StackSansNotch',sans-serif;font-size:clamp(14px,2.3vw,28px);font-weight:300;color:#fff;letter-spacing:0.05em;text-transform:uppercase;align-self:flex-end;opacity:0;transform:translateY(20px);transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s,transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s;}
 .work-preview.in{opacity:1;transform:translateY(0);}
 
-/* WORK CARDS */
-#s-work2{width:100%;height:300vh;position:relative;background:#000;}
+/* WORK CATEGORY LIST */
+#s-work2{width:100%;height:100vh;position:relative;background:#000;}
 .work-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;}
-.cards-track-wrap{flex:1;display:flex;align-items:center;overflow:hidden;padding:4vh 3.33% 4vh;}
-.cards-track{display:flex;gap:1.5%;will-change:transform;}
-.wcard{flex:0 0 26vw;height:72vh;border-radius:10px;overflow:hidden;position:relative;cursor:pointer;background:#111;}
-.wcard img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.7s cubic-bezier(0.16,1,0.3,1);}
-.wcard:hover img{transform:scale(1.04);}
-.wcard-dim{position:absolute;inset:0;background:rgba(0,0,0,0);transition:background 0.4s;z-index:2;border-radius:10px;}
-.wcard:hover .wcard-dim{background:rgba(0,0,0,0.55);}
-.wcard-info{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:3;opacity:0;transition:opacity 0.35s;}
-.wcard:hover .wcard-info{opacity:1;}
-.wcard-info-text{font-family:'StackSansNotch',sans-serif;font-size:clamp(16px,2.2vw,26px);font-weight:700;color:#fff;text-align:center;letter-spacing:0.02em;text-transform:uppercase;line-height:1.2;padding:0 16px;}
+.cat-list-wrap{flex:1;display:flex;align-items:center;padding:0;}
+.cat-list{width:100%;display:flex;flex-direction:column;}
+.cat-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;
+  height:calc(100vh / 5.5);
+  border-bottom:0.5px solid rgba(255,255,255,0.08);
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:background 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.cat-item:first-child{border-top:0.5px solid rgba(255,255,255,0.08);}
+.cat-item::before{
+  content:'';position:absolute;inset:0;
+  background:#004ED5;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+.cat-item:hover::before{transform:scaleX(1);}
+.cat-item-name{
+  font-family:'StackSansNotch',sans-serif;
+  font-size:clamp(28px,5vw,72px);
+  font-weight:400;
+  color:rgba(255,255,255,0.7);
+  letter-spacing:-0.02em;
+  position:relative;z-index:1;
+  transition:color 0.3s;
+}
+.cat-item:hover .cat-item-name{color:#fff;}
+.cat-item-arrow{
+  font-size:clamp(18px,2.5vw,32px);
+  color:rgba(255,255,255,0);
+  position:relative;z-index:1;
+  transform:translate(-8px,8px);
+  transition:color 0.3s,transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.cat-item:hover .cat-item-arrow{color:rgba(255,255,255,0.8);transform:translate(0,0);}
 .work-footer{padding:0 3.33% 3vh;display:flex;justify-content:flex-end;}
 .work-footer p{font-family:'Pretendard',sans-serif;font-size:clamp(8px,1vw,12px);font-weight:400;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+
+/* THUMBNAIL GRID PAGE */
+.thumb-page{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:#000;overflow-y:auto;
+}
+.thumb-page.open{display:block;}
+.thumb-page-nav{
+  position:sticky;top:0;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 40px;
+  border-bottom:0.5px solid rgba(255,255,255,0.1);
+  background:rgba(0,0,0,0.9);
+  backdrop-filter:blur(12px);
+}
+.thumb-page-back{
+  font-family:'Pretendard',sans-serif;font-size:16px;font-weight:400;
+  color:rgba(255,255,255,0.5);cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  transition:color 0.2s;text-decoration:none;
+}
+.thumb-page-back:hover{color:#fff;}
+.thumb-page-title{
+  font-family:'StackSansNotch',sans-serif;
+  font-size:clamp(14px,2vw,22px);font-weight:300;
+  color:#fff;letter-spacing:0.06em;text-transform:uppercase;
+}
+.thumb-page-count{
+  font-family:'Pretendard',sans-serif;
+  font-size:12px;color:rgba(255,255,255,0.3);letter-spacing:0.06em;
+}
+.thumb-page-cats{display:flex;align-items:center;gap:24px;}
+.thumb-page-cats a{font-family:'Pretendard',sans-serif;font-size:13px;font-weight:400;color:rgba(255,255,255,0.35);text-decoration:none;cursor:pointer;transition:color 0.2s;letter-spacing:0.01em;}
+.thumb-page-cats a:hover{color:#fff;}
+.thumb-page-cats a.active{color:#fff;font-weight:600;}
+.thumb-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(255,255,255,0.06);
+  min-height:calc(100vh - 65px);
+}
+.thumb-card{
+  background:#0a0a0a;aspect-ratio:4/3;
+  position:relative;cursor:pointer;overflow:hidden;
+}
+.thumb-card-img{
+  width:100%;height:100%;
+  background:#141414;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.thumb-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);}
+.thumb-card:hover img,.thumb-card:hover .thumb-card-img{transform:scale(1.04);}
+.thumb-card-img-placeholder{font-size:11px;color:rgba(255,255,255,0.12);letter-spacing:0.1em;}
+.thumb-card-overlay{
+  position:absolute;inset:0;background:rgba(0,0,0,0);
+  transition:background 0.3s;
+  display:flex;align-items:flex-end;padding:20px;
+}
+.thumb-card:hover .thumb-card-overlay{background:rgba(0,0,0,0.6);}
+.thumb-card-info{opacity:0;transform:translateY(6px);transition:opacity 0.25s,transform 0.3s;}
+.thumb-card:hover .thumb-card-info{opacity:1;transform:translateY(0);}
+.thumb-card-num{font-family:'Pretendard',sans-serif;font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:0.1em;margin-bottom:4px;}
+.thumb-card-name{font-family:'Pretendard',sans-serif;font-size:13px;font-weight:500;color:#fff;line-height:1.3;}
+.thumb-card-arrow{
+  position:absolute;top:16px;right:16px;font-size:16px;
+  color:rgba(255,255,255,0.7);opacity:0;
+  transform:translate(-4px,4px);
+  transition:opacity 0.25s,transform 0.3s;
+}
+.thumb-card:hover .thumb-card-arrow{opacity:1;transform:translate(0,0);}
 
 .sr{opacity:0;transform:translateY(36px);transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1),transform 0.9s cubic-bezier(0.16,1,0.3,1);}
 .sr.in{opacity:1;transform:translateY(0);}
@@ -132,67 +229,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   background:#fff;overflow-y:auto;overflow-x:hidden;
 }
 #page-ai-creative.open{display:block;}
-
-/* ── PROGRESS BAR ── */
-.detail-progress-bar{
-  position:fixed;top:0;left:0;right:0;z-index:1020;
-  height:2px;background:rgba(0,0,0,0.08);
-  pointer-events:none;opacity:0;transition:opacity 0.4s;
-}
-.detail-page.open .detail-progress-bar{opacity:1;}
-.detail-progress-fill{
-  height:100%;width:0%;
-  background:#000;
-  transition:width 0.15s linear;
-}
-.detail-nav.dark ~ .detail-progress-bar .detail-progress-fill,
-.detail-page.open .detail-progress-bar.bar-light .detail-progress-fill{background:#fff;}
-
-/* ── WORK NAV (Prev / Next) ── */
-.detail-work-nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:1015;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 40px;
-  border-top:0.5px solid rgba(0,0,0,0.1);
-  background:rgba(255,255,255,0.9);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  opacity:0;pointer-events:none;
-  transition:opacity 0.4s ease;
-}
-.detail-page.open .detail-work-nav{opacity:1;pointer-events:auto;}
-.detail-nav.dark + .detail-work-nav,
-.detail-work-nav.nav-dark{
-  background:rgba(0,0,0,0.85);
-  border-top-color:rgba(255,255,255,0.1);
-}
-.work-nav-btn{
-  display:flex;align-items:center;gap:10px;
-  cursor:pointer;text-decoration:none;background:none;border:none;padding:6px 0;
-  transition:opacity 0.2s;
-}
-.work-nav-btn:hover{opacity:0.5;}
-.work-nav-btn.hidden{visibility:hidden;pointer-events:none;}
-.work-nav-label{
-  font-family:'StackSansNotch',sans-serif;font-size:10px;font-weight:300;
-  letter-spacing:0.14em;color:#000;text-transform:uppercase;
-  display:block;margin-bottom:2px;
-}
-.work-nav-title{
-  font-family:'Pretendard',sans-serif;font-size:13px;font-weight:500;
-  color:#000;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.work-nav-arrow{
-  font-size:20px;line-height:1;color:#000;
-}
-.work-nav-divider{
-  width:0.5px;height:28px;background:rgba(0,0,0,0.15);
-}
-/* 다크 배경일 때 */
-.detail-work-nav.nav-dark .work-nav-label,
-.detail-work-nav.nav-dark .work-nav-title,
-.detail-work-nav.nav-dark .work-nav-arrow{color:#fff;}
-.detail-work-nav.nav-dark .work-nav-divider{background:rgba(255,255,255,0.15);}
-.detail-progress-bar.bar-dark .detail-progress-fill{background:#fff;}
 
 /* detail-page generic class for shared animations */
 .detail-page{
@@ -213,6 +249,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .detail-page.open .detail-scroll-hint{opacity:0.5;}
 .detail-scroll-hint:hover{opacity:0.8 !important;}
+.next-work-btn{cursor:pointer;gap:8px;}
+.next-work-btn .scroll-hint-text{transition:color 0.2s;}
+.next-work-arrow{font-size:18px;transition:transform 0.3s ease,color 0.2s;}
+.next-work-btn:hover .next-work-arrow{transform:translateY(4px);}
 .scroll-hint-text{
   font-family:'StackSansNotch',sans-serif;font-size:10px;font-weight:400;
   color:#000;letter-spacing:0.12em;text-transform:uppercase;
@@ -1039,48 +1079,201 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <section id="s-about2"></section>
 
 <section id="s-work1">
-  <span class="work-title" id="workT">FEATURED WORK</span>
-  <span class="work-preview" id="workP">PREVIEW</span>
+  <span class="work-title" id="workT">SELECTED WORKS</span>
 </section>
 
 <section id="s-work2">
   <div class="work-sticky">
-    <div class="cards-track-wrap">
-      <div class="cards-track" id="cardsTrack">
-        <div class="wcard"><img src="AI Creative.png" alt="AI Creative"><div class="wcard-dim"></div><div class="wcard-info"><div class="wcard-info-text">AI CREATIVE</div></div></div>
-        <div class="wcard"><img src="Fashion editorial.png" alt="Fashion Editorial"><div class="wcard-dim"></div><div class="wcard-info"><div class="wcard-info-text">FASHION EDITORIAL</div></div></div>
-        <div class="wcard"><img src="3D Artwork.png" alt="3D Artwork"><div class="wcard-dim"></div><div class="wcard-info"><div class="wcard-info-text">3D ARTWORK</div></div></div>
-        <div class="wcard"><img src="stylechallenge.png" alt="Style Challenge"><div class="wcard-dim"></div><div class="wcard-info"><div class="wcard-info-text">STYLE CHALLENGE</div></div></div>
-        <div class="wcard"><img src="PromotionalContent.png" alt="Promotional Content"><div class="wcard-dim"></div><div class="wcard-info"><div class="wcard-info-text">PROMOTIONAL CONTENT</div></div></div>
+    <div class="cat-list-wrap">
+      <div class="cat-list">
+        <div class="cat-item" onclick="openThumbPage('ai-creative')">
+          <span class="cat-item-name">AI Creative</span>
+          <span class="cat-item-arrow">↗</span>
+        </div>
+        <div class="cat-item" onclick="openThumbPage('brand-content')">
+          <span class="cat-item-name">Brand Content</span>
+          <span class="cat-item-arrow">↗</span>
+        </div>
+        <div class="cat-item" onclick="openThumbPage('3d-artwork')">
+          <span class="cat-item-name">3D Artwork</span>
+          <span class="cat-item-arrow">↗</span>
+        </div>
+        <div class="cat-item" onclick="openThumbPage('challenge-reels')">
+          <span class="cat-item-name">Challenge Reels</span>
+          <span class="cat-item-arrow">↗</span>
+        </div>
       </div>
     </div>
     <div class="work-footer"><p>© 2026 SUMIN PARK ALL RIGHTS RESERVED.</p></div>
   </div>
 </section>
 
+<!-- ══ THUMBNAIL GRID PAGES ══ -->
+
+<!-- AI Creative 썸네일 -->
+<div id="thumb-ai-creative" class="thumb-page">
+  <div class="thumb-page-nav">
+    <a class="thumb-page-back" onclick="closeThumbPage()">← Back</a>
+    <span class="thumb-page-title">AI Creative</span>
+    <div class="thumb-page-cats">
+      <a class="active" onclick="openThumbPage('ai-creative')">AI Creative</a>
+      <a onclick="openThumbPage('brand-content')">Brand Content</a>
+      <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
+      <a onclick="openThumbPage('challenge-reels')">Challenge Reels</a>
+    </div>
+  </div>
+  <div class="thumb-grid">
+    <div class="thumb-card" onclick="openDetail('ai-creative',0)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">01</div><div class="thumb-card-name">SELLER WEEK</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openDetail('ai-creative',1)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">02</div><div class="thumb-card-name">몽벨 해외직구</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openDetail('ai-creative',2)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">03</div><div class="thumb-card-name">스프링 시즌오프</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openDetail('ai-creative',3)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">04</div><div class="thumb-card-name">HERA SENSUAL NUDE GLOSS</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+  </div>
+</div>
+
+<!-- Brand Content 썸네일 -->
+<div id="thumb-brand-content" class="thumb-page">
+  <div class="thumb-page-nav">
+    <a class="thumb-page-back" onclick="closeThumbPage()">← Back</a>
+    <span class="thumb-page-title">Brand Content</span>
+    <div class="thumb-page-cats">
+      <a onclick="openThumbPage('ai-creative')">AI Creative</a>
+      <a class="active" onclick="openThumbPage('brand-content')">Brand Content</a>
+      <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
+      <a onclick="openThumbPage('challenge-reels')">Challenge Reels</a>
+    </div>
+  </div>
+  <div class="thumb-grid">
+    <div class="thumb-card" onclick="openDetail('brand-content',0)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">01</div><div class="thumb-card-name">HONDA MOTORCYCLE APPAREL</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openDetail('brand-content',1)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">02</div><div class="thumb-card-name">일광전구</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openDetail('brand-content',2)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">03</div><div class="thumb-card-name">조셉앤스테이시 × 몬치치</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openDetail('brand-content',3)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">04</div><div class="thumb-card-name">KREAM 도산 스토어 윈터 룩북</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openDetail('brand-content-2',0)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">05</div><div class="thumb-card-name">디저트 테이블</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+  </div>
+</div>
+
+<!-- 3D Artwork 썸네일 -->
+<div id="thumb-3d-artwork" class="thumb-page">
+  <div class="thumb-page-nav">
+    <a class="thumb-page-back" onclick="closeThumbPage()">← Back</a>
+    <span class="thumb-page-title">3D Artwork</span>
+    <div class="thumb-page-cats">
+      <a onclick="openThumbPage('ai-creative')">AI Creative</a>
+      <a onclick="openThumbPage('brand-content')">Brand Content</a>
+      <a class="active" onclick="openThumbPage('3d-artwork')">3D Artwork</a>
+      <a onclick="openThumbPage('challenge-reels')">Challenge Reels</a>
+    </div>
+  </div>
+  <div class="thumb-grid">
+    <div class="thumb-card" onclick="openDetail('3d-artwork',0)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">01</div><div class="thumb-card-name">KREAM DRAW</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openDetail('3d-artwork',1)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">02</div><div class="thumb-card-name">P.FUNK SELECTION</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openDetail('3d-artwork',2)">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">03</div><div class="thumb-card-name">2025 TREND LEVEL TEST</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+  </div>
+</div>
+
+<!-- Challenge Reels 썸네일 -->
+<div id="thumb-challenge-reels" class="thumb-page">
+  <div class="thumb-page-nav">
+    <a class="thumb-page-back" onclick="closeThumbPage()">← Back</a>
+    <span class="thumb-page-title">Challenge Reels</span>
+    <div class="thumb-page-cats">
+      <a onclick="openThumbPage('ai-creative')">AI Creative</a>
+      <a onclick="openThumbPage('brand-content')">Brand Content</a>
+      <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
+      <a class="active" onclick="openThumbPage('challenge-reels')">Challenge Reels</a>
+    </div>
+  </div>
+  <div class="thumb-grid">
+    <div class="thumb-card" onclick="openChallengeReels()">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">01</div><div class="thumb-card-name">새봄 챌린지</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openChallengeReels()">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">02</div><div class="thumb-card-name">블랙크림 챌린지</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openChallengeReels()">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">03</div><div class="thumb-card-name">MILLO CHALLENGE</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openChallengeReels()">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">04</div><div class="thumb-card-name">AEAE CHALLENGE</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openChallengeReels()">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">05</div><div class="thumb-card-name">달맞이 챌린지</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+    <div class="thumb-card" onclick="openChallengeReels()">
+      <div class="thumb-card-img"><span class="thumb-card-img-placeholder">800 × 600</span></div>
+      <div class="thumb-card-overlay"><div class="thumb-card-info"><div class="thumb-card-num">06</div><div class="thumb-card-name">LASTONE CHALLENGE</div></div></div>
+      <div class="thumb-card-arrow">↗</div>
+    </div>
+  </div>
+</div>
+
 <!-- AI CREATIVE DETAIL PAGE -->
 <div id="page-ai-creative" class="detail-page">
-  <div class="detail-progress-bar" id="progress-ai-creative"><div class="detail-progress-fill"></div></div>
-  <div class="detail-work-nav" id="worknav-ai-creative">
-    <button class="work-nav-btn" id="prev-ai-creative" onclick="workNavGo('ai-creative',-1)">
-      <span class="work-nav-arrow">←</span>
-      <div><span class="work-nav-label">Prev</span><span class="work-nav-title" id="prev-title-ai-creative"></span></div>
-    </button>
-    <div class="work-nav-divider"></div>
-    <button class="work-nav-btn" id="next-ai-creative" onclick="workNavGo('ai-creative',1)" style="flex-direction:row-reverse;text-align:right;">
-      <span class="work-nav-arrow">→</span>
-      <div><span class="work-nav-label">Next</span><span class="work-nav-title" id="next-title-ai-creative"></span></div>
-    </button>
-  </div>
   <div class="detail-nav">
-    <a class="detail-back" onclick="closeDetail()">← Back</a>
+    <a class="detail-back" onclick="goBackToThumb('ai-creative')">← Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
         <a class="active" onclick="switchDetail('ai-creative')">AI Creative</a>
-        <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+        <a onclick="switchDetail('brand-content')">Brand Content</a>
         <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
-        <a onclick="switchDetail('style-challenge')">Style Challenge</a>
-        <a onclick="switchDetail('promotional-content')">Promotional Content</a>
+        <a onclick="switchDetail('challenge-reels')">Challenge Reels</a>
       </div>
       <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
         <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -1090,82 +1283,38 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="ai-scene">
     <div class="detail-canvas">
-      <!-- Intro 1 -->
-      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="aicreativeintro.png" alt="AI Creative Intro 01">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
       <!-- Slide 1: SELLER WEEK -->
-      <div class="detail-slide" data-slide="1" style="background:#E5E5E5;">
+      <div class="detail-slide active" data-slide="0" style="background:#E5E5E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative.png" alt="AI Creative 01">
-          <div class="detail-scroll-hint" style="bottom:9%;"><span class="scroll-hint-text">Scroll</span><div class="scroll-hint-line"></div><div class="scroll-hint-arrow"></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↓</span></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
           </div>
         </div>
       </div>
-      <!-- Intro 2 -->
-      <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="aicreative2intro.png" alt="AI Creative Intro 02">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
       <!-- Slide 2: 몽벨 해외직구 -->
-      <div class="detail-slide" data-slide="3" style="background:#DEE1E5;">
+      <div class="detail-slide" data-slide="1" style="background:#DEE1E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative2.png" alt="AI Creative 02">
-          <div class="detail-scroll-hint" style="bottom:9%;"><span class="scroll-hint-text">Scroll</span><div class="scroll-hint-line"></div><div class="scroll-hint-arrow"></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↓</span></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="global.mp4" autoplay loop muted playsinline></video>
           </div>
         </div>
       </div>
-      <!-- Intro 3 -->
-      <div class="detail-slide detail-slide-intro" data-slide="4" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="aicreative3intro.png" alt="AI Creative Intro 03">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
       <!-- Slide 3: 스프링 시즌오프 -->
-      <div class="detail-slide" data-slide="5" style="background:#FAFFE6;">
+      <div class="detail-slide" data-slide="2" style="background:#FAFFE6;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative3.png" alt="AI Creative 03">
-          <div class="detail-scroll-hint" style="bottom:9%;"><span class="scroll-hint-text">Scroll</span><div class="scroll-hint-line"></div><div class="scroll-hint-arrow"></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↓</span></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="spring.mp4" autoplay loop muted playsinline></video>
           </div>
         </div>
       </div>
-      <!-- Intro 4: HERA -->
-      <div class="detail-slide detail-slide-intro" data-slide="6" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="aicreative4intro.png" alt="AI Creative Intro 04">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
       <!-- Slide 4: HERA SENSUAL NUDE GLOSS -->
-      <div class="detail-slide" data-slide="7" style="background:#C7C7C7;">
+      <div class="detail-slide" data-slide="3" style="background:#C7C7C7;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative4.png" alt="AI Creative 04">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="hera-strip-1">
@@ -1179,11 +1328,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="hera_7.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↓</span></div>
         </div>
       </div>
     </div>
@@ -1193,28 +1338,15 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </div>
 
 <!-- FASHION EDITORIAL DETAIL PAGE -->
-<div id="page-fashion-editorial" class="detail-page">
-  <div class="detail-progress-bar bar-dark" id="progress-fashion-editorial"><div class="detail-progress-fill"></div></div>
-  <div class="detail-work-nav nav-dark" id="worknav-fashion-editorial">
-    <button class="work-nav-btn" id="prev-fashion-editorial" onclick="workNavGo('fashion-editorial',-1)">
-      <span class="work-nav-arrow">←</span>
-      <div><span class="work-nav-label">Prev</span><span class="work-nav-title" id="prev-title-fashion-editorial"></span></div>
-    </button>
-    <div class="work-nav-divider"></div>
-    <button class="work-nav-btn" id="next-fashion-editorial" onclick="workNavGo('fashion-editorial',1)" style="flex-direction:row-reverse;text-align:right;">
-      <span class="work-nav-arrow">→</span>
-      <div><span class="work-nav-label">Next</span><span class="work-nav-title" id="next-title-fashion-editorial"></span></div>
-    </button>
-  </div>
+<div id="page-brand-content" class="detail-page">
   <div class="detail-nav dark">
-    <a class="detail-back" onclick="closeDetail()">← Back</a>
+    <a class="detail-back" onclick="goBackToThumb('brand-content')">← Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
-        <a class="active" onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+        <a class="active" onclick="switchDetail('brand-content')">Brand Content</a>
         <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
-        <a onclick="switchDetail('style-challenge')">Style Challenge</a>
-        <a onclick="switchDetail('promotional-content')">Promotional Content</a>
+        <a onclick="switchDetail('challenge-reels')">Challenge Reels</a>
       </div>
       <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
         <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -1224,19 +1356,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="fe-scene">
     <div class="detail-canvas">
-      <!-- Intro 1 -->
-      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="Fashioneditorialintro.png" alt="Fashion Editorial Intro 01">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
       <!-- Slide 1: HONDA MOTORCYCLE -->
-      <div class="detail-slide" data-slide="1" style="background:#151515;">
+      <div class="detail-slide active" data-slide="0" style="background:#151515;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial.png" alt="Fashion Editorial 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-1">
@@ -1259,26 +1380,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
             </div>
 
           </div>
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
-            <div class="scroll-hint-line" style="background:#fff;"></div>
-            <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Intro 2 -->
-      <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="Fashioneditorial2intro.png" alt="Fashion Editorial Intro 02">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(255,255,255,0.5);">Next Work</span><span class="next-work-arrow" style="color:rgba(255,255,255,0.5);">↓</span></div>
         </div>
       </div>
       <!-- Slide 2: 일광전구 -->
-      <div class="detail-slide" data-slide="3" style="background:#F5F5F5;">
+      <div class="detail-slide" data-slide="1" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial2.png" alt="Fashion Editorial 02">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-2">
@@ -1298,26 +1404,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="2-13.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Intro 3 -->
-      <div class="detail-slide detail-slide-intro" data-slide="4" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="Fashioneditorial3intro.png" alt="Fashion Editorial Intro 03">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↓</span></div>
         </div>
       </div>
       <!-- Slide 3: 조셉앤스테이시 × 몬치치 -->
-      <div class="detail-slide" data-slide="5" style="background:#F7E9EB;">
+      <div class="detail-slide" data-slide="2" style="background:#F7E9EB;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial3.png" alt="Fashion Editorial 03">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-3">
@@ -1337,26 +1428,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="3-13.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Intro 4 -->
-      <div class="detail-slide detail-slide-intro" data-slide="6" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="Fashioneditorial4intro.png" alt="Fashion Editorial Intro 04">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↓</span></div>
         </div>
       </div>
       <!-- Slide 4: KREAM 도산 스토어 윈터 룩북 -->
-      <div class="detail-slide" data-slide="7" style="background:#C1CCCE;">
+      <div class="detail-slide" data-slide="3" style="background:#C1CCCE;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial4.png" alt="Fashion Editorial 04">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-4">
@@ -1376,11 +1452,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <video src="4-13.mp4" autoplay loop muted playsinline></video>
             </div>
           </div>
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↓</span></div>
         </div>
       </div>
     </div>
@@ -1390,28 +1462,15 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </div>
 
 <!-- PROMOTIONAL CONTENT DETAIL PAGE -->
-<div id="page-promotional-content" class="detail-page">
-  <div class="detail-progress-bar" id="progress-promotional-content"><div class="detail-progress-fill"></div></div>
-  <div class="detail-work-nav" id="worknav-promotional-content">
-    <button class="work-nav-btn" id="prev-promotional-content" onclick="workNavGo('promotional-content',-1)">
-      <span class="work-nav-arrow">←</span>
-      <div><span class="work-nav-label">Prev</span><span class="work-nav-title" id="prev-title-promotional-content"></span></div>
-    </button>
-    <div class="work-nav-divider"></div>
-    <button class="work-nav-btn" id="next-promotional-content" onclick="workNavGo('promotional-content',1)" style="flex-direction:row-reverse;text-align:right;">
-      <span class="work-nav-arrow">→</span>
-      <div><span class="work-nav-label">Next</span><span class="work-nav-title" id="next-title-promotional-content"></span></div>
-    </button>
-  </div>
+<div id="page-brand-content-2" class="detail-page">
   <div class="detail-nav">
-    <a class="detail-back" onclick="closeDetail()">← Back</a>
+    <a class="detail-back" onclick="goBackToThumb('brand-content')">← Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
-        <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+        <a class="active" onclick="switchDetail('brand-content')">Brand Content</a>
         <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
-        <a onclick="switchDetail('style-challenge')">Style Challenge</a>
-        <a class="active" onclick="switchDetail('promotional-content')">Promotional Content</a>
+        <a onclick="switchDetail('challenge-reels')">Challenge Reels</a>
       </div>
       <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
         <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -1421,19 +1480,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="pc-scene">
     <div class="detail-canvas">
-      <!-- Intro 1 -->
-      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="Promotionalintro.png" alt="Promotional Content Intro">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
       <!-- Slide 1: 디저트 테이블 -->
-      <div class="detail-slide" data-slide="1" style="background:#F5F5F5;">
+      <div class="detail-slide active" data-slide="0" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Promotional.png" alt="Promotional Content 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="pc-strip-1">
@@ -1455,11 +1503,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="5-15.png" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↓</span></div>
         </div>
       </div>
     </div>
@@ -1470,27 +1514,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 <!-- 3D ARTWORK DETAIL PAGE -->
 <div id="page-3d-artwork" class="detail-page">
-  <div class="detail-progress-bar bar-dark" id="progress-3d-artwork"><div class="detail-progress-fill"></div></div>
-  <div class="detail-work-nav nav-dark" id="worknav-3d-artwork">
-    <button class="work-nav-btn" id="prev-3d-artwork" onclick="workNavGo('3d-artwork',-1)">
-      <span class="work-nav-arrow">←</span>
-      <div><span class="work-nav-label">Prev</span><span class="work-nav-title" id="prev-title-3d-artwork"></span></div>
-    </button>
-    <div class="work-nav-divider"></div>
-    <button class="work-nav-btn" id="next-3d-artwork" onclick="workNavGo('3d-artwork',1)" style="flex-direction:row-reverse;text-align:right;">
-      <span class="work-nav-arrow">→</span>
-      <div><span class="work-nav-label">Next</span><span class="work-nav-title" id="next-title-3d-artwork"></span></div>
-    </button>
-  </div>
   <div class="detail-nav dark">
-    <a class="detail-back" onclick="closeDetail()">← Back</a>
+    <a class="detail-back" onclick="goBackToThumb('3d-artwork')">← Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
-        <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+        <a onclick="switchDetail('brand-content')">Brand Content</a>
         <a class="active" onclick="switchDetail('3d-artwork')">3D Artwork</a>
-        <a onclick="switchDetail('style-challenge')">Style Challenge</a>
-        <a onclick="switchDetail('promotional-content')">Promotional Content</a>
+        <a onclick="switchDetail('challenge-reels')">Challenge Reels</a>
       </div>
       <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
         <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -1500,79 +1531,34 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   <div class="detail-scene" id="da-scene">
     <div class="detail-canvas">
-      <!-- Intro 1 -->
-      <div class="detail-slide detail-slide-intro active" data-slide="0" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="3DArtworkintro.png" alt="3D Artwork Intro 01">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
-        </div>
-      </div>
       <!-- Slide 1: KREAM DRAW -->
-      <div class="detail-slide" data-slide="1" style="background:#004ED5;">
+      <div class="detail-slide active" data-slide="0" style="background:#004ED5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork.png" alt="3D Artwork 01">
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
             <video src="3DArtwork1.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
-            <div class="scroll-hint-line" style="background:#fff;"></div>
-            <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
-          </div>
-        </div>
-      </div>
-<!-- Intro 2: P.FUNK -->
-      <div class="detail-slide detail-slide-intro" data-slide="2" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="3DArtwork3-1intro.png" alt="3D Artwork Intro - P.FUNK">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(255,255,255,0.5);">Next Work</span><span class="next-work-arrow" style="color:rgba(255,255,255,0.5);">↓</span></div>
         </div>
       </div>
       <!-- Slide 2: P.FUNK SELECTION -->
-      <div class="detail-slide" data-slide="3" style="background:#151515;">
+      <div class="detail-slide" data-slide="1" style="background:#151515;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork3-1.png" alt="3D Artwork - P.FUNK">
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
             <video id="pfunkVideo" src="p_funk_final.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text" style="color:#fff;">Scroll</span>
-            <div class="scroll-hint-line" style="background:#fff;"></div>
-            <div class="scroll-hint-arrow" style="border-color:#fff;"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Intro 2 -->
-      <div class="detail-slide detail-slide-intro" data-slide="4" style="background:#FFFFFF;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="3DArtwork2-1intro.png" alt="3D Artwork Intro 02">
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(255,255,255,0.5);">Next Work</span><span class="next-work-arrow" style="color:rgba(255,255,255,0.5);">↓</span></div>
         </div>
       </div>
       <!-- Slide 2: 2025 TREND LEVEL TEST -->
-      <div class="detail-slide" data-slide="5" style="background:#F5F5F5;">
+      <div class="detail-slide" data-slide="2" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork2-1.png" alt="3D Artwork 02">
           <div style="position:absolute;left:58.07%;bottom:7%;width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;">
             <img src="3DArtworkThumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="detail-scroll-hint" style="bottom:9%;">
-            <span class="scroll-hint-text">Scroll</span>
-            <div class="scroll-hint-line"></div>
-            <div class="scroll-hint-arrow"></div>
-          </div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><span class="scroll-hint-text" style="color:rgba(0,0,0,0.45);">Next Work</span><span class="next-work-arrow" style="color:rgba(0,0,0,0.45);">↓</span></div>
         </div>
       </div>
     </div>
@@ -1613,16 +1599,15 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </div>
 
 <!-- STYLE CHALLENGE DETAIL PAGE -->
-<div id="page-style-challenge" class="detail-page" style="background:#FFFFFF;overflow:hidden;">
+<div id="page-challenge-reels" class="detail-page" style="background:#FFFFFF;overflow:hidden;">
   <div class="detail-nav">
-    <a class="detail-back" onclick="closeDetail()">← Back</a>
+    <a class="detail-back" onclick="goBackToThumb('challenge-reels')">← Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
-        <a onclick="switchDetail('fashion-editorial')">Fashion Editorial</a>
+        <a onclick="switchDetail('brand-content')">Brand Content</a>
         <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
-        <a class="active" onclick="switchDetail('style-challenge')">Style Challenge</a>
-        <a onclick="switchDetail('promotional-content')">Promotional Content</a>
+        <a class="active" onclick="switchDetail('challenge-reels')">Challenge Reels</a>
       </div>
       <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
         <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -1794,41 +1779,60 @@ function watchReveal(trigId,ids){
   obs.observe(trig);
 }
 watchReveal('sinceT',['sinceT','sinceD']);
-watchReveal('workT',['workT','workP']);
+watchReveal('workT',['workT']);
 
-/* SCROLL CARDS */
-const work2=document.getElementById('s-work2');
-const cardsTrack=document.getElementById('cardsTrack');
-function updateCards(){
-  const rect=work2.getBoundingClientRect();
-  const totalH=work2.offsetHeight-window.innerHeight;
-  const progress=Math.max(0,Math.min(1,-rect.top/totalH));
-  const maxShift=Math.max(0,cardsTrack.scrollWidth-window.innerWidth*0.9333);
-  cardsTrack.style.transition='none';
-  cardsTrack.style.transform=`translateX(-${progress*maxShift}px)`;
+/* SCROLL CARDS — 제거됨 (카테고리 리스트로 교체) */
+
+/* THUMB PAGE OPEN / CLOSE */
+function openThumbPage(catId){
+  // 다른 썸네일 페이지 먼저 닫기
+  document.querySelectorAll('.thumb-page').forEach(p => p.classList.remove('open'));
+  const page = document.getElementById('thumb-' + catId);
+  if(!page) return;
+  page.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
-window.addEventListener('scroll',updateCards,{passive:true});updateCards();
+function closeThumbPage(){
+  document.querySelectorAll('.thumb-page').forEach(p => p.classList.remove('open'));
+  document.body.style.overflow = '';
+  // 카테고리 영역으로 스크롤
+  const work2 = document.getElementById('s-work2');
+  if(work2) work2.scrollIntoView({behavior:'smooth'});
+}
+function goBackToThumb(catId){
+  // detail page 닫고 해당 썸네일 페이지로
+  muteAllDetailVideos();
+  document.querySelectorAll('.detail-page').forEach(p => p.classList.remove('open'));
+  openThumbPage(catId);
+}
+function openChallengeReels(){
+  closeThumbPage();
+  openDetail('challenge-reels');
+}
 
 /* DETAIL PAGE OPEN / CLOSE / SWITCH */
-function openDetail(pageName){
+function openDetail(pageName, slideIndex){
+  // 썸네일 페이지 닫기
+  closeThumbPage();
   const page = document.getElementById('page-'+pageName);
   if(!page) return;
+  // 특정 슬라이드로 이동 시 active 처리
+  if(slideIndex !== undefined){
+    const slides = page.querySelectorAll('.detail-slide');
+    slides.forEach((s,i) => {
+      s.classList.remove('active');
+      s.style.transform = '';
+    });
+    if(slides[slideIndex]) slides[slideIndex].classList.add('active');
+  }
   page.classList.remove('open');
   void page.offsetWidth;
   page.classList.add('open');
   page.scrollTop = 0;
   document.body.style.overflow='hidden';
   updateCatLinks(page, pageName);
-  // 인라인 카테고리 닫기
   page.querySelectorAll('.detail-inline-cats').forEach(c=>c.classList.remove('show'));
-  // 초기 네비 컬러 설정
   updateDetailNavColor(page);
-  // work nav 초기 상태 설정
-  const scene = page.querySelector('.detail-scene');
-  if(scene){
-    const slides = Array.from(scene.querySelectorAll('.detail-slide'));
-    if(window.updateWorkNav) updateWorkNav(pageName, slides, 0);
-  }
 }
 function updateDetailNavColor(page){
   const scene = page.querySelector('.detail-scene');
@@ -1910,14 +1914,12 @@ function closeDetail(){
 function switchDetail(pageName){
   const page = document.getElementById('page-'+pageName);
   if(!page) return;
-  muteAllDetailVideos(); // 먼저 정지 (feAudioReady = false 포함)
-  if(pageName === 'fashion-editorial') feAudioReady = true; // FE면 다시 true
+  muteAllDetailVideos();
+  if(pageName === 'brand-content') feAudioReady = true;
   document.querySelectorAll('.detail-page').forEach(p=>{
     p.classList.remove('open');
   });
-  setTimeout(()=>{
-    openDetail(pageName);
-  }, 50);
+  setTimeout(()=>{ openDetail(pageName); }, 50);
 }
 function muteAllDetailVideos(){
   const vid = document.getElementById('fe-video-1');
@@ -1940,40 +1942,16 @@ function toggleDetailMenu(btn){
   const cats = btn.parentElement.querySelector('.detail-inline-cats');
   cats.classList.toggle('show');
 }
-// 바깥 클릭 시 인라인 카테고리 닫기
 document.addEventListener('click', function(e){
   if(!e.target.closest('.detail-menu-wrap')){
     document.querySelectorAll('.detail-inline-cats').forEach(c=>c.classList.remove('show'));
   }
 });
 
-
 /* FE BGM */
 const feAudio = new Audio('1.mp4');
 feAudio.loop = true;
 let feAudioReady = false;
-
-// Attach click to first wcard (AI Creative)
-document.querySelectorAll('.wcard')[0].addEventListener('click',function(){
-  openDetail('ai-creative');
-});
-// Attach click to second wcard (Fashion Editorial)
-document.querySelectorAll('.wcard')[1].addEventListener('click',function(){
-  feAudioReady = true;
-  openDetail('fashion-editorial');
-});
-// Attach click to fifth wcard (Promotional Content)
-document.querySelectorAll('.wcard')[4].addEventListener('click',function(){
-  openDetail('promotional-content');
-});
-// Attach click to third wcard (3D Artwork)
-document.querySelectorAll('.wcard')[2].addEventListener('click',function(){
-  openDetail('3d-artwork');
-});
-// Attach click to fourth wcard (Style Challenge)
-document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
-  openDetail('style-challenge');
-});
 
 /* =====================================================================
    DETAIL SCROLL — 완전 재설계
@@ -2164,118 +2142,23 @@ document.querySelectorAll('.wcard')[3].addEventListener('click',function(){
         }
       }
 
-      // ── 프로그레스 바 업데이트 ──
-      const segsAll = segCache.get(scene) || buildSegments(scene);
-      const totalLen = segsAll.length > 0 ? segsAll[segsAll.length-1].start + segsAll[segsAll.length-1].len : 1;
-      const pct = Math.min(100, Math.max(0, (scrollTop / totalLen) * 100));
-      const progressBar = page.querySelector('.detail-progress-fill');
-      if(progressBar) progressBar.style.width = pct + '%';
-
-      // ── Work Nav 업데이트 ──
-      const pageId = page.id.replace('page-', '');
-      updateWorkNav(pageId, slides, currentIndex);
+      // Next Work 버튼 클릭 이벤트 (한 번만 바인딩)
+      const hints = scene.querySelectorAll('.next-work-btn');
+      hints.forEach(hint => {
+        if(!hint._bound){
+          hint._bound = true;
+          hint.addEventListener('click', () => {
+            const nextIdx = currentIndex + 1;
+            if(nextIdx >= slideCount) return;
+            const segs = segCache.get(scene) || buildSegments(scene);
+            const targetScroll = segs[nextIdx] ? segs[nextIdx].start + 1 : page.scrollTop + window.innerHeight;
+            page.scrollTo({ top: targetScroll, behavior: 'smooth' });
+          });
+        }
+      });
     });
   });
 
-})();
-
-/* ── WORK NAV 데이터 + 로직 ── */
-(function(){
-  // 각 카테고리의 작업물 타이틀 정의 (intro 슬라이드 순서대로)
-  const WORK_TITLES = {
-    'ai-creative': ['SELLER WEEK', '몽벨 해외직구', '스프링 시즌오프', 'HERA SENSUAL NUDE GLOSS'],
-    'fashion-editorial': ['HONDA MOTORCYCLE APPAREL', '일광전구', '조셉앤스테이시 × 몬치치', 'KREAM 도산 스토어 윈터 룩북'],
-    'promotional-content': ['디저트 테이블'],
-    '3d-artwork': ['KREAM DRAW', 'P.FUNK SELECTION', '2025 TREND LEVEL TEST'],
-  };
-
-  // 현재 작업물 인덱스 추적 (intro 기준)
-  window.updateWorkNav = function(pageId, slides, currentSlideIndex){
-    const titles = WORK_TITLES[pageId];
-    if(!titles) return;
-
-    // intro 슬라이드 인덱스들 수집
-    const introIndices = [];
-    slides.forEach((s, i) => {
-      if(s.classList.contains('detail-slide-intro')) introIndices.push(i);
-    });
-
-    // 현재 어떤 작업물(intro 그룹)에 속하는지 계산
-    let workIdx = 0;
-    for(let i = 0; i < introIndices.length; i++){
-      if(currentSlideIndex >= introIndices[i]) workIdx = i;
-    }
-
-    const prevBtn = document.getElementById('prev-' + pageId);
-    const nextBtn = document.getElementById('next-' + pageId);
-    const prevTitle = document.getElementById('prev-title-' + pageId);
-    const nextTitle = document.getElementById('next-title-' + pageId);
-    if(!prevBtn || !nextBtn) return;
-
-    // 첫 번째 작업물 = Prev 숨김
-    if(workIdx === 0){
-      prevBtn.classList.add('hidden');
-    } else {
-      prevBtn.classList.remove('hidden');
-      if(prevTitle) prevTitle.textContent = titles[workIdx - 1] || '';
-    }
-
-    // 마지막 작업물 = Next 숨김
-    if(workIdx >= introIndices.length - 1){
-      nextBtn.classList.add('hidden');
-    } else {
-      nextBtn.classList.remove('hidden');
-      if(nextTitle) nextTitle.textContent = titles[workIdx + 1] || '';
-    }
-  };
-
-  // Prev/Next 버튼 클릭 시 해당 작업물 intro로 스크롤
-  window.workNavGo = function(pageId, dir){
-    const page = document.getElementById('page-' + pageId);
-    if(!page) return;
-    const scene = page.querySelector('.detail-scene');
-    if(!scene) return;
-    const slides = Array.from(scene.querySelectorAll('.detail-slide'));
-
-    const introIndices = [];
-    slides.forEach((s, i) => {
-      if(s.classList.contains('detail-slide-intro')) introIndices.push(i);
-    });
-
-    // 현재 작업물 인덱스
-    let workIdx = 0;
-    const activeSlide = scene.querySelector('.detail-slide.active');
-    const currentSlideIndex = activeSlide ? slides.indexOf(activeSlide) : 0;
-    for(let i = 0; i < introIndices.length; i++){
-      if(currentSlideIndex >= introIndices[i]) workIdx = i;
-    }
-
-    const targetWork = workIdx + dir;
-    if(targetWork < 0 || targetWork >= introIndices.length) return;
-
-    // 해당 intro 슬라이드의 스크롤 위치로 이동
-    // buildSegments 재활용
-    const INTRO_FIRST_PX = window.innerHeight * 1.5;
-    const INTRO_REST_PX  = window.innerHeight * 1.2;
-    const segs = [];
-    let cursor = 0, introCount = 0;
-    slides.forEach(slide => {
-      const isIntro = slide.classList.contains('detail-slide-intro');
-      let len;
-      if(isIntro){
-        len = introCount === 0 ? INTRO_FIRST_PX : INTRO_REST_PX;
-        introCount++;
-      } else {
-        len = window.innerHeight;
-      }
-      segs.push({ start: cursor, len });
-      cursor += len;
-    });
-
-    const targetIntroSlideIdx = introIndices[targetWork];
-    const targetScrollTop = segs[targetIntroSlideIdx]?.start || 0;
-    page.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
-  };
 })();
 
 </script>
