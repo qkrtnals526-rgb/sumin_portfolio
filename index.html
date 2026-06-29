@@ -2515,7 +2515,7 @@ let feAudioReady = false;
     if(window.recalcDetailSpacers) window.recalcDetailSpacers();
     updateDetailNavColor(pageEl);
     handleHondaAudio(pageEl);
-    if(window.pfunkCheckAudio) pfunkCheckAudio(pageEl);
+    if(pageEl.id === 'page-3d-artwork' && window.pfunkCheckAudio) pfunkCheckAudio(pageEl);
   }
 
   // 혼다(fe-scene, slide 0) active면 fe-video-1 unmute로 배경음, 아니면 mute+pause
@@ -2737,7 +2737,9 @@ window.pfunkCheckAudio = function(pageEl){
   const vid = document.getElementById('pfunkVideo');
   if(!vid) return;
   const page = pageEl || document.getElementById('page-3d-artwork');
-  const isOpen = page && page.classList.contains('open');
+  // 반드시 page-3d-artwork 페이지여야만 동작
+  if(!page || page.id !== 'page-3d-artwork'){ vid.muted = true; vid.pause(); return; }
+  const isOpen = page.classList.contains('open');
   if(!isOpen){ vid.muted = true; vid.pause(); return; }
   const scene = page.querySelector('.detail-scene');
   const active = scene ? scene.querySelector('.detail-slide.active') : null;
