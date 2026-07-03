@@ -276,9 +276,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .cr-tc.tc-center:hover .cr-tc-thumb{opacity:1;}
 .cr-tc-overlay{
   position:absolute;inset:0;border-radius:10px;
-  background:rgba(0,0,0,0.3);
+  background:rgba(0,0,0,0);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  transition:background 0.3s;
 }
+.cr-tc.tc-center:hover .cr-tc-overlay{background:rgba(0,0,0,0.35);}
 /* Campaign Film 화살표 — 옆 카드 중앙 */
 #tc-prev-challenge-reels{
   left:calc(50% - 260px) !important;
@@ -295,7 +297,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .cr-tc-view{
   font-family:'Pretendard',sans-serif;
   font-size:9px;font-weight:600;letter-spacing:0.2em;
-  color:rgba(255,255,255,0.7);text-transform:uppercase;
+  color:rgba(255,255,255,0);text-transform:uppercase;
   transition:color 0.2s;
 }
 .cr-tc-view-line{
@@ -410,44 +412,41 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .detail-scroll-hint:hover{opacity:0.8 !important;}
 .detail-scroll-hint.next-work-btn{
   flex-direction:column !important;
-  align-items:center;
-  justify-content:center;
+  align-items:flex-end;
   gap:0;
   bottom:5% !important;
   right:2% !important;
-  padding:27px 21px;
-  border-radius:100px;
-  background:none;
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
-  border:none;
-  cursor:pointer;
-  width:auto !important;
+  padding:8px 0;
+  background:none;backdrop-filter:none;border:none;
+  cursor:pointer;width:auto !important;
   animation:none !important;
-  min-width:44px;
 }
-.detail-scroll-hint.next-work-btn.dark-bg{
-  background:none;
-  border-color:transparent;
-}
-.detail-scroll-hint.next-work-btn .scroll-hint-text{
-  writing-mode:horizontal-tb !important;
-  font-size:11px;font-weight:500;
-  letter-spacing:0.05em;
-  transition:opacity 0.2s;
-  line-height:1;
-}
-.next-work-arrow{font-size:16px;transition:transform 0.3s ease,opacity 0.2s;}
-.next-work-btn:hover{opacity:0.65 !important;}
+.detail-scroll-hint.next-work-btn.dark-bg{background:none;border-color:transparent;}
 .next-work-symbol{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  display:flex;flex-direction:column;align-items:flex-end;gap:16px;
   user-select:none;
 }
-.nw-up,.nw-down{
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;
-  padding:0 !important;
+.nw-item{
+  display:flex;flex-direction:column;align-items:flex-end;gap:5px;
+  cursor:pointer;transition:opacity 0.2s;
 }
+.nw-item:hover{opacity:0.85;}
+.nw-item-text{
+  font-family:'Pretendard',sans-serif;
+  font-size:10px;letter-spacing:0.14em;
+  color:rgba(0,0,0,0.45);text-transform:uppercase;
+  white-space:nowrap;line-height:1;
+}
+.nw-item-line{
+  height:1px;background:rgba(0,0,0,0.25);
+  width:0;transition:width 0.35s cubic-bezier(0.16,1,0.3,1);
+  align-self:stretch;
+}
+.nw-item:hover .nw-item-line{width:100%;}
+.detail-scroll-hint.next-work-btn.dark-bg .nw-item-text{color:rgba(255,255,255,0.55);}
+.detail-scroll-hint.next-work-btn.dark-bg .nw-item-line{background:rgba(255,255,255,0.3);}
+.nw-up,.nw-down{display:flex;flex-direction:column;align-items:flex-end;gap:5px;}
+.next-work-btn:hover{opacity:1 !important;}
 .scroll-hint-text{
   font-family:'StackSansNotch',sans-serif;font-size:10px;font-weight:400;
   color:#000;letter-spacing:0.12em;text-transform:uppercase;
@@ -1608,7 +1607,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide active" data-slide="0" data-next-page="ai-creative" data-next-slide="1" data-prev-page="ai-creative" data-prev-slide="3" style="background:#E5E5E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative.png" alt="AI Creative 01">
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -1618,7 +1628,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="1" data-next-page="ai-creative" data-next-slide="2" data-prev-page="ai-creative" data-prev-slide="0" style="background:#DEE1E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative2.png" alt="AI Creative 02">
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="global.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -1628,7 +1649,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="2" data-next-page="ai-creative" data-next-slide="3" data-prev-page="ai-creative" data-prev-slide="1" style="background:#FAFFE6;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative3.png" alt="AI Creative 03">
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="spring.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -1649,7 +1681,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="hera_7.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
         </div>
       </div>
     </div>
@@ -1701,7 +1744,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
             </div>
 
           </div>
-          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(255,255,255,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
         </div>
       </div>
       <!-- Slide 2: 일광전구 -->
@@ -1725,7 +1779,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="2-13.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
         </div>
       </div>
       <!-- Slide 3: 조셉앤스테이시 × 몬치치 -->
@@ -1749,7 +1814,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="3-13.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
         </div>
       </div>
       <!-- Slide 4: KREAM 도산 스토어 윈터 룩북 -->
@@ -1773,7 +1849,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <video src="4-13.mp4" autoplay loop muted playsinline></video>
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
         </div>
       </div>
     </div>
@@ -1824,7 +1911,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="5-15.png" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
         </div>
       </div>
     </div>
@@ -1859,7 +1957,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
             <video src="3DArtwork1.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
-          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(255,255,255,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
         </div>
       </div>
       <!-- Slide 2: P.FUNK SELECTION -->
@@ -1869,7 +1978,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
             <video id="pfunkVideo" src="p_funk_final.mp4" loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
-          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(255,255,255,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
         </div>
       </div>
       <!-- Slide 2: 2025 TREND LEVEL TEST -->
@@ -1879,7 +1999,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <div onclick="if(window.openDaModal) openDaModal();" style="position:absolute;left:58.07%;bottom:7%;width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;cursor:pointer;transition:opacity 0.2s;" onmouseenter="this.style.opacity='0.8'" onmouseleave="this.style.opacity='1'">
             <img src="3DArtworkThumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
         </div>
       </div>
     </div>
