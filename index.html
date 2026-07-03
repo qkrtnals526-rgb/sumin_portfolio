@@ -308,11 +308,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .cr-tc.tc-center:hover .cr-tc-view-line{width:100%;}
 .cr-tc-name{
   font-family:'Pretendard',sans-serif;font-size:11px;font-weight:500;
-  color:rgba(255,255,255,0.65);text-align:center;
-  margin-top:10px;white-space:nowrap;letter-spacing:0.02em;
-  opacity:0;transition:opacity 0.3s;
+  color:rgba(255,255,255,0.85);text-align:center;
+  margin-top:6px;white-space:nowrap;letter-spacing:0.02em;
+  opacity:0;transition:opacity 0.3s;pointer-events:none;
 }
-.cr-tc.tc-center .cr-tc-name{opacity:1;}
+.cr-tc.tc-center:hover .cr-tc-name{opacity:1;}
 .thumb-top-bar{
   padding:14px 32px 0;flex-shrink:0;text-align:center;
 }
@@ -1533,48 +1533,43 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <div class="cr-tc-overlay">
           <div class="cr-tc-view">VIEW</div>
           <div class="cr-tc-view-line"></div>
+          <div class="cr-tc-name">새봄 챌린지</div>
         </div>
-        <div class="cr-tc-name">새봄 챌린지</div>
       </div>
     </div>
     <div class="cr-tc tc-card tc-right" data-i="1" data-src="black.mp4" data-name="블랙크림 챌린지" onclick="crCardClick(this)">
       <div class="cr-tc-inner">
         <video class="cr-tc-video" src="black.mp4" muted loop playsinline preload="none"></video>
         <img class="cr-tc-thumb" src="black.jpg" alt="블랙크림 챌린지">
-        <div class="cr-tc-overlay"><div class="cr-tc-view">VIEW</div><div class="cr-tc-view-line"></div></div>
-        <div class="cr-tc-name">블랙크림 챌린지</div>
+        <div class="cr-tc-overlay"><div class="cr-tc-view">VIEW</div><div class="cr-tc-view-line"></div><div class="cr-tc-name">블랙크림 챌린지</div></div>
       </div>
     </div>
     <div class="cr-tc tc-card tc-far-right" data-i="2" data-src="millo.mp4" data-name="MILLO CHALLENGE" onclick="crCardClick(this)">
       <div class="cr-tc-inner">
         <video class="cr-tc-video" src="millo.mp4" muted loop playsinline preload="none"></video>
         <img class="cr-tc-thumb" src="millo.jpg" alt="MILLO CHALLENGE">
-        <div class="cr-tc-overlay"><div class="cr-tc-view">VIEW</div><div class="cr-tc-view-line"></div></div>
-        <div class="cr-tc-name">MILLO CHALLENGE</div>
+        <div class="cr-tc-overlay"><div class="cr-tc-view">VIEW</div><div class="cr-tc-view-line"></div><div class="cr-tc-name">MILLO CHALLENGE</div></div>
       </div>
     </div>
     <div class="cr-tc tc-card tc-far-right" data-i="3" data-src="aeae.mp4" data-name="AEAE CHALLENGE" onclick="crCardClick(this)">
       <div class="cr-tc-inner">
         <video class="cr-tc-video" src="aeae.mp4" muted loop playsinline preload="none"></video>
         <img class="cr-tc-thumb" src="aeae.jpg" alt="AEAE CHALLENGE">
-        <div class="cr-tc-overlay"><div class="cr-tc-view">VIEW</div><div class="cr-tc-view-line"></div></div>
-        <div class="cr-tc-name">AEAE CHALLENGE</div>
+        <div class="cr-tc-overlay"><div class="cr-tc-view">VIEW</div><div class="cr-tc-view-line"></div><div class="cr-tc-name">AEAE CHALLENGE</div></div>
       </div>
     </div>
     <div class="cr-tc tc-card tc-far-right" data-i="4" data-src="dalmaji.mp4" data-name="달맞이 챌린지" onclick="crCardClick(this)">
       <div class="cr-tc-inner">
         <video class="cr-tc-video" src="dalmaji.mp4" muted loop playsinline preload="none"></video>
         <img class="cr-tc-thumb" src="dalmaji.jpg" alt="달맞이 챌린지">
-        <div class="cr-tc-overlay"><div class="cr-tc-view">VIEW</div><div class="cr-tc-view-line"></div></div>
-        <div class="cr-tc-name">달맞이 챌린지</div>
+        <div class="cr-tc-overlay"><div class="cr-tc-view">VIEW</div><div class="cr-tc-view-line"></div><div class="cr-tc-name">달맞이 챌린지</div></div>
       </div>
     </div>
     <div class="cr-tc tc-card tc-far-right" data-i="5" data-src="lastone.mp4" data-name="LASTONE CHALLENGE" onclick="crCardClick(this)">
       <div class="cr-tc-inner">
         <video class="cr-tc-video" src="lastone.mp4" muted loop playsinline preload="none"></video>
         <img class="cr-tc-thumb" src="lastone.jpg" alt="LASTONE CHALLENGE">
-        <div class="cr-tc-overlay"><div class="cr-tc-view">VIEW</div><div class="cr-tc-view-line"></div></div>
-        <div class="cr-tc-name">LASTONE CHALLENGE</div>
+        <div class="cr-tc-overlay"><div class="cr-tc-view">VIEW</div><div class="cr-tc-view-line"></div><div class="cr-tc-name">LASTONE CHALLENGE</div></div>
       </div>
     </div>
     <div class="tc-arrow tc-arr-right" id="tc-next-challenge-reels" onclick="tcMove('challenge-reels',1)">
