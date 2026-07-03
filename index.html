@@ -281,14 +281,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   transition:background 0.3s;
 }
 .cr-tc.tc-center:hover .cr-tc-overlay{background:rgba(0,0,0,0.35);}
-/* Campaign Film 화살표 — 옆 카드 바깥 공백 */
+/* Campaign Film 화살표 — 중앙카드와 옆카드 사이 틈새 */
 #tc-prev-challenge-reels{
-  left:calc(50% - 430px) !important;
-  transform:translateY(-50%) !important;
+  left:calc(50% - 215px) !important;
+  transform:translateY(-50%) translateX(-50%) !important;
 }
 #tc-next-challenge-reels{
-  right:calc(50% - 430px) !important;
-  transform:translateY(-50%) !important;
+  right:calc(50% - 215px) !important;
+  transform:translateY(-50%) translateX(50%) !important;
 }
 .cr-tc.tc-right .cr-tc-overlay,
 .cr-tc.tc-left .cr-tc-overlay{background:rgba(0,0,0,0.0) !important;}
