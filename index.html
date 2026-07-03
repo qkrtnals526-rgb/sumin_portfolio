@@ -242,23 +242,26 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   transition:all 0.5s cubic-bezier(0.16,1,0.3,1);
   cursor:pointer;
 }
+.cr-tc.tc-card.tc-center,
 .cr-tc.tc-center{
-  width:clamp(120px,14vw,180px);
+  width:340px !important;
   top:50%;left:50%;transform:translate(-50%,-50%);
   opacity:1;z-index:3;
 }
+.cr-tc.tc-card.tc-right,
 .cr-tc.tc-right{
-  width:clamp(80px,9vw,115px);
-  top:50%;left:calc(50% + clamp(130px,16vw,200px));transform:translate(-50%,-50%);
-  opacity:0.25;z-index:2;filter:brightness(0.6);
+  width:200px !important;
+  top:50%;left:calc(50% + 360px);transform:translate(-50%,-50%);
+  opacity:0.4;z-index:2;filter:brightness(0.6);
 }
+.cr-tc.tc-card.tc-left,
 .cr-tc.tc-left{
-  width:clamp(80px,9vw,115px);
-  top:50%;left:calc(50% - clamp(130px,16vw,200px));transform:translate(-50%,-50%);
-  opacity:0.25;z-index:2;filter:brightness(0.6);
+  width:200px !important;
+  top:50%;left:calc(50% - 360px);transform:translate(-50%,-50%);
+  opacity:0.4;z-index:2;filter:brightness(0.6);
 }
-.cr-tc.tc-far-right{top:50%;left:calc(50% + clamp(240px,30vw,380px));transform:translate(-50%,-50%);opacity:0;z-index:1;width:80px;}
-.cr-tc.tc-far-left{top:50%;left:calc(50% - clamp(240px,30vw,380px));transform:translate(-50%,-50%);opacity:0;z-index:1;width:80px;}
+.cr-tc.tc-card.tc-far-right,.cr-tc.tc-far-right{top:50%;left:calc(50% + 640px);transform:translate(-50%,-50%);opacity:0;z-index:1;width:140px !important;}
+.cr-tc.tc-card.tc-far-left,.cr-tc.tc-far-left{top:50%;left:calc(50% - 640px);transform:translate(-50%,-50%);opacity:0;z-index:1;width:140px !important;}
 .cr-tc-inner{
   position:relative;width:100%;aspect-ratio:9/16;
   border-radius:10px;overflow:hidden;
@@ -269,15 +272,26 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   transition:opacity 0.3s;
 }
 .cr-tc-video{opacity:0;}
-.cr-tc.tc-center:hover .cr-tc-video{opacity:1;}
-.cr-tc.tc-center:hover .cr-tc-thumb{opacity:0;}
+.cr-tc.tc-center:hover .cr-tc-video{opacity:0;}
+.cr-tc.tc-center:hover .cr-tc-thumb{opacity:1;}
 .cr-tc-overlay{
   position:absolute;inset:0;border-radius:10px;
   background:rgba(0,0,0,0.3);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
 }
+/* Campaign Film 화살표 — 옆 카드 중앙 */
+#tc-prev-challenge-reels{
+  left:calc(50% - 260px) !important;
+  transform:translateY(-50%) translateX(-50%) !important;
+}
+#tc-next-challenge-reels{
+  right:calc(50% - 260px) !important;
+  transform:translateY(-50%) translateX(50%) !important;
+}
 .cr-tc.tc-right .cr-tc-overlay,
-.cr-tc.tc-left .cr-tc-overlay{background:rgba(0,0,0,0.5);}
+.cr-tc.tc-left .cr-tc-overlay{background:rgba(0,0,0,0.0) !important;}
+.cr-tc.tc-right .cr-tc-view,.cr-tc.tc-right .cr-tc-view-line,
+.cr-tc.tc-left .cr-tc-view,.cr-tc.tc-left .cr-tc-view-line{display:none;}
 .cr-tc-view{
   font-family:'Pretendard',sans-serif;
   font-size:9px;font-weight:600;letter-spacing:0.2em;
@@ -321,29 +335,29 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .tc-card.tc-center .tc-card-title{opacity:1;}
 .tc-card.tc-center{
-  width:clamp(280px,38vw,480px);
+  width:clamp(400px,52vw,660px);
   top:50%;left:50%;transform:translate(-50%,-50%);opacity:1;z-index:3;
 }
 .tc-card.tc-right{
-  width:clamp(160px,22vw,280px);
-  top:50%;left:calc(50% + clamp(220px,28vw,340px));transform:translate(-50%,-50%);
+  width:clamp(220px,28vw,360px);
+  top:50%;left:calc(50% + clamp(310px,38vw,480px));transform:translate(-50%,-50%);
   opacity:0.45;z-index:2;filter:brightness(0.65);
 }
 .tc-card.tc-left{
-  width:clamp(160px,22vw,280px);
-  top:50%;left:calc(50% - clamp(220px,28vw,340px));transform:translate(-50%,-50%);
+  width:clamp(220px,28vw,360px);
+  top:50%;left:calc(50% - clamp(310px,38vw,480px));transform:translate(-50%,-50%);
   opacity:0.45;z-index:2;filter:brightness(0.65);
 }
-.tc-card.tc-far-right{top:50%;left:calc(50% + clamp(400px,50vw,600px));transform:translate(-50%,-50%);opacity:0;z-index:1;width:160px;}
-.tc-card.tc-far-left{top:50%;left:calc(50% - clamp(400px,50vw,600px));transform:translate(-50%,-50%);opacity:0;z-index:1;width:160px;}
+.tc-card.tc-far-right{top:50%;left:calc(50% + clamp(580px,70vw,860px));transform:translate(-50%,-50%);opacity:0;z-index:1;width:200px;}
+.tc-card.tc-far-left{top:50%;left:calc(50% - clamp(580px,70vw,860px));transform:translate(-50%,-50%);opacity:0;z-index:1;width:200px;}
 .tc-arrow{
   position:absolute;top:50%;transform:translateY(-50%);
   cursor:pointer;z-index:10;
   display:flex;flex-direction:column;gap:5px;padding:8px 0;
   transition:opacity 0.2s;
 }
-.tc-arrow.tc-arr-left{left:calc(50% - clamp(185px,24vw,240px));}
-.tc-arrow.tc-arr-right{right:calc(50% - clamp(185px,24vw,240px));}
+.tc-arrow.tc-arr-left{left:calc(50% - clamp(310px,38vw,480px));transform:translateY(-50%) translateX(-50%);}
+.tc-arrow.tc-arr-right{right:calc(50% - clamp(310px,38vw,480px));transform:translateY(-50%) translateX(50%);}
 .tc-arrow.hidden{opacity:0;pointer-events:none;}
 .tc-arrow-text{
   font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.14em;
@@ -1332,7 +1346,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <span class="cat-item-arrow">↗</span>
         </div>
         <div class="cat-item" onclick="openThumbPage('challenge-reels')">
-          <span class="cat-item-name">Challenge Reels</span>
+          <span class="cat-item-name">Campaign Film</span>
           <span class="cat-item-arrow">↗</span>
         </div>
       </div>
@@ -1506,11 +1520,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   </div>
   <div class="thumb-top-bar">
     <div class="thumb-cat-label animate-in">Campaign Film</div>
-    <div style="font-family:'Pretendard',sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.45);letter-spacing:0.01em;line-height:1.5;margin-top:8px;">
-      유저들의 스타일링 콘텐츠 업로드를 유도하는 참여형 프로모션 ㅣ 디자인 기여도 100%
-    </div>
+    <div style="font-family:'Pretendard',sans-serif;font-size:18px;font-weight:400;color:rgba(255,255,255,0.45);letter-spacing:-0.01em;line-height:1.5;">유저들의 스타일링 콘텐츠 업로드를 유도하는 참여형 프로모션 ㅣ 디자인 기여도 100%</div>
   </div>
-  <div class="thumb-car-zone">
+  <div class="thumb-car-zone" style="margin-top:20px;">
     <div class="tc-arrow tc-arr-left hidden" id="tc-prev-challenge-reels" onclick="tcMove('challenge-reels',-1)">
       <span class="tc-arrow-text">← prev</span>
       <div class="tc-arrow-line"></div>
