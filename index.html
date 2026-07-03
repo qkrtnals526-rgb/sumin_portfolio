@@ -201,7 +201,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .thumb-page.open .thumb-cat-label.animate-in{
   animation:labelSlideUp 0.65s cubic-bezier(0.16,1,0.3,1) forwards;
 }
-.thumb-nums{display:flex;gap:20px;margin-bottom:20px;}
+.thumb-nums{display:flex;gap:20px;margin-bottom:16px;justify-content:center;}
 .thumb-num{
   font-family:'StackSansNotch',sans-serif;
   font-size:24px;font-weight:400;
@@ -235,6 +235,64 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .thumb-grid{display:none;}
 .thumb-card{display:none;}
 .thumb-card-arrow{display:none;}
+
+/* ── 캐러셀 레이아웃 ── */
+.thumb-carousel-body{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding-bottom:40px;overflow:hidden;
+}
+.thumb-carousel-row{
+  width:100%;display:flex;align-items:center;
+  justify-content:center;position:relative;
+  height:min(42vh,360px);
+}
+.tc-arrow{
+  flex-shrink:0;cursor:pointer;
+  padding:8px 0;margin:0 24px;z-index:10;user-select:none;
+  display:flex;flex-direction:column;gap:4px;
+}
+.tc-arrow.hidden{opacity:0;pointer-events:none;}
+.tc-arrow-text{
+  font-family:'Pretendard',sans-serif;
+  font-size:11px;letter-spacing:0.16em;
+  color:rgba(255,255,255,0.45);text-transform:uppercase;
+  transition:color 0.25s;white-space:nowrap;
+}
+.tc-arrow-line{
+  height:1px;background:rgba(255,255,255,0.35);
+  width:0;transition:width 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.tc-arrow:hover .tc-arrow-line{width:100%;}
+.tc-arrow:hover .tc-arrow-text{color:rgba(255,255,255,0.85);}
+.tc-wrap{flex:1;position:relative;height:100%;overflow:hidden;}
+.tc-card{
+  position:absolute;border-radius:8px;overflow:hidden;cursor:pointer;
+  transition:all 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.tc-card img{width:100%;height:100%;object-fit:cover;display:block;}
+.tc-card.tc-center{
+  width:min(46vh,440px);height:min(34.5vh,330px);
+  left:50%;transform:translateX(-50%);opacity:1;z-index:3;
+}
+.tc-card.tc-right{
+  width:min(28vh,260px);height:min(21vh,195px);
+  left:calc(50% + min(26vh,240px));transform:translateX(-50%);
+  opacity:0.45;z-index:2;filter:brightness(0.75);
+}
+.tc-card.tc-left{
+  width:min(28vh,260px);height:min(21vh,195px);
+  left:calc(50% - min(26vh,240px));transform:translateX(-50%);
+  opacity:0.45;z-index:2;filter:brightness(0.75);
+}
+.tc-card.tc-far-right,.tc-card.tc-far-left{opacity:0;z-index:1;width:200px;height:150px;}
+.tc-card.tc-far-right{left:calc(50% + min(46vh,420px));transform:translateX(-50%);}
+.tc-card.tc-far-left{left:calc(50% - min(46vh,420px));transform:translateX(-50%);}
+.tc-name{
+  font-family:'Pretendard',sans-serif;font-size:13px;font-weight:500;
+  color:rgba(255,255,255,0.6);letter-spacing:0.04em;text-transform:uppercase;
+  text-align:center;margin-top:20px;
+}
 
 .sr{opacity:0;transform:translateY(36px);transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1),transform 0.9s cubic-bezier(0.16,1,0.3,1);}
 .sr.in{opacity:1;transform:translateY(0);}
@@ -300,8 +358,13 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .next-work-arrow{font-size:16px;transition:transform 0.3s ease,opacity 0.2s;}
 .next-work-btn:hover{opacity:0.65 !important;}
 .next-work-symbol{
-  display:flex;flex-direction:column;align-items:center;gap:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
   user-select:none;
+}
+.nw-up,.nw-down{
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  padding:0 !important;
 }
 .scroll-hint-text{
   font-family:'StackSansNotch',sans-serif;font-size:10px;font-weight:400;
@@ -1221,44 +1284,65 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <a class="active" onclick="openThumbPage('ai-creative')">AI Creative</a>
         <a onclick="openThumbPage('brand-content')">Brand Content</a>
         <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
-        <a onclick="openThumbPage('challenge-reels')">Challenge Reels</a>
+        <a onclick="openThumbPage('challenge-reels')">Interactive Content</a>
       </div>
       <div class="thumb-menu-btn" onclick="toggleThumbMenu('tic-ai')">
         <div class="dot"></div><div class="dot"></div><div class="dot"></div>
       </div>
     </div>
   </div>
-  <div class="thumb-content">
-    <div class="thumb-cat-area">
-      <div class="thumb-cat-label">AI Creative</div>
-      <div class="thumb-nums" id="tn-ai">
-        <span class="thumb-num active">01</span>
-        <span class="thumb-num">02</span>
-        <span class="thumb-num">03</span>
-        <span class="thumb-num">04</span>
-      </div>
+  <div class="thumb-carousel-body">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div class="thumb-cat-label" >AI Creative</div>
+      <div class="thumb-nums" id="tn-ai-creative" style="justify-content:center;"><span class="thumb-num  active">01</span><span class="thumb-num">02</span><span class="thumb-num">03</span><span class="thumb-num">04</span></div>
     </div>
-    <div class="thumb-cards-outer" data-track="tt-ai">
-      <div class="thumb-cards-track" id="tt-ai">
-        <div class="thumb-card-h" onclick="openDetail('ai-creative',0)">
-          <img src="aicreative_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">SELLER WEEK</div></div></div>
+    <div class="thumb-carousel-row">
+      <div class="tc-arrow hidden" id="tc-prev-ai-creative"><span class="tc-arrow-text">← prev</span><div class="tc-arrow-line"></div></div>
+      <div class="tc-wrap" id="tc-wrap-ai-creative">
+        <div class="tc-card tc-center" data-idx="0" onclick="tcClick(this,'ai-creative')">
+          <img src="aicreative_Thumbnail.png" alt="SELLER WEEK">
         </div>
-        <div class="thumb-card-h" onclick="openDetail('ai-creative',1)">
-          <img src="aicreative2_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">montbell 해외직구</div></div></div>
+        <div class="tc-card tc-right" data-idx="1" onclick="tcClick(this,'ai-creative')">
+          <img src="aicreative2_Thumbnail.png" alt="montbell 해외직구">
         </div>
-        <div class="thumb-card-h" onclick="openDetail('ai-creative',2)">
-          <img src="aicreative3_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">SPRING SEASON OFF</div></div></div>
+        <div class="tc-card tc-far-right" data-idx="2" onclick="tcClick(this,'ai-creative')">
+          <img src="aicreative3_Thumbnail.png" alt="SPRING SEASON OFF">
         </div>
-        <div class="thumb-card-h" onclick="openDetail('ai-creative',3)">
-          <img src="aicreative4_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">HERA SENSUAL NUDE GLOSS</div></div></div>
+        <div class="tc-card tc-far-right" data-idx="3" onclick="tcClick(this,'ai-creative')">
+          <img src="aicreative4_Thumbnail.png" alt="HERA SENSUAL NUDE GLOSS">
         </div>
       </div>
+      <div class="tc-arrow" id="tc-next-ai-creative"><span class="tc-arrow-text">next →</span><div class="tc-arrow-line"></div></div>
     </div>
+    <div class="tc-name" id="tc-name-ai-creative">SELLER WEEK</div>
   </div>
+  <script>
+  (function(){
+    var pageId='ai-creative',cur=0;
+    var onclicks=["openDetail('ai-creative',0)","openDetail('ai-creative',1)","openDetail('ai-creative',2)","openDetail('ai-creative',3)"];
+    var names=["SELLER WEEK","montbell 해외직구","SPRING SEASON OFF","HERA SENSUAL NUDE GLOSS"];
+    var total=4;
+    var states=['tc-center','tc-right','tc-left','tc-far-right','tc-far-left'];
+    function getState(i,c){var d=i-c;if(d===0)return'tc-center';if(d===1)return'tc-right';if(d===-1)return'tc-left';if(d>1)return'tc-far-right';return'tc-far-left';}
+    function upd(){
+      var cs=document.querySelectorAll('#tc-wrap-'+pageId+' .tc-card');
+      cs.forEach(function(c,i){states.forEach(function(s){c.classList.remove(s);});c.classList.add(getState(i,cur));});
+      var ns=document.querySelectorAll('#tn-'+pageId+' .thumb-num');
+      ns.forEach(function(n,i){n.classList.toggle('active',i===cur);});
+      document.getElementById('tc-name-'+pageId).textContent=names[cur];
+      document.getElementById('tc-prev-'+pageId).classList.toggle('hidden',cur===0);
+      document.getElementById('tc-next-'+pageId).classList.toggle('hidden',cur===total-1);
+    }
+    window['tcMove_'+pageId]=function(d){var n=cur+d;if(n<0||n>=total)return;cur=n;upd();};
+    window['tcClick_'+pageId]=function(card){
+      var i=parseInt(card.getAttribute('data-idx'));
+      if(i===cur){eval(onclicks[cur]);}
+      else{cur=i;upd();}
+    };
+    document.getElementById('tc-prev-'+pageId).onclick=function(){window['tcMove_'+pageId](-1);};
+    document.getElementById('tc-next-'+pageId).onclick=function(){window['tcMove_'+pageId](1);};
+  })();
+  </script>
 </div>
 
 <!-- Brand Content 썸네일 -->
@@ -1270,49 +1354,68 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <a onclick="openThumbPage('ai-creative')">AI Creative</a>
         <a class="active" onclick="openThumbPage('brand-content')">Brand Content</a>
         <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
-        <a onclick="openThumbPage('challenge-reels')">Challenge Reels</a>
+        <a onclick="openThumbPage('challenge-reels')">Interactive Content</a>
       </div>
       <div class="thumb-menu-btn" onclick="toggleThumbMenu('tic-bc')">
         <div class="dot"></div><div class="dot"></div><div class="dot"></div>
       </div>
     </div>
   </div>
-  <div class="thumb-content">
-    <div class="thumb-cat-area">
-      <div class="thumb-cat-label">Brand Content</div>
-      <div class="thumb-nums" id="tn-bc">
-        <span class="thumb-num active">01</span>
-        <span class="thumb-num">02</span>
-        <span class="thumb-num">03</span>
-        <span class="thumb-num">04</span>
-        <span class="thumb-num">05</span>
-      </div>
+  <div class="thumb-carousel-body">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div class="thumb-cat-label" >Brand Content</div>
+      <div class="thumb-nums" id="tn-brand-content" style="justify-content:center;"><span class="thumb-num  active">01</span><span class="thumb-num">02</span><span class="thumb-num">03</span><span class="thumb-num">04</span><span class="thumb-num">05</span></div>
     </div>
-    <div class="thumb-cards-outer" data-track="tt-bc">
-      <div class="thumb-cards-track" id="tt-bc">
-        <div class="thumb-card-h" onclick="openDetail('brand-content',0)">
-          <img src="Fashioneditorial_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">HONDA MOTORCYCLE APPAREL</div></div></div>
+    <div class="thumb-carousel-row">
+      <div class="tc-arrow hidden" id="tc-prev-brand-content"><span class="tc-arrow-text">← prev</span><div class="tc-arrow-line"></div></div>
+      <div class="tc-wrap" id="tc-wrap-brand-content">
+        <div class="tc-card tc-center" data-idx="0" onclick="tcClick(this,'brand-content')">
+          <img src="Fashioneditorial_Thumbnail.png" alt="HONDA MOTORCYCLE APPAREL">
         </div>
-        <div class="thumb-card-h" onclick="openDetail('brand-content',2)">
-          <img src="Fashioneditorial3_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">조셉앤스테이시 × 몬치치</div></div></div>
+        <div class="tc-card tc-right" data-idx="1" onclick="tcClick(this,'brand-content')">
+          <img src="Fashioneditorial3_Thumbnail.png" alt="조셉앤스테이시 × 몬치치">
         </div>
-        <div class="thumb-card-h" onclick="openDetail('brand-content',3)">
-          <img src="Fashioneditorial4_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">KREAM 도산 스토어 윈터 룩북</div></div></div>
+        <div class="tc-card tc-far-right" data-idx="2" onclick="tcClick(this,'brand-content')">
+          <img src="Fashioneditorial4_Thumbnail.png" alt="KREAM 도산 스토어 윈터 룩북">
         </div>
-        <div class="thumb-card-h" onclick="openDetail('brand-content',1)">
-          <img src="Fashioneditorial2_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">일광전구</div></div></div>
+        <div class="tc-card tc-far-right" data-idx="3" onclick="tcClick(this,'brand-content')">
+          <img src="Fashioneditorial2_Thumbnail.png" alt="일광전구">
         </div>
-        <div class="thumb-card-h" onclick="openDetail('brand-content-2',0)">
-          <img src="Promotional_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">디저트 테이블</div></div></div>
+        <div class="tc-card tc-far-right" data-idx="4" onclick="tcClick(this,'brand-content')">
+          <img src="Promotional_Thumbnail.png" alt="디저트 테이블">
         </div>
       </div>
+      <div class="tc-arrow" id="tc-next-brand-content"><span class="tc-arrow-text">next →</span><div class="tc-arrow-line"></div></div>
     </div>
+    <div class="tc-name" id="tc-name-brand-content">HONDA MOTORCYCLE APPAREL</div>
   </div>
+  <script>
+  (function(){
+    var pageId='brand-content',cur=0;
+    var onclicks=["openDetail('brand-content',0)","openDetail('brand-content',2)","openDetail('brand-content',3)","openDetail('brand-content',1)","openDetail('brand-content-2',0)"];
+    var names=["HONDA MOTORCYCLE APPAREL","조셉앤스테이시 × 몬치치","KREAM 도산 스토어 윈터 룩북","일광전구","디저트 테이블"];
+    var total=5;
+    var states=['tc-center','tc-right','tc-left','tc-far-right','tc-far-left'];
+    function getState(i,c){var d=i-c;if(d===0)return'tc-center';if(d===1)return'tc-right';if(d===-1)return'tc-left';if(d>1)return'tc-far-right';return'tc-far-left';}
+    function upd(){
+      var cs=document.querySelectorAll('#tc-wrap-'+pageId+' .tc-card');
+      cs.forEach(function(c,i){states.forEach(function(s){c.classList.remove(s);});c.classList.add(getState(i,cur));});
+      var ns=document.querySelectorAll('#tn-'+pageId+' .thumb-num');
+      ns.forEach(function(n,i){n.classList.toggle('active',i===cur);});
+      document.getElementById('tc-name-'+pageId).textContent=names[cur];
+      document.getElementById('tc-prev-'+pageId).classList.toggle('hidden',cur===0);
+      document.getElementById('tc-next-'+pageId).classList.toggle('hidden',cur===total-1);
+    }
+    window['tcMove_'+pageId]=function(d){var n=cur+d;if(n<0||n>=total)return;cur=n;upd();};
+    window['tcClick_'+pageId]=function(card){
+      var i=parseInt(card.getAttribute('data-idx'));
+      if(i===cur){eval(onclicks[cur]);}
+      else{cur=i;upd();}
+    };
+    document.getElementById('tc-prev-'+pageId).onclick=function(){window['tcMove_'+pageId](-1);};
+    document.getElementById('tc-next-'+pageId).onclick=function(){window['tcMove_'+pageId](1);};
+  })();
+  </script>
 </div>
 
 <!-- 3D Artwork 썸네일 -->
@@ -1324,39 +1427,62 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
         <a onclick="openThumbPage('ai-creative')">AI Creative</a>
         <a onclick="openThumbPage('brand-content')">Brand Content</a>
         <a class="active" onclick="openThumbPage('3d-artwork')">3D Artwork</a>
-        <a onclick="openThumbPage('challenge-reels')">Challenge Reels</a>
+        <a onclick="openThumbPage('challenge-reels')">Interactive Content</a>
       </div>
       <div class="thumb-menu-btn" onclick="toggleThumbMenu('tic-3d')">
         <div class="dot"></div><div class="dot"></div><div class="dot"></div>
       </div>
     </div>
   </div>
-  <div class="thumb-content">
-    <div class="thumb-cat-area">
-      <div class="thumb-cat-label">3D Artwork</div>
-      <div class="thumb-nums" id="tn-3d">
-        <span class="thumb-num active">01</span>
-        <span class="thumb-num">02</span>
-        <span class="thumb-num">03</span>
-      </div>
+  <div class="thumb-carousel-body">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div class="thumb-cat-label" >3D Artwork</div>
+      <div class="thumb-nums" id="tn-3d-artwork" style="justify-content:center;"><span class="thumb-num  active">01</span><span class="thumb-num">02</span><span class="thumb-num">03</span></div>
     </div>
-    <div class="thumb-cards-outer" data-track="tt-3d">
-      <div class="thumb-cards-track" id="tt-3d">
-        <div class="thumb-card-h" onclick="openDetail('3d-artwork',0)">
-          <img src="3DArtwork_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">KREAM DRAW</div></div></div>
+    <div class="thumb-carousel-row">
+      <div class="tc-arrow hidden" id="tc-prev-3d-artwork"><span class="tc-arrow-text">← prev</span><div class="tc-arrow-line"></div></div>
+      <div class="tc-wrap" id="tc-wrap-3d-artwork">
+        <div class="tc-card tc-center" data-idx="0" onclick="tcClick(this,'3d-artwork')">
+          <img src="3DArtwork_Thumbnail.png" alt="KREAM DRAW">
         </div>
-        <div class="thumb-card-h" onclick="openDetail('3d-artwork',1)">
-          <img src="3DArtwork3-1_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">P.FUNK SELECTION</div></div></div>
+        <div class="tc-card tc-right" data-idx="1" onclick="tcClick(this,'3d-artwork')">
+          <img src="3DArtwork3-1_Thumbnail.png" alt="P.FUNK SELECTION">
         </div>
-        <div class="thumb-card-h" onclick="openDetail('3d-artwork',2)">
-          <img src="3DArtwork2-1_Thumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <div class="thumb-card-h-overlay"><div class="thumb-card-h-info"><div class="thumb-card-h-name">2025 TREND LEVEL TEST</div></div></div>
+        <div class="tc-card tc-far-right" data-idx="2" onclick="tcClick(this,'3d-artwork')">
+          <img src="3DArtwork2-1_Thumbnail.png" alt="2025 TREND LEVEL TEST">
         </div>
       </div>
+      <div class="tc-arrow" id="tc-next-3d-artwork"><span class="tc-arrow-text">next →</span><div class="tc-arrow-line"></div></div>
     </div>
+    <div class="tc-name" id="tc-name-3d-artwork">KREAM DRAW</div>
   </div>
+  <script>
+  (function(){
+    var pageId='3d-artwork',cur=0;
+    var onclicks=["openDetail('3d-artwork',0)","openDetail('3d-artwork',1)","openDetail('3d-artwork',2)"];
+    var names=["KREAM DRAW","P.FUNK SELECTION","2025 TREND LEVEL TEST"];
+    var total=3;
+    var states=['tc-center','tc-right','tc-left','tc-far-right','tc-far-left'];
+    function getState(i,c){var d=i-c;if(d===0)return'tc-center';if(d===1)return'tc-right';if(d===-1)return'tc-left';if(d>1)return'tc-far-right';return'tc-far-left';}
+    function upd(){
+      var cs=document.querySelectorAll('#tc-wrap-'+pageId+' .tc-card');
+      cs.forEach(function(c,i){states.forEach(function(s){c.classList.remove(s);});c.classList.add(getState(i,cur));});
+      var ns=document.querySelectorAll('#tn-'+pageId+' .thumb-num');
+      ns.forEach(function(n,i){n.classList.toggle('active',i===cur);});
+      document.getElementById('tc-name-'+pageId).textContent=names[cur];
+      document.getElementById('tc-prev-'+pageId).classList.toggle('hidden',cur===0);
+      document.getElementById('tc-next-'+pageId).classList.toggle('hidden',cur===total-1);
+    }
+    window['tcMove_'+pageId]=function(d){var n=cur+d;if(n<0||n>=total)return;cur=n;upd();};
+    window['tcClick_'+pageId]=function(card){
+      var i=parseInt(card.getAttribute('data-idx'));
+      if(i===cur){eval(onclicks[cur]);}
+      else{cur=i;upd();}
+    };
+    document.getElementById('tc-prev-'+pageId).onclick=function(){window['tcMove_'+pageId](-1);};
+    document.getElementById('tc-next-'+pageId).onclick=function(){window['tcMove_'+pageId](1);};
+  })();
+  </script>
 </div>
 
 <!-- Challenge Reels 썸네일 -->
@@ -1463,7 +1589,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide active" data-slide="0" data-next-page="ai-creative" data-next-slide="1" data-prev-page="ai-creative" data-prev-slide="3" style="background:#E5E5E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative.png" alt="AI Creative 01">
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -1473,7 +1599,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="1" data-next-page="ai-creative" data-next-slide="2" data-prev-page="ai-creative" data-prev-slide="0" style="background:#DEE1E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative2.png" alt="AI Creative 02">
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="global.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -1483,7 +1609,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide" data-slide="2" data-next-page="ai-creative" data-next-slide="3" data-prev-page="ai-creative" data-prev-slide="1" style="background:#FAFFE6;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative3.png" alt="AI Creative 03">
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="spring.mp4" autoplay loop muted playsinline></video>
           </div>
@@ -1504,7 +1630,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="hera_7.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
     </div>
@@ -1556,7 +1682,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
             </div>
 
           </div>
-          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(255,255,255,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(255,255,255,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
       <!-- Slide 2: 일광전구 -->
@@ -1580,7 +1706,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="2-13.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
       <!-- Slide 3: 조셉앤스테이시 × 몬치치 -->
@@ -1604,7 +1730,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="3-13.jpg" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
       <!-- Slide 4: KREAM 도산 스토어 윈터 룩북 -->
@@ -1628,7 +1754,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <video src="4-13.mp4" autoplay loop muted playsinline></video>
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
     </div>
@@ -1679,7 +1805,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <img src="5-15.png" alt="">
             </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
     </div>
@@ -1714,7 +1840,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
             <video src="3DArtwork1.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
-          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(255,255,255,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(255,255,255,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
       <!-- Slide 2: P.FUNK SELECTION -->
@@ -1724,7 +1850,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
             <video id="pfunkVideo" src="p_funk_final.mp4" loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
-          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(255,255,255,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(255,255,255,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
       <!-- Slide 2: 2025 TREND LEVEL TEST -->
@@ -1734,7 +1860,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <div onclick="if(window.openDaModal) openDaModal();" style="position:absolute;left:58.07%;bottom:7%;width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;cursor:pointer;transition:opacity 0.2s;" onmouseenter="this.style.opacity='0.8'" onmouseleave="this.style.opacity='1'">
             <img src="3DArtworkThumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="cursor:pointer;padding:6px;box-sizing:content-box;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:9%;"><div class="next-work-symbol"><svg class="nw-up" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,7 6,1 11,7" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="width:28px;height:1px;background:rgba(0,0,0,0.2);"></div><svg class="nw-down" width="18" height="12" viewBox="0 0 12 8" fill="none" style="display:block;"><polyline points="1,1 6,7 11,1" stroke="rgba(0,0,0,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
         </div>
       </div>
     </div>
