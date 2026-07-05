@@ -352,6 +352,27 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .tc-card.tc-far-right{top:50%;left:calc(50% + clamp(580px,70vw,860px));transform:translate(-50%,-50%);opacity:0;z-index:1;width:200px;}
 .tc-card.tc-far-left{top:50%;left:calc(50% - clamp(580px,70vw,860px));transform:translate(-50%,-50%);opacity:0;z-index:1;width:200px;}
+
+/* MOBILE — AI CREATIVE류 코버플로우 캐러셀: 세로로 긴 카드 + 양옆은 화면 밖으로 크롭, 터치 드래그 슬라이딩 */
+@media (max-width:768px){
+  .thumb-cat-label{font-size:clamp(30px,9vw,52px);margin-bottom:4px;line-height:1;}
+  .thumb-top-bar{padding:12px 16px 0;padding-bottom:0;}
+  .thumb-nums{gap:10px;margin-bottom:0;}
+  .thumb-num{font-size:11px;letter-spacing:0.04em;}
+  .thumb-car-zone{align-items:flex-start;padding-top:4px;overflow:visible;}
+  .tc-card-img,.tc-card-ph{aspect-ratio:3/4;}
+  .tc-card.tc-center{width:clamp(220px,72vw,300px);}
+  .tc-card.tc-right{width:clamp(90px,26vw,140px);left:calc(50% + clamp(160px,46vw,220px));}
+  .tc-card.tc-left{width:clamp(90px,26vw,140px);left:calc(50% - clamp(160px,46vw,220px));}
+  .tc-card.tc-far-right{left:calc(50% + clamp(300px,80vw,420px));width:110px;}
+  .tc-card.tc-far-left{left:calc(50% - clamp(300px,80vw,420px));width:110px;}
+  .tc-card-title{font-size:10px;margin-top:4px;white-space:normal;max-width:80vw;text-align:center;}
+  .tc-arrow{display:none;}
+  .thumb-page-nav{padding:14px 18px;}
+  .thumb-page-back{font-size:15px;}
+  .thumb-menu-btn .dot{width:3px;height:3px;}
+  .thumb-inline-cats a{font-size:15px;}
+}
 .tc-arrow{
   position:absolute;top:50%;transform:translateY(-50%);
   cursor:pointer;z-index:10;
@@ -1027,141 +1048,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   letter-spacing:0.04em;
   min-width:54px;
 }
-/* ── 모바일 커버 ── */
-@media (max-width: 768px) {
-  /* 커서 점 숨기기 */
-  #sphereCanvas { display: none; }
-
-  /* 커버 — 16:9 → 100dvh 풀스크린 */
-  #s-cover {
-    aspect-ratio: unset;
-    height: 100dvh;
-    position: sticky;
-  }
-
-  /* nameWrap — 모바일에서 좌측 하단 배치 */
-  #nameWrap {
-    left: 5%;
-    top: auto;
-    bottom: 22%;
-    width: 90%;
-  }
-
-  /* since SVG 숨기고 모바일 전용으로 대체 */
-  #sinceWrap { display: none; }
-
-  /* 모바일 since 텍스트 */
-  #m-since {
-    display: block;
-    position: absolute;
-    bottom: 6%;
-    left: 0; right: 0;
-    text-align: center;
-    font-family: 'StackSansNotch', sans-serif;
-    font-size: clamp(12px, 3.5vw, 18px);
-    font-weight: 400;
-    color: #1356FC;
-    letter-spacing: 0.04em;
-    opacity: 0.6;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  /* 모바일 네비 */
-  #m-nav {
-    display: flex;
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    padding: 16px 5%;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 10;
-  }
-  #m-nav-logo {
-    font-family: 'StackSansNotch', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    color: rgba(19,86,252,0.5);
-    text-transform: uppercase;
-  }
-  #m-nav-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    padding: 4px;
-  }
-  #m-nav-menu span {
-    display: block;
-    width: 20px;
-    height: 1.5px;
-    background: #1356FC;
-    transition: transform 0.3s, opacity 0.3s;
-  }
-
-  /* 모바일 메뉴 오버레이 */
-  #m-menu {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: #000;
-    z-index: 999;
-    flex-direction: column;
-    padding: 20px 6%;
-  }
-  #m-menu.open { display: flex; }
-  #m-menu-close {
-    text-align: right;
-    font-size: 22px;
-    color: rgba(255,255,255,0.4);
-    cursor: pointer;
-    padding: 4px;
-    margin-bottom: auto;
-  }
-  #m-menu-list {
-    display: flex;
-    flex-direction: column;
-    margin: auto 0;
-  }
-  .m-menu-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 0;
-    border-bottom: 0.5px solid rgba(255,255,255,0.1);
-    cursor: pointer;
-  }
-  .m-menu-item:last-child { border-bottom: none; }
-  .m-menu-item-name {
-    font-family: 'Pretendard', sans-serif;
-    font-size: clamp(20px, 6vw, 28px);
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.02em;
-  }
-  .m-menu-item-num {
-    font-size: 11px;
-    color: rgba(255,255,255,0.2);
-    letter-spacing: 0.06em;
-  }
-  #m-menu-footer {
-    margin-top: auto;
-    font-size: 10px;
-    color: rgba(255,255,255,0.18);
-    letter-spacing: 0.08em;
-    padding-top: 20px;
-  }
-
-  /* 기존 nav 숨기기 */
-  #main-nav { display: none; }
-}
-
-/* 데스크탑에서 모바일 요소 숨기기 */
-#m-since, #m-nav, #m-menu { display: none; }
-@media (max-width: 768px) {
-  #m-since { display: block; }
-  #m-nav { display: flex; }
-}
 </style>
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://parksumin.vercel.app/">
@@ -1195,40 +1081,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </nav>
 
 <section id="s-cover">
-  <!-- 모바일 네비 -->
-  <div id="m-nav">
-    <span id="m-nav-logo">Portfolio</span>
-    <div id="m-nav-menu" onclick="document.getElementById('m-menu').classList.toggle('open')">
-      <span></span><span></span>
-    </div>
-  </div>
-
-  <!-- 모바일 메뉴 오버레이 -->
-  <div id="m-menu">
-    <div id="m-menu-close" onclick="document.getElementById('m-menu').classList.remove('open')">✕</div>
-    <div id="m-menu-list">
-      <div class="m-menu-item" onclick="document.getElementById('m-menu').classList.remove('open');openThumbPage('ai-creative')">
-        <span class="m-menu-item-name">AI Creative</span>
-        <span class="m-menu-item-num">001–004</span>
-      </div>
-      <div class="m-menu-item" onclick="document.getElementById('m-menu').classList.remove('open');openThumbPage('brand-content')">
-        <span class="m-menu-item-name">Brand Content</span>
-        <span class="m-menu-item-num">001–005</span>
-      </div>
-      <div class="m-menu-item" onclick="document.getElementById('m-menu').classList.remove('open');openThumbPage('3d-artwork')">
-        <span class="m-menu-item-name">3D Artwork</span>
-        <span class="m-menu-item-num">001–003</span>
-      </div>
-      <div class="m-menu-item" onclick="document.getElementById('m-menu').classList.remove('open');openThumbPage('challenge-reels')" style="border-bottom:none;">
-        <span class="m-menu-item-name" style="color:#1356FC;">Campaign Film</span>
-        <span class="m-menu-item-num" style="color:#1356FC;">001–006</span>
-      </div>
-    </div>
-    <div id="m-menu-footer">© 2025–26 PARK SUMIN ALL RIGHTS RESERVED.</div>
-  </div>
-
-  <!-- 모바일 since 텍스트 -->
-  <div id="m-since">'25 – '26</div>
   <div id="nameWrap"><svg id="nameSVG" viewBox="0 0 1101 231" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;overflow:visible;display:block;" fill="#1356FC">
 <g class="mg" data-letter="P">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M47.7871 87.4824C60.105 87.4824 70.813 88.9973 79.8906 92.0537C89.135 94.9908 96.295 99.8836 101.306 106.759C106.471 113.534 108.999 122.609 108.999 133.878C108.999 145.03 106.464 154.105 101.298 161.007C96.2879 167.876 89.13 172.83 79.8896 175.896C70.8121 178.953 60.1048 180.47 47.7871 180.47H27.2695V227.044H0V100.452H25.2695V87.4824H47.7871ZM27.2695 156.46H47.7871C54.8353 156.46 60.802 155.875 65.7021 154.722C70.6699 153.454 74.3389 151.197 76.8057 148.005L76.8135 147.995L76.8203 147.986C79.3857 144.825 80.7431 140.171 80.7432 133.878C80.7432 127.585 79.3858 122.93 76.8203 119.769L76.8135 119.76L76.8057 119.75C74.3444 116.565 70.6849 114.375 65.7256 113.235L65.6963 113.228C60.8022 111.945 54.838 111.296 47.7871 111.296H27.2695V156.46ZM77.0146 149.328C77.0392 149.3 77.0645 149.272 77.0889 149.243L77.0967 149.233C77.0696 149.265 77.0419 149.296 77.0146 149.328ZM77.5977 148.616L77.8525 148.293L77.9131 148.21C77.8101 148.348 77.7054 148.483 77.5977 148.616ZM81.249 93.5645C81.5152 93.6586 81.7797 93.7539 82.042 93.8516C81.5083 93.6529 80.9666 93.4616 80.417 93.2773L81.249 93.5645Z" fill="#1356FC"/>
@@ -3133,6 +2985,44 @@ let feAudioReady = false;
     if(_origOpen)_origOpen.call(window,catId);
     setTimeout(function(){updatePage(catId);},80);
   };
+
+  // ── 모바일 터치 드래그 슬라이딩 (손가락을 실시간으로 따라감, PC 마우스클릭 로직은 그대로 유지) ──
+  document.querySelectorAll('.thumb-car-zone').forEach(function(zone){
+    var startX=0,startY=0,dx=0,dragging=false,decided=false,horizontal=false;
+    var page=zone.closest('.thumb-page');
+    var pid=page?page.id.replace('thumb-',''):null;
+
+    zone.addEventListener('touchstart', function(e){
+      if(!e.touches||!e.touches.length||!pid)return;
+      startX=e.touches[0].clientX; startY=e.touches[0].clientY;
+      dx=0; dragging=true; decided=false; horizontal=false;
+      zone.style.transition='none';
+    },{passive:true});
+
+    zone.addEventListener('touchmove', function(e){
+      if(!dragging)return;
+      var t=e.touches[0];
+      dx=t.clientX-startX;
+      var dy=t.clientY-startY;
+      if(!decided){
+        if(Math.abs(dx)>8||Math.abs(dy)>8){ decided=true; horizontal=Math.abs(dx)>Math.abs(dy); }
+      }
+      if(horizontal){
+        e.preventDefault();
+        zone.style.transform='translateX('+dx+'px)';
+      }
+    },{passive:false});
+
+    zone.addEventListener('touchend', function(e){
+      if(!dragging)return; dragging=false;
+      zone.style.transition='transform 0.35s cubic-bezier(0.16,1,0.3,1)';
+      zone.style.transform='translateX(0px)';
+      if(horizontal && Math.abs(dx)>50){
+        window.tcMove(pid, dx<0?1:-1);
+      }
+      dx=0; decided=false; horizontal=false;
+    },{passive:true});
+  });
 })();
 </script>
 <script>
@@ -3153,14 +3043,6 @@ let feAudioReady = false;
     trail.push({x:mx,y:my,life:1});
     if(trail.length>MAX) trail.shift();
   });
-  // 모바일 터치 — 커서 점 트레일
-  document.addEventListener('touchmove', e => {
-    if(e.touches.length > 0){
-      mx=e.touches[0].clientX; my=e.touches[0].clientY; mouseEntered=true;
-      trail.push({x:mx,y:my,life:1});
-      if(trail.length>MAX) trail.shift();
-    }
-  }, {passive:true});
 
   // ── INTRO: one big blue circle shrinks from fullscreen to center ──
   const INTRO_MS = 1400;
@@ -3356,11 +3238,6 @@ window.pfunkCheckAudio = function(pageEl){
   // ── Mouse ──
   let rawX=-9999, rawY=-9999, smX=0, smY=0;
   document.addEventListener('mousemove', e=>{ rawX=e.clientX; rawY=e.clientY; });
-  // 모바일 터치 지원
-  document.addEventListener('touchmove', e=>{
-    if(e.touches.length > 0){ rawX=e.touches[0].clientX; rawY=e.touches[0].clientY; }
-  }, {passive:true});
-  document.addEventListener('touchend', ()=>{ rawX=-9999; });
   document.addEventListener('mouseleave',()=>{ rawX=-9999; });
 
   const MAGNET_R = 180;
