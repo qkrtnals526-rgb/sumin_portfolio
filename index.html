@@ -39,15 +39,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 /* COVER */
 #s-cover{
   width:100%;aspect-ratio:16/9;
+  background:url('cover1.png') center/cover no-repeat;
   position:sticky;
   top:0;
   overflow:hidden;
   z-index:1;
-}
-.cover-bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
-.cursor-lens{
-  position:absolute;width:160px;height:160px;border-radius:50%;
-  pointer-events:none;z-index:5;opacity:0;transition:opacity 0.25s ease;
 }
 /* name SVG wrapper */
 #nameWrap {
@@ -1124,8 +1120,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </nav>
 
 <section id="s-cover">
-  <img class="cover-bg-img" id="coverBgImg" src="cover1.png" alt="" crossorigin="anonymous">
-  <div class="cursor-lens" id="cursorLens"></div>
 </section>
 
 <section id="s-intro">
@@ -2995,49 +2989,6 @@ window.pfunkCheckAudio = function(pageEl){
 </script>
 
 <!-- SINCE WRAP POSITIONING (removed — cover text now baked into cover1.png) -->
-
-<!-- LIQUID GLASS CURSOR -->
-<script type="module">
-import { LiquidGlass } from 'https://cdn.jsdelivr.net/npm/@ybouane/liquidglass/dist/index.js';
-
-(async function(){
-  const root = document.getElementById('s-cover');
-  const lens = document.getElementById('cursorLens');
-  const bgImg = document.getElementById('coverBgImg');
-  if(!root || !lens) return;
-
-  // 배경 이미지가 완전히 로드된 뒤에 초기화 (안 그러면 빈 화면을 캡처함)
-  if(bgImg && !bgImg.complete){
-    await new Promise(resolve => {
-      bgImg.addEventListener('load', resolve, {once:true});
-      bgImg.addEventListener('error', resolve, {once:true});
-    });
-  }
-
-  // 공식 문서의 "돔 베벨(확대경)" 예시값 그대로 사용
-  lens.dataset.config = JSON.stringify({
-    bevelMode: 1,
-    cornerRadius: 80,
-    zRadius: 80,
-    blurAmount: 0,
-    refraction: 1.2,
-    chromAberration: 0.4,
-    edgeHighlight: 0.15,
-    specular: 0.3
-  });
-
-  const instance = await LiquidGlass.init({ root, glassElements: [lens] });
-
-  root.addEventListener('mousemove', (e) => {
-    const r = root.getBoundingClientRect();
-    lens.style.left = (e.clientX - r.left - lens.offsetWidth/2) + 'px';
-    lens.style.top  = (e.clientY - r.top  - lens.offsetHeight/2) + 'px';
-    lens.style.opacity = '1';
-    if(instance && instance.markChanged) instance.markChanged();
-  });
-  root.addEventListener('mouseleave', () => { lens.style.opacity = '0'; });
-})();
-</script>
 </script>
 
 
