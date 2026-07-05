@@ -3286,7 +3286,7 @@ window.pfunkCheckAudio = function(pageEl){
 
 <!-- INTRO SLIDE + LOADING -->
 <script>
-// ── Intro transition: cover zoom-out ──
+// ── Intro transition: cover fade out, intro fixed behind ──
 (function(){
   const intro   = document.getElementById('s-intro');
   const cover   = document.getElementById('s-cover');
@@ -3295,22 +3295,36 @@ window.pfunkCheckAudio = function(pageEl){
   const trailCanvas = document.getElementById('sphereCanvas');
   if(!intro || !cover) return;
 
-  // 커버 sticky, 인트로는 바로 아래에 위치
+  // 인트로를 fixed로 뒤에 깔기
+  intro.style.position = 'fixed';
+  intro.style.top = '0';
+  intro.style.left = '0';
+  intro.style.width = '100%';
+  intro.style.height = '100vh';
+  intro.style.zIndex = '0';
+  intro.style.opacity = '1';
+  intro.style.pointerEvents = 'none';
+
+  // 커버 sticky, 앞에 위치
   cover.style.position = 'sticky';
   cover.style.top = '0';
-  cover.style.zIndex = '1';
-  intro.style.opacity = '1';
-  intro.style.transform = '';
+  cover.style.zIndex = '2';
+
+  // 스크롤 공간 확보용 wrapper — 커버 높이 * 2 만큼
+  const spacer = document.createElement('div');
+  spacer.style.cssText = 'height:100vh;pointer-events:none;';
+  cover.parentNode.insertBefore(spacer, cover.nextSibling);
+
+  let introDone = false;
 
   function update(){
-    const coverH  = cover.offsetHeight;
     const scrollY = window.scrollY;
+    const coverH  = window.innerHeight;
     const progress = Math.min(1, Math.max(0, scrollY / coverH));
 
-    // 표지: 페이드아웃만 (줌아웃 제거 — 검은 배경 노출 방지)
+    // 커버 페이드아웃
     const coverAlpha = Math.max(0, 1 - progress * 2);
     cover.style.opacity = coverAlpha;
-    cover.style.transform = '';
     cover.style.transition = 'none';
 
     // SVG 페이드
@@ -3318,6 +3332,22 @@ window.pfunkCheckAudio = function(pageEl){
     if(nameW)  nameW.style.opacity = svgAlpha;
     if(sinceW) sinceW.style.opacity = svgAlpha;
     if(trailCanvas) trailCanvas.style.opacity = svgAlpha;
+
+    // 커버 완전히 사라지면 인트로 플로우로 전환
+    if(progress >= 1 && !introDone){
+      introDone = true;
+      intro.style.position = 'relative';
+      intro.style.height = '';
+      intro.style.zIndex = '';
+      spacer.remove();
+      cover.style.display = 'none';
+    } else if(progress < 1 && introDone){
+      introDone = false;
+      intro.style.position = 'fixed';
+      intro.style.height = '100vh';
+      intro.style.zIndex = '0';
+      cover.style.display = '';
+    }
   }
 
   window.addEventListener('scroll', update, {passive:true});
