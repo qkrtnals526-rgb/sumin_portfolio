@@ -3006,10 +3006,16 @@ import { LiquidGlass } from 'https://cdn.jsdelivr.net/npm/@ybouane/liquidglass/d
   if(!root || !lens) return;
 
   lens.dataset.config = JSON.stringify({
-    refraction: 0.6,
-    blurAmount: 0.05,
-    chromAberration: 2.5,
-    saturation: 120
+    refraction: 0.8,
+    blurAmount: 0.08,
+    chromAberration: 0.4,
+    saturation: 0.3,
+    fresnel: 1.0,
+    specular: 0.3,
+    edgeHighlight: 0.15,
+    cornerRadius: 80,
+    zRadius: 80,
+    bevelMode: 1
   });
 
   const instance = await LiquidGlass.init({ root, glassElements: [lens] });
