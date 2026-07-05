@@ -45,6 +45,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   overflow:hidden;
   z-index:1;
 }
+@media (min-width:769px){
+  #s-cover{background:#fff;}
+}
 /* name SVG wrapper */
 #nameWrap {
   position:absolute;
@@ -76,6 +79,16 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   /* sticky slide-up: starts translated down, animates on scroll */
   transform: translateY(0);
   z-index:2;
+}
+.intro-static-text{display:none;}
+@media (min-width:769px){
+  #s-intro{background:#1356FC;}
+  .intro-static-text{
+    display:block;position:absolute;color:#fff;
+    font-family:'Pretendard',sans-serif;font-weight:600;
+    letter-spacing:-0.02em;line-height:1;white-space:nowrap;
+    text-transform:uppercase;
+  }
 }
 .svg-roll-wrap{position:absolute;left:8%;top:56.8%;height:16.1%;width:39%;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .svg-roll-track{display:flex;flex-direction:column;width:100%;}
@@ -392,9 +405,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .thumb-cr-desc{font-size:16px !important;white-space:normal;line-height:1.4 !important;}
   .thumb-cr-desc-br{display:inline;}
   #thumb-challenge-reels .thumb-car-zone{margin-top:4px !important;}
-  .cr-tc.tc-card.tc-center,.cr-tc.tc-center{width:clamp(225px, min(78vw, calc((100dvh - 375px)*9/16)), 315px) !important;}
-  .cr-tc.tc-card.tc-right,.cr-tc.tc-right{width:clamp(98px, min(30vw, calc((100dvh - 375px)*9/16*0.36)), 143px) !important;left:calc(50% + clamp(124px,38vw,176px)) !important;}
-  .cr-tc.tc-card.tc-left,.cr-tc.tc-left{width:clamp(98px, min(30vw, calc((100dvh - 375px)*9/16*0.36)), 143px) !important;left:calc(50% - clamp(124px,38vw,176px)) !important;}
+  .cr-tc.tc-card.tc-center,.cr-tc.tc-center{width:clamp(225px, 78vw, 315px) !important;}
+  .cr-tc.tc-card.tc-right,.cr-tc.tc-right{width:clamp(98px, 30vw, 143px) !important;left:calc(50% + clamp(124px,38vw,176px)) !important;}
+  .cr-tc.tc-card.tc-left,.cr-tc.tc-left{width:clamp(98px, 30vw, 143px) !important;left:calc(50% - clamp(124px,38vw,176px)) !important;}
   .cr-tc.tc-card.tc-far-right,.cr-tc.tc-far-right{left:calc(50% + clamp(220px,66vw,320px)) !important;width:100px !important;}
   .cr-tc.tc-card.tc-far-left,.cr-tc.tc-far-left{left:calc(50% - clamp(220px,66vw,320px)) !important;width:100px !important;}
   .cr-tc.tc-card.tc-center .cr-tc-overlay,.cr-tc.tc-center .cr-tc-overlay{
@@ -1371,9 +1384,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </section>
 
 <section id="s-intro">
+  <div class="intro-static-text" style="left:4.72%;top:39.31%;font-size:8.19vw;">I AM A</div>
+  <div class="intro-static-text" style="left:4.17%;top:56.79%;height:16.15%;font-size:12.5vw;display:flex;align-items:center;">[</div>
   <div class="svg-roll-wrap">
     <div class="svg-roll-track" id="svgTrack"></div>
   </div>
+  <div class="intro-static-text" style="left:46.44%;top:56.79%;height:16.15%;font-size:12.5vw;display:flex;align-items:center;">]</div>
+  <div class="intro-static-text" style="left:51.81%;top:56.79%;height:16.15%;font-size:12.5vw;display:flex;align-items:center;">DESIGNER</div>
+  <div class="intro-static-text" style="left:4.72%;top:80.05%;font-size:8.28vw;">FROM SEOUL</div>
 </section>
 
 <section id="s-about1">
