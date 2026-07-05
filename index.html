@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
 <title>PARK SUMiN — Portfolio</title>
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
 <style>
@@ -361,7 +362,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .thumb-num{font-size:18px;letter-spacing:0.04em;}
   .thumb-car-zone{align-items:flex-start;padding-top:2px;overflow:visible;}
   .tc-card-img,.tc-card-ph{aspect-ratio:3/4;}
-  .tc-card.tc-center{width:clamp(220px,72vw,300px);}
+  .tc-card.tc-center{width:clamp(200px, min(72vw, calc((100dvh - 350px)*3/4)), 300px);}
   .tc-card.tc-right{width:clamp(90px,26vw,140px);left:calc(50% + clamp(160px,46vw,220px));}
   .tc-card.tc-left{width:clamp(90px,26vw,140px);left:calc(50% - clamp(160px,46vw,220px));}
   .tc-card.tc-far-right{left:calc(50% + clamp(300px,80vw,420px));width:110px;}
@@ -387,9 +388,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   /* Campaign Film 전용 — 카드 확대, 좌우 프리뷰, 중앙 카드만 상시 캡션(이름ㅣVIEW) */
   #thumb-challenge-reels .thumb-car-zone{margin-top:4px !important;}
-  .cr-tc.tc-center{width:clamp(190px, min(66vw, calc((100dvh - 250px)*9/16)), 250px) !important;}
-  .cr-tc.tc-right{width:clamp(70px, min(24vw, calc((100dvh - 250px)*9/16*0.36)), 110px) !important;left:calc(50% + clamp(120px,36vw,175px)) !important;}
-  .cr-tc.tc-left{width:clamp(70px, min(24vw, calc((100dvh - 250px)*9/16*0.36)), 110px) !important;left:calc(50% - clamp(120px,36vw,175px)) !important;}
+  .cr-tc.tc-center{width:clamp(190px, min(66vw, calc((100dvh - 380px)*9/16)), 250px) !important;}
+  .cr-tc.tc-right{width:clamp(70px, min(24vw, calc((100dvh - 380px)*9/16*0.36)), 110px) !important;left:calc(50% + clamp(120px,36vw,175px)) !important;}
+  .cr-tc.tc-left{width:clamp(70px, min(24vw, calc((100dvh - 380px)*9/16*0.36)), 110px) !important;left:calc(50% - clamp(120px,36vw,175px)) !important;}
   .cr-tc.tc-far-right{left:calc(50% + clamp(220px,66vw,320px)) !important;width:100px !important;}
   .cr-tc.tc-far-left{left:calc(50% - clamp(220px,66vw,320px)) !important;width:100px !important;}
   .cr-tc.tc-center .cr-tc-overlay{
