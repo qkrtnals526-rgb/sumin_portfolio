@@ -3368,7 +3368,7 @@ window.pfunkCheckAudio = function(pageEl){
 
     // Fade out SVGs + cursor trail as intro covers cover
     // Start fading when progress > 0.5, fully gone at 0.85
-    const svgAlpha = Math.min(1, Math.max(0, 1 - (progress - 0.5) / 0.35));
+    const svgAlpha = Math.min(1, Math.max(0, 1 - progress / 0.85));
     const svgScale = 1 - (1 - svgAlpha) * 0.3;
     if(nameW){ nameW.style.opacity = svgAlpha; nameW.style.transform = `scale(${svgScale.toFixed(4)})`; }
     if(sinceW){ sinceW.style.opacity = svgAlpha; sinceW.style.transform = `scale(${svgScale.toFixed(4)})`; }
