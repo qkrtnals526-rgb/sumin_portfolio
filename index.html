@@ -55,6 +55,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   z-index:2;
   overflow:visible;
 }
+.mg{opacity:0;transition:opacity 0.16s ease-out;}
 #nameSVG {
   display:block;
   width:100%;
@@ -3367,9 +3368,10 @@ window.pfunkCheckAudio = function(pageEl){
 
     // Fade out SVGs + cursor trail as intro covers cover
     // Start fading when progress > 0.5, fully gone at 0.85
-    const svgAlpha = Math.max(0, 1 - (progress - 0.5) / 0.35);
-    if(nameW)  nameW.style.opacity  = svgAlpha;
-    if(sinceW) sinceW.style.opacity = svgAlpha;
+    const svgAlpha = Math.min(1, Math.max(0, 1 - (progress - 0.5) / 0.35));
+    const svgScale = 1 - (1 - svgAlpha) * 0.3;
+    if(nameW){ nameW.style.opacity = svgAlpha; nameW.style.transform = `scale(${svgScale.toFixed(4)})`; }
+    if(sinceW){ sinceW.style.opacity = svgAlpha; sinceW.style.transform = `scale(${svgScale.toFixed(4)})`; }
     if(trailCanvas) trailCanvas.style.opacity = svgAlpha;
 
     // Hide cover sticky when fully covered by intro
@@ -3432,6 +3434,12 @@ window.pfunkCheckAudio = function(pageEl){
     animateBar(100, 400, () => {
       setTimeout(() => {
         screen.classList.add('hidden');
+        setTimeout(() => {
+          const letters = document.querySelectorAll('#s-cover .mg');
+          letters.forEach((el, i) => {
+            setTimeout(() => { el.style.opacity = '1'; }, i * 32);
+          });
+        }, 650);
       }, 200);
     });
   }
