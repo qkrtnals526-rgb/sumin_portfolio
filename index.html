@@ -317,6 +317,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .thumb-top-bar{
   padding:14px 32px 0;flex-shrink:0;text-align:center;
 }
+.thumb-cr-desc-br{display:none;}
+.thumb-cr-desc{font-family:'Pretendard',sans-serif;}
 .thumb-top-bar .thumb-cat-label{margin-bottom:10px;}
 .thumb-top-bar .thumb-nums{justify-content:center;margin-bottom:0;}
 .thumb-car-zone{
@@ -387,11 +389,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   }
 
   /* Campaign Film 전용 — 카드 확대, 좌우 프리뷰, 중앙 카드만 상시 캡션(이름ㅣVIEW) */
-  .thumb-cr-desc{font-size:clamp(9px,2.6vw,16px) !important;white-space:nowrap;line-height:1.4 !important;}
+  .thumb-cr-desc{font-size:16px !important;white-space:normal;line-height:1.4 !important;}
+  .thumb-cr-desc-br{display:inline;}
   #thumb-challenge-reels .thumb-car-zone{margin-top:4px !important;}
-  .cr-tc.tc-card.tc-center,.cr-tc.tc-center{width:clamp(150px, min(52vw, calc((100dvh - 340px)*9/16)), 210px) !important;}
-  .cr-tc.tc-card.tc-right,.cr-tc.tc-right{width:clamp(65px, min(20vw, calc((100dvh - 340px)*9/16*0.36)), 95px) !important;left:calc(50% + clamp(95px,29vw,135px)) !important;}
-  .cr-tc.tc-card.tc-left,.cr-tc.tc-left{width:clamp(65px, min(20vw, calc((100dvh - 340px)*9/16*0.36)), 95px) !important;left:calc(50% - clamp(95px,29vw,135px)) !important;}
+  .cr-tc.tc-card.tc-center,.cr-tc.tc-center{width:clamp(150px, min(52vw, calc((100dvh - 375px)*9/16)), 210px) !important;}
+  .cr-tc.tc-card.tc-right,.cr-tc.tc-right{width:clamp(65px, min(20vw, calc((100dvh - 375px)*9/16*0.36)), 95px) !important;left:calc(50% + clamp(95px,29vw,135px)) !important;}
+  .cr-tc.tc-card.tc-left,.cr-tc.tc-left{width:clamp(65px, min(20vw, calc((100dvh - 375px)*9/16*0.36)), 95px) !important;left:calc(50% - clamp(95px,29vw,135px)) !important;}
   .cr-tc.tc-card.tc-far-right,.cr-tc.tc-far-right{left:calc(50% + clamp(220px,66vw,320px)) !important;width:100px !important;}
   .cr-tc.tc-card.tc-far-left,.cr-tc.tc-far-left{left:calc(50% - clamp(220px,66vw,320px)) !important;width:100px !important;}
   .cr-tc.tc-card.tc-center .cr-tc-overlay,.cr-tc.tc-center .cr-tc-overlay{
@@ -1576,7 +1579,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   </div>
   <div class="thumb-top-bar">
     <div class="thumb-cat-label animate-in">Campaign Film</div>
-    <div class="thumb-cr-desc" style="font-family:'Pretendard',sans-serif;font-size:18px;font-weight:400;color:rgba(255,255,255,0.45);letter-spacing:-0.01em;line-height:1.5;">유저들의 스타일링 콘텐츠 업로드를 유도하는 참여형 프로모션 ㅣ 디자인 기여도 100%</div>
+    <div class="thumb-cr-desc" style="font-family:'Pretendard',sans-serif;font-size:18px;font-weight:400;color:rgba(255,255,255,0.45);letter-spacing:-0.01em;line-height:1.5;">유저들의 스타일링 콘텐츠 업로드를<br class="thumb-cr-desc-br">유도하는 참여형 프로모션 ㅣ 디자인 기여도 100%</div>
   </div>
   <div class="thumb-car-zone" style="margin-top:20px;">
     <div class="tc-arrow tc-arr-left hidden" id="tc-prev-challenge-reels" onclick="tcMove('challenge-reels',-1)">
