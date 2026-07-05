@@ -2990,7 +2990,7 @@ let feAudioReady = false;
   const t0 = performance.now();
   const CX = window.innerWidth/2, CY = window.innerHeight/2;
   // max radius = diagonal from center to corner
-  const MAX_R = Math.sqrt(CX*CX + CY*CY) + 20;
+  const MAX_R = Math.sqrt(CX*CX + CY*CY) * 0.6;
 
   function easeInOutExpo(t){
     if(t===0) return 0; if(t===1) return 1;
@@ -3166,6 +3166,56 @@ window.pfunkCheckAudio = function(pageEl){
 
   // ── Collect all letter groups ──
   const groups = Array.from(document.querySelectorAll('#s-cover .mg'));
+
+  // 초기엔 숨겨둠
+  groups.forEach(g => {
+    g.style.opacity = '0';
+    g.style.transform = 'translateY(50px)';
+  });
+
+  let appearDone = false;
+
+  // 로딩화면 hidden 감지 → PARK SUMiN 먼저, since 나중에
+  function startLetterAppear(){
+    // nameSVG 글자들 (PARK SUMiN) 먼저
+    const nameGroups = Array.from(document.querySelectorAll('#nameWrap .mg'));
+    const sinceGroups = Array.from(document.querySelectorAll('#sinceWrap .mg'));
+
+    nameGroups.forEach(g => {
+      g.style.transition = 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s';
+      g.style.transform = 'translateY(0)';
+      g.style.opacity = '1';
+    });
+
+    // since 텍스트는 400ms 뒤에
+    setTimeout(() => {
+      sinceGroups.forEach(g => {
+        g.style.transition = 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s';
+        g.style.transform = 'translateY(0)';
+        g.style.opacity = '1';
+      });
+    }, 400);
+
+    setTimeout(() => {
+      groups.forEach(g => { g.style.transition = ''; });
+      appearDone = true;
+    }, 1100);
+  }
+
+  // MutationObserver로 loading-screen hidden 감지
+  const loadingScreen = document.getElementById('loading-screen');
+  if(loadingScreen){
+    const obs = new MutationObserver(() => {
+      if(loadingScreen.classList.contains('hidden')){
+        obs.disconnect();
+        setTimeout(startLetterAppear, 100);
+      }
+    });
+    obs.observe(loadingScreen, {attributes:true, attributeFilter:['class']});
+  } else {
+    startLetterAppear();
+  }
+
   const states = groups.map(g => ({
     el: g,
     tx: 0, ty: 0,
@@ -3182,24 +3232,23 @@ window.pfunkCheckAudio = function(pageEl){
   document.addEventListener('mouseleave',()=>{ rawX=-9999; });
 
   const MAGNET_R = 180;
-  const REPEL    = 14;
-  const SPRING   = 0.06;
-  const DAMPING  = 0.80;
+  const REPEL    = 16;
+  const SPRING   = 0.018;  // 더 약하게 — 느리게 돌아옴
+  const DAMPING  = 0.92;   // 더 높게 — 꿀처럼 묵직한 점성
   const FLOAT_A  = 0.10;
 
   let t = 0;
   (function loop(){
     requestAnimationFrame(loop);
     t += 0.016;
-    smX += (rawX - smX) * 0.1;
-    smY += (rawY - smY) * 0.1;
+    smX += (rawX - smX) * 0.05;  // 마우스 스무딩 더 느리게
+    smY += (rawY - smY) * 0.05;
 
     states.forEach(s => {
       const r   = s.el.getBoundingClientRect();
       const cx  = r.left + r.width  / 2;
       const cy  = r.top  + r.height / 2;
 
-      // Distance from cursor to current letter center
       const dx   = cx - smX;
       const dy   = cy - smY;
       const dist = Math.sqrt(dx*dx + dy*dy);
@@ -3212,10 +3261,10 @@ window.pfunkCheckAudio = function(pageEl){
       }
 
       // Float
-      s.vx += Math.sin(t*s.fspd + s.phase)       * FLOAT_A * 0.06;
-      s.vy += Math.cos(t*s.fspd*.7 + s.phase)    * FLOAT_A * 0.04;
+      s.vx += Math.sin(t*s.fspd + s.phase)    * FLOAT_A * 0.06;
+      s.vy += Math.cos(t*s.fspd*.7 + s.phase) * FLOAT_A * 0.04;
 
-      // Spring back to origin (tx/ty = 0)
+      // Spring back
       s.vx += (0 - s.tx) * SPRING;
       s.vy += (0 - s.ty) * SPRING;
 
@@ -3226,8 +3275,10 @@ window.pfunkCheckAudio = function(pageEl){
       s.tx += s.vx;
       s.ty += s.vy;
 
-      s.el.style.transform = `translate(${s.tx.toFixed(2)}px,${s.ty.toFixed(2)}px)`;
-      s.el.style.willChange = 'transform';
+      if(appearDone){
+        s.el.style.transform = `translate(${s.tx.toFixed(2)}px,${s.ty.toFixed(2)}px)`;
+        s.el.style.willChange = 'transform';
+      }
     });
   })();
 })();
@@ -3236,7 +3287,7 @@ window.pfunkCheckAudio = function(pageEl){
 
 <!-- INTRO SLIDE + LOADING -->
 <script>
-// ── Intro slide-up over sticky cover ──
+// ── Intro transition: cover zoom-out + intro fade in ──
 (function(){
   const intro   = document.getElementById('s-intro');
   const cover   = document.getElementById('s-cover');
@@ -3245,32 +3296,44 @@ window.pfunkCheckAudio = function(pageEl){
   const trailCanvas = document.getElementById('sphereCanvas');
   if(!intro || !cover) return;
 
+  // 커버 sticky, 인트로는 그 바로 뒤에 위치 (기본 플로우 유지)
+  // 커버 높이만큼 스크롤 공간 = 커버 자체가 sticky라 자동으로 됨
+  cover.style.position = 'sticky';
+  cover.style.top = '0';
+  cover.style.zIndex = '2';
+
+  // 인트로: 기본적으로 커버 뒤에 위치 + 처음엔 투명
+  intro.style.opacity = '0';
+  intro.style.transform = 'scale(1.04)';
+  intro.style.transition = 'none';
+
   function update(){
     const coverH  = cover.offsetHeight;
     const scrollY = window.scrollY;
-    // 0→1 as scroll goes from 0 to coverH
+    // 커버 높이만큼 스크롤했을 때 progress = 1
     const progress = Math.min(1, Math.max(0, scrollY / coverH));
-    const ease = 1 - Math.pow(1 - progress, 3);
-    const ty = (1 - ease) * 100;
-    intro.style.transform = `translateY(${ty.toFixed(2)}%)`;
-    intro.style.transition = 'none';
 
-    // Fade out SVGs + cursor trail as intro covers cover
-    // Start fading when progress > 0.5, fully gone at 0.85
-    const svgAlpha = Math.max(0, 1 - (progress - 0.5) / 0.35);
-    if(nameW)  nameW.style.opacity  = svgAlpha;
+    // 표지: 줌아웃 + 페이드아웃
+    const scale = 1 - progress * 0.15;
+    const coverAlpha = Math.max(0, 1 - progress * 1.6);
+    cover.style.transform = `scale(${scale.toFixed(4)})`;
+    cover.style.opacity = coverAlpha;
+    cover.style.transition = 'none';
+
+    // SVG 페이드
+    const svgAlpha = Math.max(0, 1 - progress * 2);
+    if(nameW)  nameW.style.opacity = svgAlpha;
     if(sinceW) sinceW.style.opacity = svgAlpha;
     if(trailCanvas) trailCanvas.style.opacity = svgAlpha;
 
-    // Hide cover sticky when fully covered by intro
-    if(progress >= 1){
-      cover.style.position = 'relative';
-      cover.style.top = 'auto';
-    } else {
-      cover.style.position = 'sticky';
-      cover.style.top = '0';
-    }
+    // 인트로: 후반부터 페이드인 + 살짝 줌인
+    const introProgress = Math.max(0, (progress - 0.25) / 0.75);
+    intro.style.opacity = introProgress;
+    const introScale = 1.04 - introProgress * 0.04; // 1.04 → 1.0
+    intro.style.transform = `scale(${introScale.toFixed(4)})`;
+    intro.style.transition = 'none';
   }
+
   window.addEventListener('scroll', update, {passive:true});
   update();
 })();
