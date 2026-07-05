@@ -388,12 +388,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
   /* Campaign Film 전용 — 카드 확대, 좌우 프리뷰, 중앙 카드만 상시 캡션(이름ㅣVIEW) */
   #thumb-challenge-reels .thumb-car-zone{margin-top:4px !important;}
-  .cr-tc.tc-center{width:clamp(130px, min(46vw, calc((100dvh - 380px)*9/16)), 180px) !important;}
-  .cr-tc.tc-right{width:clamp(55px, min(18vw, calc((100dvh - 380px)*9/16*0.36)), 85px) !important;left:calc(50% + clamp(90px,28vw,130px)) !important;}
-  .cr-tc.tc-left{width:clamp(55px, min(18vw, calc((100dvh - 380px)*9/16*0.36)), 85px) !important;left:calc(50% - clamp(90px,28vw,130px)) !important;}
-  .cr-tc.tc-far-right{left:calc(50% + clamp(220px,66vw,320px)) !important;width:100px !important;}
-  .cr-tc.tc-far-left{left:calc(50% - clamp(220px,66vw,320px)) !important;width:100px !important;}
-  .cr-tc.tc-center .cr-tc-overlay{
+  .cr-tc.tc-card.tc-center,.cr-tc.tc-center{width:clamp(130px, min(46vw, calc((100dvh - 380px)*9/16)), 180px) !important;}
+  .cr-tc.tc-card.tc-right,.cr-tc.tc-right{width:clamp(55px, min(18vw, calc((100dvh - 380px)*9/16*0.36)), 85px) !important;left:calc(50% + clamp(90px,28vw,130px)) !important;}
+  .cr-tc.tc-card.tc-left,.cr-tc.tc-left{width:clamp(55px, min(18vw, calc((100dvh - 380px)*9/16*0.36)), 85px) !important;left:calc(50% - clamp(90px,28vw,130px)) !important;}
+  .cr-tc.tc-card.tc-far-right,.cr-tc.tc-far-right{left:calc(50% + clamp(220px,66vw,320px)) !important;width:100px !important;}
+  .cr-tc.tc-card.tc-far-left,.cr-tc.tc-far-left{left:calc(50% - clamp(220px,66vw,320px)) !important;width:100px !important;}
+  .cr-tc.tc-card.tc-center .cr-tc-overlay,.cr-tc.tc-center .cr-tc-overlay{
     background:linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.65) 100%) !important;
     align-items:flex-start;justify-content:flex-end;padding:0 12px 12px;
   }
