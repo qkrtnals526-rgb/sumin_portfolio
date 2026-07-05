@@ -3003,19 +3003,27 @@ import { LiquidGlass } from 'https://cdn.jsdelivr.net/npm/@ybouane/liquidglass/d
 (async function(){
   const root = document.getElementById('s-cover');
   const lens = document.getElementById('cursorLens');
+  const bgImg = document.getElementById('coverBgImg');
   if(!root || !lens) return;
 
+  // 배경 이미지가 완전히 로드된 뒤에 초기화 (안 그러면 빈 화면을 캡처함)
+  if(bgImg && !bgImg.complete){
+    await new Promise(resolve => {
+      bgImg.addEventListener('load', resolve, {once:true});
+      bgImg.addEventListener('error', resolve, {once:true});
+    });
+  }
+
+  // 공식 문서의 "돔 베벨(확대경)" 예시값 그대로 사용
   lens.dataset.config = JSON.stringify({
-    refraction: 0.8,
-    blurAmount: 0.08,
-    chromAberration: 0.4,
-    saturation: 0.3,
-    fresnel: 1.0,
-    specular: 0.3,
-    edgeHighlight: 0.15,
+    bevelMode: 1,
     cornerRadius: 80,
     zRadius: 80,
-    bevelMode: 1
+    blurAmount: 0,
+    refraction: 1.2,
+    chromAberration: 0.4,
+    edgeHighlight: 0.15,
+    specular: 0.3
   });
 
   const instance = await LiquidGlass.init({ root, glassElements: [lens] });
