@@ -384,6 +384,25 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     position:absolute;top:16px;right:20px;font-size:22px;line-height:1;
     color:#fff;cursor:pointer;
   }
+
+  /* Campaign Film 전용 — 카드 확대, 좌우 프리뷰, 중앙 카드만 상시 캡션(이름ㅣVIEW) */
+  .cr-tc.tc-center{width:clamp(200px,66vw,280px) !important;}
+  .cr-tc.tc-right{width:clamp(80px,26vw,130px) !important;left:calc(50% + clamp(130px,38vw,190px));}
+  .cr-tc.tc-left{width:clamp(80px,26vw,130px) !important;left:calc(50% - clamp(130px,38vw,190px));}
+  .cr-tc.tc-far-right{left:calc(50% + clamp(240px,70vw,340px));width:110px !important;}
+  .cr-tc.tc-far-left{left:calc(50% - clamp(240px,70vw,340px));width:110px !important;}
+  .cr-tc.tc-center .cr-tc-overlay{
+    background:linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.65) 100%) !important;
+    align-items:flex-start;justify-content:flex-end;padding:0 12px 12px;
+  }
+  .cr-tc.tc-center .cr-tc-view,.cr-tc.tc-center .cr-tc-view-line{display:none;}
+  .cr-tc.tc-center .cr-tc-name{
+    opacity:1;pointer-events:auto;margin-top:0;white-space:nowrap;
+    font-size:13px;color:#fff;
+  }
+  .cr-tc.tc-center .cr-tc-name::after{
+    content:" ㅣ VIEW";font-weight:400;letter-spacing:0.08em;color:rgba(255,255,255,0.6);
+  }
 }
 @media (min-width:769px){ .thumb-menu-close{display:none;} }
 .tc-arrow{
