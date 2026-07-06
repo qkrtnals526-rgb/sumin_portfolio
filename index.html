@@ -81,11 +81,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .mg{opacity:1 !important;}
   #s-intro{width:100vw;height:auto;min-height:60vh;aspect-ratio:unset !important;background:#1356FC !important;display:flex;align-items:center;padding:0 8vw;box-sizing:border-box;}
   .svg-roll-wrap{display:none !important;}
-  .mc-declaration{
-    display:block;color:#fff;font-family:'Pretendard',sans-serif;
-    font-size:clamp(24px,7vw,34px);font-weight:700;line-height:1.35;
+  .mc-intro-mobile{display:flex;flex-direction:column;gap:6px;}
+  .mc-intro-line{
+    color:#fff;font-family:'Pretendard',sans-serif;font-weight:600;
+    font-size:clamp(22px,7.5vw,32px);line-height:1.25;white-space:nowrap;
   }
-  .mc-declaration span{color:#0a1f66;}
+  .mc-intro-role{display:flex;align-items:center;gap:4px;}
+  .mc-bracket{font-weight:600;}
+  .svg-roll-wrap-mobile{
+    display:inline-flex;align-items:center;justify-content:center;
+    height:0.78em;overflow:hidden;
+  }
+  .svg-roll-wrap-mobile svg{height:100%;width:auto;display:block;}
   #s-about1,#s-about2,#s-work1{display:none !important;}
   #s-work2{min-height:100dvh;height:auto;}
   .cat-list-wrap{padding:0 !important;}
@@ -164,7 +171,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   z-index:2;
 }
 .svg-roll-wrap{position:absolute;left:8%;top:56.8%;height:16.1%;width:39%;overflow:hidden;display:flex;align-items:center;justify-content:center;}
-.mc-declaration{display:none;}
+.mc-intro-mobile{display:none;}
 .about-me-page{display:none;}
 .svg-roll-track{display:flex;flex-direction:column;width:100%;}
 .svg-roll-item{display:flex;align-items:center;width:100%;flex-shrink:0;}
@@ -1308,7 +1315,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="svg-roll-wrap">
     <div class="svg-roll-track" id="svgTrack"></div>
   </div>
-  <div class="mc-declaration">I design brands that people <span>remember</span>.</div>
+  <div class="mc-intro-mobile">
+    <div class="mc-intro-line">I AM A</div>
+    <div class="mc-intro-line mc-intro-role"><span class="mc-bracket">[</span><span class="svg-roll-wrap-mobile" id="svgTrackMobileWrap"></span><span class="mc-bracket">]</span></div>
+    <div class="mc-intro-line">DESIGNER FROM SEOUL</div>
+  </div>
 </section>
 
 <section id="s-about1">
@@ -2200,15 +2211,35 @@ const activePath=document.createElementNS('http://www.w3.org/2000/svg','path');
 activePath.setAttribute('fill','white');
 activeSvg.appendChild(activePath);
 track.appendChild(activeSvg);
+
+const trackMobile=document.getElementById('svgTrackMobileWrap');
+const activeSvg2=document.createElementNS('http://www.w3.org/2000/svg','svg');
+activeSvg2.setAttribute('fill','none');
+activeSvg2.style.cssText='height:100%;width:auto;max-width:100%;display:block;opacity:0;transform:translateY(40%);transition:opacity 0.4s ease,transform 0.4s cubic-bezier(0.16,1,0.3,1)';
+const activePath2=document.createElementNS('http://www.w3.org/2000/svg','path');
+activePath2.setAttribute('fill','white');
+activeSvg2.appendChild(activePath2);
+if(trackMobile) trackMobile.appendChild(activeSvg2);
+
 function showSvg(name){
   activeSvg.style.opacity='0';activeSvg.style.transform='translateY(-40%)';
+  if(trackMobile){ activeSvg2.style.opacity='0';activeSvg2.style.transform='translateY(-40%)'; }
   setTimeout(()=>{
     activeSvg.setAttribute('viewBox',svgVB[name]);
     activePath.setAttribute('d',svgPaths[name]);
     activeSvg.style.transition='none';activeSvg.style.transform='translateY(40%)';activeSvg.style.opacity='0';
+    if(trackMobile){
+      activeSvg2.setAttribute('viewBox',svgVB[name]);
+      activePath2.setAttribute('d',svgPaths[name]);
+      activeSvg2.style.transition='none';activeSvg2.style.transform='translateY(40%)';activeSvg2.style.opacity='0';
+    }
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
       activeSvg.style.transition='opacity 0.4s ease,transform 0.4s cubic-bezier(0.16,1,0.3,1)';
       activeSvg.style.opacity='1';activeSvg.style.transform='translateY(0)';
+      if(trackMobile){
+        activeSvg2.style.transition='opacity 0.4s ease,transform 0.4s cubic-bezier(0.16,1,0.3,1)';
+        activeSvg2.style.opacity='1';activeSvg2.style.transform='translateY(0)';
+      }
     }));
   },420);
 }
