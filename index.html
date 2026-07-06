@@ -61,7 +61,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .mg{opacity:0;transition:opacity 0.16s ease-out;}
 .mobile-only-cover{display:none;}
 @media (max-width:768px){
-  #s-cover{width:100vw;height:100dvh;aspect-ratio:unset !important;background:#fff !important;}
+  #s-cover{width:100vw;height:100dvh;aspect-ratio:unset !important;background:#fff !important;position:relative !important;}
   body{background:#fff !important;}
   #nav{padding:18px 16px !important;}
   .nav-links{gap:16px !important;}
@@ -3318,9 +3318,8 @@ window.pfunkCheckAudio = function(pageEl){
   if(!intro || !cover) return;
 
   if(window.innerWidth <= 768){
-    // Mobile: no slide-over effect on intro — but keep cover as sticky so the
-    // browser (not JS math) handles the release-on-scroll naturally, same
-    // reliability principle as the loading screen's position:fixed.
+    // Mobile: cover is forced to position:relative via CSS, so it scrolls
+    // away like any normal block — no pin/release "slide" sensation at all.
     intro.style.clipPath = 'none';
     intro.style.transform = 'none';
     return;
