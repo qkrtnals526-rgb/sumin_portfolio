@@ -78,6 +78,38 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     touch-action:manipulation;
   }
   #mc-num,#mc-park,#mc-sumin{opacity:1 !important;}
+  .mg{opacity:1 !important;}
+  #s-intro{width:100vw;height:auto;min-height:60vh;aspect-ratio:unset !important;background:#1356FC !important;display:flex;align-items:center;padding:0 8vw;box-sizing:border-box;}
+  .svg-roll-wrap{display:none !important;}
+  .mc-declaration{
+    display:block;color:#fff;font-family:'Pretendard',sans-serif;
+    font-size:clamp(24px,7vw,34px);font-weight:700;line-height:1.35;
+  }
+  .mc-declaration span{color:#0a1f66;}
+  #s-about1,#s-about2,#s-work1{display:none !important;}
+  #s-work2{height:100dvh;}
+  .cat-list-wrap{padding:0 !important;}
+  .cat-item{height:20dvh !important;padding:0 6vw !important;}
+  .cat-item-name{font-size:clamp(22px,7vw,30px) !important;}
+  .cat-item-arrow{font-size:clamp(18px,5vw,24px) !important;}
+  .work-footer{display:none !important;}
+  .about-me-page{
+    display:block;position:fixed;inset:0;background:#fff;z-index:2000;
+    padding:18px 6vw;box-sizing:border-box;
+    transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.22,0.61,0.36,1);
+  }
+  .about-me-page.open{transform:translateX(0);}
+  .about-me-nav a{font-size:16px;color:#000;}
+  .about-me-photo{
+    width:64px;height:64px;border-radius:50%;background:#181818;
+    display:flex;align-items:center;justify-content:center;margin-top:24px;
+  }
+  .about-me-photo i{font-size:26px;color:rgba(255,255,255,0.3);}
+  .about-me-name{font-family:'StackSansNotch',sans-serif;font-size:26px;font-weight:600;color:#1356FC;margin-top:16px;}
+  .about-me-bio{font-size:14px;color:#444;line-height:1.6;margin-top:12px;}
+  .about-me-contact{margin-top:24px;border-top:0.5px solid rgba(0,0,0,0.12);padding-top:14px;}
+  .about-me-row{display:flex;justify-content:space-between;font-size:13px;color:#444;padding:6px 0;}
+  .about-me-row span:last-child{color:#1356FC;}
   .mc-marquee-wrap{
     position:absolute;left:0;right:0;bottom:7%;
     height:9vw;overflow:hidden;
@@ -132,6 +164,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   z-index:2;
 }
 .svg-roll-wrap{position:absolute;left:8%;top:56.8%;height:16.1%;width:39%;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.mc-declaration{display:none;}
+.about-me-page{display:none;}
 .svg-roll-track{display:flex;flex-direction:column;width:100%;}
 .svg-roll-item{display:flex;align-items:center;width:100%;flex-shrink:0;}
 .svg-roll-item svg{height:100%;width:auto;display:block;}
@@ -1174,7 +1208,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="nav-right">
     <a href="javascript:void(0)" onclick="document.getElementById('s-cover').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)" class="nav-portfolio">PORTFOLIO</a>
     <div class="nav-links">
-      <a href="javascript:void(0)" onclick="document.getElementById('s-about2').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">About</a>
+      <a href="javascript:void(0)" onclick="handleAboutClick()">About</a>
       <a href="javascript:void(0)" onclick="document.getElementById('s-work2').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">Work</a>
     </div>
   </div>
@@ -1274,6 +1308,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="svg-roll-wrap">
     <div class="svg-roll-track" id="svgTrack"></div>
   </div>
+  <div class="mc-declaration">I design brands that people <span>remember</span>.</div>
 </section>
 
 <section id="s-about1">
@@ -1312,6 +1347,17 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     <div class="work-footer"><p>© 2026 SUMIN PARK ALL RIGHTS RESERVED.</p></div>
   </div>
 </section>
+
+<div id="page-about-me" class="about-me-page">
+  <div class="about-me-nav"><a onclick="closeAboutMe()">← Back</a></div>
+  <div class="about-me-photo"><i class="ti ti-user"></i></div>
+  <div class="about-me-name">Park Sumin</div>
+  <div class="about-me-bio">브랜드와 캠페인 비주얼을 만드는 디자이너입니다. 사람들의 시선을 붙잡는 작업을 지향합니다.</div>
+  <div class="about-me-contact">
+    <div class="about-me-row"><span>Email</span><span>hello@parksumin.com</span></div>
+    <div class="about-me-row"><span>Instagram</span><span>@parksumin</span></div>
+  </div>
+</div>
 
 <!-- ══ THUMBNAIL GRID PAGES ══ -->
 
@@ -2192,6 +2238,18 @@ watchReveal('workT',['workT']);
 /* SCROLL CARDS — 제거됨 (카테고리 리스트로 교체) */
 
 /* THUMB PAGE OPEN / CLOSE */
+function handleAboutClick(){
+  if(window.innerWidth <= 768){
+    document.getElementById('page-about-me').classList.add('open');
+  } else {
+    document.getElementById('s-about2').scrollIntoView({behavior:'smooth'});
+    history.replaceState(null,'',location.pathname);
+  }
+}
+function closeAboutMe(){
+  document.getElementById('page-about-me').classList.remove('open');
+}
+
 function openThumbPage(catId){
   // 다른 썸네일 페이지 먼저 닫기
   document.querySelectorAll('.thumb-page').forEach(p => p.classList.remove('open'));
