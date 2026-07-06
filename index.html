@@ -58,7 +58,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .mg{opacity:0;transition:opacity 0.16s ease-out;}
 .mobile-only-cover{display:none;}
 @media (max-width:768px){
-  #s-cover{width:100vw;height:100dvh;aspect-ratio:unset !important;background:#fff !important;}
+  #s-cover{width:100vw;height:100vh;aspect-ratio:unset !important;background:#fff !important;}
   #sinceWrap{display:none !important;}
   #nameWrap{display:none !important;}
   .mobile-only-cover{
@@ -3371,6 +3371,16 @@ window.pfunkCheckAudio = function(pageEl){
 <script>
 (function(){
   if(window.innerWidth > 768) return; // desktop skips this entirely
+
+  // ── Force the cover to exactly match the real, current viewport height ──
+  // (100dvh/100vh alone can be unreliable in some mobile browsers / in-app webviews)
+  const coverEl = document.getElementById('s-cover');
+  function setRealVH(){
+    if(coverEl) coverEl.style.height = window.innerHeight + 'px';
+  }
+  setRealVH();
+  window.addEventListener('resize', setRealVH);
+  window.addEventListener('orientationchange', () => setTimeout(setRealVH, 100));
 
   const fallChunks = [document.getElementById('mc-num')].filter(Boolean);
   const riseChunks = [document.getElementById('mc-park'), document.getElementById('mc-sumin')].filter(Boolean);
