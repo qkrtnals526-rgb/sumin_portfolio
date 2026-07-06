@@ -93,7 +93,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     height:0.78em;overflow:hidden;
   }
   .svg-roll-wrap-mobile svg{height:100%;width:auto;display:block;}
-  #s-about1,#s-about2,#s-work1{display:none !important;}
+  #s-intro,#s-about1,#s-about2,#s-work1{display:none !important;}
+  html,body{scroll-snap-type:y mandatory;}
+  #s-cover,#s-work2{scroll-snap-align:start;scroll-snap-stop:always;}
   #s-work2{min-height:100dvh;height:auto;}
   .cat-list-wrap{padding:0 !important;}
   .cat-item{height:20dvh !important;padding:0 6vw !important;}
@@ -101,22 +103,30 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .cat-item-arrow{font-size:clamp(18px,5vw,24px) !important;}
   .work-footer{display:none !important;}
   .about-me-page{
-    display:block;position:fixed;inset:0;background:#fff;z-index:2000;
-    padding:18px 6vw;box-sizing:border-box;
+    display:block;position:fixed;inset:0;background:#0a0a10;z-index:2000;
+    padding:20px 20px calc(20px + env(safe-area-inset-bottom)) 20px;
+    box-sizing:border-box;overflow-y:auto;color:#fff;
     transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.22,0.61,0.36,1);
   }
   .about-me-page.open{transform:translateX(0);}
-  .about-me-nav a{font-size:16px;color:#000;}
-  .about-me-photo{
-    width:64px;height:64px;border-radius:50%;background:#181818;
-    display:flex;align-items:center;justify-content:center;margin-top:24px;
-  }
-  .about-me-photo i{font-size:26px;color:rgba(255,255,255,0.3);}
-  .about-me-name{font-family:'StackSansNotch',sans-serif;font-size:26px;font-weight:600;color:#1356FC;margin-top:16px;}
-  .about-me-bio{font-size:14px;color:#444;line-height:1.6;margin-top:12px;}
-  .about-me-contact{margin-top:24px;border-top:0.5px solid rgba(0,0,0,0.12);padding-top:14px;}
-  .about-me-row{display:flex;justify-content:space-between;font-size:13px;color:#444;padding:6px 0;}
-  .about-me-row span:last-child{color:#1356FC;}
+  .about-me-nav a{font-size:11px;color:rgba(255,255,255,0.5);}
+  .about-me-title{font-family:'StackSansNotch',sans-serif;font-weight:600;font-size:34px;letter-spacing:-0.02em;line-height:0.95;margin-top:16px;}
+  .about-me-date{font-family:'StackSansNotch',sans-serif;font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px;letter-spacing:0.04em;}
+  .about-me-name-block{margin-top:20px;}
+  .about-me-name{font-family:'Pretendard',sans-serif;font-size:14px;font-weight:600;}
+  .about-me-name-kr{font-family:'Pretendard',sans-serif;font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;}
+  .about-me-section{margin-top:16px;border-top:0.5px solid rgba(255,255,255,0.15);padding-top:12px;}
+  .about-me-section-title{font-family:'Pretendard',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.05em;color:rgba(255,255,255,0.8);margin-bottom:10px;}
+  .about-me-entry{margin-bottom:10px;}
+  .about-me-entry:last-child{margin-bottom:0;}
+  .about-me-entry-row{display:flex;justify-content:space-between;align-items:baseline;}
+  .about-me-entry-name{font-family:'Pretendard',sans-serif;font-size:11px;font-weight:700;}
+  .about-me-entry-date{font-family:'Pretendard',sans-serif;font-size:9px;color:rgba(255,255,255,0.5);}
+  .about-me-entry-detail{font-family:'Pretendard',sans-serif;font-size:9px;color:rgba(255,255,255,0.55);margin-top:3px;}
+  .about-me-edu-row{display:flex;justify-content:space-between;font-family:'Pretendard',sans-serif;font-size:9.5px;padding:4px 0;color:#fff;}
+  .about-me-edu-row span:last-child{color:rgba(255,255,255,0.5);}
+  .about-me-skills{font-family:'Pretendard',sans-serif;font-size:10px;color:rgba(255,255,255,0.7);line-height:1.6;}
+  .about-me-contact{font-family:'Pretendard',sans-serif;font-size:10px;color:rgba(255,255,255,0.5);line-height:1.7;}
   .mc-marquee-wrap{
     position:absolute;left:0;right:0;bottom:7%;
     height:9vw;overflow:hidden;
@@ -1361,12 +1371,40 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 <div id="page-about-me" class="about-me-page">
   <div class="about-me-nav"><a onclick="closeAboutMe()">← Back</a></div>
-  <div class="about-me-photo"><i class="ti ti-user"></i></div>
-  <div class="about-me-name">Park Sumin</div>
-  <div class="about-me-bio">브랜드와 캠페인 비주얼을 만드는 디자이너입니다. 사람들의 시선을 붙잡는 작업을 지향합니다.</div>
-  <div class="about-me-contact">
-    <div class="about-me-row"><span>Email</span><span>hello@parksumin.com</span></div>
-    <div class="about-me-row"><span>Instagram</span><span>@parksumin</span></div>
+
+  <div class="about-me-title">SINCE<br>1998</div>
+  <div class="about-me-date">05. 26</div>
+
+  <div class="about-me-name-block">
+    <div class="about-me-name">Park Sumin</div>
+    <div class="about-me-name-kr">박수민</div>
+  </div>
+
+  <div class="about-me-section">
+    <div class="about-me-section-title">EXPERIENCE</div>
+    <div class="about-me-entry">
+      <div class="about-me-entry-row"><span class="about-me-entry-name">KREAM</span><span class="about-me-entry-date">25.03–26.09</span></div>
+      <div class="about-me-entry-detail">패션플랫폼 ㅣ 파견계약직</div>
+    </div>
+    <div class="about-me-entry">
+      <div class="about-me-entry-row"><span class="about-me-entry-name">OHBROWN</span><span class="about-me-entry-date">24.03–08</span></div>
+      <div class="about-me-entry-detail">광고대행사</div>
+    </div>
+  </div>
+
+  <div class="about-me-section">
+    <div class="about-me-section-title">EDUCATION</div>
+    <div class="about-me-edu-row"><span>창원대학교 산업디자인학과 졸업</span><span>23.02</span></div>
+    <div class="about-me-edu-row"><span>제일여자고등학교 졸업</span><span>17.02</span></div>
+  </div>
+
+  <div class="about-me-section">
+    <div class="about-me-section-title">SKILLS</div>
+    <div class="about-me-skills">Figma, Photoshop, Illustrator, After Effect, Cinema 4D, AI Tools (Nano Banana, Higgsfield, Kling...)</div>
+  </div>
+
+  <div class="about-me-section about-me-contact">
+    +82 10-8358-6237<br>tnalsdl526@naver.com
   </div>
 </div>
 
