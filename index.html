@@ -1239,7 +1239,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     <a href="javascript:void(0)" onclick="document.getElementById('s-cover').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)" class="nav-portfolio">PORTFOLIO</a>
     <div class="nav-links">
       <a href="javascript:void(0)" onclick="handleAboutClick(event)">About</a>
-      <a href="javascript:void(0)" onclick="handleWorkClick()">Work</a>
+      <a href="javascript:void(0)" id="nav-work-link" onclick="handleWorkClick()">Work</a>
     </div>
   </div>
 </nav>
@@ -2430,7 +2430,7 @@ function toggleThumbMenu(id){
   if(!isOpen) el.classList.add('open');
 }
 document.addEventListener('click', function(e){
-  if(!e.target.closest('.thumb-menu-btn') && !e.target.closest('.thumb-inline-cats')){
+  if(!e.target.closest('.thumb-menu-btn') && !e.target.closest('.thumb-inline-cats') && !e.target.closest('#nav-work-link')){
     document.querySelectorAll('.thumb-inline-cats').forEach(c => c.classList.remove('open'));
   }
 });
