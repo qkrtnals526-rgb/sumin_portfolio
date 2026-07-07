@@ -540,6 +540,32 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .cr-tc.tc-center .cr-tc-name::after{
     content:" ㅣ VIEW";font-weight:400;letter-spacing:0.08em;color:rgba(255,255,255,0.6);
   }
+
+  #ai-scene .detail-slide[data-slide="0"] .detail-slide-inner{
+    position:absolute;inset:0;width:100%;height:100%;max-width:none;aspect-ratio:unset;
+  }
+  #ai-scene .detail-slide[data-slide="0"] .detail-bg,
+  #ai-scene .detail-slide[data-slide="0"] .detail-video-wrap,
+  #ai-scene .detail-slide[data-slide="0"] .next-work-btn{
+    display:none!important;
+  }
+  .mobile-detail-info{display:none;}
+  #ai-scene .detail-slide[data-slide="0"] .mobile-detail-info{
+    display:block;position:absolute;inset:0;overflow-y:auto;
+    background:#E5E5E5;z-index:6;padding:24px 20px 40px;box-sizing:border-box;
+  }
+  .mdi-num{
+    text-align:right;font-family:'StackSansNotch',sans-serif;font-weight:500;
+    font-size:56px;color:#DCDCDC;line-height:1;margin:0 0 50px;
+  }
+  .mdi-label{font-size:11px;letter-spacing:0.1em;color:rgba(0,0,0,0.4);margin-bottom:8px;}
+  .mdi-comment{margin-bottom:28px;}
+  .mdi-comment p{font-family:'Pretendard',sans-serif;font-size:13px;line-height:1.7;color:rgba(0,0,0,0.75);margin:0;}
+  .mdi-details{margin-bottom:24px;}
+  .mdi-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.15);font-family:'Pretendard',sans-serif;font-size:12px;}
+  .mdi-row span:first-child{color:rgba(0,0,0,0.4);white-space:nowrap;}
+  .mdi-row span:last-child{color:#000;font-weight:500;text-align:right;}
+  .mdi-media video{width:100%;display:block;border-radius:4px;}
 }
 @media (min-width:769px){ .thumb-menu-close{display:none;} }
 .tc-arrow{
@@ -1721,6 +1747,24 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
+          </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-num">01</div>
+            <div class="mdi-comment">
+              <div class="mdi-label">COMMENT</div>
+              <p>셀러위크 프로모션 키비주얼 작업입니다.<br>
+              촬영 이미지 없이 상품 누끼컷 에셋으로 Nano Banana를 활용해 모델컷과 연출컷을 제작하여 프로모션 비주얼을 구성<br>
+              하이엔드 패션 화보 무드의 고급스러운 비주얼을 연출하고자 했습니다.</p>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Promotion</span><span>SELLER WEEK ㅣ KREAM</span></div>
+              <div class="mdi-row"><span>Tools</span><span>Nano Banana, After Effect</span></div>
+              <div class="mdi-row"><span>Released</span><span>2026.02.23 ㅣ 디자인 기여도 100%</span></div>
+            </div>
+            <div class="mdi-media">
+              <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
+            </div>
           </div>
         </div>
       </div>
