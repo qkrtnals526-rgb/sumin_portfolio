@@ -111,7 +111,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .about-me-page{
     display:block;position:fixed;inset:0;background:#0a0a10;z-index:2000;
     padding:20px 20px calc(20px + env(safe-area-inset-bottom)) 20px;
-    box-sizing:border-box;overflow-y:auto;color:#fff;
+    box-sizing:border-box;overflow-y:auto;overscroll-behavior-y:contain;color:#fff;
     clip-path:circle(0px at var(--reveal-x,90%) var(--reveal-y,5%));
     transition:clip-path 0.5s cubic-bezier(0.22,0.61,0.36,1);
     word-break:keep-all;
@@ -2381,7 +2381,9 @@ function forceViewportRefresh(){
 /* THUMB PAGE OPEN / CLOSE */
 function handleWorkClick(){
   if(window.innerWidth <= 768){
-    document.getElementById('cover-work-menu').classList.add('open');
+    const menu = document.getElementById('cover-work-menu');
+    menu.style.display = 'flex';
+    menu.classList.add('open');
     document.body.style.overflow = 'hidden';
   } else {
     document.getElementById('s-work2').scrollIntoView({behavior:'smooth'});
@@ -2389,7 +2391,9 @@ function handleWorkClick(){
   }
 }
 function closeCoverWorkMenu(){
-  document.getElementById('cover-work-menu').classList.remove('open');
+  const menu = document.getElementById('cover-work-menu');
+  menu.classList.remove('open');
+  menu.style.display = 'none';
   document.body.style.overflow = '';
   forceViewportRefresh();
 }
@@ -2409,17 +2413,28 @@ function handleAboutClick(e){
     page.style.setProperty('--reveal-y', py + 'px');
     page.style.setProperty('--reveal-r', (maxDist + 20) + 'px');
     page.classList.add('open');
+    document.body.style.overflow = 'hidden';
   } else {
     document.getElementById('s-about2').scrollIntoView({behavior:'smooth'});
     history.replaceState(null,'',location.pathname);
   }
 }
 function closeAboutMe(){
-  document.getElementById('page-about-me').classList.remove('open');
-  forceViewportRefresh();
+  const page = document.getElementById('page-about-me');
+  page.classList.remove('open');
+  page.scrollTop = 0;
+  // clip-path 축소 애니메이션(0.5s)이 끝난 뒤에 body 스크롤을 풀어줘야
+  // 애니메이션 도중 표지가 먼저 움찔거리는 걸 막을 수 있음
+  setTimeout(() => {
+    document.body.style.overflow = '';
+    forceViewportRefresh();
+  }, 520);
 }
 
 function openThumbPage(catId){
+  // 워크 메뉴가 어떤 경로로든 열려있으면 확실히 닫아둠 (블루 오버레이 잔상 방지)
+  const workMenu = document.getElementById('cover-work-menu');
+  if(workMenu){ workMenu.classList.remove('open'); workMenu.style.display = 'none'; }
   // 다른 썸네일 페이지 먼저 닫기
   document.querySelectorAll('.thumb-page').forEach(p => p.classList.remove('open'));
   const page = document.getElementById('thumb-' + catId);
