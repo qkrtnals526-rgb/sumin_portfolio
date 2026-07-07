@@ -61,7 +61,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .mg{opacity:0;transition:opacity 0.16s ease-out;}
 .mobile-only-cover{display:none;}
 @media (max-width:768px){
-  #s-cover{width:100vw;min-height:100dvh;height:auto;aspect-ratio:unset !important;background:#fff !important;position:relative !important;padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box;}
+  #s-cover{width:100vw;min-height:100dvh;height:auto;aspect-ratio:unset !important;background:url('cover_mo.png') center/cover no-repeat !important;position:relative !important;padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box;}
   body{background:#fff !important;}
   #nav{padding:calc(18px + env(safe-area-inset-top)) 16px 18px !important;}
   .nav-links{gap:16px !important;}
@@ -93,9 +93,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     height:0.78em;overflow:hidden;
   }
   .svg-roll-wrap-mobile svg{height:100%;width:auto;display:block;}
-  #s-intro,#s-about1,#s-about2,#s-work1{display:none !important;}
-  html,body{scroll-snap-type:y mandatory;}
-  #s-cover,#s-work2{scroll-snap-align:start;scroll-snap-stop:always;}
+  #s-intro,#s-about1,#s-about2,#s-work1,#s-work2{display:none !important;}
   #s-work2{min-height:100dvh;height:auto;}
   .cat-list-wrap{padding:0 !important;}
   .cat-item{height:20dvh !important;padding:0 6vw !important;}
@@ -128,16 +126,22 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .about-me-skills{font-family:'Pretendard',sans-serif;font-size:10px;color:rgba(255,255,255,0.7);line-height:1.6;}
   .about-me-contact{font-family:'Pretendard',sans-serif;font-size:10px;color:rgba(255,255,255,0.5);line-height:1.7;}
   #mc-cluster{
-    position:absolute;left:0;right:0;bottom:7%;
+    position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
     display:flex;flex-direction:column;align-items:center;
   }
   #mc-cluster > *{position:static !important;}
-  #mc-num{order:1;width:44vw;margin-bottom:14px;}
+  #mc-num,.mc-cat-static{display:none !important;}
   #mc-park{order:2;width:calc(100% - 32px) !important;}
-  #mc-sumin{order:3;width:calc(100% - 32px) !important;margin-top:-8px;}
+  #mc-sumin{order:3;width:calc(100% - 32px) !important;margin-top:20px;}
   .mc-cat-static{order:4;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 3vw;padding:0 6vw;margin-top:12px;}
   .mc-cat-item{height:4.4vw;display:flex;align-items:center;}
   .mc-cat-item svg{height:100%;width:auto;display:block;}
+  .mc-cover-copyright{
+    position:absolute;left:0;right:0;
+    bottom:calc(6% + env(safe-area-inset-bottom));
+    text-align:center;font-size:9px;color:rgba(0,0,0,0.4);
+    font-family:'Pretendard',sans-serif;
+  }
   .mc-name-line{
     box-sizing:border-box;
     pointer-events:auto;
@@ -1311,7 +1315,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <path d="M970.385 98.8672L941.386 105.398L934.824 76.3213L963.823 70L970.385 98.8672Z" fill="#1356FC"/>
 </g><g class="mg" data-letter="N">
 <path d="M1024.89 88.0449L1074.92 190.861V87.4824H1101V227.044H1062.85L1012.56 123.965V227.044H986.275V87.4824H1024.62L1024.89 88.0449Z" fill="#1356FC"/>
-</g></svg></div></div>
+</g></svg></div></div><div class="mc-cover-copyright">© 2026 SUMIN PARK ALL RIGHTS RESERVED.</div>
 </div>
 </section>
 
