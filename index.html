@@ -491,7 +491,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .tc-card.tc-far-left{left:calc(50% - clamp(300px,80vw,420px));width:110px;}
   .tc-card-title{font-size:18px;margin-top:6px;white-space:normal;max-width:80vw;text-align:center;}
   .tc-arrow{display:none;}
-  .thumb-page-nav{padding:14px 18px;}
+  .thumb-page-nav{padding:14px 18px;background:#000;}
   .thumb-page-back{font-size:18px;}
   .nav-datetime,.nav-portfolio,.nav-links a{font-size:18px !important;color:#1356FC !important;}
   .nav-datetime{display:none !important;}
@@ -565,6 +565,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .mdi-nav-wrap{
     position:fixed;top:0;left:0;right:0;z-index:20;
     padding-top:max(env(safe-area-inset-top), 20px);
+    background:#E5E5E5;
   }
   .mdi-nav{
     display:flex;justify-content:space-between;align-items:center;
@@ -572,11 +573,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   }
   .mdi-nav-back{font-family:'Pretendard',sans-serif;font-size:18px;font-weight:500;color:#000;opacity:0.6;cursor:pointer;}
   .mdi-nav-back:hover{opacity:0.35;}
-  .mdi-bottom-fill{
-    position:fixed;bottom:0;left:0;right:0;z-index:20;
-    height:max(env(safe-area-inset-bottom), 12px);
-    background:#E5E5E5;pointer-events:none;
-  }
   .mdi-nav-dots{font-size:18px;color:#000;opacity:0.6;cursor:pointer;letter-spacing:2px;}
   .mdi-num{
     text-align:right;font-family:'StackSansNotch',sans-serif;font-weight:500;
@@ -1784,7 +1780,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
                 <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-ai')">•••</span>
               </div>
             </div>
-            <div class="mdi-bottom-fill"></div>
             <div class="thumb-inline-cats" id="mdi-cat-ai">
               <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-ai')">✕</span>
               <div class="thumb-cat-header">CATEGORY</div>
