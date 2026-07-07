@@ -547,26 +547,33 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     content:" ㅣ VIEW";font-weight:400;letter-spacing:0.08em;color:rgba(255,255,255,0.6);
   }
 
-  #ai-scene .detail-slide[data-slide="0"] .detail-slide-inner{
+  #ai-scene .detail-slide .detail-slide-inner{
     position:absolute;inset:0;width:100%;height:100%;max-width:none;aspect-ratio:unset;
   }
-  #ai-scene .detail-slide[data-slide="0"] .detail-bg,
-  #ai-scene .detail-slide[data-slide="0"] .detail-video-wrap,
-  #ai-scene .detail-slide[data-slide="0"] .next-work-btn{
+  #ai-scene .detail-slide .detail-bg,
+  #ai-scene .detail-slide .detail-video-wrap,
+  #ai-scene .detail-slide .next-work-btn{
     display:none!important;
   }
-  #ai-scene .detail-slide.active[data-slide="0"] .mobile-detail-info{
+  #ai-scene .detail-slide.active .mobile-detail-info{
     display:block;position:absolute;inset:0;overflow-y:auto;
-    background:#E5E5E5;z-index:6;padding:72px 20px 40px;box-sizing:border-box;
+    z-index:6;padding:72px 20px 40px;box-sizing:border-box;
   }
-  body:has(#ai-scene .detail-slide.active[data-slide="0"]) #page-ai-creative > .detail-nav{
+  #ai-scene .detail-slide.active[data-slide="0"] .mobile-detail-info{background:#E5E5E5;}
+  #ai-scene .detail-slide.active[data-slide="1"] .mobile-detail-info{background:#DEE1E5;}
+  #ai-scene .detail-slide.active[data-slide="2"] .mobile-detail-info{background:#FAFFE6;}
+  #ai-scene .detail-slide.active[data-slide="3"] .mobile-detail-info{background:#C7C7C7;}
+  body:has(#ai-scene .detail-slide.active) #page-ai-creative > .detail-nav{
     display:none;
   }
   .mdi-nav-wrap{
     position:fixed;top:0;left:0;right:0;z-index:20;
     padding-top:max(env(safe-area-inset-top), 20px);
-    background:#E5E5E5;
   }
+  #ai-scene .detail-slide.active[data-slide="0"] .mdi-nav-wrap{background:#E5E5E5;}
+  #ai-scene .detail-slide.active[data-slide="1"] .mdi-nav-wrap{background:#DEE1E5;}
+  #ai-scene .detail-slide.active[data-slide="2"] .mdi-nav-wrap{background:#FAFFE6;}
+  #ai-scene .detail-slide.active[data-slide="3"] .mdi-nav-wrap{background:#C7C7C7;}
   .mdi-nav{
     display:flex;justify-content:space-between;align-items:center;
     padding:14px 20px;
@@ -590,7 +597,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .mdi-row span:first-child{font-family:'Pretendard',sans-serif;font-weight:400;color:#000;opacity:0.5;white-space:nowrap;}
   .mdi-row span:last-child{font-family:'Pretendard',sans-serif;color:#000;opacity:0.7;font-weight:500;text-align:right;}
   .mdi-media{margin:0 -20px 50px -20px;}
-  .mdi-media video{width:100%;display:block;border-radius:0;}
+  .mdi-media video,.mdi-media img{width:100%;display:block;border-radius:0;}
+  .mdi-media video + video,.mdi-media video + img,.mdi-media img + video,.mdi-media img + img{margin-top:2px;}
+  .mdi-scroll-note{font-family:'Pretendard',sans-serif;font-size:12px;color:#000;opacity:0.45;margin:-8px 0 24px;}
 }
 @media (min-width:769px){ .thumb-menu-close{display:none;} }
 .tc-arrow{
@@ -1837,6 +1846,49 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="global.mp4" autoplay loop muted playsinline></video>
           </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('ai-creative')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-ai-1')">•••</span>
+              </div>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-ai-1">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-ai-1')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a class="active" onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a onclick="switchDetail('brand-content')">Brand Content</a>
+              <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
+            </div>
+            <div class="mdi-num">02</div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('ai-creative',0)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('ai-creative',2)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mdi-comment">
+              <p>몽벨 해외직구 프로모션 키비주얼 작업입니다. 별도 연출컷 없이 상품 누끼컷 에셋으로 AI를 활용해 해외 직구 무드의 진공 포장 연출 영상을 제작하여 프로모션 비주얼을 구성했습니다.</p>
+            </div>
+            <div class="mdi-media">
+              <video id="mdi-video-1" class="detail-video-raw" src="global.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Promotion</span><span>몽벨 해외직구 ㅣ KREAM</span></div>
+              <div class="mdi-row"><span>Tools</span><span>Nano Banana, Kling, After Effect</span></div>
+              <div class="mdi-row"><span>Released</span><span>2026.03.16 ㅣ 디자인 기여도 100%</span></div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- Slide 3: SPRING SEASON OFF -->
@@ -1857,6 +1909,49 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </div>
           <div class="detail-video-wrap">
             <video class="detail-video-raw" src="spring.mp4" autoplay loop muted playsinline></video>
+          </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('ai-creative')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-ai-2')">•••</span>
+              </div>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-ai-2">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-ai-2')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a class="active" onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a onclick="switchDetail('brand-content')">Brand Content</a>
+              <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
+            </div>
+            <div class="mdi-num">03</div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('ai-creative',1)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('ai-creative',3)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mdi-comment">
+              <p>스프링 시즌오프 프로모션 키비주얼 작업입니다. 상품 누끼컷 에셋으로 AI를 활용해 봄 시즌 무드의 연출컷을 제작했으며, 잔디 위로 옷들이 떨어지는 장면을 중심으로 봄 시즌의 가볍고 산뜻한 분위기를 표현했습니다.</p>
+            </div>
+            <div class="mdi-media">
+              <video id="mdi-video-2" class="detail-video-raw" src="spring.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Promotion</span><span>SPRING SEASON OFF ㅣ KREAM</span></div>
+              <div class="mdi-row"><span>Tools</span><span>Nano Banana, Kling, After Effect</span></div>
+              <div class="mdi-row"><span>Released</span><span>2026.04.20 ㅣ 디자인 기여도 100%</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1887,6 +1982,56 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('ai-creative')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-ai-3')">•••</span>
+              </div>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-ai-3">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-ai-3')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a class="active" onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a onclick="switchDetail('brand-content')">Brand Content</a>
+              <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
+            </div>
+            <div class="mdi-num">04</div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('ai-creative',2)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('ai-creative',0)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mdi-comment">
+              <p>헤라 센슈얼 누드 글로스 립제품의 연출컷과 모델컷, 영상을 AI로 제작한 개인 작업물입니다. 헤라 특유의 고급스럽고 센슈얼한 무드를 중심으로 비주얼 페이지를 구성했습니다.</p>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Title</span><span>HERA SENSUAL NUDE GLOSS ㅣ HERA</span></div>
+              <div class="mdi-row"><span>Tools</span><span>Nano Banana, Kling, After Effect</span></div>
+              <div class="mdi-row"><span>Personal Project</span><span>2026.05.18 ㅣ 디자인 기여도 100%</span></div>
+            </div>
+            <div class="mdi-scroll-note">아래로 스크롤해 작업을 확인하실 수 있습니다.</div>
+            <div class="mdi-media">
+              <video id="mdi-video-3" class="detail-video-raw" src="hera_1.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="hera_2.jpg" alt="">
+              <video class="detail-video-raw" src="hera_3.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="hera_4.png" alt="">
+              <img src="hera_5.jpg" alt="">
+              <img src="hera_6.jpg" alt="">
+              <img src="hera_7.jpg" alt="">
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2786,19 +2931,21 @@ function openDetail(pageName, slideIndex){
   page.scrollTop = 0;
   const activeSlideEl = page.querySelector('.detail-slide.active') || page.querySelector('.detail-slide');
   setThemeColor(activeSlideEl ? getComputedStyle(activeSlideEl).backgroundColor : '#ffffff');
-  const mdiInfo = page.querySelector('.mobile-detail-info');
-  const mdiNav = page.querySelector('.mdi-nav-wrap');
+  const mdiInfo = activeSlideEl ? activeSlideEl.querySelector('.mobile-detail-info') : null;
+  const mdiNav = mdiInfo ? mdiInfo.querySelector('.mdi-nav-wrap') : null;
   if(mdiInfo && mdiNav){
     requestAnimationFrame(() => {
       mdiInfo.style.paddingTop = mdiNav.getBoundingClientRect().bottom + 'px';
     });
   }
-  page.querySelectorAll('.mobile-detail-info video').forEach(v => {
-    const tryPlay = () => v.play().catch(()=>{});
-    tryPlay();
-    v.addEventListener('canplay', tryPlay, {once:true});
-    v.addEventListener('loadeddata', tryPlay, {once:true});
-  });
+  if(activeSlideEl){
+    activeSlideEl.querySelectorAll('.mobile-detail-info video').forEach(v => {
+      const tryPlay = () => v.play().catch(()=>{});
+      tryPlay();
+      v.addEventListener('canplay', tryPlay, {once:true});
+      v.addEventListener('loadeddata', tryPlay, {once:true});
+    });
+  }
 
   const isScrollPage = (pageName === 'brand-content' || pageName === 'brand-content-2' || pageName === 'ai-creative');
   if(isScrollPage){
