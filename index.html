@@ -2365,6 +2365,17 @@ if(window.visualViewport){
   window.visualViewport.addEventListener('resize', setRealVH);
 }
 
+/* SAFARI ADAPTIVE TOOLBAR COLOR FIX
+   iOS Safari tints its bottom toolbar/address bar based on nearby page
+   content, but on SPA-style transitions (no real navigation) it can keep
+   showing the PREVIOUS screen's color instead of re-sampling. Explicitly
+   rewriting the theme-color meta tag on every overlay open/close nudges
+   Safari to re-sample against the current screen. */
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+function setThemeColor(hex){
+  if(themeColorMeta) themeColorMeta.setAttribute('content', hex);
+}
+
 /* TEMP DEBUG BADGE — 모바일에서만, 화면 아래쪽 실시간 수치 표시.
    버그 재현되면 이 배지가 보이는 상태로 스크린샷 찍어서 공유해줘.
    문제 원인 확인되면 이 블록은 통째로 지울 것. */
@@ -2407,6 +2418,7 @@ function handleWorkClick(){
     menu.style.display = 'flex';
     menu.classList.add('open');
     document.body.style.overflow = 'hidden';
+    setThemeColor('#1356FC');
   } else {
     document.getElementById('s-work2').scrollIntoView({behavior:'smooth'});
     history.replaceState(null,'',location.pathname);
@@ -2417,6 +2429,7 @@ function closeCoverWorkMenu(){
   menu.classList.remove('open');
   menu.style.display = 'none';
   document.body.style.overflow = '';
+  setThemeColor('#ffffff');
   forceViewportRefresh();
 }
 function handleAboutClick(e){
@@ -2436,6 +2449,7 @@ function handleAboutClick(e){
     page.style.setProperty('--reveal-r', (maxDist + 20) + 'px');
     page.classList.add('open');
     document.body.style.overflow = 'hidden';
+    setThemeColor('#0a0a10');
   } else {
     document.getElementById('s-about2').scrollIntoView({behavior:'smooth'});
     history.replaceState(null,'',location.pathname);
@@ -2445,6 +2459,7 @@ function closeAboutMe(){
   const page = document.getElementById('page-about-me');
   page.classList.remove('open');
   page.scrollTop = 0;
+  setThemeColor('#ffffff');
   // clip-path 축소 애니메이션(0.5s)이 끝난 뒤에 body 스크롤을 풀어줘야
   // 애니메이션 도중 표지가 먼저 움찔거리는 걸 막을 수 있음
   setTimeout(() => {
@@ -2472,6 +2487,7 @@ function openThumbPage(catId){
   }
   page.classList.add('open');
   document.body.style.overflow = 'hidden';
+  setThemeColor('#000000');
 }
 function closeThumbPage(){
   document.querySelectorAll('.thumb-page').forEach(p => p.classList.remove('open'));
@@ -2486,6 +2502,7 @@ function closeThumbPage(){
   if(window.innerWidth <= 768){
     // 모바일에선 #s-work2가 display:none이라 scrollIntoView가 동작하지 않음 → 표지로 복귀
     document.getElementById('s-cover').scrollIntoView({behavior:'auto'});
+    setThemeColor('#ffffff');
     forceViewportRefresh();
   } else {
     const work2 = document.getElementById('s-work2');
@@ -2696,6 +2713,7 @@ function openDetail(pageName, slideIndex){
   page.classList.add('open');
   document.body.style.overflow='hidden';
   page.scrollTop = 0;
+  setThemeColor('#ffffff');
 
   const isScrollPage = (pageName === 'brand-content' || pageName === 'brand-content-2' || pageName === 'ai-creative');
   if(isScrollPage){
