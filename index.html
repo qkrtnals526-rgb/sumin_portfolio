@@ -265,6 +265,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   background:#000;overflow:hidden;flex-direction:column;
 }
 .thumb-page.open{display:flex;}
+.thumb-page::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:max(env(safe-area-inset-top), 20px);
+  background:#000;z-index:50;pointer-events:none;
+}
 .thumb-page-nav{
   flex-shrink:0;
   display:flex;align-items:center;justify-content:space-between;
@@ -556,16 +561,21 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   }
   .mdi-num{
     text-align:right;font-family:'StackSansNotch',sans-serif;font-weight:500;
-    font-size:56px;color:#DCDCDC;line-height:1;margin:0 0 50px;
+    font-size:168px;color:#DCDCDC;line-height:1;margin:0 0 200px;
   }
-  .mdi-label{font-size:11px;letter-spacing:0.1em;color:rgba(0,0,0,0.4);margin-bottom:8px;}
+  .mdi-label{font-family:'Pretendard',sans-serif;font-weight:700;letter-spacing:-1px;font-size:11px;color:#000;opacity:0.7;margin-bottom:8px;}
   .mdi-comment{margin-bottom:28px;}
-  .mdi-comment p{font-family:'Pretendard',sans-serif;font-size:13px;line-height:1.7;color:rgba(0,0,0,0.75);margin:0;}
+  .mdi-comment p{font-family:'Pretendard',sans-serif;font-weight:500;letter-spacing:0;font-size:13px;line-height:1.7;color:#000;opacity:0.7;margin:0;}
   .mdi-details{margin-bottom:24px;}
-  .mdi-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.15);font-family:'Pretendard',sans-serif;font-size:12px;}
-  .mdi-row span:first-child{color:rgba(0,0,0,0.4);white-space:nowrap;}
-  .mdi-row span:last-child{color:#000;font-weight:500;text-align:right;}
-  .mdi-media video{width:100%;display:block;border-radius:4px;}
+  .mdi-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.15);font-size:12px;}
+  .mdi-row span:first-child{font-family:'Pretendard',sans-serif;font-weight:400;color:#000;opacity:0.5;white-space:nowrap;}
+  .mdi-row span:last-child{font-family:'Pretendard',sans-serif;color:#000;font-weight:500;text-align:right;}
+  .mdi-media{margin:0 -20px 24px -20px;}
+  .mdi-media video{width:100%;display:block;border-radius:0;}
+  .mdi-next{margin:24px -20px -40px;padding:22px 20px calc(22px + env(safe-area-inset-bottom));text-align:center;font-family:'Pretendard',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.05em;color:#000;opacity:0.6;cursor:pointer;border-top:0.5px solid rgba(0,0,0,0.15);}
+  .detail-nav{padding:14px 18px;}
+  .detail-back{font-size:18px;}
+  .detail-menu-btn{padding:8px 2px;}
 }
 @media (min-width:769px){ .thumb-menu-close{display:none;} }
 .tc-arrow{
@@ -1763,8 +1773,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
               <div class="mdi-row"><span>Released</span><span>2026.02.23 ㅣ 디자인 기여도 100%</span></div>
             </div>
             <div class="mdi-media">
-              <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
+              <video id="mdi-video-0" class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
             </div>
+            <div class="mdi-next" onclick="openDetail('ai-creative',1)">NEXT WORK ↓</div>
           </div>
         </div>
       </div>
@@ -2728,7 +2739,9 @@ function openDetail(pageName, slideIndex){
   page.classList.add('open');
   document.body.style.overflow='hidden';
   page.scrollTop = 0;
-  setThemeColor('#ffffff');
+  const activeSlideEl = page.querySelector('.detail-slide.active') || page.querySelector('.detail-slide');
+  setThemeColor(activeSlideEl ? getComputedStyle(activeSlideEl).backgroundColor : '#ffffff');
+  page.querySelectorAll('.mobile-detail-info video').forEach(v => { v.play().catch(()=>{}); });
 
   const isScrollPage = (pageName === 'brand-content' || pageName === 'brand-content-2' || pageName === 'ai-creative');
   if(isScrollPage){
