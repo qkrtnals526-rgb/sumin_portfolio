@@ -190,6 +190,15 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 @media (min-width:769px){ .mc-nav-logo{display:none;} }
 @media (min-width:769px){ .about-me-page{display:none;} }
 @media (min-width:769px){ #mc-cover-bg{display:none;} }
+#mobile-safe-accent{display:none;}
+@media (max-width:768px){
+  #mobile-safe-accent{
+    display:block;position:fixed;left:0;right:0;bottom:0;
+    height:max(env(safe-area-inset-bottom), 20px);
+    background:#1356FC;
+    z-index:9500;pointer-events:none;
+  }
+}
   body:has(.thumb-page.open) #mc-cover-bg,
   body:has(.about-me-page.open) #mc-cover-bg,
   body:has(.cover-work-cats.open) #mc-cover-bg{display:none;}
@@ -2376,28 +2385,6 @@ function setThemeColor(hex){
   if(themeColorMeta) themeColorMeta.setAttribute('content', hex);
 }
 
-/* TEMP DEBUG BADGE — 모바일에서만, 화면 아래쪽 실시간 수치 표시.
-   버그 재현되면 이 배지가 보이는 상태로 스크린샷 찍어서 공유해줘.
-   문제 원인 확인되면 이 블록은 통째로 지울 것. */
-if(window.innerWidth <= 768){
-  const dbg = document.createElement('div');
-  dbg.id = 'vh-debug-badge';
-  dbg.style.cssText = 'position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;background:rgba(255,0,0,0.85);color:#fff;font:11px/1.5 monospace;padding:6px 8px;border-radius:6px;pointer-events:none;white-space:pre-wrap;';
-  document.body.appendChild(dbg);
-  function updateDebugBadge(){
-    const cover = document.getElementById('s-cover');
-    const vv = window.visualViewport ? window.visualViewport.height.toFixed(0) : 'n/a';
-    dbg.textContent =
-      'innerH:' + window.innerHeight + '  vvH:' + vv + '  scrollH:' + document.documentElement.scrollHeight + '\n' +
-      'coverH:' + (cover ? cover.offsetHeight : 'n/a') + '  scrollY:' + Math.round(window.scrollY);
-  }
-  updateDebugBadge();
-  window.addEventListener('resize', updateDebugBadge);
-  window.addEventListener('scroll', updateDebugBadge, {passive:true});
-  if(window.visualViewport) window.visualViewport.addEventListener('resize', updateDebugBadge);
-  setInterval(updateDebugBadge, 500);
-}
-
 function forceViewportRefresh(){
   window.scrollTo(0,0);
   setRealVH();
@@ -3711,5 +3698,6 @@ window.pfunkCheckAudio = function(pageEl){
   fallChunks.forEach(el => addBounce(el));
 })();
 </script>
+<div id="mobile-safe-accent" aria-hidden="true"></div>
 </body>
 </html>
