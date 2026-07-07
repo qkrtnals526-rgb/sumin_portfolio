@@ -507,6 +507,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     z-index:2000;opacity:1;
   }
   .thumb-inline-cats a{font-size:22px;white-space:nowrap;letter-spacing:-0.01em;text-shadow:0 2px 12px rgba(0,0,0,0.5);}
+  .cover-work-cats.open{background:#1356FC !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;}
   .thumb-menu-close{
     position:absolute;top:16px;right:20px;font-size:22px;line-height:1;
     color:#fff;cursor:pointer;
@@ -1238,7 +1239,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     <a href="javascript:void(0)" onclick="document.getElementById('s-cover').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)" class="nav-portfolio">PORTFOLIO</a>
     <div class="nav-links">
       <a href="javascript:void(0)" onclick="handleAboutClick(event)">About</a>
-      <a href="javascript:void(0)" onclick="document.getElementById('s-work2').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">Work</a>
+      <a href="javascript:void(0)" onclick="handleWorkClick()">Work</a>
     </div>
   </div>
 </nav>
@@ -1381,6 +1382,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     <div class="work-footer"><p>© 2026 SUMIN PARK ALL RIGHTS RESERVED.</p></div>
   </div>
 </section>
+
+<div class="thumb-inline-cats cover-work-cats" id="cover-work-menu">
+  <span class="thumb-menu-close" onclick="closeCoverWorkMenu()">✕</span>
+  <a onclick="closeCoverWorkMenu();openThumbPage('brand-content')">Brand Content</a>
+  <a onclick="closeCoverWorkMenu();openThumbPage('challenge-reels')">Campaign Film</a>
+  <a onclick="closeCoverWorkMenu();openThumbPage('3d-artwork')">3D Artwork</a>
+  <a onclick="closeCoverWorkMenu();openThumbPage('ai-creative')">AI Creative</a>
+</div>
 
 <div id="page-about-me" class="about-me-page">
   <div class="about-me-nav"><a onclick="closeAboutMe()">← Back</a></div>
@@ -2334,6 +2343,19 @@ watchReveal('workT',['workT']);
 /* SCROLL CARDS — 제거됨 (카테고리 리스트로 교체) */
 
 /* THUMB PAGE OPEN / CLOSE */
+function handleWorkClick(){
+  if(window.innerWidth <= 768){
+    document.getElementById('cover-work-menu').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.getElementById('s-work2').scrollIntoView({behavior:'smooth'});
+    history.replaceState(null,'',location.pathname);
+  }
+}
+function closeCoverWorkMenu(){
+  document.getElementById('cover-work-menu').classList.remove('open');
+  document.body.style.overflow = '';
+}
 function handleAboutClick(e){
   if(window.innerWidth <= 768){
     const page = document.getElementById('page-about-me');
