@@ -557,16 +557,22 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   }
   #ai-scene .detail-slide.active[data-slide="0"] .mobile-detail-info{
     display:block;position:absolute;inset:0;overflow-y:auto;
-    background:#E5E5E5;z-index:6;padding:52px 20px 40px;box-sizing:border-box;
+    background:#E5E5E5;z-index:6;padding:72px 20px 40px;box-sizing:border-box;
   }
   body:has(#ai-scene .detail-slide.active[data-slide="0"]) #page-ai-creative > .detail-nav{
     display:none;
   }
+  .mdi-nav-safearea{
+    position:fixed;top:0;left:0;right:0;z-index:21;
+    height:max(env(safe-area-inset-top), 20px);
+    background:#E5E5E5;
+  }
   .mdi-nav{
-    display:flex;position:fixed;top:0;left:0;right:0;z-index:20;
+    display:flex;position:fixed;top:max(env(safe-area-inset-top), 20px);left:0;right:0;z-index:20;
     justify-content:space-between;align-items:center;
     padding:14px 20px;
-    background:#E5E5E5;
+    background:rgba(229,229,229,0.85);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   }
   .mdi-nav-back{font-family:'Pretendard',sans-serif;font-size:18px;font-weight:500;color:#000;opacity:0.6;cursor:pointer;}
   .mdi-nav-back:hover{opacity:0.35;}
@@ -1771,6 +1777,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
             <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
           </div>
           <div class="mobile-detail-info">
+            <div class="mdi-nav-safearea"></div>
             <div class="mdi-nav">
               <span class="mdi-nav-back" onclick="goBackToThumb('ai-creative')">↖ Back</span>
               <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-ai')">•••</span>
@@ -2779,7 +2786,7 @@ function openDetail(pageName, slideIndex){
   const mdiNav = page.querySelector('.mdi-nav');
   if(mdiInfo && mdiNav){
     requestAnimationFrame(() => {
-      mdiInfo.style.paddingTop = mdiNav.getBoundingClientRect().height + 'px';
+      mdiInfo.style.paddingTop = mdiNav.getBoundingClientRect().bottom + 'px';
     });
   }
   page.querySelectorAll('.mobile-detail-info video').forEach(v => {
