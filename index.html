@@ -65,7 +65,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .mg{opacity:0;transition:opacity 0.16s ease-out;}
 .mobile-only-cover{display:none;}
 @media (max-width:768px){
-  #s-cover{width:100vw;min-height:100dvh;height:auto;aspect-ratio:unset !important;background:url('cover_mo.png') center/cover no-repeat !important;position:relative !important;padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box;}
+  #s-cover{width:100vw;min-height:100dvh;height:auto;aspect-ratio:unset !important;background:transparent !important;position:relative !important;padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box;}
+  #mc-cover-bg{
+    position:fixed;inset:0;z-index:-1;
+    background:url('cover_mo.png') center/cover no-repeat;
+  }
   body{background:#fff !important;}
   #nav{padding:calc(18px + env(safe-area-inset-top)) 16px 18px !important;}
   .nav-links{gap:16px !important;}
@@ -120,17 +124,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .about-me-name-block{margin-top:36px;}
   .about-me-name{font-family:'Pretendard',sans-serif;font-size:20px;font-weight:700;}
   .about-me-name-kr{font-family:'Pretendard',sans-serif;font-size:13px;color:rgba(255,255,255,0.5);margin-top:3px;}
-  .about-me-section{margin-top:36px;}
-  .about-me-section-title{font-family:'Pretendard',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.08em;color:rgba(255,255,255,0.55);margin-bottom:16px;}
-  .about-me-entry{margin-bottom:20px;}
+  .about-me-section{margin-top:28px;border-top:0.5px solid rgba(255,255,255,0.15);padding-top:20px;}
+  .about-me-section-title{font-family:'Pretendard',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.08em;color:rgba(255,255,255,0.55);margin-bottom:14px;}
+  .about-me-entry{margin-bottom:12px;}
   .about-me-entry:last-child{margin-bottom:0;}
+  .about-me-entry-row{display:flex;justify-content:space-between;align-items:baseline;}
   .about-me-entry-name{font-family:'Pretendard',sans-serif;font-size:17px;font-weight:700;}
   .about-me-entry-detail{font-family:'Pretendard',sans-serif;font-size:14px;color:rgba(255,255,255,0.6);margin-top:4px;}
-  .about-me-entry-date{font-family:'Pretendard',sans-serif;font-size:13px;color:rgba(255,255,255,0.4);margin-top:4px;display:block;text-align:right;}
-  .about-me-edu-row{font-family:'Pretendard',sans-serif;margin-bottom:16px;}
+  .about-me-entry-date{font-family:'Pretendard',sans-serif;font-size:13px;color:rgba(255,255,255,0.4);white-space:nowrap;}
+  .about-me-edu-row{font-family:'Pretendard',sans-serif;margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline;}
   .about-me-edu-row:last-child{margin-bottom:0;}
   .about-me-edu-name{font-size:15px;color:#fff;}
-  .about-me-edu-date{font-size:13px;color:rgba(255,255,255,0.4);margin-top:4px;display:block;text-align:right;}
+  .about-me-edu-date{font-size:13px;color:rgba(255,255,255,0.4);white-space:nowrap;}
   .about-me-skills{font-family:'Pretendard',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;}
   .about-me-contact{font-family:'Pretendard',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);line-height:2;}
   #mc-cluster{
@@ -184,6 +189,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 @media (min-width:769px){ .mc-intro-mobile{display:none;} }
 @media (min-width:769px){ .mc-nav-logo{display:none;} }
 @media (min-width:769px){ .about-me-page{display:none;} }
+@media (min-width:769px){ #mc-cover-bg{display:none;} }
 .svg-roll-track{display:flex;flex-direction:column;width:100%;}
 .svg-roll-item{display:flex;align-items:center;width:100%;flex-shrink:0;}
 .svg-roll-item svg{height:100%;width:auto;display:block;}
@@ -1238,6 +1244,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </nav>
 
 <section id="s-cover">
+<div id="mc-cover-bg"></div>
   <div id="nameWrap"><svg id="nameSVG" viewBox="0 0 1101 231" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;overflow:visible;display:block;" fill="#1356FC">
 <g class="mg" data-letter="P">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M47.7871 87.4824C60.105 87.4824 70.813 88.9973 79.8906 92.0537C89.135 94.9908 96.295 99.8836 101.306 106.759C106.471 113.534 108.999 122.609 108.999 133.878C108.999 145.03 106.464 154.105 101.298 161.007C96.2879 167.876 89.13 172.83 79.8896 175.896C70.8121 178.953 60.1048 180.47 47.7871 180.47H27.2695V227.044H0V100.452H25.2695V87.4824H47.7871ZM27.2695 156.46H47.7871C54.8353 156.46 60.802 155.875 65.7021 154.722C70.6699 153.454 74.3389 151.197 76.8057 148.005L76.8135 147.995L76.8203 147.986C79.3857 144.825 80.7431 140.171 80.7432 133.878C80.7432 127.585 79.3858 122.93 76.8203 119.769L76.8135 119.76L76.8057 119.75C74.3444 116.565 70.6849 114.375 65.7256 113.235L65.6963 113.228C60.8022 111.945 54.838 111.296 47.7871 111.296H27.2695V156.46ZM77.0146 149.328C77.0392 149.3 77.0645 149.272 77.0889 149.243L77.0967 149.233C77.0696 149.265 77.0419 149.296 77.0146 149.328ZM77.5977 148.616L77.8525 148.293L77.9131 148.21C77.8101 148.348 77.7054 148.483 77.5977 148.616ZM81.249 93.5645C81.5152 93.6586 81.7797 93.7539 82.042 93.8516C81.5083 93.6529 80.9666 93.4616 80.417 93.2773L81.249 93.5645Z" fill="#1356FC"/>
@@ -1391,14 +1398,18 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="about-me-section">
     <div class="about-me-section-title">EXPERIENCE</div>
     <div class="about-me-entry">
-      <div class="about-me-entry-name">KREAM</div>
+      <div class="about-me-entry-row">
+        <div class="about-me-entry-name">KREAM</div>
+        <div class="about-me-entry-date">2025.03 – 2026.09</div>
+      </div>
       <div class="about-me-entry-detail">패션플랫폼 ㅣ 파견계약직</div>
-      <div class="about-me-entry-date">2025.03 – 2026.09</div>
     </div>
     <div class="about-me-entry">
-      <div class="about-me-entry-name">OHBROWN</div>
+      <div class="about-me-entry-row">
+        <div class="about-me-entry-name">OHBROWN</div>
+        <div class="about-me-entry-date">2024.03 – 08</div>
+      </div>
       <div class="about-me-entry-detail">광고대행사</div>
-      <div class="about-me-entry-date">2024.03 – 08</div>
     </div>
   </div>
 
