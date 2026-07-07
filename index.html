@@ -65,7 +65,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 .mg{opacity:0;transition:opacity 0.16s ease-out;}
 .mobile-only-cover{display:none;}
 @media (max-width:768px){
-  #s-cover{width:100vw;min-height:100dvh;height:auto;aspect-ratio:unset !important;background:transparent !important;position:relative !important;padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box;}
+  #s-cover{width:100vw;min-height:var(--real-vh, 100dvh);height:auto;aspect-ratio:unset !important;background:transparent !important;position:relative !important;padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box;}
   #mc-cover-bg{
     position:fixed;inset:0;z-index:-1;
     background:url('cover_mo.png') center/cover no-repeat;
@@ -2350,13 +2350,30 @@ watchReveal('workT',['workT']);
 /* VIEWPORT GAP FIX — iOS Safari sometimes keeps a stale 100dvh value
    (from before the address bar showed/hid) after closing a fullscreen
    overlay, leaving a colored gap below #s-cover. Forcing a reflow after
-   the overlay closes makes it recompute against the current viewport. */
+   the overlay closes makes it recompute against the current viewport.
+   We also track the real, current visible height via visualViewport
+   (more reliable than the dvh unit on some Safari versions) and feed it
+   into #s-cover via the --real-vh custom property. */
+function setRealVH(){
+  const vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
+  document.documentElement.style.setProperty('--real-vh', vh + 'px');
+}
+setRealVH();
+window.addEventListener('resize', setRealVH);
+window.addEventListener('orientationchange', setRealVH);
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize', setRealVH);
+}
+
 function forceViewportRefresh(){
   window.scrollTo(0,0);
+  setRealVH();
   requestAnimationFrame(()=>{
+    setRealVH();
     document.documentElement.style.height = '100.01%';
     requestAnimationFrame(()=>{
       document.documentElement.style.height = '';
+      setRealVH();
     });
   });
 }
