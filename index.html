@@ -139,7 +139,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .mc-cover-copyright{
     position:absolute;left:0;right:0;
     bottom:calc(6% + env(safe-area-inset-bottom) - 20px);
-    text-align:center;font-size:9px;color:rgba(0,0,0,0.4);
+    text-align:center;font-size:9px;color:#1356FC;
     font-family:'Pretendard',sans-serif;
   }
   .mc-name-line{
@@ -471,7 +471,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .tc-arrow{display:none;}
   .thumb-page-nav{padding:14px 18px;}
   .thumb-page-back{font-size:18px;}
-  .nav-datetime,.nav-portfolio,.nav-links a{font-size:18px !important;}
+  .nav-datetime,.nav-portfolio,.nav-links a{font-size:18px !important;color:#1356FC !important;}
   .nav-datetime{display:none !important;}
   #nav{justify-content:space-between !important;align-items:center !important;}
   .mc-nav-logo{display:none !important;}
@@ -3512,71 +3512,24 @@ window.pfunkCheckAudio = function(pageEl){
 (function(){
   if(window.innerWidth > 768) return; // desktop skips this entirely
 
-  // ── PARK / SUMIN letters spin in like a slot-machine reel ──
+  // ── PARK / SUMIN letters pop up from below, in place ──
   const nameLetters = Array.from(document.querySelectorAll('#mc-park .mg, #mc-sumin .mg'));
   nameLetters.forEach(el => {
     el.style.transformOrigin = 'center';
-    el.style.transform = 'translateY(-60px)';
+    el.style.transform = 'translateY(24px)';
     el.style.opacity = '0';
   });
-  function slotInNames(){
+  function popInNames(){
     nameLetters.forEach((el, i) => {
-      const stopDelay = i * 60;
       setTimeout(() => {
+        el.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s';
+        el.style.transform = 'translateY(0)';
         el.style.opacity = '1';
-        let ticks = 0;
-        const totalTicks = 6;
-        const spin = setInterval(() => {
-          ticks++;
-          const amp = 34 * (1 - ticks / totalTicks);
-          el.style.transition = 'none';
-          el.style.transform = `translateY(${ticks % 2 === 0 ? amp : -amp}px)`;
-          if(ticks >= totalTicks){
-            clearInterval(spin);
-            el.style.transition = 'transform 0.25s cubic-bezier(0.34,1.56,0.64,1)';
-            el.style.transform = 'translateY(0)';
-          }
-        }, 45);
-      }, stopDelay);
+      }, i * 45);
     });
   }
-  window.addEventListener('coverReady', slotInNames, {once:true});
-  setTimeout(slotInNames, 4500);
-
-  // ── Touch interaction: tilt + pull toward finger, per letter ──
-  nameLetters.forEach(el => {
-    let active = false, startX = 0, startY = 0;
-    function update(clientX, clientY){
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
-      const dxCenter = (clientX - cx) / (rect.width/2 || 1);
-      const dyCenter = (clientY - cy) / (rect.height/2 || 1);
-      const rx = Math.max(-1, Math.min(1, -dyCenter)) * 22;
-      const ry = Math.max(-1, Math.min(1, dxCenter)) * 22;
-      const pullX = (clientX - startX) * 0.35;
-      const pullY = (clientY - startY) * 0.35;
-      el.style.transition = 'transform 0.08s linear';
-      el.style.transform = `translate(${pullX}px,${pullY}px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.05)`;
-    }
-    function reset(){
-      if(!active) return;
-      active = false;
-      el.style.transition = 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1)';
-      el.style.transform = 'translate(0,0) rotateX(0deg) rotateY(0deg) scale(1)';
-    }
-    el.addEventListener('touchstart', e => {
-      active = true;
-      const t = e.touches[0];
-      startX = t.clientX; startY = t.clientY;
-      update(t.clientX, t.clientY);
-    }, {passive:true});
-    el.addEventListener('touchmove', e => {
-      if(!active) return;
-      const t = e.touches[0];
-      update(t.clientX, t.clientY);
-    }, {passive:true});
-    el.addEventListener('touchend', reset, {passive:true});
-  });
+  window.addEventListener('coverReady', popInNames, {once:true});
+  setTimeout(popInNames, 4500);
 
   const fallChunks = [document.getElementById('mc-num')].filter(Boolean);
 
