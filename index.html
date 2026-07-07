@@ -562,20 +562,23 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   body:has(#ai-scene .detail-slide.active[data-slide="0"]) #page-ai-creative > .detail-nav{
     display:none;
   }
-  .mdi-nav-safearea{
-    position:fixed;top:0;left:0;right:0;z-index:21;
-    height:max(env(safe-area-inset-top), 20px);
-    background:#E5E5E5;
+  .mdi-nav-wrap{
+    position:fixed;top:0;left:0;right:0;z-index:20;
+    padding-top:max(env(safe-area-inset-top), 20px);
+    background:linear-gradient(to bottom, #E5E5E5 0%, #E5E5E5 45%, rgba(229,229,229,0.35) 100%);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   }
   .mdi-nav{
-    display:flex;position:fixed;top:max(env(safe-area-inset-top), 20px);left:0;right:0;z-index:20;
-    justify-content:space-between;align-items:center;
+    display:flex;justify-content:space-between;align-items:center;
     padding:14px 20px;
-    background:rgba(229,229,229,0.85);
-    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   }
   .mdi-nav-back{font-family:'Pretendard',sans-serif;font-size:18px;font-weight:500;color:#000;opacity:0.6;cursor:pointer;}
   .mdi-nav-back:hover{opacity:0.35;}
+  .mdi-bottom-fill{
+    position:fixed;bottom:0;left:0;right:0;z-index:20;
+    height:max(env(safe-area-inset-bottom), 12px);
+    background:#E5E5E5;pointer-events:none;
+  }
   .mdi-nav-dots{font-size:18px;color:#000;opacity:0.6;cursor:pointer;letter-spacing:2px;}
   .mdi-num{
     text-align:right;font-family:'StackSansNotch',sans-serif;font-weight:500;
@@ -1777,11 +1780,13 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
             <video class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
           </div>
           <div class="mobile-detail-info">
-            <div class="mdi-nav-safearea"></div>
-            <div class="mdi-nav">
-              <span class="mdi-nav-back" onclick="goBackToThumb('ai-creative')">↖ Back</span>
-              <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-ai')">•••</span>
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('ai-creative')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-ai')">•••</span>
+              </div>
             </div>
+            <div class="mdi-bottom-fill"></div>
             <div class="thumb-inline-cats" id="mdi-cat-ai">
               <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-ai')">✕</span>
               <div class="thumb-cat-header">CATEGORY</div>
@@ -2783,7 +2788,7 @@ function openDetail(pageName, slideIndex){
   const activeSlideEl = page.querySelector('.detail-slide.active') || page.querySelector('.detail-slide');
   setThemeColor(activeSlideEl ? getComputedStyle(activeSlideEl).backgroundColor : '#ffffff');
   const mdiInfo = page.querySelector('.mobile-detail-info');
-  const mdiNav = page.querySelector('.mdi-nav');
+  const mdiNav = page.querySelector('.mdi-nav-wrap');
   if(mdiInfo && mdiNav){
     requestAnimationFrame(() => {
       mdiInfo.style.paddingTop = mdiNav.getBoundingClientRect().bottom + 'px';
