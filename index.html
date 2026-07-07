@@ -510,7 +510,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     justify-content:flex-end;gap:20px;padding:0 24px 52px;margin-right:0;
     z-index:2000;opacity:1;
   }
-  .thumb-inline-cats a{font-size:22px;white-space:nowrap;letter-spacing:-0.01em;text-shadow:0 2px 12px rgba(0,0,0,0.5);}
+  .thumb-inline-cats a{font-family:'Pretendard',sans-serif;font-size:40px;font-weight:700;white-space:nowrap;letter-spacing:-0.01em;text-shadow:0 2px 12px rgba(0,0,0,0.5);}
+  .thumb-cat-header{position:absolute;top:52px;left:24px;right:24px;font-family:'StackSansNotch',sans-serif;font-weight:600;font-size:45px;letter-spacing:-0.02em;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,0.5);}
   .cover-work-cats.open{background:#1356FC !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;bottom:var(--peek-h) !important;height:auto !important;}
   .thumb-menu-close{
     position:absolute;top:16px;right:20px;font-size:22px;line-height:1;
@@ -1389,6 +1390,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 
 <div class="thumb-inline-cats cover-work-cats" id="cover-work-menu">
   <span class="thumb-menu-close" onclick="closeCoverWorkMenu()">✕</span>
+  <div class="thumb-cat-header">CATEGORY</div>
   <a onclick="closeCoverWorkMenu();openThumbPage('brand-content')">Brand Content</a>
   <a onclick="closeCoverWorkMenu();openThumbPage('challenge-reels')">Campaign Film</a>
   <a onclick="closeCoverWorkMenu();openThumbPage('3d-artwork')">3D Artwork</a>
@@ -1457,6 +1459,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-ai">
         <span class="thumb-menu-close" onclick="toggleThumbMenu('tic-ai')">✕</span>
+        <div class="thumb-cat-header">CATEGORY</div>
         <a class="active" onclick="openThumbPage('ai-creative')">AI Creative</a>
         <a onclick="openThumbPage('brand-content')">Brand Content</a>
         <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
@@ -1505,7 +1508,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     <a class="thumb-page-back" onclick="closeThumbPage()">↖ Back</a>
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-bc">
-        <span class="thumb-menu-close" onclick="toggleThumbMenu('tic-bc')">✕</span>        <a onclick="openThumbPage('ai-creative')">AI Creative</a>
+        <span class="thumb-menu-close" onclick="toggleThumbMenu('tic-bc')">✕</span>
+        <div class="thumb-cat-header">CATEGORY</div>
+        <a onclick="openThumbPage('ai-creative')">AI Creative</a>
         <a class="active" onclick="openThumbPage('brand-content')">Brand Content</a>
         <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
         <a onclick="openThumbPage('challenge-reels')">Campaign Film</a>
@@ -1557,7 +1562,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     <a class="thumb-page-back" onclick="closeThumbPage()">↖ Back</a>
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-3d">
-        <span class="thumb-menu-close" onclick="toggleThumbMenu('tic-3d')">✕</span>        <a onclick="openThumbPage('ai-creative')">AI Creative</a>
+        <span class="thumb-menu-close" onclick="toggleThumbMenu('tic-3d')">✕</span>
+        <div class="thumb-cat-header">CATEGORY</div>
+        <a onclick="openThumbPage('ai-creative')">AI Creative</a>
         <a onclick="openThumbPage('brand-content')">Brand Content</a>
         <a class="active" onclick="openThumbPage('3d-artwork')">3D Artwork</a>
         <a onclick="openThumbPage('challenge-reels')">Campaign Film</a>
@@ -1602,7 +1609,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     <a class="thumb-page-back" onclick="closeThumbPage()">↖ Back</a>
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-cr">
-        <span class="thumb-menu-close" onclick="toggleThumbMenu('tic-cr')">✕</span>        <a onclick="openThumbPage('ai-creative')">AI Creative</a>
+        <span class="thumb-menu-close" onclick="toggleThumbMenu('tic-cr')">✕</span>
+        <div class="thumb-cat-header">CATEGORY</div>
+        <a onclick="openThumbPage('ai-creative')">AI Creative</a>
         <a onclick="openThumbPage('brand-content')">Brand Content</a>
         <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
         <a class="active" onclick="openThumbPage('challenge-reels')">Campaign Film</a>
