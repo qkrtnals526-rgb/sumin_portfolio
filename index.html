@@ -131,8 +131,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   }
   #mc-cluster > *{position:static !important;}
   #mc-num,.mc-cat-static{display:none !important;}
-  #mc-park{order:2;width:calc(100% - 32px) !important;}
-  #mc-sumin{order:3;width:calc(100% - 32px) !important;margin-top:20px;}
+  #mc-park{order:2;width:auto !important;height:22vw;display:flex;justify-content:center;}
+  #mc-sumin{order:3;width:auto !important;height:22vw;display:flex;justify-content:center;margin-top:20px;}
   .mc-cat-static{order:4;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 3vw;padding:0 6vw;margin-top:12px;}
   .mc-cat-item{height:4.4vw;display:flex;align-items:center;}
   .mc-cat-item svg{height:100%;width:auto;display:block;}
@@ -147,7 +147,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     pointer-events:auto;
     perspective:400px;
   }
-  .mc-name-line svg{width:100%;height:auto;display:block;}
+  .mc-name-line svg{height:100%;width:auto;display:block;}
   .mc-name-line .mg{transform-style:preserve-3d;}
 }
 #nameSVG {
@@ -3512,24 +3512,71 @@ window.pfunkCheckAudio = function(pageEl){
 (function(){
   if(window.innerWidth > 768) return; // desktop skips this entirely
 
-  // ── PARK / SUMIN letters roll in on a horizontal axis ──
+  // ── PARK / SUMIN letters spin in like a slot-machine reel ──
   const nameLetters = Array.from(document.querySelectorAll('#mc-park .mg, #mc-sumin .mg'));
   nameLetters.forEach(el => {
     el.style.transformOrigin = 'center';
-    el.style.transform = 'rotateX(100deg)';
+    el.style.transform = 'translateY(-60px)';
     el.style.opacity = '0';
   });
-  function rollInNames(){
+  function slotInNames(){
     nameLetters.forEach((el, i) => {
+      const stopDelay = i * 60;
       setTimeout(() => {
-        el.style.transition = 'transform 0.5s cubic-bezier(0.22,0.61,0.36,1), opacity 0.3s';
-        el.style.transform = 'rotateX(0deg)';
         el.style.opacity = '1';
-      }, i * 45);
+        let ticks = 0;
+        const totalTicks = 6;
+        const spin = setInterval(() => {
+          ticks++;
+          const amp = 34 * (1 - ticks / totalTicks);
+          el.style.transition = 'none';
+          el.style.transform = `translateY(${ticks % 2 === 0 ? amp : -amp}px)`;
+          if(ticks >= totalTicks){
+            clearInterval(spin);
+            el.style.transition = 'transform 0.25s cubic-bezier(0.34,1.56,0.64,1)';
+            el.style.transform = 'translateY(0)';
+          }
+        }, 45);
+      }, stopDelay);
     });
   }
-  window.addEventListener('coverReady', rollInNames, {once:true});
-  setTimeout(rollInNames, 4500);
+  window.addEventListener('coverReady', slotInNames, {once:true});
+  setTimeout(slotInNames, 4500);
+
+  // ── Touch interaction: tilt + pull toward finger, per letter ──
+  nameLetters.forEach(el => {
+    let active = false, startX = 0, startY = 0;
+    function update(clientX, clientY){
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+      const dxCenter = (clientX - cx) / (rect.width/2 || 1);
+      const dyCenter = (clientY - cy) / (rect.height/2 || 1);
+      const rx = Math.max(-1, Math.min(1, -dyCenter)) * 22;
+      const ry = Math.max(-1, Math.min(1, dxCenter)) * 22;
+      const pullX = (clientX - startX) * 0.35;
+      const pullY = (clientY - startY) * 0.35;
+      el.style.transition = 'transform 0.08s linear';
+      el.style.transform = `translate(${pullX}px,${pullY}px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.05)`;
+    }
+    function reset(){
+      if(!active) return;
+      active = false;
+      el.style.transition = 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1)';
+      el.style.transform = 'translate(0,0) rotateX(0deg) rotateY(0deg) scale(1)';
+    }
+    el.addEventListener('touchstart', e => {
+      active = true;
+      const t = e.touches[0];
+      startX = t.clientX; startY = t.clientY;
+      update(t.clientX, t.clientY);
+    }, {passive:true});
+    el.addEventListener('touchmove', e => {
+      if(!active) return;
+      const t = e.touches[0];
+      update(t.clientX, t.clientY);
+    }, {passive:true});
+    el.addEventListener('touchend', reset, {passive:true});
+  });
 
   const fallChunks = [document.getElementById('mc-num')].filter(Boolean);
 
