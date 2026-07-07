@@ -17,7 +17,7 @@
   font-weight:100 900;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-:root{--peek-h:max(env(safe-area-inset-bottom), 20px);}
+:root{--peek-h:max(calc(env(safe-area-inset-bottom) * 0.45), 6px);}
 html{scroll-behavior:smooth;overscroll-behavior-y:none;}
 body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;overflow-x:hidden;}
 
@@ -110,14 +110,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .cat-item-arrow{font-size:clamp(18px,5vw,24px) !important;}
   .work-footer{display:none !important;}
   .about-me-page{
-    display:block;position:fixed;top:0;left:0;right:0;bottom:var(--peek-h);background:#0a0a10;z-index:2000;
+    display:none;position:fixed;top:0;left:0;right:0;bottom:var(--peek-h);background:#0a0a10;z-index:2000;
     padding:20px 20px calc(20px + env(safe-area-inset-bottom)) 20px;
     box-sizing:border-box;overflow-y:auto;overscroll-behavior-y:contain;color:#fff;
-    clip-path:circle(0px at var(--reveal-x,90%) var(--reveal-y,5%));
-    transition:clip-path 0.5s cubic-bezier(0.22,0.61,0.36,1);
     word-break:keep-all;
   }
-  .about-me-page.open{clip-path:circle(var(--reveal-r,150%) at var(--reveal-x,90%) var(--reveal-y,5%));}
+  .about-me-page.open{display:block;}
   .about-me-nav a{font-size:18px;color:rgba(255,255,255,0.5);}
   .about-me-title-row{display:flex;align-items:baseline;justify-content:space-between;margin-top:32px;}
   .about-me-title{font-family:'StackSansNotch',sans-serif;font-weight:600;font-size:45px;letter-spacing:-0.02em;white-space:nowrap;}
@@ -488,7 +486,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .tc-card-title{font-size:18px;margin-top:6px;white-space:normal;max-width:80vw;text-align:center;}
   .tc-arrow{display:none;}
   .thumb-page-nav{padding:14px 18px;}
-  .thumb-page{bottom:var(--peek-h);}
   .thumb-page-back{font-size:18px;}
   .nav-datetime,.nav-portfolio,.nav-links a{font-size:18px !important;color:#1356FC !important;}
   .nav-datetime{display:none !important;}
@@ -1399,7 +1396,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 </div>
 
 <div id="page-about-me" class="about-me-page">
-  <div class="about-me-nav"><a onclick="closeAboutMe()">← Back</a></div>
+  <span class="thumb-menu-close" onclick="closeAboutMe()">✕</span>
 
   <div class="about-me-title-row">
     <div class="about-me-title">SINCE 1998</div>
@@ -2415,18 +2412,6 @@ function closeCoverWorkMenu(){
 function handleAboutClick(e){
   if(window.innerWidth <= 768){
     const page = document.getElementById('page-about-me');
-    const px = e && e.clientX ? e.clientX : window.innerWidth * 0.9;
-    const py = e && e.clientY ? e.clientY : window.innerHeight * 0.05;
-    const w = window.innerWidth, h = window.innerHeight;
-    const corners = [[0,0],[w,0],[0,h],[w,h]];
-    let maxDist = 0;
-    corners.forEach(([cx,cy]) => {
-      const d = Math.hypot(cx - px, cy - py);
-      if(d > maxDist) maxDist = d;
-    });
-    page.style.setProperty('--reveal-x', px + 'px');
-    page.style.setProperty('--reveal-y', py + 'px');
-    page.style.setProperty('--reveal-r', (maxDist + 20) + 'px');
     page.classList.add('open');
     document.body.style.overflow = 'hidden';
     setThemeColor('#0a0a10');
@@ -2440,12 +2425,8 @@ function closeAboutMe(){
   page.classList.remove('open');
   page.scrollTop = 0;
   setThemeColor('#ffffff');
-  // clip-path 축소 애니메이션(0.5s)이 끝난 뒤에 body 스크롤을 풀어줘야
-  // 애니메이션 도중 표지가 먼저 움찔거리는 걸 막을 수 있음
-  setTimeout(() => {
-    document.body.style.overflow = '';
-    forceViewportRefresh();
-  }, 520);
+  document.body.style.overflow = '';
+  forceViewportRefresh();
 }
 
 function openThumbPage(catId){
