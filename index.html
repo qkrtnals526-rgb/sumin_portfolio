@@ -557,16 +557,15 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   }
   #ai-scene .detail-slide.active[data-slide="0"] .mobile-detail-info{
     display:block;position:absolute;inset:0;overflow-y:auto;
-    background:#E5E5E5;z-index:6;padding:0 20px 40px;box-sizing:border-box;
+    background:#E5E5E5;z-index:6;padding:52px 20px 40px;box-sizing:border-box;
   }
   body:has(#ai-scene .detail-slide.active[data-slide="0"]) #page-ai-creative > .detail-nav{
     display:none;
   }
   .mdi-nav{
-    display:flex;position:sticky;top:0;z-index:20;
+    display:flex;position:fixed;top:0;left:0;right:0;z-index:20;
     justify-content:space-between;align-items:center;
-    margin:0 -20px;padding:14px 20px;
-    background:rgba(229,229,229,0.5);
+    padding:14px 20px;
     backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   }
   .mdi-nav-back{font-family:'Pretendard',sans-serif;font-size:18px;font-weight:500;color:#000;opacity:0.6;cursor:pointer;}
@@ -574,7 +573,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .mdi-nav-dots{font-size:18px;color:#000;opacity:0.6;cursor:pointer;letter-spacing:2px;}
   .mdi-num{
     text-align:right;font-family:'StackSansNotch',sans-serif;font-weight:500;
-    font-size:168px;color:#DCDCDC;line-height:1;margin:-0.16em 0 100px;
+    font-size:112px;color:#DCDCDC;line-height:1;margin:-0.16em 0 100px;
   }
   .mdi-comment-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
   .mdi-prevnext{display:flex;align-items:center;gap:10px;}
@@ -2776,6 +2775,13 @@ function openDetail(pageName, slideIndex){
   page.scrollTop = 0;
   const activeSlideEl = page.querySelector('.detail-slide.active') || page.querySelector('.detail-slide');
   setThemeColor(activeSlideEl ? getComputedStyle(activeSlideEl).backgroundColor : '#ffffff');
+  const mdiInfo = page.querySelector('.mobile-detail-info');
+  const mdiNav = page.querySelector('.mdi-nav');
+  if(mdiInfo && mdiNav){
+    requestAnimationFrame(() => {
+      mdiInfo.style.paddingTop = mdiNav.getBoundingClientRect().height + 'px';
+    });
+  }
   page.querySelectorAll('.mobile-detail-info video').forEach(v => {
     const tryPlay = () => v.play().catch(()=>{});
     tryPlay();
