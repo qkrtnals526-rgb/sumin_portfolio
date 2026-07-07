@@ -110,7 +110,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .cat-item-arrow{font-size:clamp(18px,5vw,24px) !important;}
   .work-footer{display:none !important;}
   .about-me-page{
-    display:none;position:fixed;top:0;left:0;right:0;bottom:max(calc(var(--peek-h) - 5px), 0px);background:#0a0a10;z-index:2000;
+    display:none;position:fixed;top:0;left:0;right:0;bottom:var(--peek-h);background:#0a0a10;z-index:2000;
     padding:20px 20px calc(20px + env(safe-area-inset-bottom)) 20px;
     box-sizing:border-box;overflow-y:auto;overscroll-behavior-y:contain;color:#fff;
     word-break:keep-all;
@@ -512,7 +512,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   }
   .thumb-inline-cats a{font-size:22px;white-space:nowrap;letter-spacing:-0.01em;text-shadow:0 2px 12px rgba(0,0,0,0.5);}
   .thumb-cat-header{position:absolute;top:52px;left:24px;right:24px;font-family:'StackSansNotch',sans-serif;font-weight:600;font-size:45px;letter-spacing:-0.02em;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,0.5);}
-  .cover-work-cats.open{background:#1356FC !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;bottom:max(calc(var(--peek-h) - 5px), 0px) !important;height:auto !important;}
+  .cover-work-cats.open{background:#1356FC !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;bottom:var(--peek-h) !important;height:auto !important;}
   .cover-work-cats a,.cover-work-cats .thumb-cat-header{text-shadow:none;}
   .thumb-menu-close{
     position:absolute;top:16px;right:20px;font-size:22px;line-height:1;
