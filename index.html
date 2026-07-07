@@ -190,6 +190,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 @media (min-width:769px){ .mc-nav-logo{display:none;} }
 @media (min-width:769px){ .about-me-page{display:none;} }
 @media (min-width:769px){ #mc-cover-bg{display:none;} }
+  body:has(.thumb-page.open) #mc-cover-bg,
+  body:has(.about-me-page.open) #mc-cover-bg,
+  body:has(.cover-work-cats.open) #mc-cover-bg{display:none;}
 .svg-roll-track{display:flex;flex-direction:column;width:100%;}
 .svg-roll-item{display:flex;align-items:center;width:100%;flex-shrink:0;}
 .svg-roll-item svg{height:100%;width:auto;display:block;}
