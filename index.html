@@ -104,13 +104,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     display:block;position:fixed;inset:0;background:#0a0a10;z-index:2000;
     padding:20px 20px calc(20px + env(safe-area-inset-bottom)) 20px;
     box-sizing:border-box;overflow-y:auto;color:#fff;
-    transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.22,0.61,0.36,1);
+    transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.22,0.61,0.36,1);
   }
-  .about-me-page.open{transform:translateX(0);}
-  .about-me-nav a{font-size:11px;color:rgba(255,255,255,0.5);}
-  .about-me-title{font-family:'StackSansNotch',sans-serif;font-weight:600;font-size:34px;letter-spacing:-0.02em;line-height:0.95;margin-top:16px;}
-  .about-me-date{font-family:'StackSansNotch',sans-serif;font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px;letter-spacing:0.04em;}
-  .about-me-name-block{margin-top:20px;}
+  .about-me-page.open{transform:translateY(0);}
+  .about-me-nav a{font-size:18px;color:rgba(255,255,255,0.5);}
+  .about-me-title-row{display:flex;align-items:baseline;justify-content:space-between;margin-top:36px;}
+  .about-me-title{font-family:'StackSansNotch',sans-serif;font-weight:600;font-size:28px;letter-spacing:-0.02em;}
+  .about-me-date{font-family:'StackSansNotch',sans-serif;font-size:13px;color:rgba(255,255,255,0.6);letter-spacing:0.04em;}
+  .about-me-name-block{margin-top:40px;}
   .about-me-name{font-family:'Pretendard',sans-serif;font-size:14px;font-weight:600;}
   .about-me-name-kr{font-family:'Pretendard',sans-serif;font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;}
   .about-me-section{margin-top:16px;border-top:0.5px solid rgba(255,255,255,0.15);padding-top:12px;}
@@ -1370,8 +1371,10 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <div id="page-about-me" class="about-me-page">
   <div class="about-me-nav"><a onclick="closeAboutMe()">← Back</a></div>
 
-  <div class="about-me-title">SINCE<br>1998</div>
-  <div class="about-me-date">05. 26</div>
+  <div class="about-me-title-row">
+    <div class="about-me-title">SINCE 1998</div>
+    <div class="about-me-date">05. 26</div>
+  </div>
 
   <div class="about-me-name-block">
     <div class="about-me-name">Park Sumin</div>
