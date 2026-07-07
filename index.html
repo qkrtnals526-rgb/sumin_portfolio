@@ -573,10 +573,12 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     text-align:right;font-family:'StackSansNotch',sans-serif;font-weight:500;
     font-size:168px;color:#DCDCDC;line-height:1;margin:0 0 100px;
   }
-  .mdi-prevnext{display:flex;justify-content:flex-end;align-items:center;gap:14px;margin:0 0 12px;}
-  .mdi-pn-sep{color:rgba(0,0,0,0.25);font-size:14px;}
+  .mdi-comment-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .mdi-prevnext{display:flex;align-items:center;gap:10px;}
+  .mdi-prevnext .nw-item-text{font-size:11px;}
+  .mdi-pn-sep{color:rgba(0,0,0,0.25);font-size:11px;}
   .mdi-label{font-family:'Pretendard',sans-serif;font-weight:700;letter-spacing:0;font-size:11px;color:#000;opacity:0.7;margin-bottom:8px;}
-  .mdi-comment{margin-bottom:28px;}
+  .mdi-comment{margin-bottom:50px;}
   .mdi-comment p{font-family:'Pretendard',sans-serif;font-weight:500;letter-spacing:0;font-size:13px;line-height:1.7;color:#000;opacity:0.7;margin:0;}
   .mdi-details{margin-bottom:24px;}
   .mdi-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.15);font-size:12px;}
@@ -1769,26 +1771,36 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
           <div class="mobile-detail-info">
             <div class="mdi-nav">
               <span class="mdi-nav-back" onclick="goBackToThumb('ai-creative')">↖ Back</span>
-              <span class="mdi-nav-dots" onclick="toggleDetailMenu(this)">•••</span>
+              <span class="mdi-nav-dots" onclick="toggleThumbMenu('mdi-cat-ai')">•••</span>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-ai">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-ai')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a class="active" onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a onclick="switchDetail('brand-content')">Brand Content</a>
+              <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
             </div>
             <div class="mdi-num">01</div>
-            <div class="mdi-prevnext">
-              <div class="nw-item" onclick="openDetail('ai-creative',3)">
-                <span class="nw-item-text">← PREV</span>
-                <div class="nw-item-line"></div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('ai-creative',3)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('ai-creative',1)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
               </div>
-              <span class="mdi-pn-sep">ㅣ</span>
-              <div class="nw-item" onclick="openDetail('ai-creative',1)">
-                <span class="nw-item-text">NEXT →</span>
-                <div class="nw-item-line"></div>
-              </div>
-            </div>
-            <div class="mdi-media">
-              <video id="mdi-video-0" class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline></video>
             </div>
             <div class="mdi-comment">
-              <div class="mdi-label">COMMENT</div>
               <p>셀러위크 프로모션 키비주얼 작업입니다. 촬영 이미지 없이 상품 누끼컷 에셋으로 Nano Banana를 활용해 모델컷과 연출컷을 제작하여 프로모션 비주얼을 구성하여 하이엔드 패션 화보 무드의 고급스러운 비주얼을 연출하고자 했습니다.</p>
+            </div>
+            <div class="mdi-media">
+              <video id="mdi-video-0" class="detail-video-raw" src="IMG_Zoom_Dissolve.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
             </div>
             <div class="mdi-details">
               <div class="mdi-label">WORK DETAILS</div>
@@ -2761,7 +2773,12 @@ function openDetail(pageName, slideIndex){
   page.scrollTop = 0;
   const activeSlideEl = page.querySelector('.detail-slide.active') || page.querySelector('.detail-slide');
   setThemeColor(activeSlideEl ? getComputedStyle(activeSlideEl).backgroundColor : '#ffffff');
-  page.querySelectorAll('.mobile-detail-info video').forEach(v => { v.play().catch(()=>{}); });
+  page.querySelectorAll('.mobile-detail-info video').forEach(v => {
+    const tryPlay = () => v.play().catch(()=>{});
+    tryPlay();
+    v.addEventListener('canplay', tryPlay, {once:true});
+    v.addEventListener('loadeddata', tryPlay, {once:true});
+  });
 
   const isScrollPage = (pageName === 'brand-content' || pageName === 'brand-content-2' || pageName === 'ai-creative');
   if(isScrollPage){
