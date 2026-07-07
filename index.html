@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<meta name="format-detection" content="address=no">
+<meta name="format-detection" content="date=no">
 <meta name="theme-color" content="#000000">
 <title>PARK SUMiN — Portfolio</title>
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
@@ -104,28 +108,31 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     display:block;position:fixed;inset:0;background:#0a0a10;z-index:2000;
     padding:20px 20px calc(20px + env(safe-area-inset-bottom)) 20px;
     box-sizing:border-box;overflow-y:auto;color:#fff;
-    transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.22,0.61,0.36,1);
+    clip-path:circle(0% at var(--reveal-x,90%) var(--reveal-y,5%));
+    transition:clip-path 0.5s cubic-bezier(0.22,0.61,0.36,1);
+    word-break:keep-all;
   }
-  .about-me-page.open{transform:translateY(0);}
+  .about-me-page.open{clip-path:circle(150% at var(--reveal-x,90%) var(--reveal-y,5%));}
   .about-me-nav a{font-size:18px;color:rgba(255,255,255,0.5);}
-  .about-me-title-row{display:flex;align-items:baseline;justify-content:space-between;margin-top:36px;}
-  .about-me-title{font-family:'StackSansNotch',sans-serif;font-weight:600;font-size:28px;letter-spacing:-0.02em;}
-  .about-me-date{font-family:'StackSansNotch',sans-serif;font-size:13px;color:rgba(255,255,255,0.6);letter-spacing:0.04em;}
-  .about-me-name-block{margin-top:40px;}
-  .about-me-name{font-family:'Pretendard',sans-serif;font-size:14px;font-weight:600;}
-  .about-me-name-kr{font-family:'Pretendard',sans-serif;font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;}
-  .about-me-section{margin-top:16px;border-top:0.5px solid rgba(255,255,255,0.15);padding-top:12px;}
-  .about-me-section-title{font-family:'Pretendard',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.05em;color:rgba(255,255,255,0.8);margin-bottom:10px;}
-  .about-me-entry{margin-bottom:10px;}
+  .about-me-title-row{display:flex;align-items:baseline;justify-content:space-between;margin-top:32px;}
+  .about-me-title{font-family:'StackSansNotch',sans-serif;font-weight:600;font-size:30px;letter-spacing:-0.02em;white-space:nowrap;}
+  .about-me-date{font-family:'StackSansNotch',sans-serif;font-size:13px;color:rgba(255,255,255,0.5);letter-spacing:0.04em;}
+  .about-me-name-block{margin-top:36px;}
+  .about-me-name{font-family:'Pretendard',sans-serif;font-size:20px;font-weight:700;}
+  .about-me-name-kr{font-family:'Pretendard',sans-serif;font-size:13px;color:rgba(255,255,255,0.5);margin-top:3px;}
+  .about-me-section{margin-top:36px;}
+  .about-me-section-title{font-family:'Pretendard',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.08em;color:rgba(255,255,255,0.55);margin-bottom:16px;}
+  .about-me-entry{margin-bottom:20px;}
   .about-me-entry:last-child{margin-bottom:0;}
-  .about-me-entry-row{display:flex;justify-content:space-between;align-items:baseline;}
-  .about-me-entry-name{font-family:'Pretendard',sans-serif;font-size:11px;font-weight:700;}
-  .about-me-entry-date{font-family:'Pretendard',sans-serif;font-size:9px;color:rgba(255,255,255,0.5);}
-  .about-me-entry-detail{font-family:'Pretendard',sans-serif;font-size:9px;color:rgba(255,255,255,0.55);margin-top:3px;}
-  .about-me-edu-row{display:flex;justify-content:space-between;font-family:'Pretendard',sans-serif;font-size:9.5px;padding:4px 0;color:#fff;}
-  .about-me-edu-row span:last-child{color:rgba(255,255,255,0.5);}
-  .about-me-skills{font-family:'Pretendard',sans-serif;font-size:10px;color:rgba(255,255,255,0.7);line-height:1.6;}
-  .about-me-contact{font-family:'Pretendard',sans-serif;font-size:10px;color:rgba(255,255,255,0.5);line-height:1.7;}
+  .about-me-entry-name{font-family:'Pretendard',sans-serif;font-size:17px;font-weight:700;}
+  .about-me-entry-detail{font-family:'Pretendard',sans-serif;font-size:14px;color:rgba(255,255,255,0.6);margin-top:4px;}
+  .about-me-entry-date{font-family:'Pretendard',sans-serif;font-size:13px;color:rgba(255,255,255,0.4);margin-top:4px;display:block;}
+  .about-me-edu-row{font-family:'Pretendard',sans-serif;margin-bottom:16px;}
+  .about-me-edu-row:last-child{margin-bottom:0;}
+  .about-me-edu-name{font-size:15px;color:#fff;}
+  .about-me-edu-date{font-size:13px;color:rgba(255,255,255,0.4);margin-top:4px;display:block;}
+  .about-me-skills{font-family:'Pretendard',sans-serif;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;}
+  .about-me-contact{font-family:'Pretendard',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);line-height:2;}
   #mc-cluster{
     position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
     display:flex;flex-direction:column;align-items:center;
@@ -1224,7 +1231,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="nav-right">
     <a href="javascript:void(0)" onclick="document.getElementById('s-cover').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)" class="nav-portfolio">PORTFOLIO</a>
     <div class="nav-links">
-      <a href="javascript:void(0)" onclick="handleAboutClick()">About</a>
+      <a href="javascript:void(0)" onclick="handleAboutClick(event)">About</a>
       <a href="javascript:void(0)" onclick="document.getElementById('s-work2').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">Work</a>
     </div>
   </div>
@@ -1384,19 +1391,27 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   <div class="about-me-section">
     <div class="about-me-section-title">EXPERIENCE</div>
     <div class="about-me-entry">
-      <div class="about-me-entry-row"><span class="about-me-entry-name">KREAM</span><span class="about-me-entry-date">25.03–26.09</span></div>
+      <div class="about-me-entry-name">KREAM</div>
       <div class="about-me-entry-detail">패션플랫폼 ㅣ 파견계약직</div>
+      <div class="about-me-entry-date">2025.03 – 2026.09</div>
     </div>
     <div class="about-me-entry">
-      <div class="about-me-entry-row"><span class="about-me-entry-name">OHBROWN</span><span class="about-me-entry-date">24.03–08</span></div>
+      <div class="about-me-entry-name">OHBROWN</div>
       <div class="about-me-entry-detail">광고대행사</div>
+      <div class="about-me-entry-date">2024.03 – 08</div>
     </div>
   </div>
 
   <div class="about-me-section">
     <div class="about-me-section-title">EDUCATION</div>
-    <div class="about-me-edu-row"><span>창원대학교 산업디자인학과 졸업</span><span>23.02</span></div>
-    <div class="about-me-edu-row"><span>제일여자고등학교 졸업</span><span>17.02</span></div>
+    <div class="about-me-edu-row">
+      <div class="about-me-edu-name">창원대학교 산업디자인학과 졸업</div>
+      <div class="about-me-edu-date">2023.02</div>
+    </div>
+    <div class="about-me-edu-row">
+      <div class="about-me-edu-name">제일여자고등학교 졸업</div>
+      <div class="about-me-edu-date">2017.02</div>
+    </div>
   </div>
 
   <div class="about-me-section">
@@ -2308,9 +2323,14 @@ watchReveal('workT',['workT']);
 /* SCROLL CARDS — 제거됨 (카테고리 리스트로 교체) */
 
 /* THUMB PAGE OPEN / CLOSE */
-function handleAboutClick(){
+function handleAboutClick(e){
   if(window.innerWidth <= 768){
-    document.getElementById('page-about-me').classList.add('open');
+    const page = document.getElementById('page-about-me');
+    const x = e && e.clientX ? (e.clientX / window.innerWidth * 100) : 90;
+    const y = e && e.clientY ? (e.clientY / window.innerHeight * 100) : 5;
+    page.style.setProperty('--reveal-x', x + '%');
+    page.style.setProperty('--reveal-y', y + '%');
+    page.classList.add('open');
   } else {
     document.getElementById('s-about2').scrollIntoView({behavior:'smooth'});
     history.replaceState(null,'',location.pathname);
