@@ -2469,6 +2469,12 @@ function setRealVH(){
 setRealVH();
 window.addEventListener('resize', setRealVH);
 window.addEventListener('orientationchange', setRealVH);
+document.querySelectorAll('.mdi-media video').forEach(v => {
+  v.addEventListener('error', () => {
+    const container = v.closest('.mdi-media');
+    if(container) container.style.display = 'none';
+  });
+});
 if(window.visualViewport){
   window.visualViewport.addEventListener('resize', setRealVH);
 }
