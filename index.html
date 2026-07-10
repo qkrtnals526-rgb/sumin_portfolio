@@ -3437,6 +3437,7 @@ function openDetail(pageName, slideIndex){
       s.style.transform = '';
       const st = s.querySelector('.detail-scroll-strip');
       if(st) st.style.transform = 'translateY(0px)';
+      if(window.deactivateSlideMedia) window.deactivateSlideMedia(s);
     });
     if(slides[slideIndex]) slides[slideIndex].classList.add('active');
   }
@@ -3454,18 +3455,8 @@ function openDetail(pageName, slideIndex){
       mdiInfo.style.paddingTop = mdiNav.getBoundingClientRect().bottom + 'px';
     });
   }
-  if(activeSlideEl){
-    activeSlideEl.querySelectorAll('.mobile-detail-info video').forEach(v => {
-      v.muted = true;
-      const tryPlay = () => v.play().catch(()=>{});
-      // Safari/WebKit often never starts loading a <video> that began life
-      // inside a display:none ancestor, even after it becomes visible.
-      // Force it to (re)start loading before asking it to play.
-      if(v.readyState === 0){ v.load(); }
-      tryPlay();
-      v.addEventListener('canplay', tryPlay, {once:true});
-      v.addEventListener('loadeddata', tryPlay, {once:true});
-    });
+  if(activeSlideEl && window.activateSlideMedia){
+    window.activateSlideMedia(activeSlideEl);
   }
 
   const isScrollPage = (pageName === 'brand-content' || pageName === 'brand-content-2' || pageName === 'ai-creative');
@@ -3804,10 +3795,12 @@ let feAudioReady = false;
       s.style.transform='';
       const st = s.querySelector('.detail-scroll-strip');
       if(st) st.style.transform = 'translateY(0px)';
+      if(window.deactivateSlideMedia) window.deactivateSlideMedia(s);
     });
     if(allSlides[slideIdx]) allSlides[slideIdx].classList.add('active');
     pageEl.scrollTop = 0;
     if(window.recalcDetailSpacers) window.recalcDetailSpacers();
+    if(window.activateSlideMedia && allSlides[slideIdx]) window.activateSlideMedia(allSlides[slideIdx]);
     updateDetailNavColor(pageEl);
     handleHondaAudio(pageEl);
     if(pageEl.id === 'page-3d-artwork' && window.pfunkCheckAudio) pfunkCheckAudio(pageEl);
@@ -4183,21 +4176,39 @@ window.pfunkCheckAudio = function(pageEl){
 // pfunk audio handled by pfunkCheckAudio above
 </script>
 
-<!-- DESKTOP VIDEO RESTORE
-     작업 상세페이지의 원본(데스크톱) 영상들은 모바일에서 절대 안 보이는 요소라
-     data-src로 바꿔 로딩을 미뤄뒀습니다. 데스크톱에서는 원래처럼 즉시 복원해서
-     기존 동작을 그대로 유지하고, 모바일에서는 건드리지 않아 불필요한 다운로드를
-     막습니다 (해당 슬라이드를 열 때만 mdi-media 쪽 영상이 별도로 로드됩니다). -->
+<!-- SLIDE MEDIA ACTIVATION
+     각 상세 슬라이드의 영상은 그 슬라이드가 실제로 열릴 때만 로드/재생됩니다.
+     (데스크톱 원본 영상은 data-src로 미뤄뒀다가 이때 src로 승격, 모바일 mdi-media
+     영상도 동일하게 이 시점에 재생) — 페이지 로드 시 전부 미리 트는 대신 필요한
+     슬라이드 것만 그때그때 처음부터 재생해서 무거워지는 것도 막고 중간부터
+     보이는 것도 막습니다. -->
 <script>
-(function(){
-  if(window.innerWidth <= 768) return;
-  document.querySelectorAll('.detail-scene video[data-src]').forEach(function(v){
+window.activateSlideMedia = function(slideEl){
+  if(!slideEl) return;
+  slideEl.querySelectorAll('.detail-video-wrap video[data-src], .da-media-frame video[data-src]').forEach(function(v){
     v.src = v.dataset.src;
     v.removeAttribute('data-src');
-    v.load();
-    v.play().catch(function(){});
   });
-})();
+  slideEl.querySelectorAll('.detail-video-wrap video, .da-media-frame video, .mobile-detail-info video').forEach(function(v){
+    if(v.id === 'fe-video-1' || v.id === 'pfunkVideo') return; // 별도 오디오 로직으로 제어됨
+    v.muted = true;
+    var tryPlay = function(){
+      try{ v.currentTime = 0; }catch(e){}
+      v.play().catch(function(){});
+    };
+    if(v.readyState === 0){ v.load(); }
+    tryPlay();
+    v.addEventListener('canplay', tryPlay, {once:true});
+    v.addEventListener('loadeddata', tryPlay, {once:true});
+  });
+};
+window.deactivateSlideMedia = function(slideEl){
+  if(!slideEl) return;
+  slideEl.querySelectorAll('.detail-video-wrap video, .da-media-frame video, .mobile-detail-info video').forEach(function(v){
+    if(v.id === 'fe-video-1' || v.id === 'pfunkVideo') return;
+    v.pause();
+  });
+};
 </script>
 
 <!-- ZERO GRAVITY MAGNETIC -->
