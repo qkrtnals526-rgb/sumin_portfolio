@@ -574,6 +574,62 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   #ai-scene .detail-slide.active[data-slide="1"] .mdi-nav-wrap{background:#DEE1E5;}
   #ai-scene .detail-slide.active[data-slide="2"] .mdi-nav-wrap{background:#FAFFE6;}
   #ai-scene .detail-slide.active[data-slide="3"] .mdi-nav-wrap{background:#C7C7C7;}
+  #ai-scene .detail-slide.active[data-slide="0"] .mdi-num{color:#DCDCDC;}
+  #ai-scene .detail-slide.active[data-slide="1"] .mdi-num{color:#D5D9DE;}
+  #ai-scene .detail-slide.active[data-slide="2"] .mdi-num{color:#F4FADA;}
+  #ai-scene .detail-slide.active[data-slide="3"] .mdi-num{color:#BFBFBF;}
+
+  #fe-scene .detail-slide .detail-slide-inner,
+  #pc-scene .detail-slide .detail-slide-inner{
+    position:absolute;inset:0;width:100%;height:100%;max-width:none;aspect-ratio:unset;
+  }
+  #fe-scene .detail-slide .detail-bg,
+  #fe-scene .detail-slide .detail-video-wrap,
+  #fe-scene .detail-slide .next-work-btn,
+  #pc-scene .detail-slide .detail-bg,
+  #pc-scene .detail-slide .detail-video-wrap,
+  #pc-scene .detail-slide .next-work-btn{
+    display:none!important;
+  }
+  #fe-scene .detail-slide.active .mobile-detail-info,
+  #pc-scene .detail-slide.active .mobile-detail-info{
+    display:block;position:absolute;inset:0;overflow-y:auto;
+    z-index:6;padding:72px 20px 40px;box-sizing:border-box;
+  }
+  #fe-scene .detail-slide.active[data-slide="0"] .mobile-detail-info{background:#151515;}
+  #fe-scene .detail-slide.active[data-slide="1"] .mobile-detail-info{background:#F5F5F5;}
+  #fe-scene .detail-slide.active[data-slide="2"] .mobile-detail-info{background:#E3D0D3;}
+  #fe-scene .detail-slide.active[data-slide="3"] .mobile-detail-info{background:#C1CCCE;}
+  #pc-scene .detail-slide.active[data-slide="0"] .mobile-detail-info{background:#F5F5F5;}
+  body:has(#fe-scene .detail-slide.active) #page-brand-content > .detail-nav,
+  body:has(#pc-scene .detail-slide.active) #page-brand-content-2 > .detail-nav{
+    display:none;
+  }
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-nav-wrap{background:#151515;}
+  #fe-scene .detail-slide.active[data-slide="1"] .mdi-nav-wrap{background:#F5F5F5;}
+  #fe-scene .detail-slide.active[data-slide="2"] .mdi-nav-wrap{background:#E3D0D3;}
+  #fe-scene .detail-slide.active[data-slide="3"] .mdi-nav-wrap{background:#C1CCCE;}
+  #pc-scene .detail-slide.active[data-slide="0"] .mdi-nav-wrap{background:#F5F5F5;}
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-num{color:#1D1D1D;}
+  #fe-scene .detail-slide.active[data-slide="1"] .mdi-num{color:#EFEFEF;}
+  #fe-scene .detail-slide.active[data-slide="2"] .mdi-num{color:#DEC9CC;}
+  #fe-scene .detail-slide.active[data-slide="3"] .mdi-num{color:#B7C3C5;}
+  #pc-scene .detail-slide.active[data-slide="0"] .mdi-num{color:#EFEFEF;}
+  /* Honda(다크) 슬라이드 — 텍스트 컬러 반전 */
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-nav-back,
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-nav-dots,
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-label,
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-comment p,
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-row span:first-child,
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-row span:last-child,
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-pn-sep,
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-prevnext .nw-item-text,
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-scroll-note{
+    color:#fff;
+  }
+  #fe-scene .detail-slide.active[data-slide="0"] .mdi-row{
+    border-bottom-color:rgba(255,255,255,0.15);
+  }
   .mdi-nav{
     display:flex;justify-content:space-between;align-items:center;
     padding:14px 20px;
@@ -583,7 +639,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .mdi-nav-dots{font-size:18px;color:#000;opacity:0.6;cursor:pointer;letter-spacing:2px;}
   .mdi-num{
     text-align:right;font-family:'StackSansNotch',sans-serif;font-weight:500;
-    font-size:112px;color:#DCDCDC;line-height:1;margin:-0.16em 0 100px;
+    font-size:112px;line-height:1;margin:-0.16em 0 100px;
   }
   .mdi-comment-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
   .mdi-prevnext{display:flex;align-items:center;gap:10px;}
@@ -600,6 +656,57 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
   .mdi-media video,.mdi-media img{width:100%;display:block;border-radius:0;}
   .mdi-media video + video,.mdi-media video + img,.mdi-media img + video,.mdi-media img + img{margin-top:2px;}
   .mdi-scroll-note{font-family:'Pretendard',sans-serif;font-size:12px;color:#000;opacity:0.45;margin:-8px 0 24px;}
+
+  #da-scene .detail-slide .detail-slide-inner{
+    position:absolute;inset:0;width:100%;height:100%;max-width:none;aspect-ratio:unset;
+  }
+  #da-scene .detail-slide .detail-bg,
+  #da-scene .detail-slide .da-media-frame,
+  #da-scene .detail-slide .next-work-btn{
+    display:none!important;
+  }
+  #da-scene .detail-slide.active .mobile-detail-info{
+    display:block;position:absolute;inset:0;overflow-y:auto;
+    z-index:6;padding:72px 20px 40px;box-sizing:border-box;
+  }
+  #da-scene .detail-slide.active[data-slide="0"] .mobile-detail-info{background:#004ED5;}
+  #da-scene .detail-slide.active[data-slide="1"] .mobile-detail-info{background:#151515;}
+  #da-scene .detail-slide.active[data-slide="2"] .mobile-detail-info{background:#F5F5F5;}
+  body:has(#da-scene .detail-slide.active) #page-3d-artwork > .detail-nav{
+    display:none;
+  }
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-nav-wrap{background:#004ED5;}
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-nav-wrap{background:#151515;}
+  #da-scene .detail-slide.active[data-slide="2"] .mdi-nav-wrap{background:#F5F5F5;}
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-num{color:#0355E3;}
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-num{color:#1D1D1D;}
+  #da-scene .detail-slide.active[data-slide="2"] .mdi-num{color:#EFEFEF;}
+  /* KREAM DRAW(파랑) / P.FUNK(다크) 슬라이드 — 텍스트 컬러 반전 */
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-nav-back,
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-nav-dots,
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-label,
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-comment p,
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-row span:first-child,
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-row span:last-child,
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-pn-sep,
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-prevnext .nw-item-text,
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-scroll-note,
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-nav-back,
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-nav-dots,
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-label,
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-comment p,
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-row span:first-child,
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-row span:last-child,
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-pn-sep,
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-prevnext .nw-item-text,
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-scroll-note{
+    color:#fff;
+  }
+  #da-scene .detail-slide.active[data-slide="0"] .mdi-row,
+  #da-scene .detail-slide.active[data-slide="1"] .mdi-row{
+    border-bottom-color:rgba(255,255,255,0.15);
+  }
+  .mdi-media-click{cursor:pointer;}
 }
 @media (min-width:769px){ .thumb-menu-close{display:none;} }
 .tc-arrow{
@@ -2095,6 +2202,64 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('brand-content')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-bc-0')">•••</span>
+              </div>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-bc-0">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-bc-0')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a class="active" onclick="switchDetail('brand-content')">Brand Content</a>
+              <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
+            </div>
+            <div class="mdi-num">01</div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('brand-content-2',0)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('brand-content',2)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mdi-comment">
+              <p>KREAM 단독 선공개 앰버서더 'KYOKA'와 '카사마츠 쇼'를 중심으로, 각 인물의 컨셉에 맞춰 챕터를 분리해 디자인했습니다. 브랜드 특유의 자유롭고 힙한 분위기와 룩북 무드를 연결하고, 영상과 이미지가 자연스럽게 어우러질 수 있도록 구성했습니다.</p>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Promotion</span><span>HONDA MOTORCYCLE APPAREL<br>앰버서더 KREAM 단독 선공개</span></div>
+              <div class="mdi-row"><span>Tools</span><span>Figma, After Effect</span></div>
+              <div class="mdi-row"><span>Released</span><span>2026.04.13 ㅣ 디자인 기여도 100%</span></div>
+            </div>
+            <div class="mdi-scroll-note">아래로 스크롤해 작업을 확인하실 수 있습니다.</div>
+            <div class="mdi-media">
+              <video id="mdi-video-bc-0" class="detail-video-raw" src="1.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="2.jpg" alt="">
+              <img src="3.png" alt="">
+              <video class="detail-video-raw" src="4.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="5.png" alt="">
+              <video class="detail-video-raw" src="6.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="7.png" alt="">
+              <video class="detail-video-raw" src="8.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="9.png" alt="">
+              <img src="10.png" alt="">
+              <img src="11.png" alt="">
+              <video class="detail-video-raw" src="12.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="13.png" alt="">
+              <img src="14.png" alt="">
+              <img src="15.jpg" alt="">
+            </div>
+          </div>
         </div>
       </div>
       <!-- Slide 2: 일광전구 -->
@@ -2130,6 +2295,62 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('brand-content')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-bc-1')">•••</span>
+              </div>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-bc-1">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-bc-1')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a class="active" onclick="switchDetail('brand-content')">Brand Content</a>
+              <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
+            </div>
+            <div class="mdi-num">04</div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('brand-content',3)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('brand-content-2',0)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mdi-comment">
+              <p>브랜드가 가진 정갈하고 코지한 무드를 중심으로 카탈로그를 보는 듯한 흐름의 에디토리얼로 구성했습니다. 제품이 가진 분위기와 공간감이 자연스럽게 전달될 수 있도록 여백과 톤을 정리해 깔끔하면서도 감성적인 무드로 풀어냈습니다.</p>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Promotion</span><span>일광전구 ㅣ KREAM</span></div>
+              <div class="mdi-row"><span>Tools</span><span>Figma, After Effect</span></div>
+              <div class="mdi-row"><span>Released</span><span>2025.10.20 ㅣ 디자인 기여도 100%</span></div>
+            </div>
+            <div class="mdi-scroll-note">아래로 스크롤해 작업을 확인하실 수 있습니다.</div>
+            <div class="mdi-media">
+              <video id="mdi-video-bc-1" class="detail-video-raw" src="2-1.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <video class="detail-video-raw" src="2-2.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="2-3.jpg" alt="">
+              <video class="detail-video-raw" src="2-4.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="2-5.jpg" alt="">
+              <img src="2-6.jpg" alt="">
+              <video class="detail-video-raw" src="2-7.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="2-8.jpg" alt="">
+              <img src="2-9.jpg" alt="">
+              <video class="detail-video-raw" src="2-10.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="2-11.jpg" alt="">
+              <img src="2-12.jpg" alt="">
+              <img src="2-13.jpg" alt="">
+            </div>
+          </div>
         </div>
       </div>
       <!-- Slide 3: 조셉앤스테이시 × 몬치치 -->
@@ -2165,6 +2386,62 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('brand-content')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-bc-2')">•••</span>
+              </div>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-bc-2">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-bc-2')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a class="active" onclick="switchDetail('brand-content')">Brand Content</a>
+              <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
+            </div>
+            <div class="mdi-num">02</div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('brand-content',0)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('brand-content',3)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mdi-comment">
+              <p>몬치치 특유의 귀여운 무드와 룩북의 키치한 분위기를 강조하는 방향으로 비주얼을 구성했으며, 상품별 컨셉과 키컬러에 맞춰 섹션을 구분해 각 라인의 특징과 분위기가 잘 전달될 수 있도록 작업했습니다.</p>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Promotion</span><span>조셉앤스테이시 × 몬치치 ㅣ KREAM</span></div>
+              <div class="mdi-row"><span>Tools</span><span>Figma, After Effect</span></div>
+              <div class="mdi-row"><span>Released</span><span>2026.03.10 ㅣ 디자인 기여도 100%</span></div>
+            </div>
+            <div class="mdi-scroll-note">아래로 스크롤해 작업을 확인하실 수 있습니다.</div>
+            <div class="mdi-media">
+              <video id="mdi-video-bc-2" class="detail-video-raw" src="3-1.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="3-2.jpg" alt="">
+              <img src="3-3.png" alt="">
+              <img src="3-4.jpg" alt="">
+              <img src="3-5.jpg" alt="">
+              <img src="3-6.png" alt="">
+              <img src="3-7.png" alt="">
+              <img src="3-8.jpg" alt="">
+              <img src="3-9.png" alt="">
+              <img src="3-10.png" alt="">
+              <img src="3-11.png" alt="">
+              <img src="3-12.png" alt="">
+              <img src="3-13.jpg" alt="">
+            </div>
+          </div>
         </div>
       </div>
       <!-- Slide 4: KREAM 도산 스토어 윈터 룩북 -->
@@ -2200,6 +2477,62 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('brand-content')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-bc-3')">•••</span>
+              </div>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-bc-3">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-bc-3')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a class="active" onclick="switchDetail('brand-content')">Brand Content</a>
+              <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
+            </div>
+            <div class="mdi-num">03</div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('brand-content',2)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('brand-content',1)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mdi-comment">
+              <p>2025 겨울 크림 도산 스토어에서 진행된 윈터 룩북의 에디토리얼입니다. 스토어 입장부터 제품 탐색, 스타일링 완성까지 이어지는 흐름을 중심으로 구성했으며, 볼드한 영문 타이틀과 다양한 룩북 이미지가 강조될 수 있도록 룩북 중심의 레이아웃으로 작업했습니다.</p>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Promotion</span><span>KREAM 도산 스토어 윈터 룩북</span></div>
+              <div class="mdi-row"><span>Tools</span><span>Figma, After Effect</span></div>
+              <div class="mdi-row"><span>Released</span><span>2025.12.15 ㅣ 디자인 기여도 100%</span></div>
+            </div>
+            <div class="mdi-scroll-note">아래로 스크롤해 작업을 확인하실 수 있습니다.</div>
+            <div class="mdi-media">
+              <video id="mdi-video-bc-3" class="detail-video-raw" src="4-1.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="4-2.jpg" alt="">
+              <video class="detail-video-raw" src="4-3.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <video class="detail-video-raw" src="4-4.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="4-5.jpg" alt="">
+              <video class="detail-video-raw" src="4-6.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <video class="detail-video-raw" src="4-7.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="4-8.png" alt="">
+              <video class="detail-video-raw" src="4-9.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="4-10.png" alt="">
+              <video class="detail-video-raw" src="4-11.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <video class="detail-video-raw" src="4-12.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <video class="detail-video-raw" src="4-13.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2262,6 +2595,64 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('brand-content')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-pc-0')">•••</span>
+              </div>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-pc-0">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-pc-0')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a class="active" onclick="switchDetail('brand-content')">Brand Content</a>
+              <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
+            </div>
+            <div class="mdi-num">05</div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('brand-content',1)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('brand-content',0)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mdi-comment">
+              <p>디저트 테이블은 매월 운영되는 F&amp;B 프로모션입니다. 다양한 상품과 인플루언서 협업 콘텐츠를 효율적으로 운영할 수 있도록 가독성과 콘텐츠 흐름 중심의 템플릿 구조를 제작하였으며, 인터뷰 → 상품 → 리뷰 구조를 통해 완독률과 체류시간 상승을 유도했습니다.</p>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Promotion</span><span>디저트 테이블 ㅣ KREAM</span></div>
+              <div class="mdi-row"><span>Performance</span><span>구매 전환율 평균 대비 최대 25배 상승<br>신규 가입 구매자 847명 유입<br>전 지면 거래액 8,048만 원 기록</span></div>
+              <div class="mdi-row"><span>Released</span><span>2026.02.04 ~ ㅣ 디자인 기여도 100%</span></div>
+            </div>
+            <div class="mdi-scroll-note">아래로 스크롤해 작업을 확인하실 수 있습니다.</div>
+            <div class="mdi-media">
+              <video id="mdi-video-pc-0" class="detail-video-raw" src="5-1.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="5-2.png" alt="">
+              <img src="5-3.jpg" alt="">
+              <video class="detail-video-raw" src="5-4.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+              <img src="5-5.jpg" alt="">
+              <img src="5-6.png" alt="">
+              <img src="5-7.jpg" alt="">
+              <img src="5-8.jpg" alt="">
+              <img src="5-9.png" alt="">
+              <img src="5-10.png" alt="">
+              <img src="5-11.png" alt="">
+              <img src="5-12.png" alt="">
+              <img src="5-13.png" alt="">
+              <img src="5-14.png" alt="">
+              <img src="5-15.png" alt="">
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2293,7 +2684,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
       <div class="detail-slide active" data-slide="0" data-next-page="3d-artwork" data-next-slide="1" data-prev-page="3d-artwork" data-prev-slide="2" style="background:#004ED5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork.png" alt="3D Artwork 01">
-          <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
+          <div class="da-media-frame" style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
             <video src="3DArtwork1.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
           <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:5%;right:2%;">
@@ -2308,13 +2699,57 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('3d-artwork')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-da-0')">•••</span>
+              </div>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-da-0">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-da-0')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a onclick="switchDetail('brand-content')">Brand Content</a>
+              <a class="active" onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
+            </div>
+            <div class="mdi-num">01</div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('3d-artwork',2)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('3d-artwork',1)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mdi-comment">
+              <p>크림드로우 리뉴얼 시안 작업입니다. 기존 크림드로우의 텍스트 중심의 키비주얼에서 벗어나, 3D 큐브를 활용해 'KREAM DRAW' 타이포를 완성해가는 방식으로 시각적인 재미를 더하고자 했습니다. 기존 키비주얼 대비 더 주목도 있는 방향으로 리뉴얼을 제안했습니다.</p>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Promotion</span><span>KREAM DRAW</span></div>
+              <div class="mdi-row"><span>Tools</span><span>Blender, After Effect</span></div>
+              <div class="mdi-row"><span>Proposal</span><span>시안 ㅣ 디자인 기여도 100%</span></div>
+            </div>
+            <div class="mdi-scroll-note">아래로 스크롤해 작업을 확인하실 수 있습니다.</div>
+            <div class="mdi-media">
+              <video id="mdi-video-da-0" class="detail-video-raw" src="3DArtwork1.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+            </div>
+          </div>
         </div>
       </div>
       <!-- Slide 2: P.FUNK SELECTION -->
       <div class="detail-slide" data-slide="1" data-next-page="3d-artwork" data-next-slide="2" data-prev-page="3d-artwork" data-prev-slide="0" style="background:#151515;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork3-1.png" alt="3D Artwork - P.FUNK">
-          <div style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
+          <div class="da-media-frame" style="position:absolute;left:58.07%;top:50%;transform:translateY(-50%);width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;background:#000000;">
             <video id="pfunkVideo" src="p_funk_final.mp4" loop muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
           <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:5%;right:2%;">
@@ -2329,13 +2764,58 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('3d-artwork')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-da-1')">•••</span>
+              </div>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-da-1">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-da-1')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a onclick="switchDetail('brand-content')">Brand Content</a>
+              <a class="active" onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
+            </div>
+            <div class="mdi-num">02</div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('3d-artwork',0)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('3d-artwork',2)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mdi-comment">
+              <p>L7 Hotels 공식 인스타그램·스포티파이에 업로드되는 플레이리스트 NICE MUSIK VOL.16의 커버 디자인을 제작했습니다. P.Funk의 70년대 레트로 무드와 우주적 감성을 테마로, 별과 우주를 연상시키는 배경 모션에 레트로 타이포그래피와 3D 오브젝트를 조합해 음악의 그루브한 에너지를 시각화했습니다.</p>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Promotion</span><span>NICE MUSIK VOL.16 ㅣ P.FUNK SELECTION</span></div>
+              <div class="mdi-row"><span>Client</span><span>L7 Hotels (롯데호텔)</span></div>
+              <div class="mdi-row"><span>Tools</span><span>Cinema 4d, After Effect</span></div>
+              <div class="mdi-row"><span>Released</span><span>2024.09.05 ㅣ 디자인 기여도 100%</span></div>
+            </div>
+            <div class="mdi-scroll-note">아래로 스크롤해 작업을 확인하실 수 있습니다.</div>
+            <div class="mdi-media">
+              <video id="mdi-video-da-1" class="detail-video-raw" src="p_funk_final.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+            </div>
+          </div>
         </div>
       </div>
       <!-- Slide 2: 2025 TREND LEVEL TEST -->
       <div class="detail-slide" data-slide="2" data-next-page="3d-artwork" data-next-slide="0" data-prev-page="3d-artwork" data-prev-slide="1" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="3DArtwork2-1.png" alt="3D Artwork 02">
-          <div onclick="if(window.openDaModal) openDaModal();" style="position:absolute;left:58.07%;bottom:7%;width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;cursor:pointer;transition:opacity 0.2s;" onmouseenter="this.style.opacity='0.8'" onmouseleave="this.style.opacity='1'">
+          <div class="da-media-frame" onclick="if(window.openDaModal) openDaModal();" style="position:absolute;left:58.07%;bottom:7%;width:32.42%;aspect-ratio:389/584;z-index:4;overflow:hidden;border-radius:5px;cursor:pointer;transition:opacity 0.2s;" onmouseenter="this.style.opacity='0.8'" onmouseleave="this.style.opacity='1'">
             <img src="3DArtworkThumbnail.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
           <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
@@ -2350,6 +2830,50 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
     </div>
   </div>
 </div>
+          <div class="mobile-detail-info">
+            <div class="mdi-nav-wrap">
+              <div class="mdi-nav">
+                <span class="mdi-nav-back" onclick="goBackToThumb('3d-artwork')">↖ Back</span>
+                <span class="mdi-nav-dots" onclick="event.stopPropagation();toggleThumbMenu('mdi-cat-da-2')">•••</span>
+              </div>
+            </div>
+            <div class="thumb-inline-cats" id="mdi-cat-da-2">
+              <span class="thumb-menu-close" onclick="toggleThumbMenu('mdi-cat-da-2')">✕</span>
+              <div class="thumb-cat-header">CATEGORY</div>
+              <a onclick="switchDetail('ai-creative')">AI Creative</a>
+              <a onclick="switchDetail('brand-content')">Brand Content</a>
+              <a class="active" onclick="switchDetail('3d-artwork')">3D Artwork</a>
+              <a onclick="switchDetail('challenge-reels')">Campaign Film</a>
+            </div>
+            <div class="mdi-num">03</div>
+            <div class="mdi-comment-head">
+              <div class="mdi-label">COMMENT</div>
+              <div class="mdi-prevnext">
+                <div class="nw-item" onclick="openDetail('3d-artwork',1)">
+                  <span class="nw-item-text">← PREV</span>
+                  <div class="nw-item-line"></div>
+                </div>
+                <span class="mdi-pn-sep">ㅣ</span>
+                <div class="nw-item" onclick="openDetail('3d-artwork',0)">
+                  <span class="nw-item-text">NEXT →</span>
+                  <div class="nw-item-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mdi-comment">
+              <p>2025 KREAM 상반기 트렌드 리포트와 함께 진행된 참여형 콘텐츠로, 퀴즈를 통해 자신의 트렌드 레벨을 확인할 수 있는 테스트 형식의 프로모션입니다. 키비주얼과 질문지, 5가지 레벨의 결과 페이지 디자인을 담당했으며, 누구나 가볍고 즐겁게 참여할 수 있도록 3D 캐릭터를 활용해 각 레벨별 캐릭터 비주얼을 구성했습니다.</p>
+            </div>
+            <div class="mdi-details">
+              <div class="mdi-label">WORK DETAILS</div>
+              <div class="mdi-row"><span>Promotion</span><span>2025 TREND LEVEL TEST</span></div>
+              <div class="mdi-row"><span>Tools</span><span>Cinema 4d, Figma</span></div>
+              <div class="mdi-row"><span>Released</span><span>2025.07.16 ㅣ 디자인 기여도 100%</span></div>
+            </div>
+            <div class="mdi-scroll-note">작업을 클릭하시면 테스트를 진행하실 수 있습니다.</div>
+            <div class="mdi-media">
+              <img class="mdi-media-click" src="3DArtworkThumbnail.png" alt="2025 TREND LEVEL TEST" onclick="if(window.openDaModal) openDaModal();">
+            </div>
+          </div>
         </div>
       </div>
     </div>
