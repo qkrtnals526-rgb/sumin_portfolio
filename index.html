@@ -3456,7 +3456,12 @@ function openDetail(pageName, slideIndex){
   }
   if(activeSlideEl){
     activeSlideEl.querySelectorAll('.mobile-detail-info video').forEach(v => {
+      v.muted = true;
       const tryPlay = () => v.play().catch(()=>{});
+      // Safari/WebKit often never starts loading a <video> that began life
+      // inside a display:none ancestor, even after it becomes visible.
+      // Force it to (re)start loading before asking it to play.
+      if(v.readyState === 0){ v.load(); }
       tryPlay();
       v.addEventListener('canplay', tryPlay, {once:true});
       v.addEventListener('loadeddata', tryPlay, {once:true});
