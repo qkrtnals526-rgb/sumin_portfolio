@@ -3746,6 +3746,18 @@ let feAudioReady = false;
   setTimeout(applySpacers, 2500);
   window.recalcDetailSpacers = applySpacers;
 
+  // 스크롤 스트립의 실제 렌더링 높이를 실시간 감시 — 이미지가 언제 로드되든
+  // (느린 네트워크, 캐시 여부와 무관하게) 크기가 바뀔 때마다 자동으로
+  // spacer를 다시 계산해서 스크롤 범위가 항상 실제 콘텐츠 높이와 일치하게 함
+  if('ResizeObserver' in window){
+    const stripResizeObserver = new ResizeObserver(() => {
+      applySpacers();
+    });
+    document.querySelectorAll('.detail-scroll-strip').forEach(strip => {
+      stripResizeObserver.observe(strip);
+    });
+  }
+
   window.getSlideScrollTop = function(){ return 0; };
 
   // ── 스크롤 핸들러 ─────────────────────────────────────────────────
