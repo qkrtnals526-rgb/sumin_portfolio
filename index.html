@@ -1309,6 +1309,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 }
 .da-modal-prev{left:-76px;}
 .da-modal-next{right:-76px;}
+@media (max-width:768px){
+  .da-modal-inner{width:min(72vw,300px);}
+  .da-modal-close{top:-34px;font-size:20px;}
+  .da-modal-arrow{width:40px;height:40px;font-size:16px;}
+  /* 바깥 여백이 부족해 화면 밖으로 잘리던 화살표를 이미지 안쪽으로 겹쳐서 배치 */
+  .da-modal-prev{left:8px;}
+  .da-modal-next{right:8px;}
+}
 .da-modal-dots{
   display:flex;
   justify-content:center;
@@ -3449,6 +3457,17 @@ function openDetail(pageName, slideIndex){
   closeThumbPage();
   const page = document.getElementById('page-'+pageName);
   if(!page) return;
+  // 디저트 테이블(Promotional Content)처럼 다른 카테고리 페이지로 넘어가는 경우,
+  // 이전에 열려있던 detail-page가 안 닫히고 그 위에 겹쳐져서 다음/이전이
+  // 안 먹히는 것처럼 보이는 문제 방지 — 대상이 아닌 페이지는 전부 닫는다.
+  document.querySelectorAll('.detail-page.open').forEach(p=>{
+    if(p !== page){
+      p.querySelectorAll('.detail-slide.active').forEach(s=>{
+        if(window.deactivateSlideMedia) window.deactivateSlideMedia(s);
+      });
+      p.classList.remove('open');
+    }
+  });
   if(slideIndex !== undefined){
     const slides = page.querySelectorAll('.detail-slide');
     slides.forEach(s => {
