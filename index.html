@@ -3142,6 +3142,7 @@ window.pfunkCheckAudio = function(pageEl){
 <script>
 (function(){
   const cover    = document.getElementById('s-cover');
+  const nameWrap = document.getElementById('nameWrap');
   const sinceWrap= document.getElementById('sinceWrap');
   if(!cover) return;
 
@@ -3155,12 +3156,10 @@ window.pfunkCheckAudio = function(pageEl){
     if(ar>imgAR){rW=cw;rH=cw/imgAR;oX=0;oY=(ch-rH)/2;}
     else{rH=ch;rW=ch*imgAR;oY=0;oX=(cw-rW)/2;}
     const sX=rW/IMG_W, sY=rH/IMG_H;
-    if(sinceWrap){
-      sinceWrap.style.left  =(oX+SINCE_CONTENT.l*sX)+'px';
-      sinceWrap.style.top   =(oY+SINCE_CONTENT.t*sY)+'px';
-      sinceWrap.style.width =(SINCE_CONTENT.w*sX)+'px';
-      sinceWrap.style.height=(SINCE_CONTENT.h*sY)+'px';
-    }
+    sinceWrap.style.left  =(oX+SINCE_CONTENT.l*sX)+'px';
+    sinceWrap.style.top   =(oY+SINCE_CONTENT.t*sY)+'px';
+    sinceWrap.style.width =(SINCE_CONTENT.w*sX)+'px';
+    sinceWrap.style.height=(SINCE_CONTENT.h*sY)+'px';
   }
   syncSince();
   window.addEventListener('resize', syncSince);
@@ -3168,7 +3167,7 @@ window.pfunkCheckAudio = function(pageEl){
   // ── Collect all letter groups ──
   const groups = Array.from(document.querySelectorAll('#s-cover .mg'));
 
-  // ── Entrance reveal: starts only after the loading screen actually finishes ──
+  // ── Entrance reveal: 로딩 끝나면 글자 하나씩 순차적으로 나타남 ──
   groups.forEach(el => {
     el.style.opacity = '0';
     el.style.transition = 'opacity 0.35s ease-out';
@@ -3179,13 +3178,7 @@ window.pfunkCheckAudio = function(pageEl){
     });
   }
   window.addEventListener('coverReady', revealLetters, {once:true});
-  setTimeout(revealLetters, 4500);
-
-  // Mobile: skip the entire float/magnet physics loop
-  if(window.innerWidth <= 768){
-    groups.forEach(el => { el.style.transform = 'translate(0px,0px)'; });
-    return;
-  }
+  setTimeout(revealLetters, 4500); // 혹시 로딩 이벤트 안 오면 fallback
 
   const states = groups.map(g => ({
     el: g,
@@ -3220,22 +3213,27 @@ window.pfunkCheckAudio = function(pageEl){
       const cx  = r.left + r.width  / 2;
       const cy  = r.top  + r.height / 2;
 
+      // Distance from cursor to current letter center
       const dx   = cx - smX;
       const dy   = cy - smY;
       const dist = Math.sqrt(dx*dx + dy*dy);
 
+      // Repel
       if(dist < MAGNET_R && dist > 1 && rawX > -9000){
         const force = Math.pow(1 - dist/MAGNET_R, 1.4) * REPEL;
         s.vx += (dx/dist) * force;
         s.vy += (dy/dist) * force;
       }
 
+      // Float
       s.vx += Math.sin(t*s.fspd + s.phase)       * FLOAT_A * 0.06;
       s.vy += Math.cos(t*s.fspd*.7 + s.phase)    * FLOAT_A * 0.04;
 
+      // Spring back to origin (tx/ty = 0)
       s.vx += (0 - s.tx) * SPRING;
       s.vy += (0 - s.ty) * SPRING;
 
+      // Damp
       s.vx *= DAMPING;
       s.vy *= DAMPING;
 
@@ -3261,14 +3259,7 @@ window.pfunkCheckAudio = function(pageEl){
   const trailCanvas = document.getElementById('sphereCanvas');
   if(!intro || !cover) return;
 
-  if(window.innerWidth <= 768){
-    intro.style.clipPath = 'none';
-    intro.style.transform = 'none';
-    return;
-  }
-
   intro.style.transformOrigin = 'bottom';
-
   let prevEase = 0;
 
   function update(){
