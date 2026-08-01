@@ -3142,13 +3142,12 @@ window.pfunkCheckAudio = function(pageEl){
 <script>
 (function(){
   const cover    = document.getElementById('s-cover');
-  const nameWrap = document.getElementById('nameWrap');
   const sinceWrap= document.getElementById('sinceWrap');
   if(!cover) return;
 
   // ── Position since wrap dynamically (bg-image scaling) ──
   const IMG_W=3600, IMG_H=2025;
-  const SINCE_CONTENT={l:644,t:1264,w:2316,h:465};
+  const SINCE_CONTENT={l:309.0,t:1068.66,w:2985.99,h:860.34};
   function syncSince(){
     const cw=cover.offsetWidth, ch=cover.offsetHeight;
     const ar=cw/ch, imgAR=IMG_W/IMG_H;
@@ -3156,16 +3155,38 @@ window.pfunkCheckAudio = function(pageEl){
     if(ar>imgAR){rW=cw;rH=cw/imgAR;oX=0;oY=(ch-rH)/2;}
     else{rH=ch;rW=ch*imgAR;oY=0;oX=(cw-rW)/2;}
     const sX=rW/IMG_W, sY=rH/IMG_H;
-    sinceWrap.style.left  =(oX+SINCE_CONTENT.l*sX)+'px';
-    sinceWrap.style.top   =(oY+SINCE_CONTENT.t*sY)+'px';
-    sinceWrap.style.width =(SINCE_CONTENT.w*sX)+'px';
-    sinceWrap.style.height=(SINCE_CONTENT.h*sY)+'px';
+    if(sinceWrap){
+      sinceWrap.style.left  =(oX+SINCE_CONTENT.l*sX)+'px';
+      sinceWrap.style.top   =(oY+SINCE_CONTENT.t*sY+31)+'px';
+      sinceWrap.style.width =(SINCE_CONTENT.w*sX)+'px';
+      sinceWrap.style.height=(SINCE_CONTENT.h*sY)+'px';
+    }
   }
   syncSince();
   window.addEventListener('resize', syncSince);
 
   // ── Collect all letter groups ──
   const groups = Array.from(document.querySelectorAll('#s-cover .mg'));
+
+  // ── Entrance reveal: starts only after the loading screen actually finishes ──
+  groups.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transition = 'opacity 0.35s ease-out';
+  });
+  function revealLetters(){
+    groups.forEach((el, i) => {
+      setTimeout(() => { el.style.opacity = '1'; }, i * 18);
+    });
+  }
+  window.addEventListener('coverReady', revealLetters, {once:true});
+  setTimeout(revealLetters, 4500);
+
+  // Mobile: skip the entire float/magnet physics loop
+  if(window.innerWidth <= 768){
+    groups.forEach(el => { el.style.transform = 'translate(0px,0px)'; });
+    return;
+  }
+
   const states = groups.map(g => ({
     el: g,
     tx: 0, ty: 0,
@@ -3181,11 +3202,11 @@ window.pfunkCheckAudio = function(pageEl){
   document.addEventListener('mousemove', e=>{ rawX=e.clientX; rawY=e.clientY; });
   document.addEventListener('mouseleave',()=>{ rawX=-9999; });
 
-  const MAGNET_R = 180;
-  const REPEL    = 14;
+  const MAGNET_R = 260;
+  const REPEL    = 26;
   const SPRING   = 0.06;
-  const DAMPING  = 0.80;
-  const FLOAT_A  = 0.10;
+  const DAMPING  = 0.82;
+  const FLOAT_A  = 0.22;
 
   let t = 0;
   (function loop(){
@@ -3199,27 +3220,22 @@ window.pfunkCheckAudio = function(pageEl){
       const cx  = r.left + r.width  / 2;
       const cy  = r.top  + r.height / 2;
 
-      // Distance from cursor to current letter center
       const dx   = cx - smX;
       const dy   = cy - smY;
       const dist = Math.sqrt(dx*dx + dy*dy);
 
-      // Repel
       if(dist < MAGNET_R && dist > 1 && rawX > -9000){
         const force = Math.pow(1 - dist/MAGNET_R, 1.4) * REPEL;
         s.vx += (dx/dist) * force;
         s.vy += (dy/dist) * force;
       }
 
-      // Float
       s.vx += Math.sin(t*s.fspd + s.phase)       * FLOAT_A * 0.06;
       s.vy += Math.cos(t*s.fspd*.7 + s.phase)    * FLOAT_A * 0.04;
 
-      // Spring back to origin (tx/ty = 0)
       s.vx += (0 - s.tx) * SPRING;
       s.vy += (0 - s.ty) * SPRING;
 
-      // Damp
       s.vx *= DAMPING;
       s.vy *= DAMPING;
 
@@ -3245,24 +3261,40 @@ window.pfunkCheckAudio = function(pageEl){
   const trailCanvas = document.getElementById('sphereCanvas');
   if(!intro || !cover) return;
 
+  if(window.innerWidth <= 768){
+    intro.style.clipPath = 'none';
+    intro.style.transform = 'none';
+    return;
+  }
+
+  intro.style.transformOrigin = 'bottom';
+
+  let prevEase = 0;
+
   function update(){
     const coverH  = cover.offsetHeight;
     const scrollY = window.scrollY;
-    // 0→1 as scroll goes from 0 to coverH
     const progress = Math.min(1, Math.max(0, scrollY / coverH));
-    const ease = 1 - Math.pow(1 - progress, 3);
-    const ty = (1 - ease) * 100;
-    intro.style.transform = `translateY(${ty.toFixed(2)}%)`;
+    const ease = 1 - Math.pow(1 - progress, 4);
+
+    // 아래에서 위로 올라오는 clipPath reveal
+    const clipTop = (1 - ease) * 100;
+    intro.style.clipPath = `inset(${clipTop.toFixed(2)}% 0 0 0)`;
+
+    // 올라오는 속도에 따라 살짝 늘어나는 stretch 효과
+    const velocity = ease - prevEase;
+    prevEase = ease;
+    const stretch = 1 + Math.min(Math.max(velocity, 0) * 5, 0.05);
+    intro.style.transform = `scaleY(${stretch.toFixed(4)})`;
     intro.style.transition = 'none';
 
-    // Fade out SVGs + cursor trail as intro covers cover
-    // Start fading when progress > 0.5, fully gone at 0.85
-    const svgAlpha = Math.max(0, 1 - (progress - 0.5) / 0.35);
-    if(nameW)  nameW.style.opacity  = svgAlpha;
-    if(sinceW) sinceW.style.opacity = svgAlpha;
+    // 인트로가 올라올수록 표지 글자+since가 작아지며 사라짐
+    const svgAlpha = Math.min(1, Math.max(0, 1 - progress / 0.85));
+    const svgScale = 1 - (1 - svgAlpha) * 0.3;
+    if(nameW){ nameW.style.opacity = svgAlpha; nameW.style.transform = `scale(${svgScale.toFixed(4)})`; }
+    if(sinceW){ sinceW.style.opacity = svgAlpha; sinceW.style.transform = `scale(${svgScale.toFixed(4)})`; }
     if(trailCanvas) trailCanvas.style.opacity = svgAlpha;
 
-    // Hide cover sticky when fully covered by intro
     if(progress >= 1){
       cover.style.position = 'relative';
       cover.style.top = 'auto';
@@ -3270,9 +3302,9 @@ window.pfunkCheckAudio = function(pageEl){
       cover.style.position = 'sticky';
       cover.style.top = '0';
     }
+    requestAnimationFrame(update);
   }
-  window.addEventListener('scroll', update, {passive:true});
-  update();
+  requestAnimationFrame(update);
 })();
 
 // ── Loading screen ──
