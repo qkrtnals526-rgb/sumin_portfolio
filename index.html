@@ -1410,6 +1410,39 @@ body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#000;o
 <body>
 
 
+<!-- 모바일 차단 오버레이: 768px 이하에서만 표시 -->
+<style>
+#mobile-block{
+  display:none;
+  position:fixed;inset:0;z-index:99999;
+  background:#fff;
+  flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:20px;
+  padding:40px;
+  text-align:center;
+}
+@media(max-width:768px){
+  #mobile-block{display:flex;}
+}
+#mobile-block .mb-title{
+  font-family:'StackSansNotch',sans-serif;
+  font-size:22px;
+  letter-spacing:0.06em;
+  color:#111;
+}
+#mobile-block .mb-sub{
+  font-family:'Pretendard',sans-serif;
+  font-size:14px;
+  color:#888;
+  line-height:1.7;
+}
+</style>
+<div id="mobile-block">
+  <div class="mb-title">PARK SUMiN</div>
+  <div class="mb-sub">이 포트폴리오는 데스크톱에서<br>확인하실 수 있습니다.<br><br>This portfolio is optimized<br>for desktop viewing.</div>
+</div>
+
 <div id="loading-screen">
   <div class="loading-text" id="loading-txt">Loading</div>
   <div style="display:flex;align-items:center;gap:14px;">
