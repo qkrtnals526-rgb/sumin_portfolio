@@ -1037,6 +1037,7 @@ html, body { overscroll-behavior: none; }
   body{background:#fff !important;}
   #nav{padding:calc(18px + env(safe-area-inset-top)) 16px 18px !important;}
   .nav-links{gap:16px !important;}
+  #nav{display:none !important;}
   #sinceWrap{display:none !important;}
   #nameWrap{display:none !important;}
   .mobile-only-cover{
@@ -1357,6 +1358,26 @@ html, body { overscroll-behavior: none; }
 #mc-cover-bg{display:none;}
 @media(min-width:769px){}
 @media(min-width:769px){#mc-cover-bg{display:none;}}
+
+/* 모바일 안내 문구 — 모바일에서만 표시 */
+#mobile-block{display:none;}
+@media(max-width:768px){
+  #mobile-block{
+    display:block;
+    padding:40px 24px 60px;
+    text-align:center;
+    background:#fff;
+  }
+  #mobile-block .mb-ko{
+    font-family:'Pretendard',sans-serif;
+    font-size:14px;color:#111;line-height:1.8;
+    margin-bottom:16px;
+  }
+  #mobile-block .mb-en{
+    font-family:'Pretendard',sans-serif;
+    font-size:13px;color:#111;opacity:0.7;line-height:1.8;
+  }
+}
 </style>
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://parksumin.vercel.app/">
@@ -1489,7 +1510,8 @@ html, body { overscroll-behavior: none; }
   
 </section>
 <div id="mobile-block">
-  <div class="mb-sub">이 포트폴리오는 데스크톱 환경에서<br>더욱 풍부하게 즐기실 수 있습니다.<br><br>For the full experience,<br>please view on desktop.</div>
+  <div class="mb-ko">이 포트폴리오는 데스크톱 환경에서<br>더욱 풍부하게 즐기실 수 있습니다.</div>
+  <div class="mb-en">For the full experience,<br>please view on desktop.</div>
 </div>
 
 <section id="s-about1">
@@ -3553,24 +3575,12 @@ window.pfunkCheckAudio = function(pageEl){
 (function(){
   if(window.innerWidth > 768) return; // desktop skips this entirely
 
-  // ── PARK / SUMIN letters pop up from below, in place ──
+  // ── PARK / SUMIN letters — 처음부터 바로 표시 (coverReady 이벤트 타이밍 의존 제거) ──
   const nameLetters = Array.from(document.querySelectorAll('#mc-park .mg, #mc-sumin .mg'));
   nameLetters.forEach(el => {
-    el.style.transformOrigin = 'center';
-    el.style.transform = 'translateY(24px)';
-    el.style.opacity = '0';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
   });
-  function popInNames(){
-    nameLetters.forEach((el, i) => {
-      setTimeout(() => {
-        el.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s';
-        el.style.transform = 'translateY(0)';
-        el.style.opacity = '1';
-      }, i * 45);
-    });
-  }
-  window.addEventListener('coverReady', popInNames, {once:true});
-  setTimeout(popInNames, 4500);
 
   const fallChunks = [document.getElementById('mc-num')].filter(Boolean);
 
