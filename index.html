@@ -407,9 +407,11 @@ html, body { overscroll-behavior: none; }
 .detail-page.open{display:block;}
 
 /* OWN PROJECT — full-width stacked media page */
-.op-media-stack{width:72%;margin:0 auto;}
-.op-media-stack img,.op-media-stack video{display:block;width:100%;height:auto;}
-.op-video-wrap{position:relative;width:100%;cursor:pointer;}
+.op-media-stack{width:100%;}
+.op-row{position:relative;width:100%;overflow:hidden;}
+.op-row .op-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(50px) brightness(0.65);transform:scale(1.15);z-index:0;}
+.op-row .op-fg{position:relative;display:block;width:72%;height:auto;margin:0 auto;z-index:1;}
+.op-video-wrap{position:relative;width:72%;margin:0 auto;cursor:pointer;z-index:1;}
 .op-video-wrap video{display:block;width:100%;height:auto;}
 
 /* 스크롤 힌트 아이콘 — 영상 우측 */
@@ -1962,24 +1964,69 @@ html, body { overscroll-behavior: none; }
     </div>
   </div>
   <div class="op-media-stack">
-    <video src="ojos.mp4" autoplay loop muted playsinline></video>
-    <img src="ojos1.jpg" alt="OJOS 25SS Tessellation">
-    <img src="ojos2.jpg" alt="OJOS 25SS Lookbook">
-    <img src="ojos3.jpg" alt="OJOS 25SS Keywords">
-    <div class="op-video-wrap" onclick="playOjos4Alt()">
-      <video id="ojos4-default" src="ojos4.mp4" autoplay loop muted playsinline></video>
-      <video id="ojos4-alt" src="ojos4-1.mp4" muted loop playsinline style="display:none;"></video>
+    <div class="op-row">
+      <video class="op-bg" src="ojos.mp4" autoplay loop muted playsinline></video>
+      <video class="op-fg" src="ojos.mp4" autoplay loop muted playsinline></video>
     </div>
-    <img src="ojos5.jpg" alt="OJOS 25SS">
-    <video src="ojos6.mp4" autoplay loop muted playsinline></video>
-    <img src="ojos7.jpg" alt="OJOS 25SS Line-up 1">
-    <video src="ojos8.mp4" autoplay loop muted playsinline></video>
-    <img src="ojos9.jpg" alt="OJOS 25SS Line-up 2">
-    <video src="ojos10.mp4" autoplay loop muted playsinline></video>
-    <img src="ojos11.jpg" alt="OJOS 25SS Line-up 3">
-    <video src="ojos12.mp4" autoplay loop muted playsinline></video>
-    <img src="ojos13.jpg" alt="OJOS 25SS Line-up 4">
-    <img src="ojos14.jpg" alt="OJOS 25SS Closing">
+    <div class="op-row">
+      <img class="op-bg" src="ojos1.jpg" alt="">
+      <img class="op-fg" src="ojos1.jpg" alt="OJOS 25SS Tessellation">
+    </div>
+    <div class="op-row">
+      <img class="op-bg" src="ojos2.jpg" alt="">
+      <img class="op-fg" src="ojos2.jpg" alt="OJOS 25SS Lookbook">
+    </div>
+    <div class="op-row">
+      <img class="op-bg" src="ojos3.jpg" alt="">
+      <img class="op-fg" src="ojos3.jpg" alt="OJOS 25SS Keywords">
+    </div>
+    <div class="op-row">
+      <video class="op-bg" src="ojos4.mp4" autoplay loop muted playsinline></video>
+      <div class="op-video-wrap" onclick="playOjos4Alt()">
+        <video id="ojos4-default" src="ojos4.mp4" autoplay loop muted playsinline></video>
+        <video id="ojos4-alt" src="ojos4-1.mp4" muted loop playsinline style="display:none;"></video>
+      </div>
+    </div>
+    <div class="op-row">
+      <img class="op-bg" src="ojos5.jpg" alt="">
+      <img class="op-fg" src="ojos5.jpg" alt="OJOS 25SS">
+    </div>
+    <div class="op-row">
+      <video class="op-bg" src="ojos6.mp4" autoplay loop muted playsinline></video>
+      <video class="op-fg" src="ojos6.mp4" autoplay loop muted playsinline></video>
+    </div>
+    <div class="op-row">
+      <img class="op-bg" src="ojos7.jpg" alt="">
+      <img class="op-fg" src="ojos7.jpg" alt="OJOS 25SS Line-up 1">
+    </div>
+    <div class="op-row">
+      <video class="op-bg" src="ojos8.mp4" autoplay loop muted playsinline></video>
+      <video class="op-fg" src="ojos8.mp4" autoplay loop muted playsinline></video>
+    </div>
+    <div class="op-row">
+      <img class="op-bg" src="ojos9.jpg" alt="">
+      <img class="op-fg" src="ojos9.jpg" alt="OJOS 25SS Line-up 2">
+    </div>
+    <div class="op-row">
+      <video class="op-bg" src="ojos10.mp4" autoplay loop muted playsinline></video>
+      <video class="op-fg" src="ojos10.mp4" autoplay loop muted playsinline></video>
+    </div>
+    <div class="op-row">
+      <img class="op-bg" src="ojos11.jpg" alt="">
+      <img class="op-fg" src="ojos11.jpg" alt="OJOS 25SS Line-up 3">
+    </div>
+    <div class="op-row">
+      <video class="op-bg" src="ojos12.mp4" autoplay loop muted playsinline></video>
+      <video class="op-fg" src="ojos12.mp4" autoplay loop muted playsinline></video>
+    </div>
+    <div class="op-row">
+      <img class="op-bg" src="ojos13.jpg" alt="">
+      <img class="op-fg" src="ojos13.jpg" alt="OJOS 25SS Line-up 4">
+    </div>
+    <div class="op-row">
+      <img class="op-bg" src="ojos14.jpg" alt="">
+      <img class="op-fg" src="ojos14.jpg" alt="OJOS 25SS Closing">
+    </div>
   </div>
 </div>
 
