@@ -115,7 +115,7 @@ html, body { overscroll-behavior: none; }
 #s-work2{width:100%;height:calc(100vh + 200px);position:relative;background:#000;margin-top:-1px;scroll-margin-top:80px;}
 .work-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;}
 .cat-list-wrap{flex:1;display:flex;align-items:center;padding:0;}
-.cat-list{width:100%;display:flex;flex-direction:column;gap:1.5px;}
+.cat-list{width:100%;display:flex;flex-direction:column;gap:0.375px;}
 .cat-item{
   display:flex;align-items:center;justify-content:space-between;
   padding:0 5%;
@@ -1952,10 +1952,10 @@ html, body { overscroll-behavior: none; }
 
 <!-- OWN PROJECT — OJOS DETAIL PAGE -->
 <div id="page-own-project" class="detail-page" style="background:#000;">
-  <div class="detail-nav dark" style="mix-blend-mode:difference;">
+  <div class="detail-nav dark">
     <a class="detail-back" onclick="goBackToThumb('own-project')">↖ Back</a>
     <div class="detail-menu-wrap">
-      <div class="detail-inline-cats show" style="max-width:1200px !important;opacity:1 !important;margin-right:20px !important;">
+      <div class="detail-inline-cats">
         <a class="active" onclick="switchDetail('own-project')">Own Project</a>
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
         <a onclick="switchDetail('brand-content')">Brand Content</a>
