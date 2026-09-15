@@ -115,16 +115,14 @@ html, body { overscroll-behavior: none; }
 #s-work2{width:100%;height:calc(100vh + 200px);position:relative;background:#000;margin-top:-1px;}
 .work-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;}
 .cat-list-wrap{flex:1;display:flex;align-items:center;padding:0;}
-.cat-list{width:100%;display:flex;flex-direction:column;gap:4px;}
+.cat-list{width:100%;display:flex;flex-direction:column;gap:12px;}
 .cat-item{
   display:flex;align-items:center;justify-content:space-between;
   padding:0 5%;
   height:calc(100vh / 6.9);
-  border-bottom:0.5px solid rgba(255,255,255,0.15);
   cursor:pointer;position:relative;overflow:hidden;
   transition:none;
 }
-.cat-item:first-child{border-top:0.5px solid rgba(255,255,255,0.15);}
 .cat-item::before{ display:none; }
 .cat-item:hover::before{ display:none; }
 .cat-item-name{
@@ -1084,8 +1082,8 @@ html, body { overscroll-behavior: none; }
   <div class="nav-right">
     <a href="javascript:void(0)" onclick="document.getElementById('s-cover').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)" class="nav-portfolio">PORTFOLIO</a>
     <div class="nav-links">
-      <a href="javascript:void(0)" onclick="document.getElementById('s-about1').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">About</a>
-      <a href="javascript:void(0)" onclick="document.getElementById('s-work1').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">Work</a>
+      <a href="javascript:void(0)" onclick="document.getElementById('s-about2').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">About</a>
+      <a href="javascript:void(0)" onclick="document.getElementById('s-work2').scrollIntoView({behavior:'smooth'});history.replaceState(null,'',location.pathname)">Work</a>
     </div>
   </div>
 </nav>
