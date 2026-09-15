@@ -3264,7 +3264,6 @@ window.pfunkCheckAudio = function(pageEl){
     const svgScale = 1 - (1 - svgAlpha) * 0.3;
     if(nameW){ nameW.style.opacity = svgAlpha; nameW.style.transform = `scale(${svgScale.toFixed(4)})`; }
     if(sinceW){ sinceW.style.opacity = svgAlpha; sinceW.style.transform = `scale(${svgScale.toFixed(4)})`; }
-    if(trailCanvas) trailCanvas.style.opacity = svgAlpha;
 
     if(progress >= 1){
       cover.style.position = 'relative';
