@@ -115,36 +115,38 @@ html, body { overscroll-behavior: none; }
 #s-work2{width:100%;height:calc(100vh + 200px);position:relative;background:#000;margin-top:-1px;scroll-margin-top:80px;}
 .work-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;}
 .cat-list-wrap{flex:1;display:flex;align-items:center;padding:0;}
-.cat-list{width:100%;display:flex;flex-direction:column;gap:12px;}
+.cat-list{width:100%;display:flex;flex-direction:column;gap:1.5px;}
 .cat-item{
   display:flex;align-items:center;justify-content:space-between;
   padding:0 5%;
   height:calc(100vh / 6.9);
   cursor:pointer;position:relative;overflow:hidden;
-  transition:none;
+  background:transparent;
+  transition:background 0.25s ease;
 }
+.cat-item:hover{background:#1356FC;}
 .cat-item::before{ display:none; }
 .cat-item:hover::before{ display:none; }
 .cat-item-name{
   font-family:'Pretendard',sans-serif;
-  font-size:clamp(28px,5vw,72px);
+  font-size:clamp(14px,2.5vw,36px);
   font-weight:600;
   color:#fff;
   letter-spacing:-0.02em;
   position:relative;z-index:1;
-  transition:color 0.2s, transform 0.35s cubic-bezier(0.16,1,0.3,1), font-size 0.35s cubic-bezier(0.16,1,0.3,1);
+  transition:color 0.2s;
   line-height:1;
   display:inline-block;
 }
-.cat-item:hover .cat-item-name{color:#1356FC;transform:scale(1.04);transform-origin:left center;}
+.cat-item:hover .cat-item-name{color:#fff;}
 .cat-item-arrow{
-  font-size:clamp(28px,3.5vw,52px);
+  font-size:clamp(14px,1.75vw,26px);
   color:#fff;
   position:relative;z-index:1;
-  transition:color 0.2s, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  transition:color 0.2s;
   display:inline-block;
 }
-.cat-item:hover .cat-item-arrow{color:#1356FC;transform:scale(1.12);}
+.cat-item:hover .cat-item-arrow{color:#fff;}
 .work-footer{padding:0 3.33% 3vh;margin-top:100px;background:#000;display:flex;justify-content:flex-end;}
 .work-footer p{font-family:'Pretendard',sans-serif;font-size:clamp(8px,1vw,12px);font-weight:400;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
 
