@@ -415,13 +415,9 @@ html, body { overscroll-behavior: none; }
 .detail-page.open{display:block;}
 
 /* OWN PROJECT — full-width stacked media page */
-.op-fg{position:relative;display:block;height:82vh;width:auto;max-width:none;z-index:1;object-fit:contain;}
-.op-video-wrap{position:relative;height:82vh;cursor:pointer;z-index:1;}
-.op-video-wrap video{display:block;height:82vh;width:auto;}
-.op-hscroll-outer{position:relative;width:100%;}
-.op-hscroll-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;}
-.op-hscroll-track{display:flex;flex-direction:row;height:82vh;will-change:transform;}
-.op-hitem{flex:0 0 auto;height:82vh;display:flex;align-items:center;padding:0 24px;}
+.op-media-stack{width:100%;}
+.op-fg{position:relative;display:block;width:72%;height:auto;margin:0 auto;z-index:1;}
+.op-video-wrap{position:relative;width:72%;margin:0 auto;cursor:pointer;z-index:1;}
 .op-video-wrap video{display:block;width:100%;height:auto;}
 
 /* 스크롤 힌트 아이콘 — 영상 우측 */
@@ -1973,64 +1969,29 @@ html, body { overscroll-behavior: none; }
       </button>
     </div>
   </div>
-  <div class="op-hscroll-outer" id="opHscrollOuter">
-    <div class="op-hscroll-sticky">
-      <div class="op-hscroll-track" id="opHscrollTrack">
-        <div class="op-hitem"><video class="op-fg" src="ojos.mp4" autoplay loop muted playsinline></video></div>
-        <div class="op-hitem"><img class="op-fg" src="ojos1.jpg" alt="OJOS 25SS Tessellation"></div>
-        <div class="op-hitem"><img class="op-fg" src="ojos2.jpg" alt="OJOS 25SS Lookbook"></div>
-        <div class="op-hitem"><img class="op-fg" src="ojos3.jpg" alt="OJOS 25SS Keywords"></div>
-        <div class="op-hitem">
-          <div class="op-video-wrap" onclick="playOjos4Alt()">
-            <video id="ojos4-default" src="ojos4.mp4" autoplay loop muted playsinline></video>
-            <video id="ojos4-alt" src="ojos4-1.mp4" muted loop playsinline style="display:none;"></video>
-          </div>
-        </div>
-        <div class="op-hitem"><img class="op-fg" src="ojos5.jpg" alt="OJOS 25SS"></div>
-        <div class="op-hitem"><video class="op-fg" src="ojos6.mp4" autoplay loop muted playsinline></video></div>
-        <div class="op-hitem"><img class="op-fg" src="ojos7.jpg" alt="OJOS 25SS Line-up 1"></div>
-        <div class="op-hitem"><video class="op-fg" src="ojos8.mp4" autoplay loop muted playsinline></video></div>
-        <div class="op-hitem"><img class="op-fg" src="ojos9.jpg" alt="OJOS 25SS Line-up 2"></div>
-        <div class="op-hitem"><video class="op-fg" src="ojos10.mp4" autoplay loop muted playsinline></video></div>
-        <div class="op-hitem"><img class="op-fg" src="ojos11.jpg" alt="OJOS 25SS Line-up 3"></div>
-        <div class="op-hitem"><video class="op-fg" src="ojos12.mp4" autoplay loop muted playsinline></video></div>
-        <div class="op-hitem"><img class="op-fg" src="ojos13.jpg" alt="OJOS 25SS Line-up 4"></div>
-        <div class="op-hitem"><img class="op-fg" src="ojos14.jpg" alt="OJOS 25SS Closing"></div>
-      </div>
+  <div class="op-media-stack">
+    <video class="op-fg" src="ojos.mp4" autoplay loop muted playsinline></video>
+    <img class="op-fg" src="ojos1.jpg" alt="OJOS 25SS Tessellation">
+    <img class="op-fg" src="ojos2.jpg" alt="OJOS 25SS Lookbook">
+    <img class="op-fg" src="ojos3.jpg" alt="OJOS 25SS Keywords">
+    <div class="op-video-wrap" onclick="playOjos4Alt()">
+      <video id="ojos4-default" src="ojos4.mp4" autoplay loop muted playsinline></video>
+      <video id="ojos4-alt" src="ojos4-1.mp4" muted loop playsinline style="display:none;"></video>
     </div>
+    <img class="op-fg" src="ojos5.jpg" alt="OJOS 25SS">
+    <video class="op-fg" src="ojos6.mp4" autoplay loop muted playsinline></video>
+    <img class="op-fg" src="ojos7.jpg" alt="OJOS 25SS Line-up 1">
+    <video class="op-fg" src="ojos8.mp4" autoplay loop muted playsinline></video>
+    <img class="op-fg" src="ojos9.jpg" alt="OJOS 25SS Line-up 2">
+    <video class="op-fg" src="ojos10.mp4" autoplay loop muted playsinline></video>
+    <img class="op-fg" src="ojos11.jpg" alt="OJOS 25SS Line-up 3">
+    <video class="op-fg" src="ojos12.mp4" autoplay loop muted playsinline></video>
+    <img class="op-fg" src="ojos13.jpg" alt="OJOS 25SS Line-up 4">
+    <img class="op-fg" src="ojos14.jpg" alt="OJOS 25SS Closing">
   </div>
 </div>
-<script>
-(function(){
-  const outer = document.getElementById('opHscrollOuter');
-  const track = document.getElementById('opHscrollTrack');
-  const scrollHost = document.getElementById('page-own-project');
-  if(!outer || !track || !scrollHost) return;
 
-  function maxTranslate(){
-    return Math.max(0, track.scrollWidth - window.innerWidth);
-  }
-  function setOuterHeight(){
-    outer.style.height = (window.innerHeight + maxTranslate()) + 'px';
-  }
-  function onScroll(){
-    const rect = outer.getBoundingClientRect();
-    const total = outer.offsetHeight - window.innerHeight;
-    if(total <= 0){ track.style.transform = 'translateX(0px)'; return; }
-    const scrolled = Math.min(Math.max(-rect.top, 0), total);
-    const progress = scrolled / total;
-    track.style.transform = `translateX(${(-progress*maxTranslate()).toFixed(1)}px)`;
-  }
-  function refresh(){ setOuterHeight(); onScroll(); }
-
-  window.addEventListener('load', refresh);
-  window.addEventListener('resize', refresh);
-  scrollHost.addEventListener('scroll', onScroll, {passive:true});
-  track.querySelectorAll('video').forEach(v => v.addEventListener('loadedmetadata', refresh));
-  track.querySelectorAll('img').forEach(img => img.addEventListener('load', refresh));
-  refresh();
-})();
-</script>
+<!-- STYLE CHALLENGE DETAIL PAGE -->
 <div id="page-challenge-reels" class="detail-page" style="background:#FFFFFF;overflow:hidden;">
   <div class="detail-nav">
     <a class="detail-back" onclick="goBackToThumb('challenge-reels')">↖ Back</a>
@@ -3171,7 +3132,7 @@ window.pfunkCheckAudio = function(pageEl){
   window.addEventListener('resize', syncSince);
 
   // ── Collect all letter groups ──
-  const groups = Array.from(document.querySelectorAll('#s-cover .mg, #s-work2 .cat-item-name'));
+  const groups = Array.from(document.querySelectorAll('#s-cover .mg'));
 
   // ── Entrance reveal: starts only after the loading screen actually finishes ──
   groups.forEach(el => {
@@ -3303,6 +3264,7 @@ window.pfunkCheckAudio = function(pageEl){
     const svgScale = 1 - (1 - svgAlpha) * 0.3;
     if(nameW){ nameW.style.opacity = svgAlpha; nameW.style.transform = `scale(${svgScale.toFixed(4)})`; }
     if(sinceW){ sinceW.style.opacity = svgAlpha; sinceW.style.transform = `scale(${svgScale.toFixed(4)})`; }
+    if(trailCanvas) trailCanvas.style.opacity = svgAlpha;
 
     if(progress >= 1){
       cover.style.position = 'relative';
