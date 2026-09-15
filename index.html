@@ -125,7 +125,7 @@ html, body { overscroll-behavior: none; }
 .cat-item::after{
   content:'';
   position:absolute;left:0;right:0;
-  top:37.5%;height:25%;
+  top:25%;height:50%;
   background:transparent;
   transition:background 0.25s ease;
   z-index:0;
@@ -1952,10 +1952,10 @@ html, body { overscroll-behavior: none; }
 
 <!-- OWN PROJECT — OJOS DETAIL PAGE -->
 <div id="page-own-project" class="detail-page" style="background:#000;">
-  <div class="detail-nav dark">
+  <div class="detail-nav dark" style="mix-blend-mode:difference;">
     <a class="detail-back" onclick="goBackToThumb('own-project')">↖ Back</a>
     <div class="detail-menu-wrap">
-      <div class="detail-inline-cats">
+      <div class="detail-inline-cats show" style="max-width:1200px !important;opacity:1 !important;margin-right:20px !important;">
         <a class="active" onclick="switchDetail('own-project')">Own Project</a>
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
         <a onclick="switchDetail('brand-content')">Brand Content</a>
