@@ -115,7 +115,7 @@ html, body { overscroll-behavior: none; }
 #s-work2{width:100%;height:calc(100vh + 200px);position:relative;background:#000;margin-top:-1px;}
 .work-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;}
 .cat-list-wrap{flex:1;display:flex;align-items:center;padding:0;}
-.cat-list{width:100%;display:flex;flex-direction:column;}
+.cat-list{width:100%;display:flex;flex-direction:column;gap:4px;}
 .cat-item{
   display:flex;align-items:center;justify-content:space-between;
   padding:0 5%;
@@ -177,7 +177,7 @@ html, body { overscroll-behavior: none; }
 }
 .thumb-inline-cats.open{max-width:1200px;opacity:1;margin-right:20px;}
 .thumb-inline-cats a{
-  font-family:'Pretendard',sans-serif;font-size:22px;font-weight:500;
+  font-family:'Pretendard',sans-serif;font-size:18px;font-weight:500;
   color:#fff;text-decoration:none;cursor:pointer;
   white-space:nowrap;transition:opacity 0.2s;
   text-transform:uppercase;letter-spacing:-0.01em;
@@ -409,7 +409,7 @@ html, body { overscroll-behavior: none; }
 /* OWN PROJECT — full-width stacked media page */
 .op-media-stack{width:100%;}
 .op-media-stack img,.op-media-stack video{display:block;width:100%;height:auto;}
-.op-video-wrap{position:relative;width:100%;}
+.op-video-wrap{position:relative;width:100%;cursor:pointer;}
 .op-video-wrap video{display:block;width:100%;height:auto;}
 
 /* 스크롤 힌트 아이콘 — 영상 우측 */
@@ -1184,7 +1184,7 @@ html, body { overscroll-behavior: none; }
     justify-content:flex-end;gap:20px;padding:0 24px 52px;margin-right:0;
     z-index:2000;opacity:1;
   }
-  .thumb-inline-cats a{font-size:22px;white-space:nowrap;letter-spacing:-0.01em;text-shadow:0 2px 12px rgba(0,0,0,0.5);}
+  .thumb-inline-cats a{font-size:18px;white-space:nowrap;letter-spacing:-0.01em;text-shadow:0 2px 12px rgba(0,0,0,0.5);}
   .thumb-cat-header{position:absolute;top:52px;left:24px;right:24px;font-family:'StackSansNotch',sans-serif;font-weight:600;font-size:45px;letter-spacing:-0.02em;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,0.5);}
   .cover-work-cats.open{background:#1356FC !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;bottom:var(--peek-h) !important;height:auto !important;}
   .cover-work-cats a,.cover-work-cats .thumb-cat-header{text-shadow:none;}
@@ -2324,8 +2324,8 @@ html, body { overscroll-behavior: none; }
     <img src="ojos1.jpg" alt="OJOS 25SS Tessellation">
     <img src="ojos2.jpg" alt="OJOS 25SS Lookbook">
     <img src="ojos3.jpg" alt="OJOS 25SS Keywords">
-    <div class="op-video-wrap">
-      <video id="ojos4-default" src="ojos4.mp4" autoplay muted playsinline onended="playOjos4Alt()"></video>
+    <div class="op-video-wrap" onclick="playOjos4Alt()">
+      <video id="ojos4-default" src="ojos4.mp4" autoplay loop muted playsinline></video>
       <video id="ojos4-alt" src="ojos4-1.mp4" muted loop playsinline style="display:none;"></video>
     </div>
     <img src="ojos5.jpg" alt="OJOS 25SS">
