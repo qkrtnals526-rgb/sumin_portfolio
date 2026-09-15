@@ -12,7 +12,10 @@
   font-weight:100 900;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none;}
+html::-webkit-scrollbar{display:none;}
+body{scrollbar-width:none;-ms-overflow-style:none;}
+body::-webkit-scrollbar{display:none;}
 body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:#fff;overflow-x:hidden;}
 
 /* COVER NAME TILT + SCROLL */
@@ -144,7 +147,7 @@ html, body { overscroll-behavior: none; }
   display:inline-block;
 }
 .cat-item:hover .cat-item-arrow{color:#1356FC;transform:scale(1.12);}
-.work-footer{padding:0 3.33% 3vh;display:flex;justify-content:flex-end;}
+.work-footer{padding:0 3.33% 3vh;margin-top:50px;background:#000;display:flex;justify-content:flex-end;}
 .work-footer p{font-family:'Pretendard',sans-serif;font-size:clamp(8px,1vw,12px);font-weight:400;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
 
 /* THUMBNAIL GRID PAGE */
@@ -406,17 +409,8 @@ html, body { overscroll-behavior: none; }
 /* OWN PROJECT — full-width stacked media page */
 .op-media-stack{width:100%;}
 .op-media-stack img,.op-media-stack video{display:block;width:100%;height:auto;}
-.op-video-wrap{position:relative;width:100%;}
+.op-video-wrap{position:relative;width:100%;cursor:pointer;}
 .op-video-wrap video{display:block;width:100%;height:auto;}
-.op-view-look-btn{
-  position:absolute;left:50%;bottom:9%;transform:translateX(-50%);
-  display:flex;align-items:center;gap:8px;
-  padding:14px 26px;border-radius:999px;border:none;cursor:pointer;
-  background:rgba(255,255,255,0.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-  font-family:'Pretendard',sans-serif;font-size:16px;font-weight:600;color:#000;
-  transition:background 0.2s,transform 0.2s;z-index:5;
-}
-.op-view-look-btn:hover{background:#fff;transform:translateX(-50%) scale(1.03);}
 
 /* 스크롤 힌트 아이콘 — 영상 우측 */
 .detail-scroll-hint{
@@ -2310,7 +2304,7 @@ html, body { overscroll-behavior: none; }
 
 <!-- OWN PROJECT — OJOS DETAIL PAGE -->
 <div id="page-own-project" class="detail-page" style="background:#000;">
-  <div class="detail-nav dark" style="background:rgba(0,0,0,0.35);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
+  <div class="detail-nav" style="position:absolute;">
     <a class="detail-back" onclick="goBackToThumb('own-project')">↖ Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
@@ -2330,10 +2324,9 @@ html, body { overscroll-behavior: none; }
     <img src="ojos1.jpg" alt="OJOS 25SS Tessellation">
     <img src="ojos2.jpg" alt="OJOS 25SS Lookbook">
     <img src="ojos3.jpg" alt="OJOS 25SS Keywords">
-    <div class="op-video-wrap">
+    <div class="op-video-wrap" onclick="playOjos4Alt()">
       <video id="ojos4-default" src="ojos4.mp4" autoplay loop muted playsinline></video>
       <video id="ojos4-alt" src="ojos4-1.mp4" muted loop playsinline style="display:none;"></video>
-      <button class="op-view-look-btn" id="ojos4-view-btn" onclick="playOjos4Alt()">View 4th Look ›</button>
     </div>
     <img src="ojos5.jpg" alt="OJOS 25SS">
     <video src="ojos6.mp4" autoplay loop muted playsinline></video>
@@ -2580,18 +2573,14 @@ function openChallengeReels(){
 function resetOjos4(){
   const def = document.getElementById('ojos4-default');
   const alt = document.getElementById('ojos4-alt');
-  const btn = document.getElementById('ojos4-view-btn');
   if(alt){ alt.pause(); alt.currentTime = 0; alt.style.display = 'none'; }
   if(def){ def.style.display = 'block'; def.currentTime = 0; def.play().catch(()=>{}); }
-  if(btn){ btn.style.display = 'flex'; }
 }
 function playOjos4Alt(){
   const def = document.getElementById('ojos4-default');
   const alt = document.getElementById('ojos4-alt');
-  const btn = document.getElementById('ojos4-view-btn');
   if(def){ def.pause(); def.style.display = 'none'; }
   if(alt){ alt.style.display = 'block'; alt.currentTime = 0; alt.play().catch(()=>{}); }
-  if(btn){ btn.style.display = 'none'; }
 }
 function openOjosDetail(){
   resetOjos4();
