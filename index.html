@@ -1522,6 +1522,10 @@ html, body { overscroll-behavior: none; }
   <div class="work-sticky">
     <div class="cat-list-wrap">
       <div class="cat-list">
+        <div class="cat-item" onclick="openThumbPage('own-project')">
+          <span class="cat-item-name">Own Project</span>
+          <span class="cat-item-arrow">↗</span>
+        </div>
         <div class="cat-item" onclick="openThumbPage('ai-creative')">
           <span class="cat-item-name">AI Creative</span>
           <span class="cat-item-arrow">↗</span>
@@ -1546,12 +1550,55 @@ html, body { overscroll-behavior: none; }
 
 <!-- ══ THUMBNAIL GRID PAGES ══ -->
 
+<!-- Own Project 썸네일 -->
+<div id="thumb-own-project" class="thumb-page">
+  <div class="thumb-page-nav">
+    <a class="thumb-page-back" onclick="closeThumbPage()">↖ Back</a>
+    <div class="thumb-page-nav-right">
+      <div class="thumb-inline-cats" id="tic-op">
+        <a class="active" onclick="openThumbPage('own-project')">Own Project</a>
+        <a onclick="openThumbPage('ai-creative')">AI Creative</a>
+        <a onclick="openThumbPage('brand-content')">Brand Content</a>
+        <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
+        <a onclick="openThumbPage('challenge-reels')">Campaign Film</a>
+      </div>
+      <div class="thumb-menu-btn" onclick="toggleThumbMenu('tic-op')">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>
+  </div>
+  <div class="thumb-top-bar">
+    <div class="thumb-cat-label animate-in">Own Project</div>
+    <div class="thumb-nums" id="tn-own-project"><span class="thumb-num  active">001</span><span class="thumb-num">002</span></div>
+  </div>
+  <div class="thumb-car-zone">
+    <div class="tc-arrow tc-arr-left hidden" id="tc-prev-own-project" onclick="tcMove('own-project',-1)">
+      <span class="tc-arrow-text">← prev</span>
+      <div class="tc-arrow-line"></div>
+    </div>
+
+    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-center" data-i="0">
+      <div class="tc-card-ph" style="background:rgba(255,255,255,0.08);"></div>
+      <div class="tc-card-title">OJOS</div>
+    </div>
+    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-right" data-i="1">
+      <div class="tc-card-ph" style="background:rgba(255,255,255,0.08);"></div>
+      <div class="tc-card-title">JENNIE 1st Album [Ruby] Typo Archive</div>
+    </div>
+    <div class="tc-arrow tc-arr-right" id="tc-next-own-project" onclick="tcMove('own-project',1)">
+      <span class="tc-arrow-text">next →</span>
+      <div class="tc-arrow-line"></div>
+    </div>
+  </div>
+</div>
+
 <!-- AI Creative 썸네일 -->
 <div id="thumb-ai-creative" class="thumb-page">
   <div class="thumb-page-nav">
     <a class="thumb-page-back" onclick="closeThumbPage()">↖ Back</a>
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-ai">
+        <a onclick="openThumbPage('own-project')">Own Project</a>
         <a class="active" onclick="openThumbPage('ai-creative')">AI Creative</a>
         <a onclick="openThumbPage('brand-content')">Brand Content</a>
         <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
@@ -1600,6 +1647,7 @@ html, body { overscroll-behavior: none; }
     <a class="thumb-page-back" onclick="closeThumbPage()">↖ Back</a>
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-bc">
+        <a onclick="openThumbPage('own-project')">Own Project</a>
         <a onclick="openThumbPage('ai-creative')">AI Creative</a>
         <a class="active" onclick="openThumbPage('brand-content')">Brand Content</a>
         <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
@@ -1652,6 +1700,7 @@ html, body { overscroll-behavior: none; }
     <a class="thumb-page-back" onclick="closeThumbPage()">↖ Back</a>
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-3d">
+        <a onclick="openThumbPage('own-project')">Own Project</a>
         <a onclick="openThumbPage('ai-creative')">AI Creative</a>
         <a onclick="openThumbPage('brand-content')">Brand Content</a>
         <a class="active" onclick="openThumbPage('3d-artwork')">3D Artwork</a>
@@ -1697,6 +1746,7 @@ html, body { overscroll-behavior: none; }
     <a class="thumb-page-back" onclick="closeThumbPage()">↖ Back</a>
     <div class="thumb-page-nav-right">
       <div class="thumb-inline-cats" id="tic-cr">
+        <a onclick="openThumbPage('own-project')">Own Project</a>
         <a onclick="openThumbPage('ai-creative')">AI Creative</a>
         <a onclick="openThumbPage('brand-content')">Brand Content</a>
         <a onclick="openThumbPage('3d-artwork')">3D Artwork</a>
@@ -3076,6 +3126,7 @@ let feAudioReady = false;
 /* ── 썸네일 캐러셀 JS ── */
 (function(){
   var pages = {
+    'own-project':   {total:2, cur:0},
     'ai-creative':   {total:4, cur:0},
     'brand-content': {total:5, cur:0},
     '3d-artwork':    {total:3, cur:0},
