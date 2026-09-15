@@ -398,12 +398,25 @@ html, body { overscroll-behavior: none; }
   display:none;position:fixed;inset:0;z-index:1000;
   background:#fff;overflow-y:auto;overflow-x:hidden;
   overscroll-behavior:none;
+  scrollbar-width:none;-ms-overflow-style:none;
 }
+.detail-page::-webkit-scrollbar{display:none;}
 .detail-page.open{display:block;}
 
 /* OWN PROJECT — full-width stacked media page */
 .op-media-stack{width:100%;}
 .op-media-stack img,.op-media-stack video{display:block;width:100%;height:auto;}
+.op-video-wrap{position:relative;width:100%;}
+.op-video-wrap video{display:block;width:100%;height:auto;}
+.op-view-look-btn{
+  position:absolute;left:50%;bottom:9%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;
+  padding:14px 26px;border-radius:999px;border:none;cursor:pointer;
+  background:rgba(255,255,255,0.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  font-family:'Pretendard',sans-serif;font-size:16px;font-weight:600;color:#000;
+  transition:background 0.2s,transform 0.2s;z-index:5;
+}
+.op-view-look-btn:hover{background:#fff;transform:translateX(-50%) scale(1.03);}
 
 /* 스크롤 힌트 아이콘 — 영상 우측 */
 .detail-scroll-hint{
@@ -1583,8 +1596,8 @@ html, body { overscroll-behavior: none; }
       <div class="tc-arrow-line"></div>
     </div>
 
-    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-center" data-i="0" data-onclick="openDetail('own-project',0)">
-      <div class="tc-card-ph" style="background:rgba(255,255,255,0.08);"></div>
+    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-center" data-i="0" data-onclick="openOjosDetail()">
+      <img class="tc-card-img" src="ojos_thum.png" alt="OJOS">
       <div class="tc-card-title">OJOS</div>
     </div>
     <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-right" data-i="1">
@@ -1831,6 +1844,7 @@ html, body { overscroll-behavior: none; }
     <a class="detail-back" onclick="goBackToThumb('ai-creative')">↖ Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
+        <a onclick="switchDetail('own-project')">Own Project</a>
         <a class="active" onclick="switchDetail('ai-creative')">AI Creative</a>
         <a onclick="switchDetail('brand-content')">Brand Content</a>
         <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
@@ -1948,6 +1962,7 @@ html, body { overscroll-behavior: none; }
     <a class="detail-back" onclick="goBackToThumb('brand-content')">↖ Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
+        <a onclick="switchDetail('own-project')">Own Project</a>
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
         <a class="active" onclick="switchDetail('brand-content')">Brand Content</a>
         <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
@@ -2116,6 +2131,7 @@ html, body { overscroll-behavior: none; }
     <a class="detail-back" onclick="goBackToThumb('brand-content')">↖ Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
+        <a onclick="switchDetail('own-project')">Own Project</a>
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
         <a class="active" onclick="switchDetail('brand-content')">Brand Content</a>
         <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
@@ -2178,6 +2194,7 @@ html, body { overscroll-behavior: none; }
     <a class="detail-back" onclick="goBackToThumb('3d-artwork')">↖ Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
+        <a onclick="switchDetail('own-project')">Own Project</a>
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
         <a onclick="switchDetail('brand-content')">Brand Content</a>
         <a class="active" onclick="switchDetail('3d-artwork')">3D Artwork</a>
@@ -2293,15 +2310,31 @@ html, body { overscroll-behavior: none; }
 
 <!-- OWN PROJECT — OJOS DETAIL PAGE -->
 <div id="page-own-project" class="detail-page" style="background:#000;">
-  <div class="detail-nav dark">
+  <div class="detail-nav dark" style="background:rgba(0,0,0,0.35);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
     <a class="detail-back" onclick="goBackToThumb('own-project')">↖ Back</a>
+    <div class="detail-menu-wrap">
+      <div class="detail-inline-cats">
+        <a class="active" onclick="switchDetail('own-project')">Own Project</a>
+        <a onclick="switchDetail('ai-creative')">AI Creative</a>
+        <a onclick="switchDetail('brand-content')">Brand Content</a>
+        <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+        <a onclick="switchDetail('challenge-reels')">Challenge Reels</a>
+      </div>
+      <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
+    </div>
   </div>
   <div class="op-media-stack">
     <video src="ojos.mp4" autoplay loop muted playsinline></video>
     <img src="ojos1.jpg" alt="OJOS 25SS Tessellation">
     <img src="ojos2.jpg" alt="OJOS 25SS Lookbook">
     <img src="ojos3.jpg" alt="OJOS 25SS Keywords">
-    <video src="ojos4.mp4" autoplay loop muted playsinline></video>
+    <div class="op-video-wrap">
+      <video id="ojos4-default" src="ojos4.mp4" autoplay loop muted playsinline></video>
+      <video id="ojos4-alt" src="ojos4-1.mp4" muted loop playsinline style="display:none;"></video>
+      <button class="op-view-look-btn" id="ojos4-view-btn" onclick="playOjos4Alt()">View 4th Look ›</button>
+    </div>
     <img src="ojos5.jpg" alt="OJOS 25SS">
     <video src="ojos6.mp4" autoplay loop muted playsinline></video>
     <img src="ojos7.jpg" alt="OJOS 25SS Line-up 1">
@@ -2321,6 +2354,7 @@ html, body { overscroll-behavior: none; }
     <a class="detail-back" onclick="goBackToThumb('challenge-reels')">↖ Back</a>
     <div class="detail-menu-wrap">
       <div class="detail-inline-cats">
+        <a onclick="switchDetail('own-project')">Own Project</a>
         <a onclick="switchDetail('ai-creative')">AI Creative</a>
         <a onclick="switchDetail('brand-content')">Brand Content</a>
         <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
@@ -2540,6 +2574,28 @@ function goBackToThumb(catId){
 }
 function openChallengeReels(){
   openThumbPage('challenge-reels');
+}
+
+/* OJOS — 4th Look 대체 영상 토글 */
+function resetOjos4(){
+  const def = document.getElementById('ojos4-default');
+  const alt = document.getElementById('ojos4-alt');
+  const btn = document.getElementById('ojos4-view-btn');
+  if(alt){ alt.pause(); alt.currentTime = 0; alt.style.display = 'none'; }
+  if(def){ def.style.display = 'block'; def.currentTime = 0; def.play().catch(()=>{}); }
+  if(btn){ btn.style.display = 'flex'; }
+}
+function playOjos4Alt(){
+  const def = document.getElementById('ojos4-default');
+  const alt = document.getElementById('ojos4-alt');
+  const btn = document.getElementById('ojos4-view-btn');
+  if(def){ def.pause(); def.style.display = 'none'; }
+  if(alt){ alt.style.display = 'block'; alt.currentTime = 0; alt.play().catch(()=>{}); }
+  if(btn){ btn.style.display = 'none'; }
+}
+function openOjosDetail(){
+  resetOjos4();
+  openDetail('own-project', 0);
 }
 
 /* 썸네일 페이지 메뉴 토글 */
