@@ -427,6 +427,7 @@ html, body { overscroll-behavior: none; }
 .op-full-section .op-full-inner video{display:block;width:100%;height:100%;object-fit:cover;}
 /* Letterboxed variant — matches the AI Creative / Brand Content work-page background sizing (aspect-ratio locked, matching-color margins) */
 .op-letterbox-section{width:100%;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.op-letterbox-section:not(:first-child){margin-top:-2px;}
 .op-letterbox-section .op-letterbox-inner{position:relative;width:100%;max-width:calc(100vh * 16 / 9);aspect-ratio:16/9;}
 .op-letterbox-section .op-letterbox-inner img,
 .op-letterbox-section .op-letterbox-inner video{display:block;width:100%;height:100%;object-fit:cover;}
@@ -1994,10 +1995,10 @@ html, body { overscroll-behavior: none; }
     </div>
   </div>
   <div class="op-media-stack">
-    <div class="op-full-section" style="background:#F3F6EF;"><div class="op-full-inner"><img src="ojos_intro.png" alt="OJOS 25SS Intro"></div></div>
-    <div class="op-full-section" style="background:#000;"><div class="op-full-inner"><video src="ojos_intro1.mp4" autoplay loop muted playsinline></video></div></div>
-    <div class="op-full-section" style="background:#000;"><div class="op-full-inner"><img src="ojos_intro2.png" alt="OJOS 25SS Concept Mood Board"></div></div>
-    <div class="op-full-section" style="background:#000;"><div class="op-full-inner"><img src="ojos_design.png" alt="OJOS 25SS Design Process"></div></div>
+    <div class="op-letterbox-section" style="background:#F3F6EF;"><div class="op-letterbox-inner"><img src="ojos_intro.png" alt="OJOS 25SS Intro"></div></div>
+    <div class="op-letterbox-section" style="background:#000;"><div class="op-letterbox-inner"><video src="ojos_intro1.mp4" autoplay loop muted playsinline></video></div></div>
+    <div class="op-letterbox-section" style="background:#000;"><div class="op-letterbox-inner"><img src="ojos_intro2.png" alt="OJOS 25SS Concept Mood Board"></div></div>
+    <div class="op-letterbox-section" style="background:#000;"><div class="op-letterbox-inner"><img src="ojos_design.png" alt="OJOS 25SS Design Process"></div></div>
     <div class="op-live-wrap">
       <img class="op-live-bg" src="ojos_live.png" alt="">
       <video class="op-fg" src="ojos.mp4" autoplay loop muted playsinline></video>
