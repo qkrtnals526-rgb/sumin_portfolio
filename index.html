@@ -51,7 +51,7 @@ html, body { overscroll-behavior: none; }
 /* name SVG wrapper */
 #nameWrap {
   position:absolute;
-  left:4.167%; top:calc(0% - 4px);
+  left:4.167%; top:calc(0% + 2px);
   width:91.694%;
   height:auto;
   pointer-events:none;
@@ -416,7 +416,7 @@ html, body { overscroll-behavior: none; }
 
 /* OWN PROJECT — full-width stacked media page */
 .op-media-stack{width:100%;}
-.op-full-section{width:100%;height:100vh;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.op-full-section{width:100%;height:100vh;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-top:-1px;}
 .op-full-section .op-full-inner{position:relative;width:100%;max-width:calc(100vh * 16 / 9);aspect-ratio:16/9;}
 .op-full-section .op-full-inner img,
 .op-full-section .op-full-inner video{display:block;width:100%;height:100%;object-fit:cover;}
@@ -1990,7 +1990,6 @@ html, body { overscroll-behavior: none; }
         <video id="ojos4-default" src="ojos4.mp4" autoplay loop muted playsinline></video>
         <video id="ojos4-alt" src="ojos4-1.mp4" muted loop playsinline style="display:none;"></video>
       </div>
-      <img class="op-fg" src="ojos5.jpg" alt="OJOS 25SS">
       <video class="op-fg" src="ojos6.mp4" autoplay loop muted playsinline></video>
       <img class="op-fg" src="ojos7.jpg" alt="OJOS 25SS Line-up 1">
       <video class="op-fg" src="ojos8.mp4" autoplay loop muted playsinline></video>
@@ -3136,7 +3135,7 @@ window.pfunkCheckAudio = function(pageEl){
     const sX=rW/IMG_W, sY=rH/IMG_H;
     if(sinceWrap){
       sinceWrap.style.left  =(oX+SINCE_CONTENT.l*sX)+'px';
-      sinceWrap.style.top   =(oY+SINCE_CONTENT.t*sY+27)+'px';
+      sinceWrap.style.top   =(oY+SINCE_CONTENT.t*sY+33)+'px';
       sinceWrap.style.width =(SINCE_CONTENT.w*sX)+'px';
       sinceWrap.style.height=(SINCE_CONTENT.h*sY)+'px';
     }
