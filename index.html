@@ -440,6 +440,17 @@ html, body { overscroll-behavior: none; }
 .jn-hscroll-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;background:#000;}
 .jn-hscroll-track{display:flex;flex-direction:row;height:82vh;will-change:transform;}
 .jn-hitem{flex:0 0 auto;height:82vh;display:flex;align-items:center;padding:0 24px;}
+.jn-media-wrap{position:relative;height:100%;display:inline-flex;align-items:center;}
+.jn-media-wrap .jn-fg{height:100%;}
+.jn-mute-btn{
+  position:absolute;top:16px;right:16px;z-index:2;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(0,0,0,0.5);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s;
+}
+.jn-mute-btn:hover{background:rgba(0,0,0,0.75);}
+.jn-mute-btn svg{width:18px;height:18px;}
 .jn-fg{display:block;height:100%;width:auto;max-width:none;object-fit:contain;}
 .op-video-wrap{position:relative;width:68%;margin:0 auto;cursor:pointer;z-index:1;}
 .op-video-wrap video{display:block;width:100%;height:auto;}
@@ -2045,12 +2056,52 @@ html, body { overscroll-behavior: none; }
   <div class="jn-hscroll-outer" id="jnHscrollOuter">
     <div class="jn-hscroll-sticky">
       <div class="jn-hscroll-track" id="jnHscrollTrack">
-        <div class="jn-hitem"><video class="jn-fg" src="jennie1.mp4" autoplay loop muted playsinline></video></div>
+        <div class="jn-hitem">
+          <div class="jn-media-wrap">
+            <video class="jn-fg" src="jennie1.mp4" autoplay loop muted playsinline></video>
+            <button class="jn-mute-btn" onclick="toggleJnMute(this)" aria-label="음소거 전환">
+              <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg>
+              <svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a9 9 0 0 1 0 12"/></svg>
+            </button>
+          </div>
+        </div>
         <div class="jn-hitem"><img class="jn-fg" src="jennie2.png" alt="JENNIE Ruby"></div>
-        <div class="jn-hitem"><video class="jn-fg" src="jennie3.mp4" autoplay loop muted playsinline></video></div>
-        <div class="jn-hitem"><video class="jn-fg" src="jennie4.mp4" autoplay loop muted playsinline></video></div>
-        <div class="jn-hitem"><video class="jn-fg" src="jennie5.mp4" autoplay loop muted playsinline></video></div>
-        <div class="jn-hitem"><video class="jn-fg" src="jennie6.mp4" autoplay loop muted playsinline></video></div>
+        <div class="jn-hitem">
+          <div class="jn-media-wrap">
+            <video class="jn-fg" src="jennie3.mp4" autoplay loop muted playsinline></video>
+            <button class="jn-mute-btn" onclick="toggleJnMute(this)" aria-label="음소거 전환">
+              <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg>
+              <svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a9 9 0 0 1 0 12"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="jn-hitem">
+          <div class="jn-media-wrap">
+            <video class="jn-fg" src="jennie4.mp4" autoplay loop muted playsinline></video>
+            <button class="jn-mute-btn" onclick="toggleJnMute(this)" aria-label="음소거 전환">
+              <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg>
+              <svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a9 9 0 0 1 0 12"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="jn-hitem">
+          <div class="jn-media-wrap">
+            <video class="jn-fg" src="jennie5.mp4" autoplay loop muted playsinline></video>
+            <button class="jn-mute-btn" onclick="toggleJnMute(this)" aria-label="음소거 전환">
+              <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg>
+              <svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a9 9 0 0 1 0 12"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="jn-hitem">
+          <div class="jn-media-wrap">
+            <video class="jn-fg" src="jennie6.mp4" autoplay loop muted playsinline></video>
+            <button class="jn-mute-btn" onclick="toggleJnMute(this)" aria-label="음소거 전환">
+              <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg>
+              <svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a9 9 0 0 1 0 12"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2334,6 +2385,13 @@ function initJnHscroll(){
 function openJennieDetail(){
   openDetail('jennie', 0);
   requestAnimationFrame(() => requestAnimationFrame(initJnHscroll));
+}
+function toggleJnMute(btn){
+  const video = btn.parentElement.querySelector('video');
+  if(!video) return;
+  video.muted = !video.muted;
+  btn.querySelector('.icon-muted').style.display = video.muted ? 'block' : 'none';
+  btn.querySelector('.icon-unmuted').style.display = video.muted ? 'none' : 'block';
 }
 
 /* 썸네일 페이지 메뉴 토글 */
