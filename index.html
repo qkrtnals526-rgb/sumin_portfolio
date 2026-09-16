@@ -2732,6 +2732,15 @@ function muteAllDetailVideos(){
   feAudio.pause();
   feAudio.currentTime = 0;
   feAudioReady = false;
+
+  // JENNIE videos — force back to muted whenever the page is left
+  document.querySelectorAll('#page-jennie video').forEach(v => { v.muted = true; });
+  document.querySelectorAll('#page-jennie .jn-mute-btn').forEach(btn => {
+    const onIcon = btn.querySelector('.icon-unmuted');
+    const offIcon = btn.querySelector('.icon-muted');
+    if(onIcon) onIcon.style.display = 'none';
+    if(offIcon) offIcon.style.display = 'block';
+  });
 }
 function updateCatLinks(page, activeName){
   page.querySelectorAll('.detail-inline-cats a').forEach(a=>{
