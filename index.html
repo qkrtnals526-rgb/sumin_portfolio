@@ -1314,7 +1314,7 @@ html, body { overscroll-behavior: none; }
   </div>
   <div class="thumb-top-bar">
     <div class="thumb-cat-label animate-in">AI Creative</div>
-    <div class="thumb-nums" id="tn-ai-creative"><span class="thumb-num  active">001</span><span class="thumb-num">002</span><span class="thumb-num">003</span><span class="thumb-num">004</span></div>
+    <div class="thumb-nums" id="tn-ai-creative"><span class="thumb-num  active">001</span><span class="thumb-num">002</span><span class="thumb-num">003</span><span class="thumb-num">004</span><span class="thumb-num">005</span></div>
   </div>
   <div class="thumb-car-zone">
     <div class="tc-arrow tc-arr-left hidden" id="tc-prev-ai-creative" onclick="tcMove('ai-creative',-1)">
@@ -1323,18 +1323,22 @@ html, body { overscroll-behavior: none; }
     </div>
     
     <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-center" data-i="0" data-onclick="openDetail('ai-creative',0)">
+      <img class="tc-card-img" src="clearance_thum.png" alt="Summer Clearance Sale">
+      <div class="tc-card-title">Summer Clearance Sale</div>
+    </div>
+    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-right" data-i="1" data-onclick="openDetail('ai-creative',1)">
       <img class="tc-card-img" src="aicreative_Thumbnail.png" alt="SELLER WEEK">
       <div class="tc-card-title">SELLER WEEK</div>
     </div>
-    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-right" data-i="1" data-onclick="openDetail('ai-creative',1)">
+    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-far-right" data-i="2" data-onclick="openDetail('ai-creative',2)">
       <img class="tc-card-img" src="aicreative2_Thumbnail.png" alt="montbell 해외직구">
       <div class="tc-card-title">montbell 해외직구</div>
     </div>
-    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-far-right" data-i="2" data-onclick="openDetail('ai-creative',2)">
+    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-far-right" data-i="3" data-onclick="openDetail('ai-creative',3)">
       <img class="tc-card-img" src="aicreative3_Thumbnail.png" alt="SPRING SEASON OFF">
       <div class="tc-card-title">SPRING SEASON OFF</div>
     </div>
-    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-far-right" data-i="3" data-onclick="openDetail('ai-creative',3)">
+    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-far-right" data-i="4" data-onclick="openDetail('ai-creative',4)">
       <img class="tc-card-img" src="aicreative4_Thumbnail.png" alt="HERA SENSUAL NUDE GLOSS">
       <div class="tc-card-title">HERA SENSUAL NUDE GLOSS</div>
     </div>
@@ -1542,8 +1546,26 @@ html, body { overscroll-behavior: none; }
 
   <div class="detail-scene" id="ai-scene">
     <div class="detail-canvas">
-      <!-- Slide 1: SELLER WEEK -->
-      <div class="detail-slide active" data-slide="0" data-next-page="ai-creative" data-next-slide="1" data-prev-page="ai-creative" data-prev-slide="3" style="background:#E5E5E5;">
+      <!-- Slide 1: Summer Clearance Sale -->
+      <div class="detail-slide active" data-slide="0" data-next-page="ai-creative" data-next-slide="1" data-prev-page="ai-creative" data-prev-slide="4" style="background:#000;">
+        <div class="detail-slide-inner">
+          <video class="detail-bg" src="clearance_KV.mp4" autoplay loop muted playsinline></video>
+          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+      <!-- Slide 2: SELLER WEEK -->
+      <div class="detail-slide" data-slide="1" data-next-page="ai-creative" data-next-slide="2" data-prev-page="ai-creative" data-prev-slide="0" style="background:#E5E5E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative.png" alt="AI Creative 01">
           <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
@@ -1563,8 +1585,8 @@ html, body { overscroll-behavior: none; }
           </div>
         </div>
       </div>
-      <!-- Slide 2: montbell 해외직구 -->
-      <div class="detail-slide" data-slide="1" data-next-page="ai-creative" data-next-slide="2" data-prev-page="ai-creative" data-prev-slide="0" style="background:#DEE1E5;">
+      <!-- Slide 3: montbell 해외직구 -->
+      <div class="detail-slide" data-slide="2" data-next-page="ai-creative" data-next-slide="3" data-prev-page="ai-creative" data-prev-slide="1" style="background:#DEE1E5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative2.png" alt="AI Creative 02">
           <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
@@ -1584,8 +1606,8 @@ html, body { overscroll-behavior: none; }
           </div>
         </div>
       </div>
-      <!-- Slide 3: SPRING SEASON OFF -->
-      <div class="detail-slide" data-slide="2" data-next-page="ai-creative" data-next-slide="3" data-prev-page="ai-creative" data-prev-slide="1" style="background:#FAFFE6;">
+      <!-- Slide 4: SPRING SEASON OFF -->
+      <div class="detail-slide" data-slide="3" data-next-page="ai-creative" data-next-slide="4" data-prev-page="ai-creative" data-prev-slide="2" style="background:#FAFFE6;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative3.png" alt="AI Creative 03">
           <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
@@ -1605,8 +1627,8 @@ html, body { overscroll-behavior: none; }
           </div>
         </div>
       </div>
-      <!-- Slide 4: HERA SENSUAL NUDE GLOSS -->
-      <div class="detail-slide" data-slide="3" data-next-page="ai-creative" data-next-slide="0" data-prev-page="ai-creative" data-prev-slide="2" style="background:#C7C7C7;">
+      <!-- Slide 5: HERA SENSUAL NUDE GLOSS -->
+      <div class="detail-slide" data-slide="4" data-next-page="ai-creative" data-next-slide="0" data-prev-page="ai-creative" data-prev-slide="3" style="background:#C7C7C7;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="aicreative4.png" alt="AI Creative 04">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="hera-strip-1">
@@ -3018,7 +3040,7 @@ let feAudioReady = false;
 (function(){
   var pages = {
     'own-project':   {total:2, cur:0},
-    'ai-creative':   {total:4, cur:0},
+    'ai-creative':   {total:5, cur:0},
     'brand-content': {total:5, cur:0},
     '3d-artwork':    {total:3, cur:0},
   };
