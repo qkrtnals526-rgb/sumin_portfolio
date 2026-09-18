@@ -625,6 +625,7 @@ html, body { overscroll-behavior: none; }
 }
 
 /* 배경 이미지 — 각 슬라이드별 */
+.cs-scroll::-webkit-scrollbar{display:none;}
 .detail-bg{
   position:absolute;inset:0;
   width:100%;height:100%;
@@ -1547,7 +1548,7 @@ html, body { overscroll-behavior: none; }
   <div class="detail-scene" id="ai-scene">
     <div class="detail-canvas">
       <!-- Slide 1: Summer Clearance Sale -->
-      <div class="detail-slide active" data-slide="0" data-next-page="ai-creative" data-next-slide="1" data-prev-page="ai-creative" data-prev-slide="4" style="background:#000;display:block;overflow-y:auto;">
+      <div class="detail-slide active cs-scroll" data-slide="0" data-next-page="ai-creative" data-next-slide="1" data-prev-page="ai-creative" data-prev-slide="4" style="background:#000;display:block;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;">
         <div class="detail-slide-inner" style="max-width:none;aspect-ratio:auto;height:auto;display:block;">
           <div style="position:relative;width:100%;height:100vh;overflow:hidden;">
             <video class="detail-bg" src="clearance_KV.mp4" autoplay loop muted playsinline style="object-fit:contain;object-position:center top;"></video>
