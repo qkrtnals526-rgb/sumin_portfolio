@@ -1623,6 +1623,10 @@ html, body { overscroll-behavior: none; }
               <img class="cs-float" data-order="8" src="chang2.png" alt="Summer Clearance Sale" draggable="false" decoding="async" style="left:33.250%;top:74.962%;width:17.278%;z-index:4;--rise:35%;">
               <img class="cs-float" data-order="9" src="cosur.png" alt="" draggable="false" decoding="async" style="left:39.222%;top:32.235%;width:10.806%;z-index:5;--rise:30%;">
           </div>
+          <!-- Design Process 04 : 릴리즈 영상 -->
+          <div class="cs-de4-wrap" style="width:100%;background:#161616;position:relative;">
+            <video id="csDe4Video" src="clearance_de4.mp4" loop muted playsinline preload="auto" disablepictureinpicture style="display:block;width:100%;height:auto;background:#161616;"></video>
+          </div>
         </div>
       </div>
       <!-- Slide 2: SELLER WEEK -->
@@ -3651,6 +3655,20 @@ window.pfunkCheckAudio = function(pageEl){
   // 상세 페이지 열기/슬라이드 전환/커스텀 스크롤 등 scroll 이벤트가 없는 경우 대비
   setInterval(onScroll, 250);
   update();
+})();
+
+/* CS DESIGN PROCESS 04 — 영상은 화면에 보일 때만 재생, 벗어나면 정지 */
+(function(){
+  const v = document.getElementById('csDe4Video');
+  if(!v) return;
+  if(!('IntersectionObserver' in window)){ v.autoplay = true; v.play().catch(()=>{}); return; }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting) v.play().catch(()=>{});
+      else v.pause();
+    });
+  }, {threshold: 0.25});
+  io.observe(v);
 })();
 </script>
 </body>
