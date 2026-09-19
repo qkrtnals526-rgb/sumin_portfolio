@@ -628,6 +628,20 @@ html, body { overscroll-behavior: none; }
 .cs-scroll::-webkit-scrollbar{display:none;}
 .cs-model{position:absolute;transform:translateX(-50%);cursor:pointer;}
 .cs-model img{display:block;height:100%;width:auto;}
+/* CS DESIGN PROCESS 03 — 스크롤 시 차례로 둥~ 떠오르는 이미지 */
+.cs-de3-wrap{overflow:hidden;}
+.cs-float{
+  position:absolute;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none;
+  opacity:0;
+  transform:translate3d(0,var(--rise,9%),0) scale(0.94);
+  transform-origin:50% 100%;
+  transition:opacity 1s cubic-bezier(0.16,1,0.3,1),transform 1.4s cubic-bezier(0.16,1,0.3,1);
+  will-change:transform,opacity;
+}
+.cs-float.in{opacity:1;transform:translate3d(0,0,0) scale(1);}
+@media (prefers-reduced-motion:reduce){
+  .cs-float{opacity:1;transform:none;transition:none;}
+}
 .cs-model .cs-after{display:none;}
 .cs-model.on .cs-before{display:none;}
 .cs-model.on .cs-after{display:block;}
@@ -1595,6 +1609,27 @@ html, body { overscroll-behavior: none; }
               <img class="cs-before" src="m5.png" alt="Look 5">
               <img class="cs-after" src="m5-1.png" alt="Look 5 styled">
             </div>
+          </div>
+          <!-- Design Process 03 : 배경 위에 이미지가 스크롤에 맞춰 차례로 떠오름 -->
+          <div class="cs-de3-wrap" id="csDe3Wrap" style="width:100%;background:#161616;position:relative;">
+            <img class="cs-de3-bg" src="clearance_de3.png" alt="Summer Clearance Sale Design Process 03" style="display:block;width:100%;height:auto;">
+              <img class="cs-float" data-order="1" src="clear1.png" alt="Design Process — KV scene 01" draggable="false" decoding="async" style="left:67.083%;top:14.913%;width:25.833%;z-index:2;--rise:9%;">
+              <img class="cs-float" data-order="2" src="clear2.png" alt="Design Process — scene 6" draggable="false" decoding="async" style="left:49.139%;top:30.192%;width:22.417%;z-index:2;--rise:9%;">
+              <img class="cs-float" data-order="3" src="clear3.png" alt="Design Process — scene 3" draggable="false" decoding="async" style="left:11.944%;top:26.715%;width:22.444%;z-index:2;--rise:9%;">
+              <img class="cs-float" data-order="4" src="clear4.png" alt="Design Process — scene 2" draggable="false" decoding="async" style="left:7.861%;top:45.014%;width:39.389%;z-index:1;--rise:8%;">
+              <img class="cs-float" data-order="5" src="clear5.png" alt="Design Process — KV scene 05" draggable="false" decoding="async" style="left:40.083%;top:51.052%;width:35.278%;z-index:3;--rise:8%;">
+              <img class="cs-float" data-order="6" src="clear6.png" alt="Design Process — scene 4" draggable="false" decoding="async" style="left:67.861%;top:54.285%;width:25.917%;z-index:2;--rise:8%;">
+              <img class="cs-float" data-order="7" src="chang1.png" alt="2026 KREAM" draggable="false" decoding="async" style="left:76.861%;top:36.932%;width:17.278%;z-index:4;--rise:35%;">
+              <img class="cs-float" data-order="8" src="chang2.png" alt="Summer Clearance Sale" draggable="false" decoding="async" style="left:33.250%;top:74.962%;width:17.278%;z-index:4;--rise:35%;">
+              <img class="cs-float" data-order="9" src="cosur.png" alt="" draggable="false" decoding="async" style="left:39.222%;top:32.235%;width:10.806%;z-index:5;--rise:30%;">
+          </div>
+          <!-- Design Process 04 : 릴리즈 영상 -->
+          <div class="cs-de4-wrap" style="width:100%;background:#161616;position:relative;">
+            <video id="csDe4Video" src="clearance_de4.mp4" loop muted playsinline preload="auto" disablepictureinpicture style="display:block;width:100%;height:auto;background:#161616;"></video>
+          </div>
+          <!-- Design Process 05 : 마무리 이미지 -->
+          <div class="cs-de5-wrap" style="width:100%;background:#FFFFFF;position:relative;">
+            <img src="clearance_de5.png" alt="Summer Clearance Sale 05" style="display:block;width:100%;height:auto;">
           </div>
         </div>
       </div>
@@ -3570,6 +3605,74 @@ window.pfunkCheckAudio = function(pageEl){
   window.addEventListener('load', () => {
     setTimeout(readyToShow, 300);
   });
+})();
+</script>
+<script>
+/* CS DESIGN PROCESS 03 — 스크롤에 맞춰 이미지가 1장씩 순서대로 떠오름 */
+(function(){
+  const GAP = 150;          // 한 장 뜬 뒤 다음 장이 뜨기까지 간격(ms)
+  const TRIGGER = 0.82;     // 이미지 윗변이 화면 위쪽 82% 지점에 들어오면 등장
+  const MAIN_COUNT = 6;     // clear1~6 (그 뒤 chang1, chang2, cosur 순으로 뒤따라 등장)
+  let slotTime = 0, ticking = false;
+
+  function update(){
+    ticking = false;
+    const wrap = document.getElementById('csDe3Wrap');
+    if(!wrap) return;
+    const wr = wrap.getBoundingClientRect();
+    if(!wr.width || !wr.height) return;      // 상세 페이지가 닫혀 있거나 다른 슬라이드면 무시
+    const items = Array.from(wrap.querySelectorAll('.cs-float'))
+      .sort((a,b) => a.dataset.order - b.dataset.order);
+    const mainDone = () => items.every(el => +el.dataset.order > MAIN_COUNT || el.classList.contains('in'));
+    const vh = window.innerHeight;
+    const now = performance.now();
+    slotTime = Math.max(slotTime, now);
+    items.forEach(el => {
+      // transform 영향 없이 원래 위치 기준으로 계산
+      const top = wr.top + parseFloat(el.style.top) / 100 * wr.height;
+      const bottom = top + el.offsetHeight;
+      const shown = el.classList.contains('in');
+      if(!shown){
+        if(bottom < 0){                        // 이미 위로 지나간 이미지는 바로 표시
+          el.style.transitionDelay = '0ms';
+          el.classList.add('in');
+        } else if(top < vh * TRIGGER && (+el.dataset.order <= MAIN_COUNT || mainDone())){
+          // 화면에 들어옴 → 순서대로 예약 (창 라벨·커서는 clear1~6이 다 뜬 뒤에 뒤따라 등장)
+          el.style.transitionDelay = Math.max(0, slotTime - now) + 'ms';
+          el.classList.add('in');
+          slotTime += GAP;
+        }
+      } else if(top > vh){                     // 다시 위로 스크롤해 화면 밖으로 나가면 초기화 (다시 내려올 때 재생)
+        el.style.transitionDelay = '0ms';
+        el.classList.remove('in');
+      }
+    });
+  }
+  function onScroll(){
+    if(!ticking){ ticking = true; requestAnimationFrame(update); }
+  }
+  // 어느 요소가 스크롤되든(.detail-page / .cs-scroll 슬라이드 모두) 캡처 단계에서 감지
+  document.addEventListener('scroll', onScroll, {capture:true, passive:true});
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('load', onScroll);
+  window.addEventListener('coverReady', onScroll);
+  // 상세 페이지 열기/슬라이드 전환/커스텀 스크롤 등 scroll 이벤트가 없는 경우 대비
+  setInterval(onScroll, 250);
+  update();
+})();
+
+/* CS DESIGN PROCESS 04 — 영상은 화면에 보일 때만 재생, 벗어나면 정지 */
+(function(){
+  const v = document.getElementById('csDe4Video');
+  if(!v) return;
+  if(!('IntersectionObserver' in window)){ v.autoplay = true; v.play().catch(()=>{}); return; }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting) v.play().catch(()=>{});
+      else v.pause();
+    });
+  }, {threshold: 0.25});
+  io.observe(v);
 })();
 </script>
 </body>
