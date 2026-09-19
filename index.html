@@ -3602,20 +3602,20 @@ window.pfunkCheckAudio = function(pageEl){
 <script>
 /* CS DESIGN PROCESS 03 — 스크롤에 맞춰 이미지가 1장씩 순서대로 떠오름 */
 (function(){
-  const wrap = document.getElementById('csDe3Wrap');
-  if(!wrap) return;
-  const items = Array.from(wrap.querySelectorAll('.cs-float'))
-    .sort((a,b) => a.dataset.order - b.dataset.order);
   const GAP = 150;          // 한 장 뜬 뒤 다음 장이 뜨기까지 간격(ms)
   const TRIGGER = 0.82;     // 이미지 윗변이 화면 위쪽 82% 지점에 들어오면 등장
   const MAIN_COUNT = 6;     // clear1~6 (그 뒤 chang1, chang2, cosur 순으로 뒤따라 등장)
   let slotTime = 0, ticking = false;
-  const mainDone = () => items.every(el => +el.dataset.order > MAIN_COUNT || el.classList.contains('in'));
 
   function update(){
     ticking = false;
+    const wrap = document.getElementById('csDe3Wrap');
+    if(!wrap) return;
     const wr = wrap.getBoundingClientRect();
-    if(!wr.width) return;                    // 상세 페이지가 닫혀 있으면 무시
+    if(!wr.width || !wr.height) return;      // 상세 페이지가 닫혀 있거나 다른 슬라이드면 무시
+    const items = Array.from(wrap.querySelectorAll('.cs-float'))
+      .sort((a,b) => a.dataset.order - b.dataset.order);
+    const mainDone = () => items.every(el => +el.dataset.order > MAIN_COUNT || el.classList.contains('in'));
     const vh = window.innerHeight;
     const now = performance.now();
     slotTime = Math.max(slotTime, now);
@@ -3643,10 +3643,13 @@ window.pfunkCheckAudio = function(pageEl){
   function onScroll(){
     if(!ticking){ ticking = true; requestAnimationFrame(update); }
   }
-  // 어느 요소가 스크롤되든(.cs-scroll 슬라이드 포함) 캡처 단계에서 감지
+  // 어느 요소가 스크롤되든(.detail-page / .cs-scroll 슬라이드 모두) 캡처 단계에서 감지
   document.addEventListener('scroll', onScroll, {capture:true, passive:true});
   window.addEventListener('resize', onScroll);
+  window.addEventListener('load', onScroll);
   window.addEventListener('coverReady', onScroll);
+  // 상세 페이지 열기/슬라이드 전환/커스텀 스크롤 등 scroll 이벤트가 없는 경우 대비
+  setInterval(onScroll, 250);
   update();
 })();
 </script>
