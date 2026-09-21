@@ -649,6 +649,18 @@ html, body { overscroll-behavior: none; }
 .ss-look .ss-after{display:none;}
 .ss-look.on .ss-before{display:none;}
 .ss-look.on .ss-after{display:block;}
+/* SUMMER SEASON OFF — 스토리보드: 스케치 프레임 안으로 이미지가 내려옴 */
+.ss-drop{position:absolute;overflow:hidden;pointer-events:none;}
+.ss-drop img{
+  display:block;width:100%;height:100%;user-select:none;-webkit-user-drag:none;
+  transform:translate3d(0,-101%,0);
+  transition:transform 1.2s cubic-bezier(0.22,1,0.36,1);
+  will-change:transform;
+}
+.ss-drop.in img{transform:translate3d(0,0,0);}
+@media (prefers-reduced-motion:reduce){
+  .ss-drop img{transform:none;transition:none;}
+}
 .cs-model .cs-after{display:none;}
 .cs-model.on .cs-before{display:none;}
 .cs-model.on .cs-after{display:block;}
@@ -1682,6 +1694,28 @@ html, body { overscroll-behavior: none; }
               <img class="ss-before" src="summer3.png" alt="Look 3" draggable="false" decoding="async" style="left:64.3056%;top:27.5305%;width:11.0556%;">
               <img class="ss-after" src="summer3-1.png" alt="Look 3 styled" draggable="false" decoding="async" style="left:50.9167%;top:25.8232%;width:37.1667%;">
               <div class="ss-hit" style="left:60.6111%;top:27.6220%;width:18.5000%;height:32.1646%;"></div>
+            </div>
+          </div>
+          <!-- Storyboard : 스크롤할 때마다 스케치 프레임 안으로 이미지가 하나씩 내려옴 -->
+          <div class="ss-de5-wrap" id="ssDe5Wrap" style="width:100%;background:#EBEBEB;position:relative;">
+            <img src="summer_intro5.png" alt="Summer Season Off Storyboard" style="display:block;width:100%;height:auto;">
+            <div class="ss-drop" data-order="1" style="left:9.6389%;top:45.9237%;width:26.3056%;height:14.5010%;">
+              <img src="sketch1-1.png" alt="Storyboard scene 1" draggable="false" decoding="async">
+            </div>
+            <div class="ss-drop" data-order="2" style="left:36.8611%;top:45.9237%;width:26.2778%;height:14.5010%;">
+              <img src="sketch2-1.png" alt="Storyboard scene 2" draggable="false" decoding="async">
+            </div>
+            <div class="ss-drop" data-order="3" style="left:64.0556%;top:45.9237%;width:26.3056%;height:14.5010%;">
+              <img src="sketch3-1.png" alt="Storyboard scene 3" draggable="false" decoding="async">
+            </div>
+            <div class="ss-drop" data-order="4" style="left:9.6389%;top:65.1062%;width:26.3056%;height:14.5010%;">
+              <img src="sketch4-1.png" alt="Storyboard scene 4" draggable="false" decoding="async">
+            </div>
+            <div class="ss-drop" data-order="5" style="left:36.8611%;top:65.1062%;width:26.2778%;height:14.5010%;">
+              <img src="sketch5-1.png" alt="Storyboard scene 5" draggable="false" decoding="async">
+            </div>
+            <div class="ss-drop" data-order="6" style="left:64.0556%;top:65.1062%;width:26.3056%;height:14.5010%;">
+              <img src="sketch6-1.png" alt="Storyboard scene 6" draggable="false" decoding="async">
             </div>
           </div>
         </div>
@@ -3726,6 +3760,52 @@ window.pfunkCheckAudio = function(pageEl){
     });
   }, {threshold: 0.25});
   io.observe(v);
+})();
+</script>
+<script>
+/* SUMMER SEASON OFF — 스토리보드 이미지가 스크롤할 때마다 1장씩 순서대로 내려옴 */
+(function(){
+  const GAP = 320;          // 한 장 내려온 뒤 다음 장이 내려오기까지 간격(ms)
+  const TRIGGER = 0.72;     // 프레임 윗변이 화면 위쪽 72% 지점에 들어오면 등장
+  let slotTime = 0, ticking = false;
+
+  function update(){
+    ticking = false;
+    const wrap = document.getElementById('ssDe5Wrap');
+    if(!wrap) return;
+    const wr = wrap.getBoundingClientRect();
+    if(!wr.width || !wr.height) return;      // 상세 페이지가 닫혀 있거나 다른 슬라이드면 무시
+    const drops = Array.from(wrap.querySelectorAll('.ss-drop'))
+      .sort((a,b) => a.dataset.order - b.dataset.order);
+    const vh = window.innerHeight;
+    const now = performance.now();
+    slotTime = Math.max(slotTime, now);
+    drops.forEach(el => {
+      const r = el.getBoundingClientRect();
+      const shown = el.classList.contains('in');
+      if(!shown){
+        if(r.bottom < 0){                      // 이미 위로 지나간 프레임은 바로 표시
+          el.firstElementChild.style.transitionDelay = '0ms';
+          el.classList.add('in');
+        } else if(r.top < vh * TRIGGER){       // 화면에 들어옴 → 왼쪽 위부터 순서대로 예약
+          el.firstElementChild.style.transitionDelay = Math.max(0, slotTime - now) + 'ms';
+          el.classList.add('in');
+          slotTime += GAP;
+        }
+      } else if(r.top > vh){                   // 위로 다시 올라가 화면 밖으로 나가면 초기화 (다시 내려올 때 재생)
+        el.firstElementChild.style.transitionDelay = '0ms';
+        el.classList.remove('in');
+      }
+    });
+  }
+  function onScroll(){
+    if(!ticking){ ticking = true; requestAnimationFrame(update); }
+  }
+  document.addEventListener('scroll', onScroll, {capture:true, passive:true});
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('load', onScroll);
+  setInterval(onScroll, 250);
+  update();
 })();
 </script>
 </body>
