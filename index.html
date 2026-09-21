@@ -658,14 +658,6 @@ html, body { overscroll-behavior: none; }
   will-change:opacity,transform;
 }
 .ss-drop.on img{opacity:1;transform:none;}
-.ss-hint{
-  position:absolute;left:12px;bottom:12px;
-  background:#000;color:#fff;
-  font-family:'Pretendard',sans-serif;font-size:12px;font-weight:600;line-height:1;
-  padding:6px 12px;border-radius:999px;
-  pointer-events:none;transition:opacity .4s ease;
-}
-.ss-drop.on .ss-hint{opacity:0;}
 .ss-drop:focus-visible{box-shadow:0 0 0 2px #0a2fd6;}
 @media (prefers-reduced-motion:reduce){
   .ss-drop img{transform:none;transition:none;}
@@ -1710,29 +1702,30 @@ html, body { overscroll-behavior: none; }
             <img src="summer_intro5.png" alt="Summer Season Off Storyboard" style="display:block;width:100%;height:auto;">
             <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="1" style="left:9.6389%;top:45.9237%;width:26.3056%;height:14.5010%;">
               <img src="sketch1-1.png" alt="Storyboard scene 1" draggable="false" decoding="async">
-              <span class="ss-hint">Click</span>
             </div>
             <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="2" style="left:36.8611%;top:45.9237%;width:26.2778%;height:14.5010%;">
               <img src="sketch2-1.png" alt="Storyboard scene 2" draggable="false" decoding="async">
-              <span class="ss-hint">Click</span>
             </div>
             <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="3" style="left:64.0556%;top:45.9237%;width:26.3056%;height:14.5010%;">
               <img src="sketch3-1.png" alt="Storyboard scene 3" draggable="false" decoding="async">
-              <span class="ss-hint">Click</span>
             </div>
             <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="4" style="left:9.6389%;top:65.1062%;width:26.3056%;height:14.5010%;">
               <img src="sketch4-1.png" alt="Storyboard scene 4" draggable="false" decoding="async">
-              <span class="ss-hint">Click</span>
             </div>
             <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="5" style="left:36.8611%;top:65.1062%;width:26.2778%;height:14.5010%;">
               <img src="sketch5-1.png" alt="Storyboard scene 5" draggable="false" decoding="async">
-              <span class="ss-hint">Click</span>
             </div>
             <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="6" style="left:64.0556%;top:65.1062%;width:26.3056%;height:14.5010%;">
               <img src="sketch6-1.png" alt="Storyboard scene 6" draggable="false" decoding="async">
-              <span class="ss-hint">Click</span>
             </div>
           </div>
+          <!-- Release : 영상 -->
+          <div class="ss-i6-wrap" style="width:100%;background:#EBEBEB;position:relative;">
+            <video id="ssIntro6Video" src="summer_intro6.mp4" loop muted playsinline preload="auto" disablepictureinpicture style="display:block;width:100%;height:auto;background:#EBEBEB;"></video>
+          </div>
+          <!-- Marketing Ad -->
+          <div style="width:100%;background:#EBEBEB;"><img src="summer_intro7.png" alt="Summer Season Off Marketing Ad" style="display:block;width:100%;height:auto;"></div>
+          <div style="width:100%;background:#EBEBEB;"><img src="summer_intro8.png" alt="Summer Season Off" style="display:block;width:100%;height:auto;"></div>
         </div>
       </div>
       <!-- Slide 3: SELLER WEEK -->
@@ -3790,6 +3783,20 @@ window.pfunkCheckAudio = function(pageEl){
       if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
     });
   });
+})();
+
+/* SUMMER SEASON OFF — Release 영상은 화면에 보일 때만 재생, 벗어나면 정지 */
+(function(){
+  const v = document.getElementById('ssIntro6Video');
+  if(!v) return;
+  if(!('IntersectionObserver' in window)){ v.autoplay = true; v.play().catch(function(){}); return; }
+  const io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting) v.play().catch(function(){});
+      else v.pause();
+    });
+  }, {threshold: 0.25});
+  io.observe(v);
 })();
 </script>
 </body>
