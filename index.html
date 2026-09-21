@@ -649,15 +649,24 @@ html, body { overscroll-behavior: none; }
 .ss-look .ss-after{display:none;}
 .ss-look.on .ss-before{display:none;}
 .ss-look.on .ss-after{display:block;}
-/* SUMMER SEASON OFF — 스토리보드: 스케치 프레임 안으로 이미지가 내려옴 */
-.ss-drop{position:absolute;overflow:hidden;pointer-events:none;}
+/* SUMMER SEASON OFF — 스토리보드: 스케치 프레임을 클릭하면 사진으로 부드럽게 전환 */
+.ss-drop{position:absolute;overflow:hidden;border-radius:1.27%/1.89%;cursor:pointer;-webkit-tap-highlight-color:transparent;outline:none;}
 .ss-drop img{
-  display:block;width:100%;height:100%;user-select:none;-webkit-user-drag:none;
-  transform:translate3d(0,-101%,0);
-  transition:transform 2.4s cubic-bezier(0.45,0,0.15,1);
-  will-change:transform;
+  display:block;width:100%;height:100%;pointer-events:none;user-select:none;-webkit-user-drag:none;
+  opacity:0;transform:scale(1.06);
+  transition:opacity .9s ease,transform 1.3s ease;
+  will-change:opacity,transform;
 }
-.ss-drop.in img{transform:translate3d(0,0,0);}
+.ss-drop.on img{opacity:1;transform:none;}
+.ss-hint{
+  position:absolute;left:12px;bottom:12px;
+  background:#000;color:#fff;
+  font-family:'Pretendard',sans-serif;font-size:12px;font-weight:600;line-height:1;
+  padding:6px 12px;border-radius:999px;
+  pointer-events:none;transition:opacity .4s ease;
+}
+.ss-drop.on .ss-hint{opacity:0;}
+.ss-drop:focus-visible{box-shadow:0 0 0 2px #0a2fd6;}
 @media (prefers-reduced-motion:reduce){
   .ss-drop img{transform:none;transition:none;}
 }
@@ -1696,26 +1705,32 @@ html, body { overscroll-behavior: none; }
               <div class="ss-hit" style="left:60.6111%;top:27.6220%;width:18.5000%;height:32.1646%;"></div>
             </div>
           </div>
-          <!-- Storyboard : 스크롤할 때마다 스케치 프레임 안으로 이미지가 하나씩 내려옴 -->
+          <!-- Storyboard : 스케치 프레임을 클릭하면 완성 이미지로 전환 -->
           <div class="ss-de5-wrap" id="ssDe5Wrap" style="width:100%;background:#EBEBEB;position:relative;">
             <img src="summer_intro5.png" alt="Summer Season Off Storyboard" style="display:block;width:100%;height:auto;">
-            <div class="ss-drop" data-order="1" style="left:9.6389%;top:45.9237%;width:26.3056%;height:14.5010%;">
+            <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="1" style="left:9.6389%;top:45.9237%;width:26.3056%;height:14.5010%;">
               <img src="sketch1-1.png" alt="Storyboard scene 1" draggable="false" decoding="async">
+              <span class="ss-hint">Click</span>
             </div>
-            <div class="ss-drop" data-order="2" style="left:36.8611%;top:45.9237%;width:26.2778%;height:14.5010%;">
+            <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="2" style="left:36.8611%;top:45.9237%;width:26.2778%;height:14.5010%;">
               <img src="sketch2-1.png" alt="Storyboard scene 2" draggable="false" decoding="async">
+              <span class="ss-hint">Click</span>
             </div>
-            <div class="ss-drop" data-order="3" style="left:64.0556%;top:45.9237%;width:26.3056%;height:14.5010%;">
+            <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="3" style="left:64.0556%;top:45.9237%;width:26.3056%;height:14.5010%;">
               <img src="sketch3-1.png" alt="Storyboard scene 3" draggable="false" decoding="async">
+              <span class="ss-hint">Click</span>
             </div>
-            <div class="ss-drop" data-order="4" style="left:9.6389%;top:65.1062%;width:26.3056%;height:14.5010%;">
+            <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="4" style="left:9.6389%;top:65.1062%;width:26.3056%;height:14.5010%;">
               <img src="sketch4-1.png" alt="Storyboard scene 4" draggable="false" decoding="async">
+              <span class="ss-hint">Click</span>
             </div>
-            <div class="ss-drop" data-order="5" style="left:36.8611%;top:65.1062%;width:26.2778%;height:14.5010%;">
+            <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="5" style="left:36.8611%;top:65.1062%;width:26.2778%;height:14.5010%;">
               <img src="sketch5-1.png" alt="Storyboard scene 5" draggable="false" decoding="async">
+              <span class="ss-hint">Click</span>
             </div>
-            <div class="ss-drop" data-order="6" style="left:64.0556%;top:65.1062%;width:26.3056%;height:14.5010%;">
+            <div class="ss-drop" role="button" tabindex="0" aria-pressed="false" aria-label="스케치 클릭해서 완성 이미지 보기" data-order="6" style="left:64.0556%;top:65.1062%;width:26.3056%;height:14.5010%;">
               <img src="sketch6-1.png" alt="Storyboard scene 6" draggable="false" decoding="async">
+              <span class="ss-hint">Click</span>
             </div>
           </div>
         </div>
@@ -3763,57 +3778,18 @@ window.pfunkCheckAudio = function(pageEl){
 })();
 </script>
 <script>
-/* SUMMER SEASON OFF — 스토리보드: "Sketch" 글자가 네비게이터 밑으로 올라오면 1초 뒤부터 이미지가 하나씩 천천히 내려옴 */
+/* SUMMER SEASON OFF — 스토리보드: 스케치 프레임을 클릭하면 완성 이미지로 전환 (다시 클릭하면 스케치로) */
 (function(){
-  const START_DELAY = 1000;   // "Sketch" 글자가 네비게이터 밑에 오고 나서 첫 이미지가 내려오기까지 (ms)
-  const GAP = 700;            // 한 장 내려오기 시작한 뒤 다음 장이 시작되기까지 간격 (ms)
-  const LABEL_TOP = 0.4309;   // 이미지 안 "Sketch" 글자의 세로 위치 (전체 높이 대비)
-  const NAV_MARGIN = 24;      // 네비게이터 아래로 얼마나 내려왔을 때 시작할지 (px)
-  let played = false, ticking = false;
-
-  function update(){
-    ticking = false;
-    const wrap = document.getElementById('ssDe5Wrap');
-    if(!wrap) return;
-    const wr = wrap.getBoundingClientRect();
-    if(!wr.width || !wr.height) return;      // 상세 페이지가 닫혀 있거나 다른 슬라이드면 무시
-    const drops = Array.from(wrap.querySelectorAll('.ss-drop'))
-      .sort((a,b) => a.dataset.order - b.dataset.order);
-    const vh = window.innerHeight;
-    const nav = document.querySelector('#page-ai-creative .detail-nav');
-    const navBottom = nav ? nav.getBoundingClientRect().bottom : 64;
-    const labelTop = wr.top + LABEL_TOP * wr.height;
-
-    if(!played){
-      // "Sketch" 글자가 네비게이터 바로 밑까지 올라왔거나, 화면이 커서 더 못 내려가는 맨 끝에 닿았을 때
-      if(labelTop <= navBottom + NAV_MARGIN || wr.bottom <= vh + 4){
-        played = true;
-        drops.forEach((el, i) => {
-          const img = el.firstElementChild;
-          if(el.getBoundingClientRect().bottom < 0){   // 이미 위로 지나간 프레임은 바로 표시
-            img.style.transitionDelay = '0ms';
-          } else {
-            img.style.transitionDelay = (START_DELAY + i * GAP) + 'ms';
-          }
-          el.classList.add('in');
-        });
-      }
-    } else if(labelTop > vh){                  // 위로 다시 올라가 "Sketch" 글자가 화면 밖으로 나가면 초기화 (다시 내려올 때 재생)
-      played = false;
-      drops.forEach(el => {
-        el.firstElementChild.style.transitionDelay = '0ms';
-        el.classList.remove('in');
-      });
+  document.querySelectorAll('.ss-drop').forEach(function(el){
+    function toggle(){
+      const on = el.classList.toggle('on');
+      el.setAttribute('aria-pressed', on ? 'true' : 'false');
     }
-  }
-  function onScroll(){
-    if(!ticking){ ticking = true; requestAnimationFrame(update); }
-  }
-  document.addEventListener('scroll', onScroll, {capture:true, passive:true});
-  window.addEventListener('resize', onScroll);
-  window.addEventListener('load', onScroll);
-  setInterval(onScroll, 250);
-  update();
+    el.addEventListener('click', toggle);
+    el.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
+    });
+  });
 })();
 </script>
 </body>
