@@ -642,6 +642,13 @@ html, body { overscroll-behavior: none; }
 @media (prefers-reduced-motion:reduce){
   .cs-float{opacity:1;transform:none;transition:none;}
 }
+/* SUMMER SEASON OFF — 모델 클릭 시 룩 전환 */
+.ss-look{position:absolute;inset:0;pointer-events:none;}
+.ss-look img{position:absolute;display:block;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none;}
+.ss-look .ss-hit{position:absolute;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.ss-look .ss-after{display:none;}
+.ss-look.on .ss-before{display:none;}
+.ss-look.on .ss-after{display:block;}
 .cs-model .cs-after{display:none;}
 .cs-model.on .cs-before{display:none;}
 .cs-model.on .cs-after{display:block;}
@@ -1658,6 +1665,25 @@ html, body { overscroll-behavior: none; }
           <div style="width:100%;background:#F5F5F5;"><img src="summer_intro1.png" alt="Summer Season Off Intro 1" style="display:block;width:100%;height:auto;"></div>
           <div style="width:100%;background:#EBEBEB;"><img src="summer_intro2.png" alt="Summer Season Off Intro 2" style="display:block;width:100%;height:auto;"></div>
           <div style="width:100%;background:#EBEBEB;"><img src="summer_intro3.png" alt="Summer Season Off Intro 3" style="display:block;width:100%;height:auto;"></div>
+          <!-- Design Process 02 : 모델을 클릭하면 룩이 바뀜 -->
+          <div class="ss-de4-wrap" style="width:100%;background:#EBEBEB;position:relative;">
+            <img src="summer_intro4.png" alt="Summer Season Off Design Process 02" style="display:block;width:100%;height:auto;">
+            <div class="ss-look" onclick="toggleClearanceModel(this)">
+              <img class="ss-before" src="summer1.png" alt="Look 1" draggable="false" decoding="async" style="left:20.1111%;top:27.8659%;width:16.5278%;">
+              <img class="ss-after" src="summer1-1.png" alt="Look 1 styled" draggable="false" decoding="async" style="left:13.2500%;top:26.5854%;width:31.6667%;">
+              <div class="ss-hit" style="left:20.8889%;top:28.8110%;width:16.0556%;height:30.7622%;"></div>
+            </div>
+            <div class="ss-look" onclick="toggleClearanceModel(this)">
+              <img class="ss-before" src="summer2.png" alt="Look 2" draggable="false" decoding="async" style="left:43.7222%;top:27.8659%;width:10.6111%;">
+              <img class="ss-after" src="summer2-1.png" alt="Look 2 styled" draggable="false" decoding="async" style="left:33.2222%;top:25.3963%;width:33.6667%;">
+              <div class="ss-hit" style="left:41.6944%;top:28.2012%;width:15.6111%;height:31.7683%;"></div>
+            </div>
+            <div class="ss-look" onclick="toggleClearanceModel(this)">
+              <img class="ss-before" src="summer3.png" alt="Look 3" draggable="false" decoding="async" style="left:64.3056%;top:27.5305%;width:11.0556%;">
+              <img class="ss-after" src="summer3-1.png" alt="Look 3 styled" draggable="false" decoding="async" style="left:50.9167%;top:25.8232%;width:37.1667%;">
+              <div class="ss-hit" style="left:60.6111%;top:27.6220%;width:18.5000%;height:32.1646%;"></div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- Slide 3: SELLER WEEK -->
