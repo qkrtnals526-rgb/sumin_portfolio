@@ -654,7 +654,7 @@ html, body { overscroll-behavior: none; }
 .ss-drop img{
   display:block;width:100%;height:100%;user-select:none;-webkit-user-drag:none;
   transform:translate3d(0,-101%,0);
-  transition:transform 1.2s cubic-bezier(0.22,1,0.36,1);
+  transition:transform 2.4s cubic-bezier(0.45,0,0.15,1);
   will-change:transform;
 }
 .ss-drop.in img{transform:translate3d(0,0,0);}
@@ -3763,11 +3763,13 @@ window.pfunkCheckAudio = function(pageEl){
 })();
 </script>
 <script>
-/* SUMMER SEASON OFF — 스토리보드 이미지가 스크롤할 때마다 1장씩 순서대로 내려옴 */
+/* SUMMER SEASON OFF — 스토리보드: "Sketch" 글자가 네비게이터 밑으로 올라오면 1초 뒤부터 이미지가 하나씩 천천히 내려옴 */
 (function(){
-  const GAP = 320;          // 한 장 내려온 뒤 다음 장이 내려오기까지 간격(ms)
-  const TRIGGER = 0.72;     // 프레임 윗변이 화면 위쪽 72% 지점에 들어오면 등장
-  let slotTime = 0, ticking = false;
+  const START_DELAY = 1000;   // "Sketch" 글자가 네비게이터 밑에 오고 나서 첫 이미지가 내려오기까지 (ms)
+  const GAP = 700;            // 한 장 내려오기 시작한 뒤 다음 장이 시작되기까지 간격 (ms)
+  const LABEL_TOP = 0.4309;   // 이미지 안 "Sketch" 글자의 세로 위치 (전체 높이 대비)
+  const NAV_MARGIN = 24;      // 네비게이터 아래로 얼마나 내려왔을 때 시작할지 (px)
+  let played = false, ticking = false;
 
   function update(){
     ticking = false;
@@ -3778,25 +3780,31 @@ window.pfunkCheckAudio = function(pageEl){
     const drops = Array.from(wrap.querySelectorAll('.ss-drop'))
       .sort((a,b) => a.dataset.order - b.dataset.order);
     const vh = window.innerHeight;
-    const now = performance.now();
-    slotTime = Math.max(slotTime, now);
-    drops.forEach(el => {
-      const r = el.getBoundingClientRect();
-      const shown = el.classList.contains('in');
-      if(!shown){
-        if(r.bottom < 0){                      // 이미 위로 지나간 프레임은 바로 표시
-          el.firstElementChild.style.transitionDelay = '0ms';
+    const nav = document.querySelector('#page-ai-creative .detail-nav');
+    const navBottom = nav ? nav.getBoundingClientRect().bottom : 64;
+    const labelTop = wr.top + LABEL_TOP * wr.height;
+
+    if(!played){
+      // "Sketch" 글자가 네비게이터 바로 밑까지 올라왔거나, 화면이 커서 더 못 내려가는 맨 끝에 닿았을 때
+      if(labelTop <= navBottom + NAV_MARGIN || wr.bottom <= vh + 4){
+        played = true;
+        drops.forEach((el, i) => {
+          const img = el.firstElementChild;
+          if(el.getBoundingClientRect().bottom < 0){   // 이미 위로 지나간 프레임은 바로 표시
+            img.style.transitionDelay = '0ms';
+          } else {
+            img.style.transitionDelay = (START_DELAY + i * GAP) + 'ms';
+          }
           el.classList.add('in');
-        } else if(r.top < vh * TRIGGER){       // 화면에 들어옴 → 왼쪽 위부터 순서대로 예약
-          el.firstElementChild.style.transitionDelay = Math.max(0, slotTime - now) + 'ms';
-          el.classList.add('in');
-          slotTime += GAP;
-        }
-      } else if(r.top > vh){                   // 위로 다시 올라가 화면 밖으로 나가면 초기화 (다시 내려올 때 재생)
+        });
+      }
+    } else if(labelTop > vh){                  // 위로 다시 올라가 "Sketch" 글자가 화면 밖으로 나가면 초기화 (다시 내려올 때 재생)
+      played = false;
+      drops.forEach(el => {
         el.firstElementChild.style.transitionDelay = '0ms';
         el.classList.remove('in');
-      }
-    });
+      });
+    }
   }
   function onScroll(){
     if(!ticking){ ticking = true; requestAnimationFrame(update); }
