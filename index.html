@@ -1424,7 +1424,7 @@ html, body { overscroll-behavior: none; }
   </div>
   <div class="thumb-top-bar">
     <div class="thumb-cat-label animate-in">Brand Content</div>
-    <div class="thumb-nums" id="tn-brand-content"><span class="thumb-num  active">001</span><span class="thumb-num">002</span><span class="thumb-num">003</span><span class="thumb-num">004</span><span class="thumb-num">005</span></div>
+    <div class="thumb-nums" id="tn-brand-content"><span class="thumb-num  active">001</span><span class="thumb-num">002</span><span class="thumb-num">003</span><span class="thumb-num">004</span></div>
   </div>
   <div class="thumb-car-zone">
     <div class="tc-arrow tc-arr-left hidden" id="tc-prev-brand-content" onclick="tcMove('brand-content',-1)">
@@ -1436,21 +1436,17 @@ html, body { overscroll-behavior: none; }
       <img class="tc-card-img" src="Fashioneditorial_Thumbnail.png" alt="HONDA MOTORCYCLE APPAREL">
       <div class="tc-card-title">HONDA MOTORCYCLE APPAREL</div>
     </div>
-    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-right" data-i="1" data-onclick="openDetail('brand-content',2)">
+    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-right" data-i="1" data-onclick="openDetail('brand-content',1)">
       <img class="tc-card-img" src="Fashioneditorial3_Thumbnail.png" alt="조셉앤스테이시 × 몬치치">
       <div class="tc-card-title">조셉앤스테이시 × 몬치치</div>
     </div>
-    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-far-right" data-i="2" data-onclick="openDetail('brand-content',3)">
-      <img class="tc-card-img" src="Fashioneditorial4_Thumbnail.png" alt="KREAM 도산 스토어 윈터 룩북">
-      <div class="tc-card-title">KREAM 도산 스토어 윈터 룩북</div>
-    </div>
-    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-far-right" data-i="3" data-onclick="openDetail('brand-content',1)">
-      <img class="tc-card-img" src="Fashioneditorial2_Thumbnail.png" alt="일광전구">
-      <div class="tc-card-title">일광전구</div>
-    </div>
-    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-far-right" data-i="4" data-onclick="openDetail('brand-content-2',0)">
+    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-far-right" data-i="2" data-onclick="openDetail('brand-content-2',0)">
       <img class="tc-card-img" src="Promotional_Thumbnail.png" alt="디저트 테이블">
       <div class="tc-card-title">디저트 테이블</div>
+    </div>
+    <div onclick="tcCardClick(this,this.closest('.thumb-page').id.replace('thumb-',''))" class="tc-card tc-far-right" data-i="3" data-onclick="openDetail('brand-content-3',0)">
+      <img class="tc-card-img" src="kreamplus_thum.png" alt="KREAM+">
+      <div class="tc-card-title">KREAM+</div>
     </div>
     <div class="tc-arrow tc-arr-right" id="tc-next-brand-content" onclick="tcMove('brand-content',1)">
       <span class="tc-arrow-text">next →</span>
@@ -1859,8 +1855,8 @@ html, body { overscroll-behavior: none; }
 
   <div class="detail-scene" id="fe-scene">
     <div class="detail-canvas">
-      <!-- Slide 1: HONDA MOTORCYCLE -->
-      <div class="detail-slide active" data-slide="0" data-next-page="brand-content" data-next-slide="2" data-prev-page="brand-content-2" data-prev-slide="0" style="background:#151515;">
+<!-- Slide 1: HONDA MOTORCYCLE -->
+      <div class="detail-slide active" data-slide="0" data-next-page="brand-content" data-next-slide="1" data-prev-page="brand-content-2" data-prev-slide="0" style="background:#151515;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial.png" alt="Fashion Editorial 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-1">
@@ -1897,43 +1893,8 @@ html, body { overscroll-behavior: none; }
 </div>
         </div>
       </div>
-      <!-- Slide 2: 일광전구 -->
-      <div class="detail-slide" data-slide="1" data-next-page="brand-content-2" data-next-slide="0" data-prev-page="brand-content" data-prev-slide="3" style="background:#F5F5F5;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="Fashioneditorial2.png" alt="Fashion Editorial 02">
-          <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-2">
-            <div class="detail-scroll-strip" id="fe-strip-2">
-              <video src="2-1.mp4" autoplay loop muted playsinline></video>
-              <video src="2-2.mp4" autoplay loop muted playsinline></video>
-              <img src="2-3.jpg" alt="">
-              <video src="2-4.mp4" autoplay loop muted playsinline></video>
-              <img src="2-5.jpg" alt="">
-              <img src="2-6.jpg" alt="">
-              <video src="2-7.mp4" autoplay loop muted playsinline></video>
-              <img src="2-8.jpg" alt="">
-              <img src="2-9.jpg" alt="">
-              <video src="2-10.mp4" autoplay loop muted playsinline></video>
-              <img src="2-11.jpg" alt="">
-              <img src="2-12.jpg" alt="">
-              <img src="2-13.jpg" alt="">
-            </div>
-          </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
-  <div class="next-work-symbol">
-    <div class="nw-item nw-up">
-      <div class="nw-item-text">↑ prev</div>
-      <div class="nw-item-line"></div>
-    </div>
-    <div class="nw-item nw-down">
-      <div class="nw-item-text">↓ next</div>
-      <div class="nw-item-line"></div>
-    </div>
-  </div>
-</div>
-        </div>
-      </div>
       <!-- Slide 3: 조셉앤스테이시 × 몬치치 -->
-      <div class="detail-slide" data-slide="2" data-next-page="brand-content" data-next-slide="3" data-prev-page="brand-content" data-prev-slide="0" style="background:#E3D0D3;">
+      <div class="detail-slide" data-slide="1" data-next-page="brand-content-2" data-next-slide="0" data-prev-page="brand-content" data-prev-slide="0" style="background:#E3D0D3;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Fashioneditorial3.png" alt="Fashion Editorial 03">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-3">
@@ -1967,42 +1928,7 @@ html, body { overscroll-behavior: none; }
 </div>
         </div>
       </div>
-      <!-- Slide 4: KREAM 도산 스토어 윈터 룩북 -->
-      <div class="detail-slide" data-slide="3" data-next-page="brand-content" data-next-slide="1" data-prev-page="brand-content" data-prev-slide="2" style="background:#C1CCCE;">
-        <div class="detail-slide-inner">
-          <img class="detail-bg" src="Fashioneditorial4.png" alt="Fashion Editorial 04">
-          <div class="detail-video-wrap fe-scroll-frame" data-strip-id="fe-strip-4">
-            <div class="detail-scroll-strip" id="fe-strip-4">
-              <video src="4-1.mp4" autoplay loop muted playsinline></video>
-              <img src="4-2.jpg" alt="">
-              <video src="4-3.mp4" autoplay loop muted playsinline></video>
-              <video src="4-4.mp4" autoplay loop muted playsinline></video>
-              <img src="4-5.jpg" alt="">
-              <video src="4-6.mp4" autoplay loop muted playsinline></video>
-              <video src="4-7.mp4" autoplay loop muted playsinline></video>
-              <img src="4-8.png" alt="">
-              <video src="4-9.mp4" autoplay loop muted playsinline></video>
-              <img src="4-10.png" alt="">
-              <video src="4-11.mp4" autoplay loop muted playsinline></video>
-              <video src="4-12.mp4" autoplay loop muted playsinline></video>
-              <video src="4-13.mp4" autoplay loop muted playsinline></video>
-            </div>
           </div>
-          <div class="detail-scroll-hint next-work-btn" style="bottom:5%;right:2%;">
-  <div class="next-work-symbol">
-    <div class="nw-item nw-up">
-      <div class="nw-item-text">↑ prev</div>
-      <div class="nw-item-line"></div>
-    </div>
-    <div class="nw-item nw-down">
-      <div class="nw-item-text">↓ next</div>
-      <div class="nw-item-line"></div>
-    </div>
-  </div>
-</div>
-        </div>
-      </div>
-    </div>
     <!-- 스크롤 스페이서 -->
     <div class="detail-spacer" id="fe-spacer"></div>
   </div>
@@ -2029,7 +1955,7 @@ html, body { overscroll-behavior: none; }
   <div class="detail-scene" id="pc-scene">
     <div class="detail-canvas">
       <!-- Slide 1: 디저트 테이블 -->
-      <div class="detail-slide active" data-slide="0" data-next-page="brand-content" data-next-slide="0" data-prev-page="brand-content" data-prev-slide="1" style="background:#F5F5F5;">
+      <div class="detail-slide active" data-slide="0" data-next-page="brand-content-3" data-next-slide="0" data-prev-page="brand-content" data-prev-slide="1" style="background:#F5F5F5;">
         <div class="detail-slide-inner">
           <img class="detail-bg" src="Promotional.png" alt="Promotional Content 01">
           <div class="detail-video-wrap fe-scroll-frame" data-strip-id="pc-strip-1">
@@ -2068,6 +1994,52 @@ html, body { overscroll-behavior: none; }
     </div>
     <!-- 스크롤 스페이서 -->
     <div class="detail-spacer" id="pc-spacer"></div>
+  </div>
+</div>
+
+<!-- KREAM+ DETAIL PAGE -->
+<div id="page-brand-content-3" class="detail-page">
+  <div class="detail-nav">
+    <a class="detail-back" onclick="goBackToThumb('brand-content')">↖ Back</a>
+    <div class="detail-menu-wrap">
+      <div class="detail-inline-cats">
+        <a onclick="switchDetail('own-project')">Own Project</a>
+        <a onclick="switchDetail('ai-creative')">AI Creative</a>
+        <a class="active" onclick="switchDetail('brand-content')">Brand Content</a>
+        <a onclick="switchDetail('3d-artwork')">3D Artwork</a>
+        <a onclick="switchDetail('challenge-reels')">Challenge Reels</a>
+      </div>
+      <button class="detail-menu-btn" onclick="toggleDetailMenu(this)">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="detail-scene" id="kp-scene">
+    <div class="detail-canvas">
+      <!-- Slide 1: KREAM+ -->
+      <div class="detail-slide active cs-scroll" data-slide="0" data-next-page="brand-content" data-next-slide="0" data-prev-page="brand-content-2" data-prev-slide="0" style="background:#000;display:block;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;">
+        <div class="detail-slide-inner" style="max-width:none;aspect-ratio:auto;height:auto;display:block;">
+          <div style="position:relative;width:100%;">
+            <video src="kreamplus_kv.mp4" autoplay loop muted playsinline style="display:block;width:100%;height:auto;"></video>
+            <div class="detail-scroll-hint next-work-btn dark-bg" style="bottom:5%;right:2%;">
+  <div class="next-work-symbol">
+    <div class="nw-item nw-up">
+      <div class="nw-item-text">↑ prev</div>
+      <div class="nw-item-line"></div>
+    </div>
+    <div class="nw-item nw-down">
+      <div class="nw-item-text">↓ next</div>
+      <div class="nw-item-line"></div>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 스크롤 스페이서 -->
+    <div class="detail-spacer" id="kp-spacer"></div>
   </div>
 </div>
 
