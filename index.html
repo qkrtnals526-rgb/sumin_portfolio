@@ -673,6 +673,23 @@ html, body { overscroll-behavior: none; }
 }
 .kp-phone-screen::-webkit-scrollbar{display:none;}
 .kp-phone-screen img{display:block;width:100%;height:auto;}
+/* KREAM+ Essential Design — TREND 카드가 가로로 슬라이딩되는 캐러셀 */
+.kp-trend-carousel{
+  width:100%;aspect-ratio:510/459;background:#fff;
+  overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;
+  cursor:grab;
+}
+.kp-trend-carousel::-webkit-scrollbar{display:none;}
+.kp-trend-carousel.dragging{cursor:grabbing;scroll-snap-type:none;}
+.kp-trend-track{
+  display:flex;align-items:stretch;height:100%;width:max-content;
+  gap:2%;padding:0 2.94%;
+}
+.kp-trend-track img{
+  display:block;height:100%;width:auto;flex:none;
+  user-select:none;-webkit-user-drag:none;pointer-events:none;
+}
 .cs-model .cs-after{display:none;}
 .cs-model.on .cs-before{display:none;}
 .cs-model.on .cs-after{display:block;}
@@ -2054,7 +2071,15 @@ html, body { overscroll-behavior: none; }
             <img src="kreamplus4.png" alt="KREAM+ Essential Design" style="display:block;width:100%;height:auto;">
             <div class="kp-phone-screen" style="left:11.833%;top:15.122%;width:23.167%;height:34.789%;">
               <video src="KV_8_27.mp4" autoplay loop muted playsinline style="display:block;width:100%;height:auto;"></video>
-              <img src="plusmok1.png" alt="KREAM+ 모바일 랜딩 페이지">
+              <img src="plusmok1_top.png" alt="KREAM+ 모바일 랜딩 페이지">
+              <div class="kp-trend-carousel">
+                <div class="kp-trend-track">
+                  <img src="M_1-3.png" alt="이번주 계속 눈길이 가는 FW 신상 드롭">
+                  <img src="M_1-1.png" alt="금주의 베스트 셀러 크림 도산 랭킹 TOP 5">
+                  <img src="M_1-2.png" alt="보법이 다른 핀터밋 Caroline Lublin">
+                </div>
+              </div>
+              <img src="plusmok1_bottom.png" alt="KREAM+ 모바일 랜딩 페이지">
             </div>
           </div>
         </div>
@@ -3805,6 +3830,27 @@ window.pfunkCheckAudio = function(pageEl){
     });
   }, {threshold: 0.25});
   io.observe(v);
+})();
+</script>
+<script>
+/* KREAM+ Essential Design — TREND 카드 캐러셀: 마우스/터치로 좌우 드래그해서 넘김 */
+(function(){
+  document.querySelectorAll('.kp-trend-carousel').forEach(function(el){
+    let dragging=false, startX=0, startScroll=0;
+    el.addEventListener('pointerdown', function(e){
+      dragging=true; startX=e.clientX; startScroll=el.scrollLeft;
+      el.classList.add('dragging');
+      try{ el.setPointerCapture(e.pointerId); }catch(err){}
+    });
+    el.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      el.scrollLeft = startScroll - (e.clientX - startX);
+    });
+    function stop(){ dragging=false; el.classList.remove('dragging'); }
+    el.addEventListener('pointerup', stop);
+    el.addEventListener('pointerleave', stop);
+    el.addEventListener('pointercancel', stop);
+  });
 })();
 </script>
 </body>
