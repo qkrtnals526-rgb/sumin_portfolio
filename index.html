@@ -673,23 +673,27 @@ html, body { overscroll-behavior: none; }
 }
 .kp-phone-screen::-webkit-scrollbar{display:none;}
 .kp-phone-screen img{display:block;width:100%;height:auto;}
-/* KREAM+ Essential Design — TREND 카드가 가로로 슬라이딩되는 캐러셀 */
-.kp-trend-carousel{
-  width:100%;aspect-ratio:510/459;background:#fff;
-  overflow-x:auto;overflow-y:hidden;
+/* KREAM+ Essential Design — 가로로 슬라이딩되는 카드 캐러셀 (TREND / EXCLUSIVE ITEM) */
+.kp-carousel{
+  width:100%;overflow-x:auto;overflow-y:hidden;
   scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;
   cursor:grab;
 }
-.kp-trend-carousel::-webkit-scrollbar{display:none;}
-.kp-trend-carousel.dragging{cursor:grabbing;scroll-snap-type:none;}
-.kp-trend-track{
-  display:flex;align-items:stretch;height:100%;width:max-content;
-  gap:2%;padding:0 2.94%;
-}
-.kp-trend-track img{
+.kp-carousel::-webkit-scrollbar{display:none;}
+.kp-carousel.dragging{cursor:grabbing;}
+.kp-carousel-track{display:flex;align-items:stretch;height:100%;width:max-content;}
+.kp-carousel-track img{
   display:block;height:100%;width:auto;flex:none;
   user-select:none;-webkit-user-drag:none;pointer-events:none;
 }
+.kp-carousel--trend{aspect-ratio:1058/972;background:#fff;}
+.kp-carousel--trend .kp-carousel-track{gap:2.5%;padding:0 2.8%;}
+.kp-carousel--exclusive{aspect-ratio:1058/649;background:#CECECE;}
+.kp-carousel--exclusive .kp-carousel-track{gap:2%;padding:0 2.8%;}
+.kp-carousel--brand{aspect-ratio:1058/928;background:#fff;}
+.kp-carousel--brand .kp-carousel-track{gap:2.5%;padding:0 2.8%;}
+.kp-carousel--store{aspect-ratio:1058/928;background:#fff;}
+.kp-carousel--store .kp-carousel-track{gap:2.5%;padding:0 2.8%;}
 .cs-model .cs-after{display:none;}
 .cs-model.on .cs-before{display:none;}
 .cs-model.on .cs-after{display:block;}
@@ -2071,15 +2075,45 @@ html, body { overscroll-behavior: none; }
             <img src="kreamplus4.png" alt="KREAM+ Essential Design" style="display:block;width:100%;height:auto;">
             <div class="kp-phone-screen" style="left:11.833%;top:15.122%;width:23.167%;height:34.789%;">
               <video src="KV_8_27.mp4" autoplay loop muted playsinline style="display:block;width:100%;height:auto;"></video>
-              <img src="plusmok1_top.png" alt="KREAM+ 모바일 랜딩 페이지">
-              <div class="kp-trend-carousel">
-                <div class="kp-trend-track">
-                  <img src="M_1-3.png" alt="이번주 계속 눈길이 가는 FW 신상 드롭">
-                  <img src="M_1-1.png" alt="금주의 베스트 셀러 크림 도산 랭킹 TOP 5">
-                  <img src="M_1-2.png" alt="보법이 다른 핀터밋 Caroline Lublin">
+              <img src="plusmok1.png" alt="KREAM+ 모바일 랜딩 페이지 1">
+              <div class="kp-carousel kp-carousel--trend">
+                <div class="kp-carousel-track">
+                  <img src="plusmok1_slide1.png" alt="이번주 계속 눈길이 가는 FW 신상 드롭">
+                  <img src="plusmok1_slide2.png" alt="미니멀 좋아하면 이 브랜드에서 옷 사세요">
+                  <img src="plusmok1_slide3.png" alt="금주의 베스트 셀러 크림 도산 랭킹 TOP 5">
                 </div>
               </div>
-              <img src="plusmok1_bottom.png" alt="KREAM+ 모바일 랜딩 페이지">
+              <img src="plusmok2.png" alt="KREAM+ 모바일 랜딩 페이지 2">
+              <img src="plusmok3.png" alt="EXCLUSIVE ITEM 당신의 취향을 극대화해줄 아이템">
+              <div class="kp-carousel kp-carousel--exclusive">
+                <div class="kp-carousel-track">
+                  <img src="plusmok3_slide1.png" alt="001 AKRYL Jersey Tee">
+                  <img src="plusmok3_slide2.png" alt="002 About:Blank Monogram Cap Camo">
+                  <img src="plusmok3_slide3.png" alt="003 Cou Cou Intimates The Long Cami Blue Fields">
+                  <img src="plusmok3_slide4.png" alt="004 California General Store Organic Cotton Border Crew Neck">
+                  <img src="plusmok3_slide5.png" alt="005 Folk/N Feather Bangle Silver">
+                  <img src="plusmok3_slide6.png" alt="Medium Bag">
+                  <img src="plusmok3_slide7.png" alt="Namacheko Alnon Slippers Marmo Black">
+                </div>
+              </div>
+              <img src="plusmok4.png" alt="KREAM+ 모바일 랜딩 페이지 4">
+              <div class="kp-carousel kp-carousel--brand">
+                <div class="kp-carousel-track">
+                  <img src="plusmok4_slide1.png" alt="001 AKRYL, KREAM의 첫 자체 브랜드">
+                  <img src="plusmok4_slide2.png" alt="002 About:Blank, 런던에서 시작된 미니멀 라이프스타일 웨어">
+                  <img src="plusmok4_slide3.png" alt="003 California General Store, 서핑 스케이트 컬처 기반의 스트릿 브랜드">
+                  <img src="plusmok4_slide4.png" alt="004 Cou Cou Intimates, 100% 유기농 면 스타일리시한 속옷">
+                  <img src="plusmok4_slide5.png" alt="005 Folk/N, 세계 각지의 공예와 민속 예술이 결합한 주얼리">
+                </div>
+              </div>
+              <img src="plusmok5.png" alt="KREAM+ 모바일 랜딩 페이지 5">
+              <div class="kp-carousel kp-carousel--store">
+                <div class="kp-carousel-track">
+                  <img src="plusmok5_slide1.jpg" alt="도산 플래그십 스토어">
+                  <img src="plusmok5_slide2.jpg" alt="더현대 서울 스토어">
+                  <img src="plusmok5_slide3.jpg" alt="잠실 스토어">
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -3833,9 +3867,9 @@ window.pfunkCheckAudio = function(pageEl){
 })();
 </script>
 <script>
-/* KREAM+ Essential Design — TREND 카드 캐러셀: 마우스/터치로 좌우 드래그해서 넘김 */
+/* KREAM+ Essential Design — 카드 캐러셀: 마우스/터치로 좌우 드래그해서 넘김 */
 (function(){
-  document.querySelectorAll('.kp-trend-carousel').forEach(function(el){
+  document.querySelectorAll('.kp-carousel').forEach(function(el){
     let dragging=false, startX=0, startScroll=0;
     el.addEventListener('pointerdown', function(e){
       dragging=true; startX=e.clientX; startScroll=el.scrollLeft;
