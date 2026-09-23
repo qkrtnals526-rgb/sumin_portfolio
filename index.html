@@ -664,6 +664,14 @@ html, body { overscroll-behavior: none; }
 @media (prefers-reduced-motion:reduce){
   .ss-drop img{transform:none;transition:none;}
 }
+/* KREAM+ Essential Design — 목업 화면 안에서만 스크롤되는 미니 뷰포트 */
+.kp-phone-screen{
+  position:absolute;overflow-y:auto;overflow-x:hidden;
+  scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+}
+.kp-phone-screen::-webkit-scrollbar{display:none;}
+.kp-phone-screen img{display:block;width:100%;height:auto;}
 .cs-model .cs-after{display:none;}
 .cs-model.on .cs-before{display:none;}
 .cs-model.on .cs-after{display:block;}
@@ -2040,6 +2048,12 @@ html, body { overscroll-behavior: none; }
           <div style="width:100%;background:#000000;position:relative;">
             <img src="kreamplus3.png" alt="KREAM+ Key Visual" style="display:block;width:100%;height:auto;">
             <a href="https://kream.co.kr/content/17897" target="_blank" rel="noopener" aria-label="기획전 보러가기" style="position:absolute;left:9.611%;top:26.263%;width:13.861%;height:3.711%;"></a>
+          </div>
+          <div style="width:100%;background:#000000;position:relative;">
+            <img src="kreamplus4.png" alt="KREAM+ Essential Design" style="display:block;width:100%;height:auto;">
+            <div class="kp-phone-screen" style="left:11.833%;top:15.122%;width:23.167%;height:34.789%;">
+              <img src="plusmok1.png" alt="KREAM+ 모바일 랜딩 페이지">
+            </div>
           </div>
         </div>
       </div>
