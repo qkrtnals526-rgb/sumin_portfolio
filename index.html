@@ -19,13 +19,13 @@
    포인트: Stack Sans Notch Bold
    기본: Pretendard 400/500/600, 행간 165%, 자간 -1% */
 :root{
-  --bg:#F2F2F0;
-  --ink:#000;
-  --sub:#6B6B68;
-  --mute:#B3B3AF;
-  --line:#D5D5D1;
-  --ph:#E8E8E5;
-  --ph-line:#C9C9C5;
+  --bg:#000;
+  --ink:#F2F2F0;
+  --sub:#8C8C88;
+  --mute:#474745;
+  --line:#262625;
+  --ph:#121212;
+  --ph-line:#2E2E2D;
   --gutter:clamp(18px,3.2vw,56px);
   --maxw:1760px;
   --sans:'Pretendard','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;
@@ -34,12 +34,8 @@
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
-  color-scheme:light dark;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#141414;--ink:#F2F2F0;--sub:#8E8E8A;--mute:#4E4E4B;--line:#2B2B2A;--ph:#1E1E1D;--ph-line:#3A3A38}
-}
-:root[data-theme="dark"]{--bg:#141414;--ink:#F2F2F0;--sub:#8E8E8A;--mute:#4E4E4B;--line:#2B2B2A;--ph:#1E1E1D;--ph-line:#3A3A38}
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:inherit}
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px);-webkit-text-size-adjust:100%}
@@ -64,20 +60,42 @@ a{color:inherit;text-decoration:none}
 .hero{padding-top:clamp(56px,9vw,160px);padding-bottom:clamp(40px,5vw,80px)}
 .intro{font-size:clamp(18px,1.7vw,26px);line-height:1.65;font-weight:500;max-width:26em}
 .intro span{color:var(--sub)}
-.index{margin-top:clamp(40px,6vw,104px);font-family:var(--point);font-weight:700;
-  font-size:clamp(36px,6.4vw,116px);line-height:1.02;letter-spacing:-.02em}
-.index a{color:var(--mute);transition:color .25s;white-space:nowrap;margin-right:.3em;display:inline-block}
-.index a:hover{color:color-mix(in srgb,var(--ink) 55%,var(--mute))}
-.index a[aria-current="true"]{color:var(--ink)}
-.index sup{font-family:var(--sans);font-size:.24em;font-weight:500;letter-spacing:0;vertical-align:top;position:relative;top:.5em;margin-left:.12em}
-.index .word{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em}
-.index .word > span{display:inline-block}
+.index{margin-top:clamp(40px,6vw,104px);border-bottom:1px solid var(--line)}
+.index a{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid var(--line);
+  padding:clamp(14px,1.8vw,28px) 0;color:var(--ink)}
+.index .word{display:block;overflow:hidden;padding-bottom:.06em;font-family:var(--point);font-weight:700;
+  font-size:clamp(36px,6vw,108px);line-height:1;letter-spacing:-.02em}
+.index .word > span{display:inline-block;transition:transform .5s var(--ease),color .3s}
+.index a:hover .word > span{transform:translateX(.18em)}
+.index:hover a:not(:hover) .word > span{color:var(--mute)}
+.idx-meta{display:flex;align-items:center;gap:clamp(12px,2vw,32px)}
+.idx-n{font-size:15px;font-weight:500;color:var(--sub);font-variant-numeric:tabular-nums}
+.idx-arrow{width:clamp(36px,3.6vw,56px);aspect-ratio:1;border-radius:50%;border:1px solid currentColor;position:relative;
+  opacity:0;transform:scale(.6) rotate(-45deg);transition:opacity .3s,transform .4s var(--ease)}
+.idx-arrow::before{content:'';position:absolute;left:28%;right:28%;top:50%;height:1.5px;background:currentColor}
+.idx-arrow::after{content:'';position:absolute;right:28%;top:50%;width:22%;aspect-ratio:1;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:translate(0,-50%) rotate(45deg);transform-origin:center}
+.index a:hover .idx-arrow,.index a:focus-visible .idx-arrow{opacity:1;transform:none}
+@media (hover:none),(pointer:coarse){ .idx-arrow{opacity:1;transform:none} }
 @media (prefers-reduced-motion:no-preference){
   .index.first .word > span{transform:translateY(105%);animation:up .9s var(--ease) forwards}
-  .index.first a:nth-child(2) .word > span{animation-delay:.06s}.index.first a:nth-child(3) .word > span{animation-delay:.12s}
-  .index.first a:nth-child(4) .word > span{animation-delay:.18s}.index.first a:nth-child(5) .word > span{animation-delay:.24s}
-  .index.first a:nth-child(6) .word > span{animation-delay:.3s}
+  .index.first a:nth-child(2) .word > span{animation-delay:.07s}.index.first a:nth-child(3) .word > span{animation-delay:.14s}
+  .index.first a:nth-child(4) .word > span{animation-delay:.21s}.index.first a:nth-child(5) .word > span{animation-delay:.28s}
 }
+.hero{padding-bottom:clamp(80px,10vw,180px)}
+
+/* 카테고리 페이지 */
+.cat-page{padding-top:clamp(40px,6vw,104px)}
+.cat-title{margin-top:clamp(20px,2.4vw,40px);font-size:clamp(44px,7.4vw,132px);letter-spacing:-.02em}
+.cat-title .line{display:block;overflow:hidden;padding-bottom:.05em}
+.cat-title .line > span{display:block}
+@media (prefers-reduced-motion:no-preference){ .cat-title .line > span{transform:translateY(105%);animation:up .9s var(--ease) .05s forwards} }
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:clamp(24px,3vw,48px) calc(var(--gutter) * -1) clamp(40px,5vw,80px);padding:0 var(--gutter)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;padding:9px 16px;border-radius:999px;border:1px solid var(--line);font-size:14px;font-weight:500;color:var(--sub);white-space:nowrap;transition:border-color .2s,color .2s}
+.tab:hover{color:var(--ink);border-color:var(--ink)}
+.tab[aria-current="page"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab sup{font-size:.7em;margin-left:3px}
+.cat-next{margin-top:clamp(80px,10vw,180px)}
 @keyframes up{to{transform:none}}
 
 /* 인덱스 위에 마우스를 올리면 따라오는 미리보기 */
@@ -86,18 +104,7 @@ a{color:inherit;text-decoration:none}
 .peek.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .peek .ph,.peek .media{aspect-ratio:4/3;width:100%;object-fit:cover}
 
-/* ───────── 흐르는 띠 ───────── */
-.band{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);overflow:hidden;padding:clamp(14px,1.6vw,24px) 0;margin-bottom:clamp(56px,7vw,120px)}
-.band-track{display:flex;width:max-content;animation:flow 38s linear infinite}
-.band:hover .band-track{animation-play-state:paused}
-.band-track span{font-family:var(--point);font-weight:700;font-size:clamp(28px,4.6vw,84px);line-height:1;letter-spacing:-.02em;
-  display:flex;align-items:center;gap:.45em;padding-right:.45em;white-space:nowrap}
-.band-track span::after{content:'';width:.22em;height:.22em;border-radius:50%;background:currentColor}
-@keyframes flow{to{transform:translateX(-50%)}}
-
 /* ───────── 작업 목록 ───────── */
-.works{padding-bottom:clamp(64px,8vw,140px);transition:opacity .2s}
-.works.fade{opacity:0}
 .group + .group{margin-top:clamp(64px,8vw,140px)}
 .group-head{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--ink);
   padding-top:12px;margin-bottom:clamp(20px,2.4vw,36px)}
@@ -235,8 +242,40 @@ a{color:inherit;text-decoration:none}
 @media (max-width:640px){ .next-row{grid-template-columns:1fr} .next-thumb{width:100%} }
 @media (hover:none),(pointer:coarse){ .next{cursor:pointer} }
 
+
+/* ───────── 표지: 누를 때마다 이름이 한 글자씩 ───────── */
+.cover{position:relative;height:100svh;min-height:520px;background:#000;color:#fff;overflow:hidden;
+  margin-top:-60px;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.cover-type{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:space-between;align-items:center;
+  padding:calc(env(safe-area-inset-top,0px) + 76px) var(--gutter) calc(env(safe-area-inset-bottom,0px) + 64px);pointer-events:none}
+.cover-line{font-family:var(--point);font-weight:700;font-size:min(22vw,21svh);line-height:.86;letter-spacing:-.03em;
+  display:flex;align-items:flex-end;min-height:.86em;white-space:nowrap}
+.cover-line .ch{display:inline-block;animation:pop .42s var(--ease) both}
+.cover-line .caret{display:inline-block;width:.08em;height:.72em;background:#fff;margin-left:.06em;margin-bottom:.08em;animation:blink 1s steps(1) infinite}
+@keyframes pop{from{transform:translateY(.18em) scale(.7);opacity:0}to{transform:none;opacity:1}}
+@keyframes blink{50%{opacity:0}}
+.cover-ui{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);z-index:3;display:flex;justify-content:space-between;align-items:center;
+  padding:0 var(--gutter);font-size:13px;color:rgba(255,255,255,.55)}
+.press{font:inherit;font-weight:500;color:#fff;background:none;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:8px 16px;cursor:pointer;transition:background .2s,color .2s}
+.press:hover{background:#fff;color:#000}
+.cover-count{font-family:var(--point);font-weight:700;font-variant-numeric:tabular-nums;min-width:4ch}
+.cover-meta{opacity:0;transition:opacity .5s}
+.cover.done .cover-meta{opacity:1}
+.bar.on-dark{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;color:#fff}
+.bar.on-dark .bar-links a{color:rgba(255,255,255,.6)}
+.bar.on-dark .bar-links a:hover,.bar.on-dark .bar-links a[aria-current="true"]{color:#fff}
+.bar{transition:background .3s,color .3s}
+@media (max-width:640px){ .cover-meta{display:none} }
+
+
+.keyart{position:absolute;inset:0;z-index:2;display:grid;place-items:center;pointer-events:none}
+.keyart-tilt{position:relative;width:min(64vw,78svh,820px);aspect-ratio:1;margin-top:2svh;opacity:0;transition:opacity .6s}
+.keyart.ready .keyart-tilt{opacity:1}
+.k-frame{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
+@media (max-width:640px){ .keyart-tilt{width:min(104vw,62svh)} }
+
 /* 페이지 이동 시 덮었다 걷히는 면 */
-.wipe{position:fixed;inset:0;z-index:50;background:var(--ink);transform:translateY(100%);pointer-events:none;visibility:hidden}
+.wipe{position:fixed;inset:0;z-index:50;background:#1b1b1b;transform:translateY(100%);pointer-events:none;visibility:hidden}
 .wipe.cover,.wipe.leave{visibility:visible}
 .wipe.cover{transition:transform .45s var(--ease);transform:translateY(0)}
 .wipe.leave{transition:transform .55s var(--ease);transform:translateY(-100%)}
@@ -250,7 +289,7 @@ a{color:inherit;text-decoration:none}
   <div class="wrap">
     <a class="bar-name pt" href="#/">Park Sumin</a>
     <nav class="bar-links" aria-label="주요 메뉴">
-      <a href="#/" data-nav="work">Work</a>
+      <a href="#/work" data-nav="work">Work</a>
       <a href="#/about" data-nav="about">About</a>
     </nav>
   </div>
@@ -275,7 +314,6 @@ const PROFILE = {
   experience: [ ['KREAM','패션 플랫폼, 파견계약직','2025.03 – 2026.09'], ['OHBROWN','광고대행사','2024.03 – 2024.08'] ],
   education:  [ ['창원대학교 산업디자인학과 졸업','','2023.02'] ],
   skills:     [ ['Figma, Photoshop, Illustrator, After Effects'], ['Cinema 4D'], ['AI Tools','Nano Banana, Higgsfield, Kling'] ],
-  band: ['AI Creative','Key Visual','3D Artwork','Motion','Brand Content','Campaign Film'],
 };
 
 const CATEGORIES = [
@@ -390,8 +428,8 @@ function layout(n){
 }
 
 /* ════════════════ 홈 ════════════════ */
-function groupHTML(c){
-  const head = `<div class="group-head"><h2 class="pt">${esc(c.name)}</h2><span>${String(countOf(c)).padStart(2,'0')}</span></div>`;
+function groupHTML(c, bare){
+  const head = bare ? '' : `<div class="group-head"><h2 class="pt">${esc(c.name)}</h2><span>${String(countOf(c)).padStart(2,'0')}</span></div>`;
   if (c.reels){
     return `<section class="group">${head}
       <p class="group-note">${esc(c.note)}</p>
@@ -410,30 +448,52 @@ function groupHTML(c){
 }
 
 let firstLoad = true;
-function renderHome(filter){
-  const total = CATEGORIES.reduce((a,c) => a + countOf(c), 0);
-  const shown = filter ? CATEGORIES.filter(c => c.id === filter) : CATEGORIES;
-  const idx = [{id:'', name:'All', n:total}, ...CATEGORIES.map(c => ({id:c.id, name:c.name, n:countOf(c)}))];
+function renderHome(){
+  if (document.querySelector('.index')) return;
+  $app.innerHTML = `
+  <section class="cover" id="cover" aria-label="표지">
+    <div class="cover-type" aria-live="polite">
+      <div class="cover-line" id="lineTop"></div>
+      <div class="cover-line" id="lineBot"></div>
+    </div>
+    <div class="cover-ui">
+      <span class="cover-count" id="coverCount">0/9</span>
+      <button class="press" id="pressBtn" type="button">키를 눌러 이름 완성하기</button>
+      <span class="cover-meta">Graphic Designer, Seoul</span>
+    </div>
+  </section>
+  <section class="hero wrap" id="work">
+    <p class="intro">박수민 <span>Park Sumin</span><br>${esc(PROFILE.lead)}</p>
+    <nav class="index ${firstLoad?'first':''}" aria-label="작업 카테고리">
+      ${CATEGORIES.map(c => `
+        <a href="#/work/${c.id}" data-f="${c.id}">
+          <span class="word"><span>${esc(c.name)}</span></span>
+          <span class="idx-meta"><span class="idx-n">${String(countOf(c)).padStart(2,'0')}</span><span class="idx-arrow" aria-hidden="true"></span></span>
+        </a>`).join('')}
+    </nav>
+  </section>
+  <section class="wrap" id="about">${aboutHTML()}</section>`;
+  firstLoad = false;
+  wirePeek();
+  startCover();
+}
 
-  if (!document.querySelector('.index')){
-    const bandItems = PROFILE.band.map(w => `<span>${esc(w)}</span>`).join('');
-    $app.innerHTML = `
-    <section class="hero wrap">
-      <p class="intro">박수민 <span>Park Sumin</span><br>${esc(PROFILE.lead)}</p>
-      <nav class="index ${firstLoad?'first':''}" aria-label="작업 분류">
-        ${idx.map(x => `<a href="#/${x.id?'work/'+x.id:''}" data-f="${x.id}"><span class="word"><span>${esc(x.name)}</span></span><sup>${x.n}</sup></a>`).join('')}
-      </nav>
-    </section>
-    <div class="band" aria-hidden="true"><div class="band-track">${bandItems}${bandItems}</div></div>
-    <div class="works wrap" id="works"></div>
-    <section class="wrap" id="about">${aboutHTML()}</section>`;
-    firstLoad = false;
-    wirePeek();
-  }
-  document.querySelectorAll('.index a').forEach(a => a.setAttribute('aria-current', a.dataset.f === (filter||'') ? 'true' : 'false'));
-  const works = document.getElementById('works');
-  const paint = () => { works.innerHTML = shown.map(groupHTML).join(''); works.classList.remove('fade'); wire(); };
-  if (works.innerHTML){ works.classList.add('fade'); setTimeout(paint, 180); } else paint();
+function renderCategory(id){
+  const c = CATEGORIES.find(x => x.id === id) || CATEGORIES[0];
+  const i = CATEGORIES.indexOf(c), nextC = CATEGORIES[(i+1) % CATEGORIES.length];
+  $app.innerHTML = `
+  <section class="cat-page wrap">
+    <div class="crumb"><a href="#/work">Work</a><span>/</span><span>${esc(c.name)}</span></div>
+    <h1 class="cat-title pt"><span class="line"><span>${esc(c.name)}</span></span></h1>
+    <nav class="tabs" aria-label="카테고리">
+      ${CATEGORIES.map(x => `<a class="tab" href="#/work/${x.id}" ${x.id===c.id?'aria-current="page"':''}>${esc(x.name)}<sup>${countOf(x)}</sup></a>`).join('')}
+    </nav>
+    ${groupHTML(c, true)}
+    <a class="next cat-next" href="#/work/${nextC.id}">
+      <small>다음 카테고리</small>
+      <div class="next-row"><strong class="pt">${esc(nextC.name)}</strong></div>
+    </a>
+  </section>`;
   wire();
 }
 
@@ -492,7 +552,7 @@ function renderProject(pid){
   $app.innerHTML = `
   <article>
     <header class="p-top wrap">
-      <div class="crumb"><a href="#/">Work</a><span>/</span><a href="#/work/${c.id}">${esc(c.name)}</a></div>
+      <div class="crumb"><a href="#/work">Work</a><span>/</span><a href="#/work/${c.id}">${esc(c.name)}</a></div>
       <h1 class="p-title ${hasKo(p.title)?'ko':'pt'}">${splitTitle(p.title)}</h1>
       <p class="p-line ${p.line?'':'todo'}">${p.line?esc(p.line):'이 작업을 한 줄로 소개하는 문장이 들어갈 자리'}</p>
       <dl class="info">${info}</dl>
@@ -553,6 +613,177 @@ function tick(){
 }
 requestAnimationFrame(tick);
 
+
+/* ════════════════ 표지: 영상 프레임 키캡 ════════════════
+   회전 영상(121장)과 누르는 영상(14장)을 프레임 이미지로 쪼개 캔버스에 그립니다.
+   평소엔 정면에서 둥둥 떠 있고, 누르면 눌립니다. */
+const KEY_FRAMES = {
+  rot:   ['key/rot/000.webp'],   /* 정면 한 장만 사용 */
+  press: Array.from({length:14},  (_,i) => `key/press/${String(i).padStart(2,'0')}.webp`),
+  pressBottom: 5,     /* 가장 깊이 눌린 프레임 — 이 순간 글자가 찍힘 */
+};
+
+let coverCtl = null;
+function startCover(){
+  coverCtl && coverCtl.destroy();
+  const el = document.getElementById('cover'); if (!el) return;
+  const top = document.getElementById('lineTop'), bot = document.getElementById('lineBot');
+  const count = document.getElementById('coverCount'), btn = document.getElementById('pressBtn');
+  const WORDS = ['PARK','SUMiN'], TOTAL = WORDS.join('').length;
+  let typed = 0;
+
+  const art = document.createElement('div');
+  art.className = 'keyart';
+  art.innerHTML = `<div class="keyart-tilt"><img class="k-frame" src="${KEY_FRAMES.rot[0]}" alt="" draggable="false"></div>`;
+  el.insertBefore(art, el.querySelector('.cover-ui'));
+  const box = art.querySelector('.keyart-tilt'), frameEl = art.querySelector('.k-frame');
+  /* 첫 장은 바로 보이게 (다른 프레임은 뒤에서 불러옴) */
+  frameEl.onload = () => art.classList.add('ready');
+  if (frameEl.complete && frameEl.naturalWidth) art.classList.add('ready');
+
+  function paint(added){
+    const a = Math.min(typed, WORDS[0].length), b = Math.max(0, typed - WORDS[0].length);
+    const letters = (w, n, fresh) => [...w.slice(0,n)].map((c,i) => `<span class="ch" style="${fresh && i===n-1 ? '' : 'animation:none'}">${c}</span>`).join('');
+    const caret = '<span class="caret"></span>';
+    top.innerHTML = letters(WORDS[0], a, added && b===0) + (typed < WORDS[0].length ? caret : '');
+    bot.innerHTML = letters(WORDS[1], b, added && b>0) + (typed >= WORDS[0].length && typed < TOTAL ? caret : '');
+    count.textContent = `${typed}/${TOTAL}`;
+    el.classList.toggle('done', typed === TOTAL);
+    btn.textContent = typed === TOTAL ? '한 번 더 누르면 처음부터' : typed ? '계속 누르기' : '키를 눌러 이름 완성하기';
+  }
+  paint(false);
+
+  let ac;
+  function clack(){
+    try{
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      const t0 = ac.currentTime;
+      const buf = ac.createBuffer(1, ac.sampleRate * .03, ac.sampleRate), d = buf.getChannelData(0);
+      for (let i=0;i<d.length;i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/d.length, 3);
+      const n = ac.createBufferSource(); n.buffer = buf;
+      const f = ac.createBiquadFilter(); f.type='bandpass'; f.frequency.value=3200; f.Q.value=.8;
+      const g = ac.createGain(); g.gain.value = .28;
+      n.connect(f).connect(g).connect(ac.destination); n.start(t0);
+      const o = ac.createOscillator(), og = ac.createGain();
+      o.frequency.setValueAtTime(190,t0); o.frequency.exponentialRampToValueAtTime(70,t0+.07);
+      og.gain.setValueAtTime(.18,t0); og.gain.exponentialRampToValueAtTime(.001,t0+.08);
+      o.connect(og).connect(ac.destination); o.start(t0); o.stop(t0+.09);
+    }catch(e){}
+  }
+  function typeOne(){ typed = typed >= TOTAL ? 1 : typed + 1; paint(true); clack(); }
+
+  /* 프레임 불러오기 */
+  const load = src => new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
+  let rot = [], prs = [], ready = false;
+  const N = KEY_FRAMES.rot.length;
+  Promise.all(KEY_FRAMES.rot.map(load)).then(a => { rot = a; return Promise.all(KEY_FRAMES.press.map(load)); })
+    .then(a => { prs = a; ready = true; art.classList.add('ready'); })
+    .catch(() => { ready = true; art.classList.add('ready'); });
+
+  function size(){
+    const w = box.clientWidth, dpr = Math.min(devicePixelRatio || 1, 2);
+    const px = Math.min(Math.round(w * dpr), 720);
+    /* img 방식이라 캔버스 크기 조정 불필요 */
+  }
+  size(); addEventListener('resize', size);
+
+  let shown = null;
+  function draw(img){ if (!img || img === shown) return; shown = img; frameEl.src = img.src; }
+  /* 클릭 판정용: 현재 프레임의 투명도를 작은 캔버스에서 확인 (실패하면 네모 영역으로 판정) */
+  const probe = document.createElement('canvas'); probe.width = probe.height = 180;
+  let pctx = null; try { pctx = probe.getContext('2d'); } catch(e){}
+
+  /* 상태: idle(천천히 회전) → seek(정면으로 복귀) → press(눌림) */
+  let mode = 'idle', pos = 0, speed = 0, pending = 0;
+  let seekFrom = 0, seekTo = 0, seekT = 0, seekDur = .3, pressT = 0, stamped = false;
+  const PRESS_FPS = 40;
+  let tx = 0, ty = 0, moved = false;
+
+  function requestPress(){
+    pending++;
+    if (mode === 'idle') startSeek();
+  }
+  function startSeek(){
+    const p = ((pos % N) + N) % N;
+    const d = p > N/2 ? N - p : -p;            /* 가까운 쪽으로 정면(0)까지 */
+    if (Math.abs(d) < .6 || calm){ pos = 0; return startPress(); }
+    mode = 'seek'; seekFrom = pos; seekTo = pos + d; seekT = 0;
+    seekDur = Math.min(.42, .1 + Math.abs(d) / N * 1.1);
+  }
+  function startPress(){ mode = 'press'; pressT = 0; stamped = false; pending--; }
+
+  btn.addEventListener('click', e => { e.stopPropagation(); requestPress(); });
+
+  function onKey(e){
+    const r = frameEl.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    if (x < 0 || y < 0 || x > 1 || y > 1) return false;
+    if (!ready) return true;
+    try{
+      pctx.clearRect(0,0,180,180); pctx.drawImage(shown || rot[0], 0, 0, 180, 180);
+      return pctx.getImageData(Math.floor(x*180), Math.floor(y*180), 1, 1).data[3] > 40;
+    }catch(err){ return x > .12 && x < .88 && y > .05 && y < .95; }
+  }
+  const onMove = e => {
+    const r = el.getBoundingClientRect();
+    tx = (e.clientX - r.left)/r.width - .5; ty = (e.clientY - r.top)/r.height - .5;
+    if (e.pointerType === 'mouse') moved = true;
+    art.classList.toggle('hot', onKey(e));
+  };
+  const onDown = e => { if (e.target.closest('.press')) return; if (onKey(e)) requestPress(); };
+  el.addEventListener('pointermove', onMove);
+  el.addEventListener('pointerdown', onDown);
+
+  let visible = true, raf, last = performance.now();
+  const vis = new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    document.querySelector('.bar').classList.toggle('on-dark', e.intersectionRatio > .12);
+    if (visible && !raf){ last = performance.now(); loop(); }
+  }, { threshold:[0,.12,.5] });
+  vis.observe(el);
+
+  const easeOut = x => 1 - Math.pow(1 - x, 3);
+  function loop(){
+    if (!visible){ raf = null; return; }
+    const now = performance.now(), dt = Math.min((now - last) / 1000, .05); last = now;
+    if (ready){
+      if (mode === 'idle'){
+        /* 정면 고정, 공중에서 둥둥 떠 있기만 함 */
+        const t = now / 1000;
+        pos = 0;
+        const oy = calm ? 0 : Math.sin(t * 1.1) * .6;
+        box.style.transform = `translate3d(0, ${oy.toFixed(2)}%, 0)`;
+      } else if (mode === 'seek'){
+        seekT += dt / seekDur;
+        pos = seekFrom + (seekTo - seekFrom) * easeOut(Math.min(seekT, 1));
+        if (seekT >= 1){ pos = 0; startPress(); }
+      }
+      if (mode === 'press'){
+        pressT += dt * PRESS_FPS;
+        const i = Math.min(Math.floor(pressT), prs.length - 1);
+        draw(prs[i]);
+        if (!stamped && i >= KEY_FRAMES.pressBottom){ stamped = true; typeOne(); }
+        if (pressT >= prs.length){
+          pos = 0; speed = 0;
+          if (pending > 0) startPress(); else mode = 'idle';
+        }
+      } else {
+        const p = ((pos % N) + N) % N, i0 = Math.floor(p), f = p - i0;
+        draw(rot[i0]);
+      }
+    }
+    raf = requestAnimationFrame(loop);
+  }
+  loop();
+
+  coverCtl = { destroy(){
+    cancelAnimationFrame(raf); raf = null; visible = false; vis.disconnect();
+    removeEventListener('resize', size);
+    document.querySelector('.bar').classList.remove('on-dark');
+    coverCtl = null;
+  }};
+}
+
 /* ════════════════ 라우팅 (+ 프로젝트로 갈 때 화면을 덮었다 걷기) ════════════════ */
 const wipe = document.querySelector('.wipe');
 function go(){
@@ -560,22 +791,27 @@ function go(){
   const [kind, id] = h.split('/');
   cursor.classList.remove('on'); peek.classList.remove('on');
   document.querySelectorAll('[data-nav]').forEach(a => a.setAttribute('aria-current','false'));
-  if (kind === 'project'){ renderProject(id); window.scrollTo(0,0); return; }
-  const cameFromProject = !document.querySelector('.index');
-  renderHome(kind === 'work' ? id : '');
+  const sub = (kind === 'project') || (kind === 'work' && id);
+  if (sub){
+    coverCtl && coverCtl.destroy();
+    kind === 'project' ? renderProject(id) : renderCategory(id);
+    document.querySelector('[data-nav="work"]').setAttribute('aria-current','true');
+    window.scrollTo(0,0); return;
+  }
+  const fresh = !document.querySelector('.index');
+  renderHome();
   if (kind === 'about'){
     document.querySelector('[data-nav="about"]').setAttribute('aria-current','true');
     document.getElementById('about').scrollIntoView();
-  } else {
+  } else if (kind === 'work'){
     document.querySelector('[data-nav="work"]').setAttribute('aria-current','true');
-    if (cameFromProject && kind === 'work') document.querySelector('.index').scrollIntoView();
-    else if (cameFromProject) window.scrollTo(0,0);
-  }
+    document.getElementById('work').scrollIntoView();
+  } else if (fresh) window.scrollTo(0,0);
 }
 function route(){
-  const toProject = location.hash.startsWith('#/project/');
-  const leavingProject = !document.querySelector('.index') && !toProject && $app.innerHTML;
-  if (calm || !(toProject || leavingProject)) return go();
+  const toSub = /^#\/(project\/|work\/[\w-])/.test(location.hash);
+  const onSub = !document.querySelector('.index') && $app.innerHTML;
+  if (calm || !(toSub || onSub)) return go();
   wipe.className = 'wipe cover';
   setTimeout(() => {
     go();
