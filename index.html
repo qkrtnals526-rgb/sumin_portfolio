@@ -1157,7 +1157,7 @@ button,input,select,textarea{font-family:inherit}
 .pj .pc-swap:hover{background:#fff;color:#000}
 .pj .pc-swap:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .pj .p-hero.kvfit{width:100vw;margin-left:calc(50% - 50vw);margin-right:0}
-.p-hero.kvfit .fr img{left:-1.2%;top:-1.2%;width:102.4%;height:102.4%;object-fit:cover;object-position:50% 100%;transform-origin:50% 98.8%}
+.p-hero.kvfit .fr img{left:-1.2%;top:-1.2%;width:102.4%;height:102.4%;object-fit:cover;object-position:50% var(--oy,0%);transform-origin:50% 50%}
 @media (max-width:900px){ .p-hero.kvfit .fr img{object-fit:cover} }
 .pj .pc-vid[data-b]{cursor:pointer}
 .pj .pc-vid[data-b]:focus-visible{outline:2px solid #fff;outline-offset:-4px}
@@ -1172,6 +1172,15 @@ button,input,select,textarea{font-family:inherit}
 .pj .fo-bg{position:absolute;inset:0;pointer-events:none;z-index:0}
 .pj .fo-dither{position:sticky;top:0;display:block;width:100%;height:100svh}
 .pj .fo-wrap .pcx{position:relative;z-index:1}
+.pj .pc-intro{position:relative}
+.pj .pc-intro .pc-top{display:block;width:100%;height:auto}
+.pj .it-t{position:absolute;height:auto;max-width:none;pointer-events:none;will-change:filter,opacity}
+@media (prefers-reduced-motion:reduce){ .pj .it-t{filter:none!important;opacity:1!important} }
+.pj .v4x{position:relative}
+.pj .v4-pin{position:sticky;top:0}
+.pj .v4-st{position:relative;width:100%;aspect-ratio:2000/1500;overflow:hidden;background:#000}
+.pj .v4-st video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pj .v4b{opacity:0}
 </style>
 <canvas id="trailCanvas" aria-hidden="true"></canvas>
 <script>
@@ -1568,6 +1577,12 @@ const PCD={"s1":{"h":1788,"m":[[636,104,747,996,687,104,627,792,"jpg","f"],[746,
 
 const PCP = 'a/pc/';
 /* 영상 + 스크롤 PNG 오버레이 — 좌표는 2000×1788 시안 기준 [x, y, w, 비율]. PNG는 모양(비율)으로 자리를 찾아감 */
+/* 인트로 영어 문구 — 2ojos_intro(2000×5900) 기준 %. m = 인물에 가려지는 부분 마스크 */
+const INTRO_T = [
+  { n:'intro_text_1', src:'11111.svg', x:10.15, y:33.66, w:69.6,  m:'data:image/png;base64,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' },
+  { n:'intro_text_2', src:'11111111.svg', x:32.15, y:42.17, w:57.75, m:'data:image/png;base64,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' },
+  { n:'intro_text_3', src:'111111.svg', x:10.6,  y:57.39, w:59.35, m:'data:image/png;base64,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' },
+];
 const LINES = [
   { v:'2OJOS_line1.mp4', w:2000, h:1788, label:'1st Keyword — Refined Layers', imgs:['line1_1', 'line1_2'], slots:[[746, 370, 1254, 1254 / 1417], [283, 1017, 705, 705 / 661]] },
   { v:'2OJOS_line2.mp4', w:2000, h:1788, label:'2nd Keyword — Timeless Mix', imgs:['line2_1', 'line2_2'], slots:[[0, 200, 1384, 1384 / 1588], [787, 1146, 943, 943 / 576]] },
@@ -1576,7 +1591,7 @@ const LINES = [
 ];
 function pcHTML(){
   const tops = `<video class="pc-top pc-kvv" src="2ojos_kv.mp4" muted loop playsinline autoplay preload="metadata" style="aspect-ratio:2000/1706"></video>
-    <img class="pc-top" src="2ojos_intro.jpg" onerror="this.onerror=null;this.src='2ojos_intro.png'" alt="OJOS 인트로">`;
+    <div class="pc-intro"><img class="pc-top" src="2ojos_intro.jpg" onerror="this.onerror=null;this.src='2ojos_intro.png'" alt="OJOS 인트로">${INTRO_T.map((t, i) => `<img class="it-t" src="${t.src}" alt="" style="left:${t.x}%;top:${t.y}%;width:${t.w}%${t.m ? `;-webkit-mask-image:url(${t.m});mask-image:url(${t.m});-webkit-mask-size:100% 100%;mask-size:100% 100%` : ''}">`).join('')}</div>`;
   const lay = Object.entries(PCD).map(([k, d]) => {
     const paired = new Set(d.pairs.flat()), second = new Set(d.pairs.map(p => p[1]));
     const media = d.m.map(([x, y, w, h, cx, cy, cw, ch, ext, kind], i) =>
@@ -1586,12 +1601,15 @@ function pcHTML(){
       <img class="pc-back" src="${PCP}${k}_back.jpg" alt="" loading="lazy">${media}<img class="pc-front" src="${PCP}${k}_front.png" alt="" loading="lazy"></div></div>`;
   });
   return `<div class="pcx">${tops}
-    <div class="pc-vid pcr" data-a="ojos4.mp4" data-b="ojos4-1.mp4" role="button" tabindex="0" aria-label="영상 전환"><video src="ojos4.mp4" muted loop playsinline preload="metadata"></video></div>
+    <section class="v4x" aria-label="OJOS 모션"><div class="v4-pin"><div class="v4-st">
+      <video class="v4a" src="ojos4.mp4" muted loop playsinline autoplay preload="auto"></video>
+      <video class="v4b" src="ojos4-1.mp4" muted loop playsinline preload="auto"></video>
+    </div></div></section>
     ${LINES.map((ln, li) => `<section class="l1x" data-l="${li}" aria-label="${ln.label}"><div class="l1-pin"><div class="l1-st" style="aspect-ratio:${ln.w}/${ln.h}">
       <video src="${ln.v}#t=0.001" muted loop playsinline autoplay preload="auto"></video>
       ${ln.imgs.map((n, i) => `<img class="l1-o" data-i="${i}" src="${n}.png" onload="l1Fit(this)" onerror="this.onerror=null;this.src='${n}.jpg'" alt="">`).join('')}
     </div></div></section>`).join('')}
-    <img class="pc-top pcr" src="2ojos_outro.jpg" onerror="this.onerror=null;this.src='2ojos_outro.png'" alt="OJOS 25SS — 정의를 새롭게 해석한 색다른 현재" loading="lazy" style="aspect-ratio:2000/455">
+    <img class="pc-top pcr" src="2ojos_outro.jpg" onerror="this.onerror=null;this.src='2ojos_outro.png'" alt="OJOS 25SS — 정의를 새롭게 해석한 색다른 현재" loading="lazy">
   </div>`;
 }
 /* Final Output 양옆 여백 그래픽 */
@@ -1702,11 +1720,25 @@ const FO_MODE = 'C';
 let pcT = 0;
 function pcFrame(pj, vh){
   foInit(pj);
+  pj.querySelectorAll('.it-t').forEach(t => {   /* A 순차 포커스 — 화면 아래에서 중간 위까지 천천히 선명해짐 */
+    const r = t.getBoundingClientRect(); if (r.bottom < -100 || r.top > vh + 100) return;
+    const p = calm ? 1 : cl((vh * .98 - r.top) / (vh * .75)), e = p * p * (3 - 2 * p);
+    t.style.filter = e > .995 ? 'none' : `blur(${((1 - e) * 16).toFixed(1)}px)`; t.style.opacity = (.12 + .88 * e).toFixed(3);
+  });
   pj.querySelectorAll('.pcx .pcr:not(.in)').forEach(e => { if (e.getBoundingClientRect().top < vh * .88) e.classList.add('in'); });
   const kvv = pj.querySelector('.pc-kvv'); if (kvv){ const r = kvv.getBoundingClientRect(); if (r.top < vh && r.bottom > 0) kvv.play().catch(() => {}); else kvv.pause(); }
   const v = pj.querySelector('.pc-vid');
   if (v){ const r = v.getBoundingClientRect(), p = cl((vh - r.top) / (vh * .9)); v.style.setProperty('--o', (1 - p) * 14 + '%');
     const vid = v.querySelector('video'); if (r.top < vh && r.bottom > 0) vid.play().catch(() => {}); else vid.pause(); }
+  pj.querySelectorAll('.v4x').forEach(x => {   /* ojos4 — 이 지점에서 화면이 멈추고, 스크롤하면 ojos4-1이 처음부터 재생 */
+    const st = x.querySelector('.v4-st'), sh = st.offsetHeight; x.style.height = Math.round(sh + vh * 1.2) + 'px'; x.firstElementChild.style.top = Math.min(0, vh - sh) + 'px';
+    const r = x.getBoundingClientRect(), p = calm ? 1 : cl(-r.top / Math.max(1, r.height - vh)), inV = r.top < vh && r.bottom > 0;
+    const a = x.querySelector('.v4a'), b = x.querySelector('.v4b'), k = cl((p - .4) / .12);
+    b.style.opacity = k.toFixed(3);
+    const showB = k > 0 && inV; if (showB && !b._on){ try { b.currentTime = 0; } catch(e){} } b._on = showB;
+    if (showB) b.play().catch(() => {}); else b.pause();
+    if (inV && k < 1) a.play().catch(() => {}); else a.pause();
+  });
   pj.querySelectorAll('.l1x').forEach(l1 => { const st = l1.querySelector('.l1-st'), sh = st.offsetHeight; l1.style.height = Math.round(sh + vh * 1.4) + 'px'; l1.firstElementChild.style.top = Math.min(0, vh - sh) + 'px';
     const r = l1.getBoundingClientRect(), p = calm ? 1 : cl(-r.top / Math.max(1, r.height - vh)), vid = l1.querySelector('video');
     if (r.top < vh && r.bottom > 0) vid.play().catch(() => {}); else vid.pause();
@@ -2066,6 +2098,7 @@ function frame(){
     fr.style.setProperty('--cx', ((mob ? 6 : 22) * (1 - e)).toFixed(2) + '%');
     fr.style.setProperty('--cy', (endY + ((mob ? 34 : 18) - endY) * (1 - e)).toFixed(2) + '%');
     fr.style.setProperty('--sc', (1.18 - .18 * e).toFixed(3));
+    fr.style.setProperty('--oy', (calm ? 50 : cl((-r.top / Math.max(1, r.height - vh) - .72) / .28) * 100).toFixed(1) + '%');   /* 화면이 16:9보다 넓으면 스크롤 따라 위→아래로 이동해 전체를 보여줌 */
     hero.querySelector('.cap').style.setProperty('--co', cl((k - .8) / .2).toFixed(2));
     hero.querySelector('.cap').style.top = mob ? (vh / 2 + innerWidth * (+hero.dataset.r || .5625) / 2 + 10) + 'px' : '';
   }
