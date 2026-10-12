@@ -1096,7 +1096,7 @@ button,input,select,textarea{font-family:inherit}
 .pj .apx-lines p{font-size:clamp(17px,1.53vw,22px);line-height:1.55;letter-spacing:-.01em;color:#B9B9B5}
 .pj .apx-lines p b{color:#fff;font-weight:700}
 .pj .apx-lines sup{display:inline-block;margin-left:8px;vertical-align:.7em;font-size:11px;font-weight:700;letter-spacing:.02em;color:#3FFFD8;line-height:1}
-.pj .apx-frame{position:relative;aspect-ratio:2000/1204;max-height:78svh;width:100%;overflow:hidden;background:#EEEEEC}
+.pj .apx-frame{position:relative;aspect-ratio:2000/1204;max-height:78svh;width:100%;overflow:hidden;background:#141414}
 .pj .apx-tile{position:absolute;overflow:hidden;will-change:left,top,width,height}
 .pj .apx-tile img,.pj .apx-kv,.pj .apx-vid,.pj .apx-fin{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
 .pj .apx-tile[data-i="0"]{z-index:1}.pj .apx-tile[data-i="1"]{z-index:3}.pj .apx-tile[data-i="2"]{z-index:2}.pj .apx-tile[data-i="3"]{z-index:2}
@@ -1123,7 +1123,7 @@ button,input,select,textarea{font-family:inherit}
 .pj .dd-item span{display:block;font-size:13px;font-weight:600;color:#3FFFD8;letter-spacing:.02em}
 .pj .dd-item h4{margin-top:8px;font-size:clamp(18px,1.53vw,22px);font-weight:600;letter-spacing:-.01em;color:#fff}
 .pj .dd-item p{margin-top:12px;font-size:var(--t-body);line-height:1.7;letter-spacing:-.01em;color:#B9B9B5;max-width:30em}
-.pj .dd-float{position:relative;width:100%;aspect-ratio:575/643}
+.pj .dd-float{position:relative;width:100%;aspect-ratio:594/700}
 .pj .dd-f{position:absolute;margin:0;overflow:hidden;clip-path:inset(var(--rv,100%) 0 0 0);transform:translate3d(0,var(--py,0px),0);will-change:clip-path,transform}
 .pj .dd-f img{display:block;width:100%;height:auto;max-width:none;transform:scale(var(--zs,1.18));transform-origin:50% 100%}
 .pj .dd-chips ul{list-style:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
@@ -1156,7 +1156,7 @@ button,input,select,textarea{font-family:inherit}
 .pj .pc-swap[aria-pressed="true"] i{transform:scaleX(-1)}
 .pj .pc-swap:hover{background:#fff;color:#000}
 .pj .pc-swap:focus-visible{outline:2px solid #fff;outline-offset:3px}
-.p-hero.kvfit .fr img{object-fit:cover;transform:scale(calc(var(--sc,1.18) * 1.016))}
+.p-hero.kvfit .fr img{object-fit:cover;object-position:50% 100%;transform-origin:50% 100%;transform:scale(calc(var(--sc,1.18) * 1.016))}
 @media (max-width:900px){ .p-hero.kvfit .fr img{object-fit:cover} }
 .pj .pc-vid[data-b]{cursor:pointer}
 .pj .pc-vid[data-b]:focus-visible{outline:2px solid #fff;outline-offset:-4px}
@@ -1167,6 +1167,10 @@ button,input,select,textarea{font-family:inherit}
 .pj .l1-o{position:absolute;max-width:none;height:auto;opacity:0;transform:translateY(60px);transition:opacity .9s var(--ease),transform 1.1s var(--ease);pointer-events:none}
 .pj .l1-o.on{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){ .pj .l1-o{transition:none;transform:none} }
+.pj .fo-wrap{position:relative;width:100vw;margin-left:calc(50% - 50vw)}
+.pj .fo-bg{position:absolute;inset:0;pointer-events:none;z-index:0}
+.pj .fo-dither{position:sticky;top:0;display:block;width:100%;height:100svh}
+.pj .fo-wrap .pcx{position:relative;z-index:1}
 </style>
 <canvas id="trailCanvas" aria-hidden="true"></canvas>
 <script>
@@ -1254,7 +1258,7 @@ const PROJECTS = { own: [
         items:[['대비감을 유지한 전개','인트로와 라인업에서도 크게 크롭한 인물과 작은 전신 인물을 함께 두어, 키비주얼의 리듬을 페이지 끝까지 가져갔습니다.'],
                ['바랜 색감을 메인 컬러로','룩북 특유의 색 바랜 톤을 배경과 그래픽의 주된 컬러로 써서,<br>이미지와 페이지가 하나의 무드로 이어지게 했습니다.']],
         colors:[['Faded Ivory','#F0EFE6'],['Pale Mist','#E2E4DA'],['Grey Mint','#CCD6D4'],['Sage Grey','#BFCABF'],['Ink','#0B1218']] },
-      { t:'final', n:'004', title:'Final Output', text:'서로 다른 시대와 스타일이 교차하는 <b>OJOS의 25SS 첫 번째 드랍.</b> 절제된 컬러와 로맨틱한 패턴 레이어링이 만들어내는 정교한 미학을 만나보세요.',
+      { t:'final', n:'004', title:'FINAL OUTPUT', text:'', _old:'서로 다른 시대와 스타일이 교차하는 <b>OJOS의 25SS 첫 번째 드랍.</b> 절제된 컬러와 로맨틱한 패턴 레이어링이 만들어내는 정교한 미학을 만나보세요.',
         pages:['FINALIMG:ojos_k1','FINALIMG:ojos_k2','FINALIMG:ojos_k3','FINALIMG:ojos_k4','FINALIMG:ojos_k5','FINALIMG:lookbook'] },
     ],
   },
@@ -1406,7 +1410,7 @@ function blockHTML2(b){
   </section>`;
   if (b.t === 'final') return `
   <section class="c-sec">${cHead(b)}
-    ${pcHTML()}
+    <div class="fo-wrap"><div class="fo-bg" aria-hidden="true"><canvas class="fo-dither"></canvas></div>${pcHTML()}</div>
   </section>`;
   return blockHTML(b);
 }
@@ -1589,8 +1593,67 @@ function pcHTML(){
     <img class="pc-top pcr" src="2ojos_outro.jpg" onerror="this.onerror=null;this.src='2ojos_outro.png'" alt="OJOS 25SS — 정의를 새롭게 해석한 색다른 현재" loading="lazy" style="aspect-ratio:2000/455">
   </div>`;
 }
+/* Final Output 양옆 여백 — 디더 그래픽 키비주얼: 세로로 흐르는 OJOS / 25SS 점 타이포 + 커서 반응 */
+function foInit(pj){
+  const wrap = pj.querySelector('.fo-wrap'); if (!wrap || wrap.dataset.on) return; wrap.dataset.on = '1';
+  const cv = wrap.querySelector('.fo-dither'), ctx = cv.getContext('2d');
+  const hsh = (x, y) => { const v = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return v - Math.floor(v); };
+  const vn = (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, u = xf * xf * (3 - 2 * xf), w = yf * yf * (3 - 2 * yf);
+    const a = hsh(xi, yi), b = hsh(xi + 1, yi), c = hsh(xi, yi + 1), d = hsh(xi + 1, yi + 1); return a + (b - a) * u + (c - a) * w + (a - b - c + d) * u * w; };
+  let W = 0, H = 0, dpr = 1, gap = 0, step = 5, cols = 0, rows = 0, mask = null, mx = -1e4, my = -1e4, ms = 0, vis = false, raf = 0;
+  const STR = 'OJOS  25SS  ';
+  function build(){
+    W = cv.clientWidth; H = cv.clientHeight; dpr = Math.min(2, devicePixelRatio || 1);
+    cv.width = W * dpr; cv.height = H * dpr;
+    const pw = (wrap.querySelector('.pcx') || wrap).offsetWidth; gap = Math.floor((W - pw) / 2);
+    if (gap < 70){ mask = null; return; }
+    step = gap > 220 ? 6 : 5;
+    const fs = gap * .74, oc = document.createElement('canvas'), o = oc.getContext('2d');
+    const font = `800 ${fs}px ${getComputedStyle(document.documentElement).getPropertyValue('--point') || 'sans-serif'}`;
+    o.font = font; const L = Math.ceil(o.measureText(STR).width);
+    oc.width = gap; oc.height = L; o.font = font; o.fillStyle = '#fff'; o.textBaseline = 'middle';
+    o.translate(gap / 2, 0); o.rotate(Math.PI / 2); o.fillText(STR, 0, 0);
+    const d = o.getImageData(0, 0, gap, L).data; cols = Math.ceil(gap / step); rows = Math.floor(L / step); mask = new Uint8Array(cols * rows);
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++){ const x = Math.min(gap - 1, c * step), y = r * step; mask[r * cols + c] = d[(y * gap + x) * 4 + 3] > 120 ? 1 : 0; }
+  }
+  function side(t, x0, dir, off){
+    const T = t / 5200, rep = 70 * 70;
+    for (let y = 0; y < H; y += step){
+      const rr = Math.floor((y + off) / step), r = ((rr % rows) + rows) % rows;
+      for (let c = 0; c < cols; c++){
+        const cc = dir > 0 ? c : cols - 1 - c, rr2 = dir > 0 ? r : rows - 1 - r;
+        const x = x0 + c * step, inT = mask[rr2 * cols + cc];
+        const edge = dir > 0 ? 1 - c / cols : c / cols;                          // 바깥쪽일수록 1
+        let f = inT ? .5 + .5 * vn(x / 46 + T, (y + off) / 46) : .05 * edge * edge * vn(x / 30 - T, y / 30);
+        let qx = 0, qy = 0, gl = 0;
+        if (ms > .01){ const ux = x - mx, uy = y - my, q = ux * ux + uy * uy; if (q < rep * 5){ gl = Math.exp(-q / rep) * ms; const dd = Math.sqrt(q) || 1; qx = ux / dd * gl * 9; qy = uy / dd * gl * 9; f += gl * .35; } }
+        if (hsh(cc * 1.7, rr * .9) > f) continue;
+        ctx.globalAlpha = Math.min(.95, (inT ? .62 : .32) * (.55 + .45 * edge) + .4 * gl);
+        ctx.fillRect(x + qx, y + qy, 1.7, 1.7);
+      }
+    }
+  }
+  function draw(t){
+    if (cv.clientWidth !== W || cv.clientHeight !== H) build();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+    if (!mask) return;
+    ms += ((mx > -1e3 ? 1 : 0) - ms) * .08;
+    const top = wrap.getBoundingClientRect().top, off = -top * .55 + (calm ? 0 : t / 60);
+    ctx.fillStyle = '#9a9a98';
+    side(t, 0, 1, off);
+    side(t, W - gap, -1, -off);
+    ctx.globalAlpha = 1;
+  }
+  const loop = t => { draw(t); raf = vis && !calm ? requestAnimationFrame(loop) : 0; };
+  new IntersectionObserver(es => { vis = es[0].isIntersecting; if (vis && !raf) raf = requestAnimationFrame(loop); }).observe(wrap);
+  wrap.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
+  wrap.addEventListener('pointerleave', () => { mx = my = -1e4; });
+  addEventListener('resize', () => { W = 0; });
+  if (calm) draw(0);
+}
 let pcT = 0;
 function pcFrame(pj, vh){
+  foInit(pj);
   pj.querySelectorAll('.pcx .pcr:not(.in)').forEach(e => { if (e.getBoundingClientRect().top < vh * .88) e.classList.add('in'); });
   const kvv = pj.querySelector('.pc-kvv'); if (kvv){ const r = kvv.getBoundingClientRect(); if (r.top < vh && r.bottom > 0) kvv.play().catch(() => {}); else kvv.pause(); }
   const v = pj.querySelector('.pc-vid');
@@ -1847,7 +1910,9 @@ function apxFrame(pj, vh){
   const kvEl = sec.querySelector('.apx-kv'); kvEl.style.opacity = kv.toFixed(3);
   const vid = sec.querySelector('.apx-vid'); vid.style.opacity = mo.toFixed(3);
   const inView = r.top < vh && r.bottom > 0;
-  if (mo > 0 && inView) vid.play().catch(() => {}); else vid.pause();
+  const show = mo > 0 && inView;
+  if (show && !vid._on){ try { vid.currentTime = 0; } catch(e){} } vid._on = show;
+  if (show) vid.play().catch(() => {}); else vid.pause();
   
   const step = p < .55 ? 0 : p < .78 ? 1 : 2;
   sec.querySelectorAll('.apx-lines li').forEach((li, i) => li.classList.toggle('on', i === step));
@@ -1878,9 +1943,9 @@ function ddHTML(b){
     </div>
   </section>`;
 }
-const DD_F = [ // 시안(1152 화면) 기준 오른쪽 영역 575×643 안의 % 위치
-  { n:'Direction_1', x:0,    y:0,    w:46.3, sp:-.05, alt:'인트로 — 크게 크롭한 인물과 작은 전신 인물' },
-  { n:'Direction_2', x:52.9, y:42.6, w:46.3, sp:.12,  alt:'라인업 — 크게 크롭한 인물과 작은 전신 인물' },
+const DD_F = [ // 시안(1190 화면) 기준 오른쪽 영역 594×700 안의 % 위치
+  { n:'Direction_1', x:.5, y:0,    w:46,   sp:-.05, alt:'인트로 — 크게 크롭한 인물과 작은 전신 인물' },
+  { n:'Direction_2', x:53, y:30.3, w:46.1, sp:.12,  alt:'라인업 — 크게 크롭한 인물과 작은 전신 인물' },
 ];
 function ddInit(){}
 function ddFrame(pj, vh){
