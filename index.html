@@ -1324,7 +1324,8 @@ function nextCard(ci, pi){
   if (list && list[n.pi]){ const p = list[n.pi]; return { ...n, title:p.title.join(' '), meta:[CATS[n.ci].name, p.meta[0][1], 'Own Project' === CATS[n.ci].name ? '' : ''].filter(Boolean), img:p.thumb }; }
   return { ...n, title:CATS[n.ci].name, meta:[`${pad(CATS[n.ci].items.length)} works`, '옮기는 중'], img:CATS[n.ci].items[0][1] };
 }
-const nextHTML = (ci, pi) => {
+const nextHTML = (ci, pi) => '';   /* 다음 작업·All Work 영역 제거 — 상단 내비로 이동 */
+const nextHTML_old = (ci, pi) => {
   const n = nextCard(ci, pi);
   return `<section class="p-next" data-nci="${n.ci}" data-npi="${n.pi}">
     <div class="top"><span>(Next Work)</span><span>${pad(n.ci + 1)} — ${CATS[n.ci].name}</span></div>
@@ -1591,7 +1592,7 @@ const LINES = [
 ];
 function pcHTML(){
   const tops = `<video class="pc-top pc-kvv" src="2ojos_kv.mp4" muted loop playsinline autoplay preload="metadata" style="aspect-ratio:2000/1706"></video>
-    <div class="pc-intro"><img class="pc-top" src="2ojos_intro.jpg" onerror="this.onerror=null;this.src='2ojos_intro.png'" alt="OJOS 인트로">${INTRO_T.map((t, i) => `<img class="it-t" src="${t.src}" alt="" style="left:${t.x}%;top:${t.y}%;width:${t.w}%${t.m ? `;-webkit-mask-image:url(${t.m});mask-image:url(${t.m});-webkit-mask-size:100% 100%;mask-size:100% 100%` : ''}">`).join('')}</div>`;
+    <img class="pc-top" src="2ojos_intro.jpg" onerror="this.onerror=null;this.src='2ojos_intro.png'" alt="OJOS 인트로">`;
   const lay = Object.entries(PCD).map(([k, d]) => {
     const paired = new Set(d.pairs.flat()), second = new Set(d.pairs.map(p => p[1]));
     const media = d.m.map(([x, y, w, h, cx, cy, cw, ch, ext, kind], i) =>
@@ -1609,7 +1610,7 @@ function pcHTML(){
       <video src="${ln.v}#t=0.001" muted loop playsinline autoplay preload="auto"></video>
       ${ln.imgs.map((n, i) => `<img class="l1-o" data-i="${i}" src="${n}.png" onload="l1Fit(this)" onerror="this.onerror=null;this.src='${n}.jpg'" alt="">`).join('')}
     </div></div></section>`).join('')}
-    <img class="pc-top pcr" src="2ojos_outro.jpg" onerror="this.onerror=null;this.src='2ojos_outro.png'" alt="OJOS 25SS — 정의를 새롭게 해석한 색다른 현재" loading="lazy">
+    <img class="pc-top pcr" src="2ojos_outro.jpg" onerror="this.onerror=null;this.src='2ojos_outro.png'" alt="OJOS 25SS — 정의를 새롭게 해석한 색다른 현재">
   </div>`;
 }
 /* Final Output 양옆 여백 그래픽 */
@@ -1645,6 +1646,26 @@ function foInit(pj){
         if (hsh(gi * 1.3, gj * .7) > f) continue;
         ctx.globalAlpha = Math.min(.9, (.45 + .2 * f) * Math.pow(1 - r * r, 1.4) + .4 * g);
         ctx.fillRect(x + qx, y + qy, 1.7, 1.7);
+      }
+    }
+  }
+  /* E/F — 초승달 디더: 큰 원형 띠의 바깥쪽만 여백에 걸쳐 보이는 링 조각 */
+  function cres(t, cx, cy, R, a0, wd){
+    const st = 4, T = t / 7000;
+    const y0 = Math.max(0, cy - R), y1 = Math.min(H, cy + R);
+    for (let y = y0; y < y1; y += st){
+      for (let x = Math.max(0, cx - R); x < Math.min(W, cx + R); x += st){
+        if (x > gap - 2 && x < W - gap + 2) continue;
+        const ox = x - cx, oy = y - cy, r = Math.hypot(ox, oy) / R; if (r > 1.02 || r < .5) continue;
+        const band = Math.exp(-(((r - .86) / wd) ** 2));
+        const face = Math.pow((Math.cos(Math.atan2(oy, ox) - a0) + 1) / 2, 2.2);
+        const gi = Math.round(y / st), gj = Math.round(x / st);
+        const [qx, qy, g] = push(x, y, 10);
+        const f = Math.min(1, 1.25 * band * (.12 + .88 * face) * (.55 + .45 * vn(x / 50 + T, y / 50 - T))) + g * .4;
+        if (hsh(gi * 1.3, gj * .7) > f) continue;
+        const big = hsh(gj * 3.1, gi * 2.3) > .965 && band > .5;
+        ctx.globalAlpha = Math.min(.95, (big ? .9 : .32 + .45 * f) + .35 * g);
+        const sz = big ? 2.6 : 1.5; ctx.fillRect(x + qx - sz / 2, y + qy - sz / 2, sz, sz);
       }
     }
   }
@@ -1704,6 +1725,15 @@ function foInit(pj){
     ctx.fillStyle = MODE === 'D' ? `rgb(${tone.map(Math.round)})` : '#9a9a98';
     if (MODE === 'A'){ ang = 2.4 + off / 900 + Math.sin(t / 5000) * .3; const R = gap * .95, sy = ((off * .5) % (H * 1.6) + H * 1.6) % (H * 1.6);
       orb(t, gap * .5, H * 1.3 - sy, R); orb(t, gap * .5, H * 2.9 - sy, R); ang += Math.PI; orb(t, W - gap * .5, sy - H * .3, R); orb(t, W - gap * .5, sy - H * 1.9, R); }
+    else if (MODE === 'E'){ const R = gap * 1.7, sy = ((off * .35) % (H * 1.5) + H * 1.5) % (H * 1.5), sp = t / 30000;
+      cres(t, gap + R * .32, H * 1.25 - sy, R, Math.PI + .5 + sp, .1); cres(t, gap + R * .32, H * 2.75 - sy, R, Math.PI + .5 + sp, .1);
+      cres(t, W - gap - R * .32, sy - H * .25, R, -.5 - sp, .1); cres(t, W - gap - R * .32, sy - H * 1.75, R, -.5 - sp, .1); }
+    else if (MODE === 'F'){ const sp = t / 26000;
+      [[.15, 1.2, .0, 1], [.62, .8, .5, -1], [1.05, 1.5, .25, 1]].forEach(([yy, k, ph, d], i) => {
+        const R = gap * k, y = ((yy * H - off * (.25 + i * .12)) % (H * 1.4) + H * 1.4) % (H * 1.4) - H * .2;
+        cres(t, gap + R * .25, y, R, Math.PI + Math.sin(sp * d + ph * 6) * .9, .13);
+        cres(t, W - gap - R * .25, H - y, R, Math.sin(sp * -d + ph * 6) * .9, .13);
+      }); }
     else if (MODE === 'B') gauge(p, cur, t);
     else if (MODE === 'C') haze(t, off * .4);
     else halftone(t, off * .35);
@@ -1716,7 +1746,7 @@ function foInit(pj){
   addEventListener('resize', () => { W = 0; });
   if (calm) draw(0);
 }
-const FO_MODE = 'C';
+const FO_MODE = 'E';
 let pcT = 0;
 function pcFrame(pj, vh){
   foInit(pj);
