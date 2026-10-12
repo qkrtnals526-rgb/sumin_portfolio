@@ -1158,6 +1158,12 @@ button,input,select,textarea{font-family:inherit}
 .pj .bgx2-comp{position:relative;width:100%;aspect-ratio:742/488}
 .pj .bgx2-comp img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;max-width:none;z-index:2}
 .pj .bgx2-logo{position:absolute;left:4.45%;top:38.26%;width:88.34%;height:auto;z-index:1}
+.pj .pc-vid{clip-path:none}
+.pj .pc-swap{position:absolute;left:50%;bottom:clamp(16px,3vw,40px);transform:translateX(-50%);z-index:3;display:inline-flex;align-items:center;gap:10px;padding:12px 20px 12px 16px;border:1px solid rgba(255,255,255,.6);border-radius:999px;background:rgba(0,0,0,.35);backdrop-filter:blur(8px);color:#fff;font:600 13px/1 var(--sans);letter-spacing:.02em;cursor:pointer;transition:background .25s,color .25s}
+.pj .pc-swap i{width:0;height:0;border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.pj .pc-swap[aria-pressed="true"] i{transform:scaleX(-1)}
+.pj .pc-swap:hover{background:#fff;color:#000}
+.pj .pc-swap:focus-visible{outline:2px solid #fff;outline-offset:3px}
 </style>
 <canvas id="trailCanvas" aria-hidden="true"></canvas>
 <script>
@@ -1554,7 +1560,8 @@ const PCD={"s1":{"h":1788,"m":[[636,104,747,996,687,104,627,792,"jpg","f"],[746,
 
 const PCP = 'a/pc/';
 function pcHTML(){
-  const tops = [0,1,2,3,4,5].map(i => `<img class="pc-top pcr" src="${PCP}top${i}.jpg" alt="" loading="lazy" style="aspect-ratio:2000/${i < 5 ? 1300 : 1107}">`).join('');
+  const tops = `<video class="pc-top pc-kvv" src="2ojos_kv.mp4" muted loop playsinline autoplay preload="metadata" style="aspect-ratio:2000/1706"></video>
+    <img class="pc-top" src="2ojos_intro.jpg" onerror="this.onerror=null;this.src='2ojos_intro.png'" alt="OJOS 인트로">`;
   const lay = Object.entries(PCD).map(([k, d]) => {
     const paired = new Set(d.pairs.flat()), second = new Set(d.pairs.map(p => p[1]));
     const media = d.m.map(([x, y, w, h, cx, cy, cw, ch, ext, kind], i) =>
@@ -1564,7 +1571,7 @@ function pcHTML(){
       <img class="pc-back" src="${PCP}${k}_back.jpg" alt="" loading="lazy">${media}<img class="pc-front" src="${PCP}${k}_front.png" alt="" loading="lazy"></div></div>`;
   });
   return `<div class="pcx">${tops}
-    <div class="pc-vid pcr"><video src="${PCP}v4.mp4" poster="${PCP}v4.jpg" muted loop playsinline preload="metadata"></video></div>
+    <div class="pc-vid pcr"><video src="ojos4.mp4" muted loop playsinline preload="metadata"></video><button class="pc-swap" type="button" data-a="ojos4.mp4" data-b="ojos4-1.mp4" aria-pressed="false"><i></i><span>Play Next Scene</span></button></div>
     ${lay.join('')}
     <img class="pc-top pcr" src="${PCP}end.jpg" alt="" loading="lazy" style="aspect-ratio:2000/455">
   </div>`;
@@ -1572,6 +1579,7 @@ function pcHTML(){
 let pcT = 0;
 function pcFrame(pj, vh){
   pj.querySelectorAll('.pcx .pcr:not(.in)').forEach(e => { if (e.getBoundingClientRect().top < vh * .88) e.classList.add('in'); });
+  const kvv = pj.querySelector('.pc-kvv'); if (kvv){ const r = kvv.getBoundingClientRect(); if (r.top < vh && r.bottom > 0) kvv.play().catch(() => {}); else kvv.pause(); }
   const v = pj.querySelector('.pc-vid');
   if (v){ const r = v.getBoundingClientRect(), p = cl((vh - r.top) / (vh * .9)); v.style.setProperty('--o', (1 - p) * 14 + '%');
     const vid = v.querySelector('video'); if (r.top < vh && r.bottom > 0) vid.play().catch(() => {}); else vid.pause(); }
@@ -1589,6 +1597,12 @@ function pcFrame(pj, vh){
     });
   });
 }
+document.addEventListener('click', e => {
+  const bt = e.target.closest('.pc-swap'); if (!bt) return;
+  const v = bt.parentElement.querySelector('video'), on = bt.getAttribute('aria-pressed') !== 'true';
+  bt.setAttribute('aria-pressed', on); v.src = on ? bt.dataset.b : bt.dataset.a; v.load(); v.play().catch(() => {});
+  bt.querySelector('span').textContent = on ? 'Back to First Scene' : 'Play Next Scene';
+});
 setInterval(() => { pcT++; document.querySelectorAll('.pcw .pcm.alt').forEach(m => m.classList.toggle('show', pcT % 2 === 1)); }, 2600);
 
 function projectHTML(ci, pi){
