@@ -1149,7 +1149,7 @@ button,input,select,textarea{font-family:inherit}
 }
 @media (prefers-reduced-motion:reduce){ .pj .dd-f{opacity:1!important;transform:none!important} .pj .dd-f img{animation:none} .pj .dd-chips li i{transform:none;transition:none} }
 /* Final Output — 화면 전체가 아닌 본문 폭 안에 */
-.pj .pcx{width:min(1080px,100%);margin-left:auto;margin-right:auto}
+.pj .pcx{width:min(1080px,100%);margin-left:auto;margin-right:auto;overflow:clip}
 /* Final Output — 섹션 단위 올라오는 효과 제거 (라인업 이미지 효과만 유지) */
 .pj .pcx .pcr{opacity:1;transform:none;transition:none}
 
@@ -1168,6 +1168,16 @@ button,input,select,textarea{font-family:inherit}
 .p-hero.kvfit .fr img{width:101.4%;height:101.4%;left:-.7%;top:-.7%;object-fit:cover}
 .pj .pc-vid[data-b]{cursor:pointer}
 .pj .pc-vid[data-b]:focus-visible{outline:2px solid #fff;outline-offset:-4px}
+.pj .l1x{position:relative;height:240svh;margin-top:clamp(80px,8vw,140px)}
+.pj .l1-pin{position:sticky;top:0;height:100svh;display:flex;align-items:center;justify-content:center}
+.pj .l1-st{position:relative;width:min(100%,calc((100svh - 32px) * 2000 / 1788));aspect-ratio:2000/1788;overflow:hidden}
+.pj .l1-st video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pj .l1-o{position:absolute;max-width:none;opacity:0;transform:translateY(60px);transition:opacity .9s var(--ease),transform 1.1s var(--ease);pointer-events:none}
+.pj .l1-o.on{opacity:1;transform:none}
+.pj .l1-o.s-cut{left:37.3%;top:20.69%;width:62.7%;height:auto}
+.pj .l1-o.s-frm{left:14.15%;top:56.88%;width:35.25%;height:auto}
+.pj .l1-o.s-full{left:0;top:0;width:100%;height:100%;object-fit:cover}
+@media (prefers-reduced-motion:reduce){ .pj .l1-o{transition:none;transform:none} }
 </style>
 <canvas id="trailCanvas" aria-hidden="true"></canvas>
 <script>
@@ -1576,6 +1586,10 @@ function pcHTML(){
   });
   return `<div class="pcx">${tops}
     <div class="pc-vid pcr" data-a="ojos4.mp4" data-b="ojos4-1.mp4" role="button" tabindex="0" aria-label="영상 전환"><video src="ojos4.mp4" muted loop playsinline preload="metadata"></video></div>
+    <section class="l1x" aria-label="1st Keyword — Refined Layers"><div class="l1-pin"><div class="l1-st">
+      <video src="2OJOS_line1.mp4" muted loop playsinline preload="metadata"></video>
+      ${['line1_1', 'line1_2'].map((n, i) => `<img class="l1-o" data-i="${i}" src="${n}.png" onload="l1Fit(this)" onerror="this.onerror=null;this.src='${n}.jpg'" alt="">`).join('')}
+    </div></div></section>
     ${lay.join('')}
     <img class="pc-top pcr" src="${PCP}end.jpg" alt="" loading="lazy" style="aspect-ratio:2000/455">
   </div>`;
@@ -1587,6 +1601,10 @@ function pcFrame(pj, vh){
   const v = pj.querySelector('.pc-vid');
   if (v){ const r = v.getBoundingClientRect(), p = cl((vh - r.top) / (vh * .9)); v.style.setProperty('--o', (1 - p) * 14 + '%');
     const vid = v.querySelector('video'); if (r.top < vh && r.bottom > 0) vid.play().catch(() => {}); else vid.pause(); }
+  const l1 = pj.querySelector('.l1x');
+  if (l1){ const r = l1.getBoundingClientRect(), p = calm ? 1 : cl(-r.top / Math.max(1, r.height - vh)), vid = l1.querySelector('video');
+    if (r.top < vh && r.bottom > 0) vid.play().catch(() => {}); else vid.pause();
+    l1.querySelectorAll('.l1-o').forEach((o, i) => o.classList.toggle('on', p > (i ? .48 : .16))); }
   pj.querySelectorAll('.pcw').forEach(w => {
     const inn = w.firstElementChild, k = w.clientWidth / 2000, H = +w.dataset.h;
     const hh = Math.round(H * k); if (Math.abs(w.offsetHeight - hh) > 1) w.style.height = hh + 'px';
@@ -1601,6 +1619,8 @@ function pcFrame(pj, vh){
     });
   });
 }
+/* 오버레이 PNG 자리: 2000×1788 통짜 → 전체, 세로형 → 오른쪽 큰 인물, 가로형 → 왼쪽 액자 두 장 */
+window.l1Fit = im => { const w = im.naturalWidth, h = im.naturalHeight; im.classList.add(w >= 1500 ? 's-full' : w / h < .97 ? 's-cut' : 's-frm'); };
 function pcSwap(box){ const v = box.querySelector('video'), on = box.dataset.on !== '1'; box.dataset.on = on ? '1' : '0'; v.src = on ? box.dataset.b : box.dataset.a; v.load(); v.play().catch(() => {}); }
 document.addEventListener('click', e => { const box = e.target.closest('.pc-vid[data-b]'); if (box) pcSwap(box); });
 document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.pc-vid[data-b]')){ e.preventDefault(); pcSwap(e.target); } });
