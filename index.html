@@ -1170,7 +1170,7 @@ button,input,select,textarea{font-family:inherit}
 .pj .pc-vid[data-b]:focus-visible{outline:2px solid #fff;outline-offset:-4px}
 .pj .l1x{position:relative;height:240svh}
 .pj .l1-pin{position:sticky;top:0}
-.pj .l1-st{position:relative;width:100%;aspect-ratio:2000/1788;overflow:hidden}
+.pj .l1-st{position:relative;width:100%;overflow:hidden}
 .pj .l1-st video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .pj .l1-o{position:absolute;max-width:none;height:auto;opacity:0;transform:translateY(60px);transition:opacity .9s var(--ease),transform 1.1s var(--ease);pointer-events:none}
 .pj .l1-o.on{opacity:1;transform:none}
@@ -1572,8 +1572,10 @@ const PCD={"s1":{"h":1788,"m":[[636,104,747,996,687,104,627,792,"jpg","f"],[746,
 const PCP = 'a/pc/';
 /* 영상 + 스크롤 PNG 오버레이 — 좌표는 2000×1788 시안 기준 [x, y, w, 비율]. PNG는 모양(비율)으로 자리를 찾아감 */
 const LINES = [
-  { v:'2OJOS_line1.mp4', label:'1st Keyword — Refined Layers', imgs:['line1_1', 'line1_2'], slots:[[746, 370, 1254, 1254 / 1417], [283, 1017, 705, 705 / 661]] },
-  { v:'2OJOS_line2.mp4', label:'2nd Keyword — Timeless Mix', imgs:['line2_1', 'line2_2'], slots:[[0, 200, 1384, 1384 / 1588], [787, 1146, 943, 943 / 576]] },
+  { v:'2OJOS_line1.mp4', w:2000, h:1788, label:'1st Keyword — Refined Layers', imgs:['line1_1', 'line1_2'], slots:[[746, 370, 1254, 1254 / 1417], [283, 1017, 705, 705 / 661]] },
+  { v:'2OJOS_line2.mp4', w:2000, h:1788, label:'2nd Keyword — Timeless Mix', imgs:['line2_1', 'line2_2'], slots:[[0, 200, 1384, 1384 / 1588], [787, 1146, 943, 943 / 576]] },
+  { v:'2OJOS_line3.mp4', w:2000, h:2000, label:'3rd Keyword — Romantic Patterns', imgs:['line3_1', 'line3_2'], slots:[[375, 1000, 1276, 1276 / 1000], [175, 1219, 1649, 1649 / 526]] },
+  { v:'2OJOS_line4_1.mp4', w:2000, h:2000, label:'4th Keyword — Soft Tones', imgs:['line4_1', 'line4_2'], slots:[[0, 638, 1289, 1289 / 1362], [810, 1371, 1022, 1022 / 473]] },
 ];
 function pcHTML(){
   const tops = `<video class="pc-top pc-kvv" src="2ojos_kv.mp4" muted loop playsinline autoplay preload="metadata" style="aspect-ratio:2000/1706"></video>
@@ -1588,7 +1590,7 @@ function pcHTML(){
   });
   return `<div class="pcx">${tops}
     <div class="pc-vid pcr" data-a="ojos4.mp4" data-b="ojos4-1.mp4" role="button" tabindex="0" aria-label="영상 전환"><video src="ojos4.mp4" muted loop playsinline preload="metadata"></video></div>
-    ${LINES.map((ln, li) => `<section class="l1x" data-l="${li}" aria-label="${ln.label}"><div class="l1-pin"><div class="l1-st">
+    ${LINES.map((ln, li) => `<section class="l1x" data-l="${li}" aria-label="${ln.label}"><div class="l1-pin"><div class="l1-st" style="aspect-ratio:${ln.w}/${ln.h}">
       <video src="${ln.v}#t=0.001" muted loop playsinline autoplay preload="auto"></video>
       ${ln.imgs.map((n, i) => `<img class="l1-o" data-i="${i}" src="${n}.png" onload="l1Fit(this)" onerror="this.onerror=null;this.src='${n}.jpg'" alt="">`).join('')}
     </div></div></section>`).join('')}
@@ -1622,11 +1624,10 @@ function pcFrame(pj, vh){
   });
 }
 /* 오버레이 PNG 자리: 2000×1788 통짜 → 전체, 세로형 → 오른쪽 큰 인물, 가로형 → 왼쪽 액자 두 장 */
-window.l1Fit = im => { const w = im.naturalWidth, h = im.naturalHeight, S = im.style;
-  if (w >= 1500){ S.left = 0; S.top = 0; S.width = '100%'; return; }
-  const slots = LINES[+im.closest('.l1x').dataset.l].slots, ar = w / h;
-  const [x, y, sw] = slots.reduce((a, b) => Math.abs(Math.log(b[3] / ar)) < Math.abs(Math.log(a[3] / ar)) ? b : a);
-  S.left = x / 20 + '%'; S.top = y / 17.88 + '%'; S.width = sw / 20 + '%'; };
+window.l1Fit = im => { const w = im.naturalWidth, h = im.naturalHeight, S = im.style, ln = LINES[+im.closest('.l1x').dataset.l];
+  if (w >= ln.w * .95){ S.left = 0; S.top = 0; S.width = '100%'; return; }
+  const ar = w / h, [x, y, sw] = ln.slots.reduce((a, b) => Math.abs(Math.log(b[3] / ar)) < Math.abs(Math.log(a[3] / ar)) ? b : a);
+  S.left = x / ln.w * 100 + '%'; S.top = y / ln.h * 100 + '%'; S.width = sw / ln.w * 100 + '%'; };
 function pcSwap(box){ const v = box.querySelector('video'), on = box.dataset.on !== '1'; box.dataset.on = on ? '1' : '0'; v.src = on ? box.dataset.b : box.dataset.a; v.load(); v.play().catch(() => {}); }
 document.addEventListener('click', e => { const box = e.target.closest('.pc-vid[data-b]'); if (box) pcSwap(box); });
 document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.pc-vid[data-b]')){ e.preventDefault(); pcSwap(e.target); } });
