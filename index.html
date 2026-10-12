@@ -1170,7 +1170,7 @@ button,input,select,textarea{font-family:inherit}
 @media (prefers-reduced-motion:reduce){ .pj .l1-o{transition:none;transform:none} }
 .pj .fo-wrap{position:relative;width:100vw;margin-left:calc(50% - 50vw)}
 .pj .fo-bg{position:absolute;inset:0;pointer-events:none;z-index:0}
-.pj .fo-dither{position:sticky;top:0;display:block;width:100%;height:100svh}
+.pj .fo-dither{position:sticky;top:0;display:block;width:100%;height:100svh;opacity:.7}
 .pj .fo-wrap .pcx{position:relative;z-index:1}
 .pj .pc-intro{position:relative}
 .pj .pc-intro .pc-top{display:block;width:100%;height:auto}
@@ -1268,7 +1268,7 @@ const PROJECTS = { own: [
         items:[['대비감을 유지한 전개','인트로와 라인업에서도 크게 크롭한 인물과 작은 전신 인물을 함께 두어, 키비주얼의 리듬을 페이지 끝까지 가져갔습니다.'],
                ['바랜 색감을 메인 컬러로','룩북 특유의 색 바랜 톤을 배경과 그래픽의 주된 컬러로 써서,<br>이미지와 페이지가 하나의 무드로 이어지게 했습니다.']],
         colors:[['Faded Ivory','#F0EFE6'],['Pale Mist','#E2E4DA'],['Grey Mint','#CCD6D4'],['Sage Grey','#BFCABF'],['Ink','#0B1218']] },
-      { t:'final', n:'004', title:'FINAL OUTPUT', text:'', _old:'서로 다른 시대와 스타일이 교차하는 <b>OJOS의 25SS 첫 번째 드랍.</b> 절제된 컬러와 로맨틱한 패턴 레이어링이 만들어내는 정교한 미학을 만나보세요.',
+      { t:'final', n:'', title:'FINAL OUTPUT', text:'', _old:'서로 다른 시대와 스타일이 교차하는 <b>OJOS의 25SS 첫 번째 드랍.</b> 절제된 컬러와 로맨틱한 패턴 레이어링이 만들어내는 정교한 미학을 만나보세요.',
         pages:['FINALIMG:ojos_k1','FINALIMG:ojos_k2','FINALIMG:ojos_k3','FINALIMG:ojos_k4','FINALIMG:ojos_k5','FINALIMG:lookbook'] },
     ],
   },
@@ -1367,7 +1367,7 @@ function blockHTML(b){
 
 
 const PHB = (w, h, label) => `<div class="ph" style="aspect-ratio:${w}/${h}"><span>${w} × ${h}<br>${label}</span></div>`;
-const cHead = b => `<div class="c-head rv-t"><span>(${b.n})</span><h2>${b.title}</h2>${b.text ? `<p>${b.text}</p>` : ''}</div>`;
+const cHead = b => `<div class="c-head rv-t">${b.n ? `<span>(${b.n})</span>` : ''}<h2>${b.title}</h2>${b.text ? `<p>${b.text}</p>` : ''}</div>`;
 const FIN = k => k === 'lookbook' ? 'a/lookbook.jpg' : `a/${k}.jpg`;
 function blockHTML2(b){
   if (b.t === 'lookbook') return `
