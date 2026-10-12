@@ -1096,7 +1096,7 @@ button,input,select,textarea{font-family:inherit}
 .pj .apx-lines p{font-size:clamp(17px,1.53vw,22px);line-height:1.55;letter-spacing:-.01em;color:#B9B9B5}
 .pj .apx-lines p b{color:#fff;font-weight:700}
 .pj .apx-lines sup{display:inline-block;margin-left:8px;vertical-align:.7em;font-size:11px;font-weight:700;letter-spacing:.02em;color:#3FFFD8;line-height:1}
-.pj .apx-frame{position:relative;aspect-ratio:2000/1204;max-height:78svh;width:100%;overflow:hidden;background:#141414}
+.pj .apx-frame{position:relative;aspect-ratio:2000/1204;max-height:78svh;width:100%;overflow:hidden;background:transparent}
 .pj .apx-tile{position:absolute;overflow:hidden;will-change:left,top,width,height}
 .pj .apx-tile img,.pj .apx-kv,.pj .apx-vid,.pj .apx-fin{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
 .pj .apx-tile[data-i="0"]{z-index:1}.pj .apx-tile[data-i="1"]{z-index:3}.pj .apx-tile[data-i="2"]{z-index:2}.pj .apx-tile[data-i="3"]{z-index:2}
@@ -1156,7 +1156,8 @@ button,input,select,textarea{font-family:inherit}
 .pj .pc-swap[aria-pressed="true"] i{transform:scaleX(-1)}
 .pj .pc-swap:hover{background:#fff;color:#000}
 .pj .pc-swap:focus-visible{outline:2px solid #fff;outline-offset:3px}
-.p-hero.kvfit .fr img{object-fit:cover;object-position:50% 100%;transform-origin:50% 100%;transform:scale(calc(var(--sc,1.18) * 1.016))}
+.pj .p-hero.kvfit{width:100vw;margin-left:calc(50% - 50vw);margin-right:0}
+.p-hero.kvfit .fr img{left:-1.2%;top:-1.2%;width:102.4%;height:102.4%;object-fit:cover;object-position:50% 100%;transform-origin:50% 98.8%}
 @media (max-width:900px){ .p-hero.kvfit .fr img{object-fit:cover} }
 .pj .pc-vid[data-b]{cursor:pointer}
 .pj .pc-vid[data-b]:focus-visible{outline:2px solid #fff;outline-offset:-4px}
@@ -1593,55 +1594,101 @@ function pcHTML(){
     <img class="pc-top pcr" src="2ojos_outro.jpg" onerror="this.onerror=null;this.src='2ojos_outro.png'" alt="OJOS 25SS — 정의를 새롭게 해석한 색다른 현재" loading="lazy" style="aspect-ratio:2000/455">
   </div>`;
 }
-/* Final Output 양옆 여백 — 디더 그래픽 키비주얼: 세로로 흐르는 OJOS / 25SS 점 타이포 + 커서 반응 */
+/* Final Output 양옆 여백 그래픽 */
 function foInit(pj){
   const wrap = pj.querySelector('.fo-wrap'); if (!wrap || wrap.dataset.on) return; wrap.dataset.on = '1';
+  const MODE = window.FO_MODE || FO_MODE;
   const cv = wrap.querySelector('.fo-dither'), ctx = cv.getContext('2d');
   const hsh = (x, y) => { const v = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return v - Math.floor(v); };
   const vn = (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, u = xf * xf * (3 - 2 * xf), w = yf * yf * (3 - 2 * yf);
     const a = hsh(xi, yi), b = hsh(xi + 1, yi), c = hsh(xi, yi + 1), d = hsh(xi + 1, yi + 1); return a + (b - a) * u + (c - a) * w + (a - b - c + d) * u * w; };
-  let W = 0, H = 0, dpr = 1, gap = 0, step = 5, cols = 0, rows = 0, mask = null, mx = -1e4, my = -1e4, ms = 0, vis = false, raf = 0;
-  const STR = 'OJOS  25SS  ';
+  const fbm = (x, y) => .6 * vn(x, y) + .3 * vn(x * 2.1, y * 2.1) + .1 * vn(x * 4.3, y * 4.3);
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const TONES = ['#9a9a98', '#E6E7E2', '#C6D2CD', '#CFD2D6', '#ECEBE6'].map(hex);   // 기본 / line1~4 배경 톤
+  let W = 0, H = 0, dpr = 1, gap = 0, mx = -1e4, my = -1e4, ms = 0, vis = false, raf = 0, tone = TONES[0].slice(), ang = 2.4;
   function build(){
     W = cv.clientWidth; H = cv.clientHeight; dpr = Math.min(2, devicePixelRatio || 1);
     cv.width = W * dpr; cv.height = H * dpr;
-    const pw = (wrap.querySelector('.pcx') || wrap).offsetWidth; gap = Math.floor((W - pw) / 2);
-    if (gap < 70){ mask = null; return; }
-    step = gap > 220 ? 6 : 5;
-    const fs = gap * .74, oc = document.createElement('canvas'), o = oc.getContext('2d');
-    const font = `800 ${fs}px ${getComputedStyle(document.documentElement).getPropertyValue('--point') || 'sans-serif'}`;
-    o.font = font; const L = Math.ceil(o.measureText(STR).width);
-    oc.width = gap; oc.height = L; o.font = font; o.fillStyle = '#fff'; o.textBaseline = 'middle';
-    o.translate(gap / 2, 0); o.rotate(Math.PI / 2); o.fillText(STR, 0, 0);
-    const d = o.getImageData(0, 0, gap, L).data; cols = Math.ceil(gap / step); rows = Math.floor(L / step); mask = new Uint8Array(cols * rows);
-    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++){ const x = Math.min(gap - 1, c * step), y = r * step; mask[r * cols + c] = d[(y * gap + x) * 4 + 3] > 120 ? 1 : 0; }
+    gap = Math.floor((W - (wrap.querySelector('.pcx') || wrap).offsetWidth) / 2);
   }
-  function side(t, x0, dir, off){
-    const T = t / 5200, rep = 70 * 70;
-    for (let y = 0; y < H; y += step){
-      const rr = Math.floor((y + off) / step), r = ((rr % rows) + rows) % rows;
-      for (let c = 0; c < cols; c++){
-        const cc = dir > 0 ? c : cols - 1 - c, rr2 = dir > 0 ? r : rows - 1 - r;
-        const x = x0 + c * step, inT = mask[rr2 * cols + cc];
-        const edge = dir > 0 ? 1 - c / cols : c / cols;                          // 바깥쪽일수록 1
-        let f = inT ? .5 + .5 * vn(x / 46 + T, (y + off) / 46) : .05 * edge * edge * vn(x / 30 - T, y / 30);
-        let qx = 0, qy = 0, gl = 0;
-        if (ms > .01){ const ux = x - mx, uy = y - my, q = ux * ux + uy * uy; if (q < rep * 5){ gl = Math.exp(-q / rep) * ms; const dd = Math.sqrt(q) || 1; qx = ux / dd * gl * 9; qy = uy / dd * gl * 9; f += gl * .35; } }
-        if (hsh(cc * 1.7, rr * .9) > f) continue;
-        ctx.globalAlpha = Math.min(.95, (inT ? .62 : .32) * (.55 + .45 * edge) + .4 * gl);
+  const push = (x, y, s) => { if (ms < .01) return [0, 0, 0]; const ux = x - mx, uy = y - my, q = ux * ux + uy * uy, R = 80 * 80; if (q > R * 5) return [0, 0, 0];
+    const g = Math.exp(-q / R) * ms, d = Math.sqrt(q) || 1; return [ux / d * g * s, uy / d * g * s, g]; };
+  /* A — 링 디더 오브: Thinking 링 배경의 원형 디더를 양옆에 반쯤 걸쳐 배치 */
+  function orb(t, cx, cy, R){
+    const st = 5, T = t / 6000;
+    for (let y = Math.max(0, cy - R); y < Math.min(H, cy + R); y += st){
+      for (let x = cx - R; x < cx + R; x += st){
+        if (x < 0 || x > W || (x > gap && x < W - gap)) continue;
+        const ox = x - cx, oy = y - cy, r = Math.hypot(ox, oy) / R; if (r > 1) continue;
+        const gi = Math.round(oy / st), gj = Math.round(ox / st);
+        const facing = (Math.cos(Math.atan2(oy, ox) - ang) + 1) / 2, ring = Math.exp(-(((r - .78) / .24) ** 2));
+        const [qx, qy, g] = push(x, y, 10);
+        let f = (.25 + .75 * facing) * (.35 + .65 * ring) * (.45 + .55 * vn(x / 70 + T, y / 70 - T)) * (1 - r ** 6) + g * .5;
+        if (hsh(gi * 1.3, gj * .7) > f) continue;
+        ctx.globalAlpha = Math.min(.9, (.45 + .2 * f) * Math.pow(1 - r * r, 1.4) + .4 * g);
         ctx.fillRect(x + qx, y + qy, 1.7, 1.7);
       }
+    }
+  }
+  /* B — 진행 게이지: 디더로 채워지는 세로 막대 + 라인 표시 */
+  const LABEL = ['KEY VISUAL', 'REFINED LAYERS', 'TIMELESS MIX', 'ROMANTIC PATTERNS', 'SOFT TONES'];
+  function gauge(p, cur, t){
+    const top = H * .16, bot = H * .84, hgt = bot - top, cx = gap * .5, wd = Math.min(28, gap * .22), st = 4;
+    for (let y = top; y < bot; y += st){
+      const fill = (y - top) / hgt < p;
+      for (let x = cx - wd / 2; x < cx + wd / 2; x += st){
+        const [qx, qy, g] = push(x, y, 8);
+        const f = fill ? .9 : .07 + .06 * vn(x / 20, y / 20 + t / 3000) + g * .4;
+        if (hsh(x * .37, y * .53) > f) continue;
+        ctx.globalAlpha = fill ? .85 : .4 + .4 * g; ctx.fillRect(x + qx, y + qy, 1.8, 1.8);
+      }
+    }
+    ctx.font = `600 10px ${getComputedStyle(document.documentElement).getPropertyValue('--sans') || 'sans-serif'}`; ctx.textBaseline = 'middle';
+    LABEL.forEach((l, i) => { const y = top + hgt * (i / (LABEL.length - 1)); ctx.globalAlpha = i === cur ? 1 : .35;
+      ctx.fillRect(cx + wd / 2 + 6, y, 10, 1); ctx.textAlign = 'left'; ctx.fillText(String(i).padStart(2, '0'), cx + wd / 2 + 22, y);
+      ctx.save(); ctx.translate(W - gap * .5, y); ctx.textAlign = 'center'; ctx.globalAlpha = i === cur ? 1 : 0; ctx.fillText(i === cur ? l : '', 0, 0); ctx.restore(); });
+    ctx.globalAlpha = .9; ctx.textAlign = 'center'; ctx.font = `600 ${Math.min(44, gap * .26)}px ${getComputedStyle(document.documentElement).getPropertyValue('--point') || 'sans-serif'}`;
+    ctx.fillText(Math.round(p * 100) + '%', W - gap * .5, H * .5 + 40);
+  }
+  /* C — 바랜 안개: 화면 바깥쪽에서 안쪽으로 옅어지는 필름 그레인 */
+  function haze(t, off){
+    const st = 4, T = t / 9000, fr = Math.floor(t / 110);
+    for (const side of [0, 1]) for (let y = 0; y < H; y += st) for (let i = 0; i < gap; i += st){
+      const x = side ? W - 1 - i : i, e = 1 - i / gap;
+      const [qx, qy, g] = push(x, y, 9);
+      const n = fbm(x / 160 + T, (y + off) / 160 - T * .6);
+      const f = Math.pow(e, 1.3) * (.15 + .95 * n * n) + g * .4;
+      if (hsh(x * .91 + (fr % 7), y * .77) > f) continue;
+      ctx.globalAlpha = .28 + .4 * e + .3 * g; ctx.fillRect(x + qx, y + qy, 1.3, 1.3);
+    }
+  }
+  /* D — 라인 톤 하프톤: 지금 보이는 라인업 배경색을 받아 큰 점 하프톤으로 */
+  function halftone(t, off){
+    const st = 14, T = t / 7000;
+    for (const side of [0, 1]) for (let y = -st; y < H + st; y += st) for (let i = st / 2; i < gap; i += st){
+      const x = side ? W - i : i, yy = y - ((off % st) + st) % st, e = 1 - i / gap;
+      const [qx, qy, g] = push(x, yy, 12);
+      const n = vn(x / 120 + T, (yy + off) / 120);
+      const r = Math.max(0, (Math.pow(e, .8) * (.3 + .9 * n) - .15) * st * .5) + g * 3;
+      if (r < .6) continue;
+      ctx.globalAlpha = .55 + .35 * g; ctx.beginPath(); ctx.arc(x + qx, yy + qy, Math.min(st * .48, r), 0, 6.283); ctx.fill();
     }
   }
   function draw(t){
     if (cv.clientWidth !== W || cv.clientHeight !== H) build();
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
-    if (!mask) return;
+    if (gap < 70) return;
     ms += ((mx > -1e3 ? 1 : 0) - ms) * .08;
-    const top = wrap.getBoundingClientRect().top, off = -top * .55 + (calm ? 0 : t / 60);
-    ctx.fillStyle = '#9a9a98';
-    side(t, 0, 1, off);
-    side(t, W - gap, -1, -off);
+    const wr = wrap.getBoundingClientRect(), off = -wr.top, p = cl(-wr.top / Math.max(1, wr.height - H));
+    const ls = [...wrap.querySelectorAll('.l1x')]; let cur = 0;
+    ls.forEach((l, i) => { const r = l.getBoundingClientRect(); if (r.top < H * .5) cur = i + 1; });
+    const tg = TONES[cur]; for (let k = 0; k < 3; k++) tone[k] += (tg[k] - tone[k]) * .06;
+    ctx.fillStyle = MODE === 'D' ? `rgb(${tone.map(Math.round)})` : '#9a9a98';
+    if (MODE === 'A'){ ang = 2.4 + off / 900 + Math.sin(t / 5000) * .3; const R = gap * .95, sy = ((off * .5) % (H * 1.6) + H * 1.6) % (H * 1.6);
+      orb(t, gap * .5, H * 1.3 - sy, R); orb(t, gap * .5, H * 2.9 - sy, R); ang += Math.PI; orb(t, W - gap * .5, sy - H * .3, R); orb(t, W - gap * .5, sy - H * 1.9, R); }
+    else if (MODE === 'B') gauge(p, cur, t);
+    else if (MODE === 'C') haze(t, off * .4);
+    else halftone(t, off * .35);
     ctx.globalAlpha = 1;
   }
   const loop = t => { draw(t); raf = vis && !calm ? requestAnimationFrame(loop) : 0; };
@@ -1651,6 +1698,7 @@ function foInit(pj){
   addEventListener('resize', () => { W = 0; });
   if (calm) draw(0);
 }
+const FO_MODE = 'C';
 let pcT = 0;
 function pcFrame(pj, vh){
   foInit(pj);
