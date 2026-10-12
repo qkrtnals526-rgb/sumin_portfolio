@@ -1084,7 +1084,7 @@ button,input,select,textarea{font-family:inherit}
 @media (prefers-reduced-motion:reduce){ .pj .ring-q .ln>span{transform:none;transition:none} .pj .ring-ko{opacity:1;transition:none} }
 
 /* ═════ OJOS — Approach (스크롤 고정 + 결과 이미지 전환) ═════ */
-.pj .apx{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-top:clamp(160px,16vw,260px);height:360svh}
+.pj .apx{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-top:clamp(160px,16vw,260px);height:440svh}
 .pj .apx + .c-sec{padding-top:clamp(200px,18vw,300px)}
 .pj .apx-pin{position:sticky;top:0;height:100svh;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,4vw,72px);align-items:center;padding:0 var(--gutter) 0 clamp(24px,6vw,88px)}
 .pj .apx-txt{position:relative}
@@ -1105,7 +1105,7 @@ button,input,select,textarea{font-family:inherit}
 .pj .apx-fin{z-index:7;opacity:0;transform-origin:50% 50%}
 .pj .apx-tag{position:absolute;left:14px;bottom:12px;z-index:9;font-size:12px;font-weight:600;letter-spacing:.01em;color:#fff;background:rgba(0,0,0,.55);padding:6px 10px;backdrop-filter:blur(6px)}
 @media (max-width:900px){
-  .pj .apx{height:300svh}
+  .pj .apx{height:360svh}
   .pj .apx-pin{grid-template-columns:minmax(0,1fr);align-content:center;gap:28px;padding:0 var(--gutter)}
   .pj .apx-lines{gap:12px}
 }
@@ -1123,17 +1123,9 @@ button,input,select,textarea{font-family:inherit}
 .pj .dd-item span{display:block;font-size:13px;font-weight:600;color:#3FFFD8;letter-spacing:.02em}
 .pj .dd-item h4{margin-top:8px;font-size:clamp(18px,1.53vw,22px);font-weight:600;letter-spacing:-.01em;color:#fff}
 .pj .dd-item p{margin-top:12px;font-size:var(--t-body);line-height:1.7;letter-spacing:-.01em;color:#B9B9B5;max-width:30em}
-.pj .dd-float{position:relative;width:100%;aspect-ratio:744/880}
-.pj .dd-f{position:absolute;aspect-ratio:3/4;margin:0;opacity:0;transform:translate3d(0,calc(var(--py,0px) + 60px),0);transition:opacity 1s var(--ease),transform .9s var(--ease)}
-.pj .dd-f[data-k="big"]{z-index:2}.pj .dd-f[data-k="mid"]{z-index:3}.pj .dd-f[data-k="small"]{z-index:4}
-.pj .dd-float.in .dd-f{opacity:1;transform:translate3d(0,var(--py,0px),0);transition:opacity 1s var(--ease),transform .25s linear}
-.pj .dd-float.in .dd-f:nth-child(2){transition-delay:.1s}.pj .dd-float.in .dd-f:nth-child(3){transition-delay:.2s}.pj .dd-float.in .dd-f:nth-child(4){transition-delay:.3s}.pj .dd-float.in .dd-f:nth-child(5){transition-delay:.4s}
-.pj .dd-f img{display:block;width:100%;height:100%;object-fit:cover;max-width:none;animation:ddBob 6s ease-in-out infinite alternate}
-.pj .dd-f:nth-child(2n) img{animation-duration:7.5s;animation-delay:-2s}
-.pj .dd-f:nth-child(3n) img{animation-duration:5.4s;animation-delay:-3.5s}
-@keyframes ddBob{from{transform:translateY(-6px)}to{transform:translateY(6px)}}
-.pj .dd-f figcaption{display:none;position:absolute;left:8px;top:8px;font-size:11px;font-weight:600;color:#000;background:#3FFFD8;padding:3px 6px}
-.pj .dd-f.tmp figcaption{display:block}
+.pj .dd-float{position:relative;width:100%;aspect-ratio:575/643}
+.pj .dd-f{position:absolute;margin:0;overflow:hidden;clip-path:inset(var(--rv,100%) 0 0 0);transform:translate3d(0,var(--py,0px),0);will-change:clip-path,transform}
+.pj .dd-f img{display:block;width:100%;height:auto;max-width:none;transform:scale(var(--zs,1.18));transform-origin:50% 100%}
 .pj .dd-chips ul{list-style:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .pj .dd-chips li i{display:block;height:clamp(160px,17vw,260px);transform:scaleY(0);transform-origin:50% 100%;transition:transform 1s var(--ease) var(--d)}
 .pj .dd-chips.in li i{transform:none}
@@ -1147,7 +1139,7 @@ button,input,select,textarea{font-family:inherit}
   .pj .dd-chips ul{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
   .pj .dd-chips b{font-size:10px}.pj .dd-chips em{font-size:10px}
 }
-@media (prefers-reduced-motion:reduce){ .pj .dd-f{opacity:1!important;transform:none!important} .pj .dd-f img{animation:none} .pj .dd-chips li i{transform:none;transition:none} }
+@media (prefers-reduced-motion:reduce){ .pj .dd-f{clip-path:none!important;transform:none!important} .pj .dd-f img{transform:none!important} .pj .dd-chips li i{transform:none;transition:none} }
 /* Final Output — 화면 전체가 아닌 본문 폭 안에 */
 .pj .pcx{width:min(1080px,100%);margin-left:auto;margin-right:auto;overflow:clip}
 /* Final Output — 섹션 단위 올라오는 효과 제거 (라인업 이미지 효과만 유지) */
@@ -1164,8 +1156,8 @@ button,input,select,textarea{font-family:inherit}
 .pj .pc-swap[aria-pressed="true"] i{transform:scaleX(-1)}
 .pj .pc-swap:hover{background:#fff;color:#000}
 .pj .pc-swap:focus-visible{outline:2px solid #fff;outline-offset:3px}
-.p-hero.kvfit .fr{inset:auto;left:50%;top:50%;width:min(100%,177.78svh);height:auto;aspect-ratio:1440/810;transform:translate(-50%,-50%)}
-.p-hero.kvfit .fr img{width:101.4%;height:101.4%;left:-.7%;top:-.7%;object-fit:cover}
+.p-hero.kvfit .fr img{object-fit:cover;transform:scale(calc(var(--sc,1.18) * 1.016))}
+@media (max-width:900px){ .p-hero.kvfit .fr img{object-fit:cover} }
 .pj .pc-vid[data-b]{cursor:pointer}
 .pj .pc-vid[data-b]:focus-visible{outline:2px solid #fff;outline-offset:-4px}
 .pj .l1x{position:relative;height:240svh}
@@ -1260,7 +1252,7 @@ const PROJECTS = { own: [
           ['a/dd_lu1.jpg','Line-up 01','','',[[55,36,40,72]],[[34,5,30,45],[14,57,16,25],[33,69,16,25]]],
           ['a/dd_lu2.jpg','Line-up 02','','',[[3,42,40,70]],[[38,7,27,40],[67,20,27,40],[48,68,7,27],[60,68,7,27],[72,68,7,27]]]],
         items:[['대비감을 유지한 전개','인트로와 라인업에서도 크게 크롭한 인물과 작은 전신 인물을 함께 두어, 키비주얼의 리듬을 페이지 끝까지 가져갔습니다.'],
-               ['바랜 색감을 메인 컬러로','룩북 특유의 색 바랜 톤을 배경과 그래픽의 주된 컬러로 써서, 이미지와 페이지가 하나의 무드로 이어지게 했습니다.']],
+               ['바랜 색감을 메인 컬러로','룩북 특유의 색 바랜 톤을 배경과 그래픽의 주된 컬러로 써서,<br>이미지와 페이지가 하나의 무드로 이어지게 했습니다.']],
         colors:[['Faded Ivory','#F0EFE6'],['Pale Mist','#E2E4DA'],['Grey Mint','#CCD6D4'],['Sage Grey','#BFCABF'],['Ink','#0B1218']] },
       { t:'final', n:'004', title:'Final Output', text:'서로 다른 시대와 스타일이 교차하는 <b>OJOS의 25SS 첫 번째 드랍.</b> 절제된 컬러와 로맨틱한 패턴 레이어링이 만들어내는 정교한 미학을 만나보세요.',
         pages:['FINALIMG:ojos_k1','FINALIMG:ojos_k2','FINALIMG:ojos_k3','FINALIMG:ojos_k4','FINALIMG:ojos_k5','FINALIMG:lookbook'] },
@@ -1834,8 +1826,7 @@ function apxHTML(b){
       <div class="apx-frame">
         ${APX_T.map((t, i) => `<div class="apx-tile" data-i="${i}"><img src="${t.src}.jpg" onerror="this.onerror=null;this.src='${t.src}.png'" alt=""></div>`).join('')}
         <img class="apx-kv" src="approach_05.jpg" onerror="this.onerror=null;this.src='approach_05.png'" alt="완성된 키비주얼">
-        <video class="apx-vid" src="approach_06.mp4" poster="approach_05.jpg" muted loop playsinline preload="metadata"></video>
-        <img class="apx-fin" src="approach_07.jpg" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='approach_07.png'}else{this.onerror=null;this.src='approach_05.jpg'}" alt="최종 캠페인 페이지 첫 화면">
+        <video class="apx-vid" poster="approach_05.jpg" muted loop playsinline preload="auto"><source src="Frame 2147203421.mp4" type="video/mp4"><source src="Frame_2147203421.mp4" type="video/mp4"></video>
         <span class="apx-tag"></span>
       </div>
     </div>
@@ -1847,7 +1838,7 @@ function apxFrame(pj, vh){
   const r = sec.getBoundingClientRect();
   const p = calm ? 1 : cl(-r.top / Math.max(1, r.height - vh));
   const ez = v => v < .5 ? 2 * v * v : 1 - Math.pow(-2 * v + 2, 2) / 2;
-  const h = ez(cl(p / .34)), kv = cl((p - .3) / .07), mo = cl((p - .42) / .08), fi = cl((p - .72) / .1);
+  const h = ez(cl(p / .3)), kv = cl((p - .27) / .06), mo = cl((p - .55) / .06), fi = cl((p - .78) / .08);
   sec.querySelectorAll('.apx-tile').forEach((el, i) => {
     const { a, b } = APX_T[i], m = (k) => a[k] + (b[k] - a[k]) * h;
     el.style.left = m(0) * 100 + '%'; el.style.top = m(1) * 100 + '%'; el.style.width = m(2) * 100 + '%'; el.style.height = m(3) * 100 + '%';
@@ -1856,9 +1847,9 @@ function apxFrame(pj, vh){
   const kvEl = sec.querySelector('.apx-kv'); kvEl.style.opacity = kv.toFixed(3);
   const vid = sec.querySelector('.apx-vid'); vid.style.opacity = mo.toFixed(3);
   const inView = r.top < vh && r.bottom > 0;
-  if (mo > 0 && fi < 1 && inView) vid.play().catch(() => {}); else vid.pause();
-  const fin = sec.querySelector('.apx-fin'); fin.style.opacity = fi.toFixed(3); fin.style.transform = `scale(${(1.14 - .14 * fi).toFixed(3)})`;
-  const step = p < .42 ? 0 : p < .72 ? 1 : 2;
+  if (mo > 0 && inView) vid.play().catch(() => {}); else vid.pause();
+  
+  const step = p < .55 ? 0 : p < .78 ? 1 : 2;
   sec.querySelectorAll('.apx-lines li').forEach((li, i) => li.classList.toggle('on', i === step));
   const tag = sec.querySelector('.apx-tag'); if (tag.dataset.s != step){ tag.dataset.s = step; tag.textContent = APX_TAGS[step]; tag.hidden = !APX_TAGS[step]; }
 }
@@ -1874,9 +1865,7 @@ function ddHTML(b){
         <div class="dd-item"><span>01</span><h4>${b.items[0][0]}</h4><p>${b.items[0][1]}</p></div>
       </div>
       <div class="dd-float">
-        ${DD_F.map((f, i) => `<figure class="dd-f" data-k="${f.k}" style="left:${f.x / 7.44}%;top:${f.y / 8.8}%;width:${f.w / 7.44}%;--sp:${f.sp}">
-          <img src="a/dd/f${i + 1}.jpg" alt="" onerror="this.onerror=null;this.src='${f.tmp}';this.parentNode.classList.add('tmp')">
-          <figcaption>F${i + 1} · ${f.w}×${f.h}</figcaption></figure>`).join('')}
+        ${DD_F.map(f => `<figure class="dd-f" style="left:${f.x}%;top:${f.y}%;width:${f.w}%;--sp:${f.sp}"><img src="${f.n}.png" onerror="this.onerror=null;this.src='${f.n}.jpg'" alt="${f.alt}"></figure>`).join('')}
       </div>
     </div>
     <div class="dd-row dd-row2">
@@ -1885,24 +1874,24 @@ function ddHTML(b){
       </div>
       <div class="dd-chips">
         <ul>${b.colors.map(([name, hex], i) => `<li style="--d:${i * .09}s"><i style="background:${hex}"></i><b>${name}</b><em>${hex}</em></li>`).join('')}</ul>
-        <p class="dd-note">* 페이지 화면에서 추출한 근사값</p>
       </div>
     </div>
   </section>`;
 }
-const DD_F = [ // 744×880 캔버스 기준(1440 화면), 모두 3:4
-  { k:'big',   x:170, y:70,  w:390, h:520, sp:-.06, tmp:'a/ring/r13.jpg' },
-  { k:'small', x:0,   y:0,   w:150, h:200, sp:.14,  tmp:'a/ring/r03.jpg' },
-  { k:'small', x:600, y:150, w:144, h:192, sp:.1,   tmp:'a/ring/r11.jpg' },
-  { k:'mid',   x:500, y:560, w:228, h:304, sp:.04,  tmp:'a/ring/r06.jpg' },
-  { k:'small', x:40,  y:640, w:126, h:168, sp:.18,  tmp:'a/ring/r08.jpg' },
+const DD_F = [ // 시안(1152 화면) 기준 오른쪽 영역 575×643 안의 % 위치
+  { n:'Direction_1', x:0,    y:0,    w:46.3, sp:-.05, alt:'인트로 — 크게 크롭한 인물과 작은 전신 인물' },
+  { n:'Direction_2', x:52.9, y:42.6, w:46.3, sp:.12,  alt:'라인업 — 크게 크롭한 인물과 작은 전신 인물' },
 ];
 function ddInit(){}
 function ddFrame(pj, vh){
-  pj.querySelectorAll('.dd-float:not(.in), .dd-chips:not(.in)').forEach(el => { if (el.getBoundingClientRect().top < vh * .82) el.classList.add('in'); });
-  const fl = pj.querySelector('.dd-float');
-  if (fl && !calm){ const r = fl.getBoundingClientRect(); if (r.bottom > -200 && r.top < vh + 200){ const o = (r.top + r.height / 2 - vh / 2);
-    fl.querySelectorAll('.dd-f').forEach(f => f.style.setProperty('--py', (o * +f.style.getPropertyValue('--sp')).toFixed(1) + 'px')); } }
+  pj.querySelectorAll('.dd-chips:not(.in)').forEach(el => { if (el.getBoundingClientRect().top < vh * .82) el.classList.add('in'); });
+  pj.querySelectorAll('.dd-f').forEach(f => {
+    const r = f.getBoundingClientRect(); if (r.bottom < -200 || r.top > vh + 200) return;
+    const p = cl((vh - r.top) / (vh * .75)), o = r.top + r.height / 2 - vh / 2;
+    f.style.setProperty('--rv', calm ? 0 : ((1 - p) * 100).toFixed(1) + '%');
+    f.style.setProperty('--py', calm ? '0px' : (o * +f.style.getPropertyValue('--sp')).toFixed(1) + 'px');
+    f.style.setProperty('--zs', calm ? 1 : (1.18 - .18 * p).toFixed(3));
+  });
 }
 function wire(pj){
   flyInit(pj);
