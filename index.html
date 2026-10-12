@@ -1594,8 +1594,7 @@ function pcHTML(){
       <video src="${ln.v}#t=0.001" muted loop playsinline autoplay preload="auto"></video>
       ${ln.imgs.map((n, i) => `<img class="l1-o" data-i="${i}" src="${n}.png" onload="l1Fit(this)" onerror="this.onerror=null;this.src='${n}.jpg'" alt="">`).join('')}
     </div></div></section>`).join('')}
-    ${lay.join('')}
-    <img class="pc-top pcr" src="${PCP}end.jpg" alt="" loading="lazy" style="aspect-ratio:2000/455">
+    <img class="pc-top pcr" src="2ojos_outro.jpg" onerror="this.onerror=null;this.src='2ojos_outro.png'" alt="OJOS 25SS — 정의를 새롭게 해석한 색다른 현재" loading="lazy" style="aspect-ratio:2000/455">
   </div>`;
 }
 let pcT = 0;
