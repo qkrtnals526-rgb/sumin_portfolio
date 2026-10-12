@@ -1587,7 +1587,7 @@ function pcHTML(){
   return `<div class="pcx">${tops}
     <div class="pc-vid pcr" data-a="ojos4.mp4" data-b="ojos4-1.mp4" role="button" tabindex="0" aria-label="영상 전환"><video src="ojos4.mp4" muted loop playsinline preload="metadata"></video></div>
     <section class="l1x" aria-label="1st Keyword — Refined Layers"><div class="l1-pin"><div class="l1-st">
-      <video src="2OJOS_line1.mp4" muted loop playsinline preload="metadata"></video>
+      <video src="2OJOS_line1.mp4#t=0.001" muted loop playsinline autoplay preload="auto"></video>
       ${['line1_1', 'line1_2'].map((n, i) => `<img class="l1-o" data-i="${i}" src="${n}.png" onload="l1Fit(this)" onerror="this.onerror=null;this.src='${n}.jpg'" alt="">`).join('')}
     </div></div></section>
     ${lay.join('')}
