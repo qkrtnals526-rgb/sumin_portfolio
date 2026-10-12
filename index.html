@@ -712,7 +712,7 @@ html.wv-lock,html.wv-lock body{overflow:hidden}
 
 
 <script>
-const WORKS = ['a/cover/cover01.jpg','a/cover/cover02.jpg','a/cover/cover03.jpg','a/cover/cover04.jpg','a/cover/cover05.jpg','a/cover/cover06.jpg'];
+const WORKS = ['Thumbnail2-1.png','Thumbnail2-2.png','Thumbnail2-3.png','Thumbnail2-4.png','Thumbnail2-5.png','Thumbnail2-6.png'];
 const WORDS = ['CONTENT','GRAPHIC','CREATIVE'];
 const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp = (v,a=0,b=1) => Math.max(a, Math.min(b, v));
@@ -1777,10 +1777,10 @@ function ringInit(pj){
 
 /* Approach — 스크롤하면 룩북 컷이 키비주얼로 → 모션 → 최종 페이지로 */
 const APX_T = [ // [시작 x,y,w,h] → [끝 x,y,w,h]  (화면 비율 0~1)
-  { src:'a/appr/o14.jpg', a:[.02,.22,.225,.56], b:[0,0,1,1] },
-  { src:'a/appr/o18.jpg', a:[.265,.22,.225,.56], b:[.13,-.06,.31,.82] },
-  { src:'a/appr/o26.jpg', a:[.51,.22,.225,.56], b:[.01,.24,.22,.6] },
-  { src:'a/appr/o42.jpg', a:[.755,.22,.225,.56], b:[.67,.1,.24,.74] },
+  { src:'approach_01', a:[.02,.22,.225,.56], b:[0,0,1,1] },
+  { src:'approach_02', a:[.265,.22,.225,.56], b:[.13,-.06,.31,.82] },
+  { src:'approach_03', a:[.51,.22,.225,.56], b:[.01,.24,.22,.6] },
+  { src:'approach_04', a:[.755,.22,.225,.56], b:[.67,.1,.24,.74] },
 ];
 function apxHTML(b){
   return `
@@ -1791,10 +1791,10 @@ function apxHTML(b){
         <ol class="apx-lines">${b.lines.map(([t, tag], i) => `<li data-i="${i}"><p>${t}<sup>${tag}</sup></p></li>`).join('')}</ol>
       </div>
       <div class="apx-frame">
-        ${APX_T.map((t, i) => `<div class="apx-tile" data-i="${i}"><img src="${t.src}" alt=""></div>`).join('')}
-        <img class="apx-kv" src="a/ojos_2.jpg" alt="완성된 키비주얼">
-        <video class="apx-vid" src="a/ojos_hero.mp4" poster="a/ojos_hero.jpg" muted loop playsinline preload="metadata"></video>
-        <img class="apx-fin" src="a/pc/top0.jpg" alt="최종 캠페인 페이지 첫 화면">
+        ${APX_T.map((t, i) => `<div class="apx-tile" data-i="${i}"><img src="${t.src}.jpg" onerror="this.onerror=null;this.src='${t.src}.png'" alt=""></div>`).join('')}
+        <img class="apx-kv" src="approach_05.jpg" onerror="this.onerror=null;this.src='approach_05.png'" alt="완성된 키비주얼">
+        <video class="apx-vid" src="approach_06.mp4" poster="approach_05.jpg" muted loop playsinline preload="metadata"></video>
+        <img class="apx-fin" src="approach_07.jpg" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='approach_07.png'}else{this.onerror=null;this.src='approach_05.jpg'}" alt="최종 캠페인 페이지 첫 화면">
         <span class="apx-tag"></span>
       </div>
     </div>
