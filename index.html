@@ -1070,6 +1070,8 @@ button,input,select,textarea{font-family:inherit}
 /* ═════ OJOS — Thinking 룩북 링 ═════ */
 .pj .ringx{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-top:clamp(160px,16vw,260px);height:max(640px,min(94vw,1353px));overflow:hidden;background:#000;touch-action:pan-y}
 .pj .ring-stage{position:absolute;inset:0}
+.pj .ring-dither{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.pj .ring-stage{z-index:1}
 .pj .ring-tile{position:absolute;left:0;top:0;will-change:transform;transform-origin:50% 50%;cursor:pointer}
 .pj .ring-tile img{display:block;width:100%;height:100%;object-fit:cover;max-width:none}
 .pj .ring-copy{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:300;width:min(880px,calc(100% - 32px));text-align:center;pointer-events:none}
@@ -1677,16 +1679,63 @@ function flyInit(pj){
 wv.addEventListener('scroll', () => { const d = Math.abs(wv.scrollTop - flyLastTop); flyLastTop = wv.scrollTop; flyBoost = Math.min(flyBoost + d * .006, 3); }, { passive:true });
 
 /* Thinking — 마우스에 반응하는 룩북 링 (부드러운 시차 + 커서 주변 밀어내기) */
-const RING_IMGS = Array.from({length:17}, (_, i) => `a/ring/r${String(i + 1).padStart(2,'0')}.jpg`);
+const RING_IMGS = Array.from({length:22}, (_, i) => `ring_${String(i + 1).padStart(2,'0')}`); // 피그마 레이어 이름 = 파일명 (.png 우선, 없으면 .jpg)
 let ringRAF = 0, ringIO = null;
 function ringInit(pj){
   cancelAnimationFrame(ringRAF); ringRAF = 0; ringIO && ringIO.disconnect();
   const sec = pj.querySelector('.ringx'); if (!sec) return;
   const stage = sec.querySelector('.ring-stage');
+  /* 배경 디더 그래픽 — 피그마 예시: 원형 영역 + 촘촘한 미세 점(세로 결) + 흩어진 큰 점, 커서 방향으로 밀도가 돌고 점이 밀려남 */
+  const dc = document.createElement('canvas'); dc.className = 'ring-dither'; dc.setAttribute('aria-hidden','true'); sec.insertBefore(dc, stage);
+  const dx2 = dc.getContext('2d'); let dW = 0, dH = 0, dpr = 1;
+  const hsh = (x, y) => { const v = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return v - Math.floor(v); };
+  const vn = (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, u = xf * xf * (3 - 2 * xf), w = yf * yf * (3 - 2 * yf);
+    const a = hsh(xi, yi), b = hsh(xi + 1, yi), c = hsh(xi, yi + 1), d = hsh(xi + 1, yi + 1); return a + (b - a) * u + (c - a) * w + (a - b - c + d) * u * w; };
+  const BIG = Array.from({length:70}, (_, i) => { const r = Math.sqrt(.15 + .85 * hsh(i, 3.1)), a = hsh(i, 7.7) * Math.PI * 2; return { r, a, s:.7 + hsh(i, 9.3) * .6, ph:hsh(i, 1.9) * 6.28, x:null, y:null }; });
+  let dm = 0, ang = Math.PI * .85;
+  function dither(t, W, H, px, py, mx, my){
+    if (W !== dW || H !== dH){ dpr = Math.min(2, devicePixelRatio || 1); dc.width = W * dpr; dc.height = H * dpr; dW = W; dH = H; }
+    dx2.setTransform(dpr, 0, 0, dpr, 0, 0); dx2.clearRect(0, 0, W, H);
+    const on = px > -999; dm += ((on ? 1 : 0) - dm) * .06;
+    const cx = W / 2 + mx * 24, cy = H / 2 + my * 20, rr = Math.min(W * .245, H * .27), k = rr / 345;
+    // 밀도가 가장 짙은 방향: 기본은 왼쪽 아래, 커서가 있으면 커서 쪽으로 천천히 회전
+    const tgt = on ? Math.atan2(py - cy, px - cx) : Math.PI * .85 + Math.sin(t / 5000) * .4;
+    let da = tgt - ang; da = Math.atan2(Math.sin(da), Math.cos(da)); ang += da * .04;
+    const step = Math.max(4, 6 * k), T = t / 6000, rep = (110 * k) ** 2;
+    dx2.fillStyle = '#9a9a98';
+    for (let y = cy - rr; y < cy + rr; y += step){
+      for (let x = cx - rr; x < cx + rr; x += step){
+        const ox = x - cx, oy = y - cy, r = Math.hypot(ox, oy) / rr; if (r > 1) continue;
+        const gi = Math.round((y - cy) / step), gj = Math.round((x - cx) / step);
+        const facing = (Math.cos(Math.atan2(oy, ox) - ang) + 1) / 2;          // 0~1, 짙은 방향일수록 1
+        const ring = Math.exp(-(((r - .78) / .24) ** 2));                         // 가장자리 쪽 띠
+        let f = (.25 + .75 * facing) * (.35 + .65 * ring) * (.45 + .55 * vn(x / 70 + T, y / 70 - T)) * (1 - r ** 6);
+        f *= .55 + .9 * hsh(gj, 5.5) * .6;                                      // 세로 결(열마다 밀도 차이)
+        let qx = 0, qy = 0, gl = 0;
+        if (dm > .01){ const ux = x - px, uy = y - py, q = ux * ux + uy * uy; if (q < rep * 6){ gl = Math.exp(-q / rep) * dm; const d = Math.sqrt(q) || 1; qx = ux / d * gl * 10 * k; qy = uy / d * gl * 10 * k; f += gl * .5; } }
+        if (hsh(gi * 1.3, gj * .7) > f) continue;
+        const fade = Math.pow(Math.max(0, 1 - r * r), 1.6);                       // 가장자리로 갈수록 옅게
+        dx2.globalAlpha = Math.min(.9, (.42 + .2 * f) * fade + .45 * gl);
+        const sz = Math.max(1, 1.6 * k);
+        dx2.fillRect(x + qx, y + qy, sz, sz);
+      }
+    }
+    for (const d of BIG){
+      const a = d.a + Math.sin(t / 7000 + d.ph) * .05;
+      let tx = cx + Math.cos(a) * d.r * rr * .98, ty = cy + Math.sin(a) * d.r * rr * .98 + Math.sin(t / 2200 + d.ph) * 3;
+      tx += mx * 40 * d.s; ty += my * 34 * d.s;
+      let gl = 0;
+      if (dm > .01){ const ux = tx - px, uy = ty - py, q = ux * ux + uy * uy; if (q < rep * 8){ gl = Math.exp(-q / (rep * 1.6)) * dm; const dd = Math.sqrt(q) || 1; tx += ux / dd * gl * 34 * k; ty += uy / dd * gl * 34 * k; } }
+      if (d.x == null){ d.x = tx; d.y = ty; } d.x += (tx - d.x) * .12; d.y += (ty - d.y) * .12;
+      dx2.globalAlpha = Math.min(1, .55 * Math.pow(Math.max(0, 1 - d.r * d.r), 1.3) + .45 * gl);
+      dx2.beginPath(); dx2.arc(d.x, d.y, (2.6 + 1.2 * d.s) * k * (1 + gl * .5), 0, 6.283); dx2.fill();
+    }
+    dx2.globalAlpha = 1;
+  }
   const N = 22, tiles = [];
   for (let i = 0; i < N; i++){
     const el = document.createElement('div'); el.className = 'ring-tile';
-    const img = new Image(); img.src = RING_IMGS[i % RING_IMGS.length]; img.alt = ''; img.decoding = 'async';
+    const img = new Image(); const nm = RING_IMGS[i % RING_IMGS.length]; img.onerror = () => { img.onerror = null; img.src = nm + '.jpg'; }; img.src = nm + '.png'; img.alt = ''; img.decoding = 'async';
     el.appendChild(img); stage.appendChild(el);
     tiles.push({ el, a:i / N * Math.PI * 2 - Math.PI / 2, s:1, p:.4 + ((i * 53) % 7) / 7 * .9, x:null, y:null, ph:i * 1.7 });
   }
@@ -1700,6 +1749,7 @@ function ringInit(pj){
     if (tpx < -999){ px = tpx; py = tpy; } else { px = px < -999 ? tpx : px + (tpx - px) * .2; py = py < -999 ? tpy : py + (tpy - py) * .2; }
     if (!calm) rot += .018 * dt;
     const R = Math.min(W * .4, H * .41), base = Math.max(56, Math.min(W * .066, 100)), push = base * 1.6;
+    dither(t, W, H, px, py, mx, my);
     for (const s of tiles){
       const a = s.a + rot;
       let gx = cx + Math.cos(a) * R + mx * 70 * s.p, gy = cy + Math.sin(a) * R + my * 70 * s.p;
