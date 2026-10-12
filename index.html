@@ -1164,6 +1164,10 @@ button,input,select,textarea{font-family:inherit}
 .pj .pc-swap[aria-pressed="true"] i{transform:scaleX(-1)}
 .pj .pc-swap:hover{background:#fff;color:#000}
 .pj .pc-swap:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.p-hero.kvfit .fr{inset:auto;left:50%;top:50%;width:min(100%,177.78svh);height:auto;aspect-ratio:1440/810;transform:translate(-50%,-50%)}
+.p-hero.kvfit .fr img{width:101.4%;height:101.4%;left:-.7%;top:-.7%;object-fit:cover}
+.pj .pc-vid[data-b]{cursor:pointer}
+.pj .pc-vid[data-b]:focus-visible{outline:2px solid #fff;outline-offset:-4px}
 </style>
 <canvas id="trailCanvas" aria-hidden="true"></canvas>
 <script>
@@ -1237,7 +1241,7 @@ const PROJECTS = { own: [
     title:['OJOS 25SS', 'Tessellation'], thumb:'ojos_thum.png',
     sub:'조각난 에셋을 하나의 시퀀스로, OJOS 25SS 재구성',
     meta:[['Date','2026.09.16'],['Contribution','100%'],['Tools','Figma, Higgsfield AI, After Effects'],['Contribution','디자인 기여도 100%']],
-    hero: { src:'ojos2_keyvisual.png', r:'', cap:'Key Visual', ar:.5625 }, brand:'OJOS', oneLine:true,
+    hero: { src:'ojos2_keyvisual.png', r:'', cap:'Key Visual', ar:.5625 }, heroFit:true, brand:'OJOS', oneLine:true,
     blocks:[
       { t:'bg', n:'01', title:'Project Background', desc:'OJOS 25SS를 큐레이션하는 에디토리얼 형식의 개인작업입니다.<br>페이지의 첫인상을 결정하는 키비주얼, 그 임팩트를 만드는 데서 시작했습니다.',
         no:'001 /', label:'Thinking', img:'ojos2_Background.png', text:'OJOS 25SS 룩북은 브랜드가 지향하는 컨셉이 선명하게 드러나는 룩북이었습니다.<br>모델의 역동적인 포즈와 강렬한 인상, 독특한 실루엣이 돋보였고<br>이 매력을 페이지 안에서 더 극대화하는 방법을 고민했습니다.' },
@@ -1571,7 +1575,7 @@ function pcHTML(){
       <img class="pc-back" src="${PCP}${k}_back.jpg" alt="" loading="lazy">${media}<img class="pc-front" src="${PCP}${k}_front.png" alt="" loading="lazy"></div></div>`;
   });
   return `<div class="pcx">${tops}
-    <div class="pc-vid pcr"><video src="ojos4.mp4" muted loop playsinline preload="metadata"></video><button class="pc-swap" type="button" data-a="ojos4.mp4" data-b="ojos4-1.mp4" aria-pressed="false"><i></i><span>Play Next Scene</span></button></div>
+    <div class="pc-vid pcr" data-a="ojos4.mp4" data-b="ojos4-1.mp4" role="button" tabindex="0" aria-label="영상 전환"><video src="ojos4.mp4" muted loop playsinline preload="metadata"></video></div>
     ${lay.join('')}
     <img class="pc-top pcr" src="${PCP}end.jpg" alt="" loading="lazy" style="aspect-ratio:2000/455">
   </div>`;
@@ -1597,12 +1601,9 @@ function pcFrame(pj, vh){
     });
   });
 }
-document.addEventListener('click', e => {
-  const bt = e.target.closest('.pc-swap'); if (!bt) return;
-  const v = bt.parentElement.querySelector('video'), on = bt.getAttribute('aria-pressed') !== 'true';
-  bt.setAttribute('aria-pressed', on); v.src = on ? bt.dataset.b : bt.dataset.a; v.load(); v.play().catch(() => {});
-  bt.querySelector('span').textContent = on ? 'Back to First Scene' : 'Play Next Scene';
-});
+function pcSwap(box){ const v = box.querySelector('video'), on = box.dataset.on !== '1'; box.dataset.on = on ? '1' : '0'; v.src = on ? box.dataset.b : box.dataset.a; v.load(); v.play().catch(() => {}); }
+document.addEventListener('click', e => { const box = e.target.closest('.pc-vid[data-b]'); if (box) pcSwap(box); });
+document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.pc-vid[data-b]')){ e.preventDefault(); pcSwap(e.target); } });
 setInterval(() => { pcT++; document.querySelectorAll('.pcw .pcm.alt').forEach(m => m.classList.toggle('show', pcT % 2 === 1)); }, 2600);
 
 function projectHTML(ci, pi){
@@ -1619,7 +1620,7 @@ function projectHTML(ci, pi){
     </div>
   </header>
 
-  <div class="p-hero" data-r="${p.hero.ar || .5625}"><div class="st"><div class="fr">${p.hero.v ? `<video src="${p.hero.src}" poster="${p.hero.poster}" muted loop playsinline preload="metadata"></video>` : `<img src="${p.hero.src}" alt="">`}</div>
+  <div class="p-hero${p.heroFit ? ' kvfit' : ''}" data-r="${p.hero.ar || .5625}"><div class="st"><div class="fr">${p.hero.v ? `<video src="${p.hero.src}" poster="${p.hero.poster}" muted loop playsinline preload="metadata"></video>` : `<img src="${p.hero.src}" alt="">`}</div>
     <div class="cap"><span>${p.hero.cap}</span><span>${p.meta[3][1]}</span></div></div></div>
 
   ${p.blocks.map(blockHTML2).join('')}
