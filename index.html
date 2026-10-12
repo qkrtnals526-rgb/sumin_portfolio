@@ -1168,9 +1168,9 @@ button,input,select,textarea{font-family:inherit}
 .p-hero.kvfit .fr img{width:101.4%;height:101.4%;left:-.7%;top:-.7%;object-fit:cover}
 .pj .pc-vid[data-b]{cursor:pointer}
 .pj .pc-vid[data-b]:focus-visible{outline:2px solid #fff;outline-offset:-4px}
-.pj .l1x{position:relative;height:240svh;margin-top:clamp(80px,8vw,140px)}
-.pj .l1-pin{position:sticky;top:0;height:100svh;display:flex;align-items:center;justify-content:center}
-.pj .l1-st{position:relative;width:min(100%,calc((100svh - 32px) * 2000 / 1788));aspect-ratio:2000/1788;overflow:hidden}
+.pj .l1x{position:relative;height:240svh}
+.pj .l1-pin{position:sticky;top:0}
+.pj .l1-st{position:relative;width:100%;aspect-ratio:2000/1788;overflow:hidden}
 .pj .l1-st video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .pj .l1-o{position:absolute;max-width:none;opacity:0;transform:translateY(60px);transition:opacity .9s var(--ease),transform 1.1s var(--ease);pointer-events:none}
 .pj .l1-o.on{opacity:1;transform:none}
@@ -1602,7 +1602,8 @@ function pcFrame(pj, vh){
   if (v){ const r = v.getBoundingClientRect(), p = cl((vh - r.top) / (vh * .9)); v.style.setProperty('--o', (1 - p) * 14 + '%');
     const vid = v.querySelector('video'); if (r.top < vh && r.bottom > 0) vid.play().catch(() => {}); else vid.pause(); }
   const l1 = pj.querySelector('.l1x');
-  if (l1){ const r = l1.getBoundingClientRect(), p = calm ? 1 : cl(-r.top / Math.max(1, r.height - vh)), vid = l1.querySelector('video');
+  if (l1){ const st = l1.querySelector('.l1-st'), sh = st.offsetHeight; l1.style.height = Math.round(sh + vh * 1.4) + 'px'; l1.firstElementChild.style.top = Math.min(0, vh - sh) + 'px';
+    const r = l1.getBoundingClientRect(), p = calm ? 1 : cl(-r.top / Math.max(1, r.height - vh)), vid = l1.querySelector('video');
     if (r.top < vh && r.bottom > 0) vid.play().catch(() => {}); else vid.pause();
     l1.querySelectorAll('.l1-o').forEach((o, i) => o.classList.toggle('on', p > (i ? .48 : .16))); }
   pj.querySelectorAll('.pcw').forEach(w => {
