@@ -1288,7 +1288,7 @@ const PROJECTS = { own: [
     title:['JENNIE 1ST ALBUM [RUBY]', 'TYPO ARCHIVE'], thumb:'jennie_thum.png',
     sub:'제니의 첫번째 앨범 RUBY, 소리에서 타이포로 재해석하다',
     meta:[['Date','2026.09.04'],['Contribution','100%'],['Tools','Figma, Higgsfield AI, After Effects'],['Contribution','100%']],
-    hero: { src:'jennie_intro.png', r:'', cap:'', ar:.5625 }, heroFit:true, brand:'JENNIE [Ruby]', twoLine:true,
+    hero: { src:'jennie_intro.png', r:'', cap:'', ar:.5625 }, heroFit:true, noHero:true, brand:'JENNIE [Ruby]', twoLine:true,
     blocks:[
       { t:'jnh', items:[['jennie1.mp4'], ['jennie2.png'], ['jennie3.mp4', 1], ['jennie4.mp4', 1], ['jennie5.mp4', 1], ['jennie6.mp4', 1]] },
     ],
@@ -1843,8 +1843,8 @@ function projectHTML(ci, pi){
     </div>
   </header>
 
-  <div class="p-hero${p.heroFit ? ' kvfit' : ''}" data-r="${p.hero.ar || .5625}"><div class="st"><div class="fr">${p.hero.v ? `<video src="${p.hero.src}" poster="${p.hero.poster}" muted loop playsinline preload="metadata"></video>` : `<img src="${p.hero.src}" alt="">`}</div>
-    <div class="cap"><span>${p.hero.cap}</span><span>${p.meta[3][1]}</span></div></div></div>
+${p.noHero ? '' : `  <div class="p-hero${p.heroFit ? ' kvfit' : ''}" data-r="${p.hero.ar || .5625}"><div class="st"><div class="fr">${p.hero.v ? `<video src="${p.hero.src}" poster="${p.hero.poster}" muted loop playsinline preload="metadata"></video>` : `<img src="${p.hero.src}" alt="">`}</div>
+    <div class="cap"><span>${p.hero.cap}</span><span>${p.meta[3][1]}</span></div></div></div>`}
 
   ${p.blocks.map(blockHTML2).join('')}
 
