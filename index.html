@@ -1157,6 +1157,8 @@ button,input,select,textarea{font-family:inherit}
 .pj .pc-swap:hover{background:#fff;color:#000}
 .pj .pc-swap:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .pj .p-hero.kvfit{width:100vw;margin-left:calc(50% - 50vw);margin-right:0}
+.p-hero.kv2 .fr{background:linear-gradient(90deg,#161616 50%,#e5e5e5 50%)}
+.p-hero.kv2 .fr video{object-fit:contain}
 .p-hero.kvfit .fr img{left:-1.2%;top:-1.2%;width:102.4%;height:102.4%;object-fit:cover;object-position:50% var(--oy,0%);transform-origin:50% 50%}
 @media (max-width:900px){ .p-hero.kvfit .fr img{object-fit:cover} }
 .pj .pc-vid[data-b]{cursor:pointer}
@@ -1194,7 +1196,10 @@ button,input,select,textarea{font-family:inherit}
 .pj .jnh-mute svg{width:18px;height:18px}.pj .jnh-mute .i-on{display:none}.pj .jnh-mute.on .i-on{display:block}.pj .jnh-mute.on .i-off{display:none}
 @media (max-width:760px){ .pj .jnh-track{height:46svh} .pj .jnh-item{padding:0 10px} .pj .jnh-mute{right:20px;top:10px} }
 .pj .csx{width:100vw;margin-left:calc(50% - 50vw);background:#161616}
-.pj .cs-in{width:min(1080px,100%);margin:0 auto}
+/* 이미지 안 텍스트(원본 347/3600 지점)가 페이지 왼쪽 정렬선(6vw)과 맞도록 살짝 키워 양옆 배경만 잘라냄 */
+.pj .cs-row{overflow:hidden}
+.pj .cs-in{width:109.1vw;margin-left:-4.55vw}
+.pj .cs-in.full{width:100%;margin-left:0}
 .pj .cs-in > img,.pj .cs-in > video,.pj .cs-in > div > img:first-child{display:block;width:100%;height:auto;max-width:none}
 .pj .cs-de2,.pj .cs-de3{position:relative;overflow:hidden}
 .pj .cs-model{position:absolute;bottom:36.9%;height:33%;transform:translateX(-50%);padding:0;border:0;background:none;cursor:pointer}
@@ -1274,10 +1279,10 @@ const I = (src, r, cap) => ({ src:`a/${src}`, r, cap });
 const S = (label, title, text, media, extra = {}) => ({ t:'sec', label, title, text, media, ...extra });
 const PROJECTS = { ai: [
   {
-    title:['2026 SUMMER CLEARANCE SALE'], thumb:'clearance_thum.png', oneLine:true, tsz:'clamp(30px,5.6vw,108px)', noHero:true, brand:'KREAM',
+    title:['2026 SUMMER CLEARANCE SALE'], thumb:'clearance_thum.png', oneLine:true, tsz:'clamp(30px,5.6vw,108px)', heroFit:true, heroCls:'kv2', brand:'KREAM',
     sub:'스튜디오 촬영 없이, AI로 완성한 비주얼라이징',
     meta:[['Date','2026.08.03'],['Contribution','100%'],['Tools','Figma, Higgsfield AI, After Effects'],['Contribution','100%']],
-    hero:{ src:'', cap:'' },
+    hero:{ src:'clearance_KV.mp4', v:true, poster:'', cap:'', ar:.5 },
     blocks:[{ t:'csold' }],
   },
 ], own: [
@@ -1806,9 +1811,8 @@ const CS_FLOAT = [ // [파일, left, top, width, z, rise]
   ['chang1',76.861,36.932,17.278,4,35],['chang2',33.250,74.962,17.278,4,35],['cosur',39.222,32.235,10.806,5,30]];
 const CS_MODEL = [19.6, 34.8, 50.2, 65.4, 80.6];
 function csHTML(){
-  const row = (bg, inner) => `<div class="cs-row" style="background:${bg}"><div class="cs-in">${inner}</div></div>`;
+  const row = (bg, inner, full) => `<div class="cs-row" style="background:${bg}"><div class="cs-in${full ? ' full' : ''}">${inner}</div></div>`;
   return `<section class="csx">
-    ${row('linear-gradient(90deg,#161616 50%,#e5e5e5 50%)', `<video class="cs-kv" src="clearance_KV.mp4" muted loop playsinline autoplay preload="metadata"></video>`)}
     ${row('#161616', `<img src="clearance_intro2.png" alt="Background">`)}
     ${row('#161616', `<img src="clearance_de1.png" alt="Design Process 01">`)}
     ${row('#161616', `<div class="cs-de2"><img src="clearance_de2.png" alt="Design Process 02">
@@ -1818,7 +1822,7 @@ function csHTML(){
       ${CS_FLOAT.map(([n, l, t, w, z, r], i) => `<img class="cs-float" data-o="${i}" src="${n}.png" alt="" draggable="false" style="left:${l}%;top:${t}%;width:${w}%;z-index:${z};--rise:${r}%">`).join('')}
     </div>`)}
     ${row('#161616', `<video class="cs-de4" src="clearance_de4.mp4" muted loop playsinline preload="metadata"></video>`)}
-    ${row('#ffffff', `<img src="clearance_de5.png" alt="Summer Clearance Sale">`)}
+    ${row('#ffffff', `<img src="clearance_de5.png" alt="Summer Clearance Sale">`, 1)}
   </section>`;
 }
 let csSlot = 0;
@@ -1899,7 +1903,7 @@ function projectHTML(ci, pi){
     </div>
   </header>
 
-${p.noHero ? '' : `  <div class="p-hero${p.heroFit ? ' kvfit' : ''}" data-r="${p.hero.ar || .5625}"><div class="st"><div class="fr">${p.hero.v ? `<video src="${p.hero.src}" poster="${p.hero.poster}" muted loop playsinline preload="metadata"></video>` : `<img src="${p.hero.src}" alt="">`}</div>
+${p.noHero ? '' : `  <div class="p-hero${p.heroFit ? ' kvfit' : ''}${p.heroCls ? ' ' + p.heroCls : ''}" data-r="${p.hero.ar || .5625}"><div class="st"><div class="fr">${p.hero.v ? `<video src="${p.hero.src}" poster="${p.hero.poster}" muted loop playsinline preload="metadata"></video>` : `<img src="${p.hero.src}" alt="">`}</div>
     <div class="cap"><span>${p.hero.cap}</span><span>${p.meta[3][1]}</span></div></div></div>`}
 
   ${p.blocks.map(blockHTML2).join('')}
