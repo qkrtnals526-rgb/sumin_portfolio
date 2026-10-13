@@ -1157,8 +1157,9 @@ button,input,select,textarea{font-family:inherit}
 .pj .pc-swap:hover{background:#fff;color:#000}
 .pj .pc-swap:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .pj .p-hero.kvfit{width:100vw;margin-left:calc(50% - 50vw);margin-right:0}
-.p-hero.kv2 .fr{background:linear-gradient(90deg,#161616 50%,#e5e5e5 50%)}
-.p-hero.kv2 .fr video{object-fit:contain}
+/* KV(2:1): 프레임 자체를 영상 비율로 — 위아래 빈 띠·경계선 없이 */
+.p-hero.kv2 .st{height:min(100svh,50vw);top:max(0px,calc((100svh - 50vw) / 2))}
+.p-hero.kv2 .fr video{object-fit:cover;clip-path:inset(2px)}
 .p-hero.kvfit .fr img{left:-1.2%;top:-1.2%;width:102.4%;height:102.4%;object-fit:cover;object-position:50% var(--oy,0%);transform-origin:50% 50%}
 @media (max-width:900px){ .p-hero.kvfit .fr img{object-fit:cover} }
 .pj .pc-vid[data-b]{cursor:pointer}
@@ -1199,6 +1200,7 @@ button,input,select,textarea{font-family:inherit}
 .pj .cs-row{overflow:hidden}
 .pj .cs-in{width:min(1398px,97vw);margin:0 auto}  /* 이미지 속 창·카드 끝(167~3433/3600)이 페이지 본문 칸 1268 폭에 맞도록 */
 .pj .cs-in.full{width:100%;margin-left:0}
+.pj .cs-in > video{clip-path:inset(3px 3px 3px 3px);background:#161616}  /* 영상 가장자리 1px 경계선 숨김 */
 .pj .cs-in > img,.pj .cs-in > video,.pj .cs-in > div > img:first-child{display:block;width:100%;height:auto;max-width:none}
 .pj .cs-de2,.pj .cs-de3{position:relative;overflow:hidden}
 .pj .cs-model{position:absolute;bottom:36.9%;height:33%;transform:translateX(-50%);padding:0;border:0;background:none;cursor:pointer}
