@@ -1181,6 +1181,18 @@ button,input,select,textarea{font-family:inherit}
 .pj .v4-st{position:relative;width:100%;aspect-ratio:2000/1500;overflow:hidden;background:#000}
 .pj .v4-st video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .pj .v4b{opacity:0}
+.pj .jnh{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-top:clamp(80px,10vw,160px)}
+.pj .jnh-pin{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;background:#000}
+.pj .jnh-track{display:flex;height:82svh;padding:0 calc(var(--gutter) - 24px);will-change:transform}
+.pj .jnh-item{position:relative;flex:0 0 auto;height:100%;padding:0 24px;display:flex;align-items:center}
+.pj .jnh-item video,.pj .jnh-item img{display:block;height:100%;width:auto;aspect-ratio:16/9;max-width:none;object-fit:contain;background:#0b0b0b}
+.pj .p-title.two{font-size:clamp(34px,6.95vw,132px);letter-spacing:-.04em;line-height:1.08;white-space:nowrap;text-transform:uppercase}
+.pj .p-title.two + .p-sub{margin-top:28px}
+@media (max-width:760px){ .pj .p-title.two{white-space:normal} }
+.pj .jnh-mute{position:absolute;top:16px;right:40px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
+.pj .jnh-mute:hover{background:rgba(0,0,0,.75)}.pj .jnh-mute:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.pj .jnh-mute svg{width:18px;height:18px}.pj .jnh-mute .i-on{display:none}.pj .jnh-mute.on .i-on{display:block}.pj .jnh-mute.on .i-off{display:none}
+@media (max-width:760px){ .pj .jnh-track{height:46svh} .pj .jnh-item{padding:0 10px} .pj .jnh-mute{right:20px;top:10px} }
 </style>
 <canvas id="trailCanvas" aria-hidden="true"></canvas>
 <script>
@@ -1273,17 +1285,13 @@ const PROJECTS = { own: [
     ],
   },
   {
-    title:['JENNIE 1st Album', '[Ruby] Typo Archive'], thumb:'jennie_thum.png',
+    title:['JENNIE 1ST ALBUM [RUBY]', 'TYPO ARCHIVE'], thumb:'jennie_thum.png',
     sub:'제니의 첫번째 앨범 RUBY, 소리에서 타이포로 재해석하다',
-    meta:[['Date','2026.09.04'],['Role','<span class="gd">[역할 입력]</span>'],['Tools','Figma, Higgsfield AI, After Effects'],['Contribution','디자인 기여도 100%']],
-    hero: I('jennie_titles.jpg','', 'Title Typography — ZEN · Love Hangover · Extral · 서울시티'),
+    meta:[['Date','2026.09.04'],['Contribution','100%'],['Tools','Figma, Higgsfield AI, After Effects'],['Contribution','100%']],
+    hero: { src:'jennie_intro.png', r:'', cap:'', ar:.5625 }, heroFit:true, brand:'JENNIE [Ruby]', twoLine:true,
     blocks:[
-      S('(Overview)', 'Ruby Typo Archive', '<span class="gd">[이 작업 소개 2~3문장 — 이전 사이트엔 글이 없어서 새로 써야 해요.]</span>', []),
-      S('(Album Package)', 'Album Mock-up', '<span class="gd">[앨범 커버·패키지에 타이포를 어떻게 얹었는지]</span>', [{cls:'b1', items:[V('jennie_album','16/9','Ruby — Album Mock-up')]}]),
-      S('(Track Motion)', 'Track Motion', '<span class="gd">[트랙별 모션에서 가장 신경 쓴 점 한 가지]</span>',
-        [{cls:'b2', items:[V('jennie_t1','16/9','01 ZEN'), V('jennie_t2','16/9','02 Love Hangover'), V('jennie_t3','16/9','03 Extral'), V('jennie_t4','16/9','04 서울시티')]}]),
+      { t:'jnh', items:[['jennie1.mp4'], ['jennie2.png'], ['jennie3.mp4', 1], ['jennie4.mp4', 1], ['jennie5.mp4', 1], ['jennie6.mp4', 1]] },
     ],
-    outputs:'Title Logo ×4, Album Mock-up, Track Motion',
   },
 ]};
 
@@ -1413,6 +1421,7 @@ function blockHTML2(b){
     <h2 class="fly-q">${b.q.map((l, i) => `<span class="ln"><span style="transition-delay:${i * .12}s">${l}</span></span>`).join('')}</h2>
   </section>`;
   if (b.t === 'apx') return apxHTML(b);
+  if (b.t === 'jnh') return jnhHTML(b);
   if (b.t === 'dd') return ddHTML(b);
   if (b.t === 'ring') return `
   <section class="ringx" aria-label="${b.q.join(' ')}">
@@ -1747,6 +1756,29 @@ function foInit(pj){
   if (calm) draw(0);
 }
 const FO_MODE = 'E';
+/* JENNIE — 세로 스크롤하면 작업물이 가로로 흘러가는 갤러리 (이전 사이트 구성 그대로) */
+const MUTE_SVG = '<svg class="i-off" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg><svg class="i-on" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a9 9 0 0 1 0 12"/></svg>';
+function jnhHTML(b){
+  return `<section class="jnh" aria-label="JENNIE Ruby 작업물"><div class="jnh-pin"><div class="jnh-track">
+    ${b.items.map(([src, snd]) => `<div class="jnh-item">${/\.mp4$/.test(src)
+      ? `<video src="${src}" muted loop playsinline preload="metadata"></video>${snd ? `<button class="jnh-mute" type="button" aria-label="소리 켜기">${MUTE_SVG}</button>` : ''}`
+      : `<img src="${src}" alt="" loading="lazy">`}</div>`).join('')}
+  </div></div></section>`;
+}
+function jnhFrame(pj, vh){
+  const sec = pj.querySelector('.jnh'); if (!sec) return;
+  const tr = sec.querySelector('.jnh-track'), dist = Math.max(0, tr.scrollWidth - innerWidth);
+  const want = Math.round(vh + dist); if (Math.abs(sec.offsetHeight - want) > 2) sec.style.height = want + 'px';
+  const r = sec.getBoundingClientRect(), p = cl(-r.top / Math.max(1, r.height - vh)), inV = r.top < vh && r.bottom > 0;
+  tr.style.transform = `translate3d(${(-p * dist).toFixed(1)}px,0,0)`;
+  sec.querySelectorAll('video').forEach(v => { const b = v.getBoundingClientRect(); if (inV && b.right > -50 && b.left < innerWidth + 50) v.play().catch(() => {}); else v.pause(); });
+}
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.jnh-mute'); if (!btn) return;
+  const v = btn.parentNode.querySelector('video'), on = v.muted;
+  document.querySelectorAll('.jnh video').forEach(x => { x.muted = true; }); document.querySelectorAll('.jnh-mute').forEach(x => { x.classList.remove('on'); x.setAttribute('aria-label', '소리 켜기'); });
+  if (on){ v.muted = false; btn.classList.add('on'); btn.setAttribute('aria-label', '소리 끄기'); v.play().catch(() => {}); }
+});
 let pcT = 0;
 function pcFrame(pj, vh){
   foInit(pj);
@@ -1806,7 +1838,7 @@ function projectHTML(ci, pi){
       ${p.meta.slice(0,3).map(([k, v]) => `<li><span>${k}</span><b>${v}</b></li>`).join('')}
     </ul>
     <div>
-      <h1 class="p-title${p.oneLine ? ' one' : ''}">${(p.oneLine ? [p.title.join(' ')] : p.title).map((l, i) => `<span class="ln"><span style="transition-delay:${i * .08}s">${l}</span></span>`).join('')}</h1>
+      <h1 class="p-title${p.oneLine ? ' one' : ''}${p.twoLine ? ' two' : ''}">${(p.oneLine ? [p.title.join(' ')] : p.title).map((l, i) => `<span class="ln"><span style="transition-delay:${i * .08}s">${l}</span></span>`).join('')}</h1>
       <div class="p-sub"><p>${p.sub}</p></div>
     </div>
   </header>
@@ -2162,6 +2194,7 @@ function frame(){
   lkFrame(pj, vh);
   pcFrame(pj, vh);
   apxFrame(pj, vh);
+  jnhFrame(pj, vh);
   ddFrame(pj, vh);
   const nx = pj.querySelector('.p-next');
   if (nx) nx.style.setProperty('--np', cl(acc / NEED).toFixed(3));
