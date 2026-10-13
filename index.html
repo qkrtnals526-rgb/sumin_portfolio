@@ -1196,9 +1196,8 @@ button,input,select,textarea{font-family:inherit}
 .pj .jnh-mute svg{width:18px;height:18px}.pj .jnh-mute .i-on{display:none}.pj .jnh-mute.on .i-on{display:block}.pj .jnh-mute.on .i-off{display:none}
 @media (max-width:760px){ .pj .jnh-track{height:46svh} .pj .jnh-item{padding:0 10px} .pj .jnh-mute{right:20px;top:10px} }
 .pj .csx{width:100vw;margin-left:calc(50% - 50vw);background:#161616}
-/* 이미지 안 텍스트(원본 347/3600 지점)가 페이지 왼쪽 정렬선(6vw)과 맞도록 살짝 키워 양옆 배경만 잘라냄 */
 .pj .cs-row{overflow:hidden}
-.pj .cs-in{width:109.1vw;margin-left:-4.55vw}
+.pj .cs-in{width:min(1398px,97vw);margin:0 auto}  /* 이미지 속 창·카드 끝(167~3433/3600)이 페이지 본문 칸 1268 폭에 맞도록 */
 .pj .cs-in.full{width:100%;margin-left:0}
 .pj .cs-in > img,.pj .cs-in > video,.pj .cs-in > div > img:first-child{display:block;width:100%;height:auto;max-width:none}
 .pj .cs-de2,.pj .cs-de3{position:relative;overflow:hidden}
