@@ -1200,7 +1200,7 @@ button,input,select,textarea{font-family:inherit}
 .pj .cs-row{overflow:hidden}
 .pj .cs-in{width:min(1398px,97vw);margin:0 auto}  /* 이미지 속 창·카드 끝(167~3433/3600)이 페이지 본문 칸 1268 폭에 맞도록 */
 .pj .cs-in.full{width:100%;margin-left:0}
-.pj .cs-in > video{clip-path:inset(3px 3px 3px 3px);background:#161616}  /* 영상 가장자리 1px 경계선 숨김 */
+.pj .cs-in > video{clip-path:inset(3px 3px 3px 3px)}  /* 영상 가장자리 1px 경계선 숨김 */
 .pj .cs-in > img,.pj .cs-in > video,.pj .cs-in > div > img:first-child{display:block;width:100%;height:auto;max-width:none}
 .pj .cs-de2,.pj .cs-de3{position:relative;overflow:hidden}
 .pj .cs-model{position:absolute;bottom:36.9%;height:33%;transform:translateX(-50%);padding:0;border:0;background:none;cursor:pointer}
@@ -1210,6 +1210,15 @@ button,input,select,textarea{font-family:inherit}
 .pj .cs-float{position:absolute;height:auto;max-width:none;pointer-events:none;user-select:none;opacity:0;transform:translate3d(0,var(--rise,9%),0) scale(.94);transform-origin:50% 100%;transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1.4s cubic-bezier(.16,1,.3,1)}
 .pj .cs-float.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){ .pj .cs-float{opacity:1;transform:none;transition:none} }
+.pj .ss-look{position:absolute;inset:0;pointer-events:none}
+.pj .ss-look img{position:absolute;display:block;height:auto;max-width:none;user-select:none}
+.pj .ss-look .ss-a{display:none}.pj .ss-look.on .ss-b{display:none}.pj .ss-look.on .ss-a{display:block}
+.pj .ss-hit{position:absolute;pointer-events:auto;cursor:pointer;padding:0;border:0;background:none}
+.pj .ss-drop{position:absolute;overflow:hidden;border-radius:1.27%/1.89%;cursor:pointer;padding:0;border:0;background:none}
+.pj .ss-drop img{display:block;width:100%;height:100%;opacity:0;transform:scale(1.06);transition:opacity .9s ease,transform 1.3s ease}
+.pj .ss-drop.on img{opacity:1;transform:none}
+.pj .ss-hit:focus-visible,.pj .ss-drop:focus-visible{outline:2px solid #0a2fd6;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){ .pj .ss-drop img{transform:none;transition:none} }
 </style>
 <canvas id="trailCanvas" aria-hidden="true"></canvas>
 <script>
@@ -1269,7 +1278,7 @@ document.addEventListener('mouseleave', () => seen = false);
 /* ═════════ 데이터 ═════════ */
 const CATS = [
   { key:'own', name:'Own Project', items:[['OJOS 25SS Tessellation','ojos_thum.png'],['JENNIE 1st Album [Ruby] Typo Archive','jennie_thum.png']] },
-  { key:'ai', name:'AI Creative', items:[['Summer Clearance Sale','clearance_thum.png'],['Summer Season Off','season_thum.png'],['SELLER WEEK','aicreative_Thumbnail.png'],['montbell 해외직구','aicreative2_Thumbnail.png'],['SPRING SEASON OFF','aicreative3_Thumbnail.png'],['HERA SENSUAL NUDE GLOSS','aicreative4_Thumbnail.png']] },
+  { key:'ai', name:'AI Creative', items:[['Summer Clearance Sale','clearance_thum.png'],['Summer Season Off','season_thum.png'],['SELLER WEEK','aicreative_Thumbnail.png'],['montbell 해외직구','aicreative2_Thumbnail.png']] },
   { key:'bc', name:'Brand Content', items:[['HONDA MOTORCYCLE APPAREL','Fashioneditorial_Thumbnail.png'],['조셉앤스테이시 × 몬치치','Fashioneditorial3_Thumbnail.png'],['디저트 테이블','Promotional_Thumbnail.png'],['KREAM+','kreamplus_thum.png']] },
   { key:'3d', name:'3D Artwork', items:[['KREAM DRAW','3DArtwork_Thumbnail.png'],['P.FUNK SELECTION','3DArtwork3-1_Thumbnail.png'],['2025 TREND LEVEL TEST','3DArtwork2-1_Thumbnail.png']] },
   { key:'cf', name:'Campaign Film', tall:true, items:[['새봄 챌린지','saebom.jpg'],['블랙크림 챌린지','black.jpg'],['MILLO CHALLENGE','millo.jpg'],['AEAE CHALLENGE','aeae.jpg'],['달맞이 챌린지','dalmaji.jpg'],['LASTONE CHALLENGE','lastone.jpg']] },
@@ -1285,6 +1294,13 @@ const PROJECTS = { ai: [
     meta:[['Date','2026.08.03'],['Contribution','100%'],['Tools','Figma, Higgsfield AI, After Effects'],['Contribution','100%']],
     hero:{ src:'clearance_KV.mp4', v:true, poster:'', cap:'', ar:.5 },
     blocks:[{ t:'csold' }],
+  },
+  {
+    title:['2026 SUMMER SEASON OFF'], thumb:'season_thum.png', oneLine:true, tsz:'clamp(30px,5.6vw,108px)', heroFit:true, heroCls:'kv2', brand:'KREAM',
+    sub:'카메라 없이 떠난 여름 바다, AI로 완성한 여름 비주얼',
+    meta:[['Date','2026.07.06'],['Contribution','100%'],['Tools','Figma, Higgsfield AI, After Effects'],['Contribution','100%']],
+    hero:{ src:'summer_kv.mp4', v:true, poster:'', cap:'', ar:.5 },
+    blocks:[{ t:'ssold' }],
   },
 ], own: [
   {
@@ -1448,6 +1464,7 @@ function blockHTML2(b){
   if (b.t === 'apx') return apxHTML(b);
   if (b.t === 'jnh') return jnhHTML(b);
   if (b.t === 'csold') return csHTML();
+  if (b.t === 'ssold') return ssHTML();
   if (b.t === 'dd') return ddHTML(b);
   if (b.t === 'ring') return `
   <section class="ringx" aria-label="${b.q.join(' ')}">
@@ -1826,6 +1843,33 @@ function csHTML(){
     ${row('#ffffff', `<img src="clearance_de5.png" alt="Summer Clearance Sale">`, 1)}
   </section>`;
 }
+/* Summer Season Off — 이전 사이트 구성 그대로 (클리어런스와 같은 정렬: 창 박스 = 본문 칸 1268) */
+const SS_LOOK = [ // [before left, top, width], [after left, top, width], [hit left, top, w, h]
+  [[20.1111,27.8659,16.5278],[13.25,26.5854,31.6667],[20.8889,28.811,16.0556,30.7622]],
+  [[43.7222,27.8659,10.6111],[33.2222,25.3963,33.6667],[41.6944,28.2012,15.6111,31.7683]],
+  [[64.3056,27.5305,11.0556],[50.9167,25.8232,37.1667],[60.6111,27.622,18.5,32.1646]]];
+const SS_DROP = [[9.6389,45.9237],[36.8611,45.9237],[64.0556,45.9237],[9.6389,65.1062],[36.8611,65.1062],[64.0556,65.1062]];
+function ssHTML(){
+  const row = (bg, inner, full) => `<div class="cs-row" style="background:${bg}"><div class="cs-in${full ? ' full' : ''}">${inner}</div></div>`, G = '#ebebeb';
+  const pos = a => `left:${a[0]}%;top:${a[1]}%;width:${a[2]}%`;
+  return `<section class="csx ssx">
+    ${row(G, `<img src="summer_intro2.png" alt="Background">`)}
+    ${row(G, `<img src="summer_intro3.png" alt="Design Process 01">`)}
+    ${row(G, `<div class="cs-de2"><img src="summer_intro4.png" alt="Design Process 02">
+      ${SS_LOOK.map(([b, a, h], i) => `<div class="ss-look"><img class="ss-b" src="summer${i + 1}.png" alt="" style="${pos(b)}"><img class="ss-a" src="summer${i + 1}-1.png" alt="" style="${pos(a)}"><button class="ss-hit" type="button" aria-label="LOOK ${i + 1} 전환" style="${pos(h)};height:${h[3]}%"></button></div>`).join('')}
+    </div>`)}
+    ${row(G, `<div class="cs-de2"><img src="summer_intro5.png" alt="Storyboard">
+      ${SS_DROP.map(([l, t], i) => `<button class="ss-drop" type="button" aria-pressed="false" aria-label="스케치 ${i + 1} 완성 이미지 보기" style="left:${l}%;top:${t}%;width:26.3%;height:14.501%"><img src="sketch${i + 1}-1.png" alt=""></button>`).join('')}
+    </div>`)}
+    ${row(G, `<video src="summer_intro6.mp4" muted loop playsinline preload="metadata"></video>`)}
+    ${row(G, `<img src="summer_intro7.png" alt="Marketing AD">`)}
+    ${row('#71afe8', `<img src="summer_intro8.png" alt="Summer Season Off">`, 1)}
+  </section>`;
+}
+document.addEventListener('click', e => {
+  const h = e.target.closest('.ss-hit'); if (h) h.parentNode.classList.toggle('on');
+  const d = e.target.closest('.ss-drop'); if (d){ const on = d.classList.toggle('on'); d.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+});
 let csSlot = 0;
 function csFrame(pj, vh){
   const w = pj.querySelector('.cs-de3'); if (!w) return;
