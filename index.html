@@ -1194,7 +1194,8 @@ button,input,select,textarea{font-family:inherit}
 .pj .jnh-mute svg{width:18px;height:18px}.pj .jnh-mute .i-on{display:none}.pj .jnh-mute.on .i-on{display:block}.pj .jnh-mute.on .i-off{display:none}
 @media (max-width:760px){ .pj .jnh-track{height:46svh} .pj .jnh-item{padding:0 10px} .pj .jnh-mute{right:20px;top:10px} }
 .pj .csx{width:100vw;margin-left:calc(50% - 50vw);background:#161616}
-.pj .csx > img,.pj .csx > video,.pj .csx > div > img:first-child{display:block;width:100%;height:auto;max-width:none}
+.pj .cs-in{width:min(1080px,100%);margin:0 auto}
+.pj .cs-in > img,.pj .cs-in > video,.pj .cs-in > div > img:first-child{display:block;width:100%;height:auto;max-width:none}
 .pj .cs-de2,.pj .cs-de3{position:relative;overflow:hidden}
 .pj .cs-model{position:absolute;bottom:36.9%;height:33%;transform:translateX(-50%);padding:0;border:0;background:none;cursor:pointer}
 .pj .cs-model img{display:block;height:100%;width:auto;max-width:none}
@@ -1805,18 +1806,19 @@ const CS_FLOAT = [ // [파일, left, top, width, z, rise]
   ['chang1',76.861,36.932,17.278,4,35],['chang2',33.250,74.962,17.278,4,35],['cosur',39.222,32.235,10.806,5,30]];
 const CS_MODEL = [19.6, 34.8, 50.2, 65.4, 80.6];
 function csHTML(){
+  const row = (bg, inner) => `<div class="cs-row" style="background:${bg}"><div class="cs-in">${inner}</div></div>`;
   return `<section class="csx">
-    <video class="cs-kv" src="clearance_KV.mp4" muted loop playsinline autoplay preload="metadata"></video>
-    <img src="clearance_intro2.png" alt="Background">
-    <img src="clearance_de1.png" alt="Design Process 01">
-    <div class="cs-de2"><img src="clearance_de2.png" alt="Design Process 02">
+    ${row('linear-gradient(90deg,#161616 50%,#e5e5e5 50%)', `<video class="cs-kv" src="clearance_KV.mp4" muted loop playsinline autoplay preload="metadata"></video>`)}
+    ${row('#161616', `<img src="clearance_intro2.png" alt="Background">`)}
+    ${row('#161616', `<img src="clearance_de1.png" alt="Design Process 01">`)}
+    ${row('#161616', `<div class="cs-de2"><img src="clearance_de2.png" alt="Design Process 02">
       ${CS_MODEL.map((l, i) => `<button class="cs-model" type="button" style="left:${l}%" aria-label="LOOK ${i + 1} 전환"><img class="cs-b" src="m${i + 1}.png" alt=""><img class="cs-a" src="m${i + 1}-1.png" alt=""></button>`).join('')}
-    </div>
-    <div class="cs-de3"><img src="clearance_de3.png" alt="Design Process 03">
+    </div>`)}
+    ${row('#161616', `<div class="cs-de3"><img src="clearance_de3.png" alt="Design Process 03">
       ${CS_FLOAT.map(([n, l, t, w, z, r], i) => `<img class="cs-float" data-o="${i}" src="${n}.png" alt="" draggable="false" style="left:${l}%;top:${t}%;width:${w}%;z-index:${z};--rise:${r}%">`).join('')}
-    </div>
-    <video class="cs-de4" src="clearance_de4.mp4" muted loop playsinline preload="metadata"></video>
-    <img src="clearance_de5.png" alt="Summer Clearance Sale">
+    </div>`)}
+    ${row('#161616', `<video class="cs-de4" src="clearance_de4.mp4" muted loop playsinline preload="metadata"></video>`)}
+    ${row('#ffffff', `<img src="clearance_de5.png" alt="Summer Clearance Sale">`)}
   </section>`;
 }
 let csSlot = 0;
