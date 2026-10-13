@@ -1193,6 +1193,16 @@ button,input,select,textarea{font-family:inherit}
 .pj .jnh-mute:hover{background:rgba(0,0,0,.75)}.pj .jnh-mute:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .pj .jnh-mute svg{width:18px;height:18px}.pj .jnh-mute .i-on{display:none}.pj .jnh-mute.on .i-on{display:block}.pj .jnh-mute.on .i-off{display:none}
 @media (max-width:760px){ .pj .jnh-track{height:46svh} .pj .jnh-item{padding:0 10px} .pj .jnh-mute{right:20px;top:10px} }
+.pj .csx{width:100vw;margin-left:calc(50% - 50vw);background:#161616}
+.pj .csx > img,.pj .csx > video,.pj .csx > div > img:first-child{display:block;width:100%;height:auto;max-width:none}
+.pj .cs-de2,.pj .cs-de3{position:relative;overflow:hidden}
+.pj .cs-model{position:absolute;bottom:36.9%;height:33%;transform:translateX(-50%);padding:0;border:0;background:none;cursor:pointer}
+.pj .cs-model img{display:block;height:100%;width:auto;max-width:none}
+.pj .cs-model .cs-a{display:none}.pj .cs-model.on .cs-b{display:none}.pj .cs-model.on .cs-a{display:block}
+.pj .cs-model:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.pj .cs-float{position:absolute;height:auto;max-width:none;pointer-events:none;user-select:none;opacity:0;transform:translate3d(0,var(--rise,9%),0) scale(.94);transform-origin:50% 100%;transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1.4s cubic-bezier(.16,1,.3,1)}
+.pj .cs-float.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){ .pj .cs-float{opacity:1;transform:none;transition:none} }
 </style>
 <canvas id="trailCanvas" aria-hidden="true"></canvas>
 <script>
@@ -1261,7 +1271,15 @@ const V = (src, r, cap) => ({ v:true, src:`a/${src}.mp4`, poster:`a/${src}.jpg`,
 const I = (src, r, cap) => ({ src:`a/${src}`, r, cap });
 
 const S = (label, title, text, media, extra = {}) => ({ t:'sec', label, title, text, media, ...extra });
-const PROJECTS = { own: [
+const PROJECTS = { ai: [
+  {
+    title:['2026 SUMMER CLEARANCE SALE'], thumb:'clearance_thum.png', oneLine:true, tsz:'clamp(30px,5.6vw,108px)', noHero:true, brand:'KREAM',
+    sub:'스튜디오 촬영 없이, AI로 완성한 비주얼라이징',
+    meta:[['Date','2026.08.03'],['Contribution','100%'],['Tools','Figma, Higgsfield AI, After Effects'],['Contribution','100%']],
+    hero:{ src:'', cap:'' },
+    blocks:[{ t:'csold' }],
+  },
+], own: [
   {
     title:['OJOS 25SS', 'Tessellation'], thumb:'ojos_thum.png',
     sub:'조각난 에셋을 하나의 시퀀스로, OJOS 25SS 재구성',
@@ -1422,6 +1440,7 @@ function blockHTML2(b){
   </section>`;
   if (b.t === 'apx') return apxHTML(b);
   if (b.t === 'jnh') return jnhHTML(b);
+  if (b.t === 'csold') return csHTML();
   if (b.t === 'dd') return ddHTML(b);
   if (b.t === 'ring') return `
   <section class="ringx" aria-label="${b.q.join(' ')}">
@@ -1779,6 +1798,41 @@ document.addEventListener('click', e => {
   document.querySelectorAll('.jnh video').forEach(x => { x.muted = true; }); document.querySelectorAll('.jnh-mute').forEach(x => { x.classList.remove('on'); x.setAttribute('aria-label', '소리 켜기'); });
   if (on){ v.muted = false; btn.classList.add('on'); btn.setAttribute('aria-label', '소리 끄기'); v.play().catch(() => {}); }
 });
+/* Summer Clearance — 이전 사이트 구성 그대로 (KV 영상 → Background → Design Process 01~04 → 마무리) */
+const CS_FLOAT = [ // [파일, left, top, width, z, rise]
+  ['clear1',67.083,14.913,25.833,2,9],['clear2',49.139,30.192,22.417,2,9],['clear3',11.944,26.715,22.444,2,9],
+  ['clear4',7.861,45.014,39.389,1,8],['clear5',40.083,51.052,35.278,3,8],['clear6',67.861,54.285,25.917,2,8],
+  ['chang1',76.861,36.932,17.278,4,35],['chang2',33.250,74.962,17.278,4,35],['cosur',39.222,32.235,10.806,5,30]];
+const CS_MODEL = [19.6, 34.8, 50.2, 65.4, 80.6];
+function csHTML(){
+  return `<section class="csx">
+    <video class="cs-kv" src="clearance_KV.mp4" muted loop playsinline autoplay preload="metadata"></video>
+    <img src="clearance_intro2.png" alt="Background">
+    <img src="clearance_de1.png" alt="Design Process 01">
+    <div class="cs-de2"><img src="clearance_de2.png" alt="Design Process 02">
+      ${CS_MODEL.map((l, i) => `<button class="cs-model" type="button" style="left:${l}%" aria-label="LOOK ${i + 1} 전환"><img class="cs-b" src="m${i + 1}.png" alt=""><img class="cs-a" src="m${i + 1}-1.png" alt=""></button>`).join('')}
+    </div>
+    <div class="cs-de3"><img src="clearance_de3.png" alt="Design Process 03">
+      ${CS_FLOAT.map(([n, l, t, w, z, r], i) => `<img class="cs-float" data-o="${i}" src="${n}.png" alt="" draggable="false" style="left:${l}%;top:${t}%;width:${w}%;z-index:${z};--rise:${r}%">`).join('')}
+    </div>
+    <video class="cs-de4" src="clearance_de4.mp4" muted loop playsinline preload="metadata"></video>
+    <img src="clearance_de5.png" alt="Summer Clearance Sale">
+  </section>`;
+}
+let csSlot = 0;
+function csFrame(pj, vh){
+  const w = pj.querySelector('.cs-de3'); if (!w) return;
+  const wr = w.getBoundingClientRect(), now = performance.now(); csSlot = Math.max(csSlot, now);
+  const items = [...w.querySelectorAll('.cs-float')], mainDone = () => items.slice(0, 6).every(e => e.classList.contains('in'));
+  items.forEach((el, i) => {
+    const top = wr.top + parseFloat(el.style.top) / 100 * wr.height, shown = el.classList.contains('in');
+    if (!shown){
+      if (top + el.offsetHeight < 0){ el.style.transitionDelay = '0ms'; el.classList.add('in'); }
+      else if (top < vh * .82 && (i < 6 || mainDone())){ el.style.transitionDelay = (csSlot - now) + 'ms'; el.classList.add('in'); csSlot += 150; }
+    } else if (top > vh){ el.style.transitionDelay = '0ms'; el.classList.remove('in'); }
+  });
+}
+document.addEventListener('click', e => { const m = e.target.closest('.cs-model'); if (m) m.classList.toggle('on'); });
 let pcT = 0;
 function pcFrame(pj, vh){
   foInit(pj);
@@ -1838,7 +1892,7 @@ function projectHTML(ci, pi){
       ${p.meta.slice(0,3).map(([k, v]) => `<li><span>${k}</span><b>${v}</b></li>`).join('')}
     </ul>
     <div>
-      <h1 class="p-title${p.oneLine ? ' one' : ''}${p.twoLine ? ' two' : ''}">${(p.oneLine ? [p.title.join(' ')] : p.title).map((l, i) => `<span class="ln"><span style="transition-delay:${i * .08}s">${l}</span></span>`).join('')}</h1>
+      <h1 class="p-title${p.oneLine ? ' one' : ''}${p.twoLine ? ' two' : ''}"${p.tsz ? ` style="font-size:${p.tsz}"` : ''}>${(p.oneLine ? [p.title.join(' ')] : p.title).map((l, i) => `<span class="ln"><span style="transition-delay:${i * .08}s">${l}</span></span>`).join('')}</h1>
       <div class="p-sub"><p>${p.sub}</p></div>
     </div>
   </header>
@@ -2115,13 +2169,13 @@ function wire(pj){
 function render(ci, pi){
   cur = { ci, pi };
   const list = PROJECTS[CATS[ci].key];
-  const html = list ? projectHTML(ci, Math.min(pi, list.length - 1)) : soonHTML(ci);
-  if (list) cur.pi = Math.min(pi, list.length - 1);
+  const has = list && list[pi];
+  const html = has ? projectHTML(ci, pi) : soonHTML(ci);
   wvBody.innerHTML = `<div class="pj pre">${html}</div>`;
   const pj = wvBody.firstElementChild;
   wv.scrollTop = 0; acc = 0;
   navLinks.forEach((a, i) => a.classList.toggle('active', i === ci));
-  dCount.textContent = list ? `${pad(cur.pi + 1)} / ${pad(list.length)}` : `— / —`;
+  dCount.textContent = has ? `${pad(cur.pi + 1)} / ${pad(CATS[ci].items.length)}` : `— / —`;
   wire(pj);
   requestAnimationFrame(() => requestAnimationFrame(() => { pj.classList.remove('pre'); pj.classList.add('in'); frame(); }));
 }
@@ -2195,6 +2249,7 @@ function frame(){
   pcFrame(pj, vh);
   apxFrame(pj, vh);
   jnhFrame(pj, vh);
+  csFrame(pj, vh);
   ddFrame(pj, vh);
   const nx = pj.querySelector('.p-next');
   if (nx) nx.style.setProperty('--np', cl(acc / NEED).toFixed(3));
