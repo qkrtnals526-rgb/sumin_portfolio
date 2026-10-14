@@ -82,9 +82,9 @@ a{color:inherit;text-decoration:none}
 /* ═════ 2. 전환 + 인트로 (스크롤마다 단어가 바뀜) ═════ */
 .flow{position:relative;height:400svh}
 .stage{position:sticky;top:0;height:100svh;overflow:hidden;background:#fff}
-.fluid{position:absolute;left:-15%;top:-15%;width:130%;height:130%;display:block;filter:blur(34px)}
+.fluid{position:absolute;left:-15%;top:-15%;width:130%;height:130%;display:block}
 .grain{position:absolute;inset:0;pointer-events:none;opacity:.16;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  transform:translateZ(0)}
 .who{position:absolute;z-index:3;left:50%;top:calc(env(safe-area-inset-top,0px) + 15svh);transform:translateX(-50%);color:#fff;font-size:clamp(14px,1.2vw,18px);font-weight:500;opacity:var(--o,0)}
 .intro{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:flex-start;text-align:left;color:#fff;padding:0 var(--gutter)}
 .intro h2{font-size:min(7.3vw,12svh);line-height:1.2;letter-spacing:-.03em;text-transform:uppercase}
@@ -784,24 +784,43 @@ tickRec(); setInterval(tickRec, 1000);
 
 /* ── 아래에서 차오르는 일렁이는 그라데이션 ── */
 const cv = document.getElementById('fluid'), ctx = cv.getContext('2d'), stage = document.getElementById('stage');
-const GW = 72, GH = 54; cv.width = GW; cv.height = GH;
+const GW = 160, GH = 120; cv.width = GW; cv.height = GH;   /* CSS blur 대신 촘촘한 격자 + JS 스무딩 (사파리 테두리·버벅임 해결) */
 const imgData = ctx.createImageData(GW, GH);
 const smooth = (a,b,x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+const fBuf = new Float32Array(GW * GH), fTmp = new Float32Array(GW * GH), colW = new Float32Array(GW), colR = new Float32Array(GW), rowR = new Float32Array(GH);
 let prog = 0;
+function blurPass(src, dst, dx, dy){
+  for (let j = 0; j < GH; j++) for (let i = 0; i < GW; i++){
+    let acc = 0, wsum = 0;
+    for (let k = -3; k <= 3; k++){
+      const ii = Math.min(GW - 1, Math.max(0, i + k * dx)), jj = Math.min(GH - 1, Math.max(0, j + k * dy)), w = 4 - Math.abs(k);
+      acc += src[jj * GW + ii] * w; wsum += w;
+    }
+    dst[j * GW + i] = acc / wsum;
+  }
+}
 function paintFluid(t){
   const p = clamp(prog / .2);
   const q = p + .11 * Math.sin(2 * Math.PI * p);        /* 가운데(회색 물결)에서 천천히 */
   const front = .78 - 1.45 * q, band = .42;
+  for (let i = 0; i < GW; i++){
+    const x = i / (GW - 1);
+    colW[i] = .09 * Math.sin(x * 5.4 + t * .9) + .06 * Math.sin(x * 11.3 - t * 1.4 + 2.1) + .05 * Math.sin(x * 2.3 + t * .5 + 4);
+    colR[i] = Math.sin(x * 7 + t * 1.1);
+  }
+  for (let j = 0; j < GH; j++) rowR[j] = Math.cos(j / (GH - 1) * 6 - t * .8);
   for (let j = 0; j < GH; j++){
     const y = j / (GH - 1);
     for (let i = 0; i < GW; i++){
-      const x = i / (GW - 1);
-      const wave = .09 * Math.sin(x * 5.4 + t * .9) + .06 * Math.sin(x * 11.3 - t * 1.4 + 2.1) + .05 * Math.sin(x * 2.3 + t * .5 + 4);
-      const d = smooth(-band, band, y - (front + wave));
-      const ripple = Math.sin(x * 7 + t * 1.1) * Math.cos(y * 6 - t * .8) * d * (1 - d) * 4;
-      const v = Math.max(0, Math.min(255, 255 * (1 - d) + 38 * ripple));
-      const k = (j * GW + i) * 4; imgData.data[k] = imgData.data[k+1] = imgData.data[k+2] = v; imgData.data[k+3] = 255;
+      const d = smooth(-band, band, y - (front + colW[i]));
+      const ripple = colR[i] * rowR[j] * d * (1 - d) * 4;
+      fBuf[j * GW + i] = 255 * (1 - d) + 38 * ripple;
     }
+  }
+  blurPass(fBuf, fTmp, 1, 0); blurPass(fTmp, fBuf, 0, 1);
+  for (let n = 0; n < GW * GH; n++){
+    const v = Math.max(0, Math.min(255, fBuf[n])), k = n * 4;
+    imgData.data[k] = imgData.data[k+1] = imgData.data[k+2] = v; imgData.data[k+3] = 255;
   }
   ctx.putImageData(imgData, 0, 0);
   stage.style.backgroundColor = p > .6 ? '#000' : '#fff';
@@ -846,6 +865,11 @@ function onScroll(){
   stepsBox.style.setProperty('--bw', (n * gap) + 'px');
 }
 addEventListener('scroll', onScroll, { passive:true }); addEventListener('resize', onScroll);
+/* 그레인: SVG 필터 대신 한 번 만든 노이즈 PNG 타일 (사파리에서 매 프레임 필터 계산 방지) */
+(() => { const g = document.querySelector('.grain'); if (!g) return; const c = document.createElement('canvas'); c.width = c.height = 160;
+  const x = c.getContext('2d'), d = x.createImageData(160, 160);
+  for (let i = 0; i < d.data.length; i += 4){ const v = 128 + (Math.random() + Math.random() - 1) * 42; d.data[i] = d.data[i+1] = d.data[i+2] = v; d.data[i+3] = 255; }
+  x.putImageData(d, 0, 0); g.style.backgroundImage = `url(${c.toDataURL()})`; })();
 let fluidOn = true, t0 = performance.now();
 new IntersectionObserver(([e]) => { fluidOn = e.isIntersecting; if (fluidOn) requestAnimationFrame(loop); }).observe(flow);
 function loop(now){ if (!fluidOn) return; paintFluid(calm ? 0 : (now - t0) / 1000); requestAnimationFrame(loop); }
@@ -1923,18 +1947,49 @@ function foInit(pj){
       ctx.globalAlpha = .55 + .35 * g; ctx.beginPath(); ctx.arc(x + qx, yy + qy, Math.min(st * .48, r), 0, 6.283); ctx.fill();
     }
   }
+  /* 사파리: 초승달 디더를 미리 그려둔 이미지(스프라이트)로 재사용 — 매 프레임 수만 개 점 계산을 피함 */
+  const SPR = {};
+  function cresSprite(key, t, R, a0, wd){
+    let sp = SPR[key];
+    if (sp && sp.R === R && t - sp.t < 900) return sp.c;
+    if (!sp) sp = SPR[key] = { c: document.createElement('canvas') };
+    const c = sp.c, S = Math.ceil(2 * R), g = c.getContext('2d'); sp.R = R; sp.t = t;
+    c.width = Math.ceil(S * dpr); c.height = Math.ceil(S * dpr);
+    g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, S, S); g.fillStyle = '#9a9a98';
+    const st = 4, T = t / 7000;
+    for (let y = 0; y < S; y += st) for (let x = 0; x < S; x += st){
+      const ox = x - R, oy = y - R, r = Math.hypot(ox, oy) / R; if (r > 1.02 || r < .5) continue;
+      const band = Math.exp(-(((r - .86) / wd) ** 2)), face = Math.pow((Math.cos(Math.atan2(oy, ox) - a0) + 1) / 2, 2.2);
+      const gi = Math.round(y / st), gj = Math.round(x / st);
+      const f = Math.min(1, 1.25 * band * (.12 + .88 * face) * (.55 + .45 * vn(x / 50 + T, y / 50 - T)));
+      if (hsh(gi * 1.3, gj * .7) > f) continue;
+      const big = hsh(gj * 3.1, gi * 2.3) > .965 && band > .5;
+      g.globalAlpha = Math.min(.95, big ? .9 : .32 + .45 * f);
+      const sz = big ? 2.6 : 1.5; g.fillRect(x - sz / 2, y - sz / 2, sz, sz);
+    }
+    return c;
+  }
+  function cresFast(key, t, cx, cy, R, a0, wd){
+    if (cy + R < 0 || cy - R > H) return;
+    const c = cresSprite(key, t, R, a0, wd);
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 0, gap - 2, H); ctx.rect(W - gap + 2, 0, gap, H); ctx.clip();
+    ctx.globalAlpha = 1; ctx.drawImage(c, cx - R, cy - R, 2 * R, 2 * R); ctx.restore();
+  }
   function draw(t){
     if (cv.clientWidth !== W || cv.clientHeight !== H) build();
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
     if (gap < 70) return;
     ms += ((mx > -1e3 ? 1 : 0) - ms) * .08;
     const wr = wrap.getBoundingClientRect(), off = -wr.top, p = cl(-wr.top / Math.max(1, wr.height - H));
-    const ls = [...wrap.querySelectorAll('.l1x')]; let cur = 0;
-    ls.forEach((l, i) => { const r = l.getBoundingClientRect(); if (r.top < H * .5) cur = i + 1; });
+    let cur = 0;
+    if (MODE === 'D' || MODE === 'B') [...wrap.querySelectorAll('.l1x')].forEach((l, i) => { const r = l.getBoundingClientRect(); if (r.top < H * .5) cur = i + 1; });
     const tg = TONES[cur]; for (let k = 0; k < 3; k++) tone[k] += (tg[k] - tone[k]) * .06;
     ctx.fillStyle = MODE === 'D' ? `rgb(${tone.map(Math.round)})` : '#9a9a98';
     if (MODE === 'A'){ ang = 2.4 + off / 900 + Math.sin(t / 5000) * .3; const R = gap * .95, sy = ((off * .5) % (H * 1.6) + H * 1.6) % (H * 1.6);
       orb(t, gap * .5, H * 1.3 - sy, R); orb(t, gap * .5, H * 2.9 - sy, R); ang += Math.PI; orb(t, W - gap * .5, sy - H * .3, R); orb(t, W - gap * .5, sy - H * 1.9, R); }
+    else if (MODE === 'E' && SAFARI){ const R = gap * 1.7, sy = ((off * .35) % (H * 1.5) + H * 1.5) % (H * 1.5), sp = t / 30000;
+      cresFast('L', t, gap + R * .32, H * 1.25 - sy, R, Math.PI + .5 + sp, .1); cresFast('L', t, gap + R * .32, H * 2.75 - sy, R, Math.PI + .5 + sp, .1);
+      cresFast('R', t, W - gap - R * .32, sy - H * .25, R, -.5 - sp, .1); cresFast('R', t, W - gap - R * .32, sy - H * 1.75, R, -.5 - sp, .1); }
     else if (MODE === 'E'){ const R = gap * 1.7, sy = ((off * .35) % (H * 1.5) + H * 1.5) % (H * 1.5), sp = t / 30000;
       cres(t, gap + R * .32, H * 1.25 - sy, R, Math.PI + .5 + sp, .1); cres(t, gap + R * .32, H * 2.75 - sy, R, Math.PI + .5 + sp, .1);
       cres(t, W - gap - R * .32, sy - H * .25, R, -.5 - sp, .1); cres(t, W - gap - R * .32, sy - H * 1.75, R, -.5 - sp, .1); }
@@ -1957,6 +2012,7 @@ function foInit(pj){
   if (calm) draw(0);
 }
 const FO_MODE = 'E';
+const SAFARI = /^((?!chrome|chromium|crios|fxios|android|edg).)*safari/i.test(navigator.userAgent);
 /* JENNIE — 세로 스크롤하면 작업물이 가로로 흘러가는 갤러리 (이전 사이트 구성 그대로) */
 const MUTE_SVG = '<svg class="i-off" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg><svg class="i-on" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a9 9 0 0 1 0 12"/></svg>';
 function jnhHTML(b){
@@ -2055,7 +2111,9 @@ function pcFrame(pj, vh){
   pj.querySelectorAll('.it-t').forEach(t => {   /* A 순차 포커스 — 화면 아래에서 중간 위까지 천천히 선명해짐 */
     const r = t.getBoundingClientRect(); if (r.bottom < -100 || r.top > vh + 100) return;
     const p = calm ? 1 : cl((vh * .98 - r.top) / (vh * .75)), e = p * p * (3 - 2 * p);
-    t.style.filter = e > .995 ? 'none' : `blur(${((1 - e) * 16).toFixed(1)}px)`; t.style.opacity = (.12 + .88 * e).toFixed(3);
+    const bl = e > .995 ? 0 : Math.round((1 - e) * 16 / (SAFARI ? 2 : .1)) * (SAFARI ? 2 : .1), op = (.12 + .88 * e).toFixed(2);
+    if (t._bl !== bl){ t._bl = bl; t.style.filter = bl ? `blur(${bl.toFixed(1)}px)` : 'none'; }
+    if (t._op !== op){ t._op = op; t.style.opacity = op; }
   });
   pj.querySelectorAll('.pcx .pcr:not(.in)').forEach(e => { if (e.getBoundingClientRect().top < vh * .88) e.classList.add('in'); });
   const kvv = pj.querySelector('.pc-kvv'); if (kvv){ const r = kvv.getBoundingClientRect(); if (r.top < vh && r.bottom > 0) kvv.play().catch(() => {}); else kvv.pause(); }
