@@ -1049,6 +1049,49 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .pj .pcm.alt.in.show{clip-path:inset(0 0 0 0)}
 @media (prefers-reduced-motion:reduce){ .pj .pcx *{transition:none!important} }
 .pj .pcw[data-k="s1"] .pcm[data-i="1"]{display:none}
+/* ═════ 조셉앤스테이시 × 몬치치 ═════ */
+.p-hero.kvj .st{height:min(100svh,51.94vw);top:max(0px,calc((100svh - 51.94vw) / 2))}
+.p-hero.kvj .fr video{object-fit:cover;inset:-2px;width:calc(100% + 4px);height:calc(100% + 4px)}
+.p-hero .p-htag{position:absolute;left:77.57%;top:66.6%;z-index:2;font-family:'Academy Engraved LET','Didot',serif;font-size:clamp(11px,1.39vw,20px);color:#fff;white-space:nowrap;pointer-events:none}
+.pj .js-sec{position:relative;isolation:isolate;padding-bottom:clamp(120px,12vw,200px)}
+.pj .js-sec::before{content:'';position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;background:var(--sbg);z-index:-1}
+.pj .js-sec + .js-sec{padding-top:clamp(80px,8vw,120px)}
+.pj .kp.kplt .kp-h,.pj .kp.kplt .kp-lead{color:#2B1B1F}
+.pj .kp.kplt .kp-body{color:rgba(43,27,31,.85);font-weight:500}
+.pj .kp.kplt .kp-body.js-mute{color:#6B5358}
+.pj .kp.kplt .kp-cards li{border-top-color:#2B1B1F}
+.pj .kp.kplt .kp-no{color:#CC212E}
+.pj .kp.kplt .kp-cards b,.pj .kp.kplt .kp-cards em{color:#2B1B1F}
+.pj .kp.kplt .kp-2c > div > .kp-lead + .kp-body{margin-top:24px}
+.pj .js-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:clamp(48px,5vw,72px)}
+.pj .js-cards figure{margin:0}
+.pj .js-cards img{display:block;width:100%;height:auto;border-radius:16px}
+.pj .js-label{font-size:13px;font-weight:600;letter-spacing:.02em;color:#CC212E}
+.pj .jsx{position:relative;margin-top:clamp(56px,6vw,96px);height:calc(min(620px,43vw) + 220vh)}
+.pj .jsx-pin{position:sticky;top:max(24px,calc((100svh - min(620px,43vw) - 40px) / 2))}
+.pj .jsx-row{display:grid;grid-template-columns:minmax(0,620fr) minmax(0,636fr);gap:12px;margin-top:20px}
+.pj .jsx-imgs{position:relative;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:#E9E6DF}
+.pj .jsx-im{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:inset(100% 0 0 0);transform:scale(1.08);transition:clip-path 1s var(--ease),transform 1.4s var(--ease)}
+.pj .jsx-im.on{clip-path:inset(0 0 0 0);transform:none}
+.pj .jsx-cards{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:12px}
+.pj .jsx-c{position:relative;border-radius:14px;padding:clamp(16px,1.9vw,28px);display:flex;flex-direction:column;justify-content:space-between;opacity:0;transform:translateX(40px);transition:opacity .8s var(--ease),transform 1s var(--ease)}
+.pj .jsx-c.on{opacity:1;transform:none}
+.pj .jsx-c .no{font-size:13px;font-weight:600;letter-spacing:.02em}
+.pj .jsx-c b{font-family:var(--point);font-weight:700;font-size:clamp(22px,2.36vw,34px);letter-spacing:-.02em;line-height:1;text-transform:uppercase}
+.pj .jsx-c .pills{position:absolute;top:clamp(14px,1.4vw,20px);right:clamp(14px,1.4vw,20px);display:flex;gap:8px}
+.pj .jsx-c .pills i{font-style:normal;font-size:12px;font-weight:600;color:#CC212E;background:#fff;border-radius:999px;padding:6px 12px}
+.pj .js-mob{position:relative;width:100vw;margin-left:calc(50% - 50vw);background:#F3F2ED}
+.pj .js-mob > img{display:block;width:100%;height:auto}
+.pj .js-island{position:absolute;left:19.889%;top:12.233%;width:7.083%;height:1.151%;background:#000;border-radius:999px;z-index:3;pointer-events:none}
+@media (max-width:900px){
+  .pj .js-cards{grid-template-columns:minmax(0,1fr)}
+  .pj .jsx{height:calc(100vw + 360px + 180vh)}
+  .pj .jsx-pin{top:60px}
+  .pj .jsx-row{grid-template-columns:minmax(0,1fr)}
+  .pj .jsx-cards{grid-template-rows:repeat(3,96px)}
+  .pj .jsx-c .pills i{font-size:10px;padding:4px 8px}
+}
+@media (prefers-reduced-motion:reduce){ .pj .jsx-im,.pj .jsx-c{transition:none} }
 /* ═════ KREAM+ ═════ */
 .p-hero.kv169 .st{height:min(100svh,56.25vw);top:max(0px,calc((100svh - 56.25vw) / 2))}
 .p-hero.kv169 .fr video{object-fit:cover;inset:-2px;width:calc(100% + 4px);height:calc(100% + 4px)}
@@ -1448,7 +1491,29 @@ const PROJECTS = { ai: [
       { t:'jnh', items:[['jennie1.mp4'], ['jennie2.png'], ['jennie3.mp4', 1], ['jennie4.mp4', 1], ['jennie5.mp4', 1], ['jennie6.mp4', 1]] },
     ],
   },
-], bc: [null, null, null,
+], bc: [null,
+  {
+    title:['JOSEPH & STACEY × MONCHHICHI'], thumb:'Fashioneditorial3_Thumbnail.png', oneLine:true, tsz:'clamp(28px,6.3vw,91px)', heroFit:true, heroCls:'kvj', brand:'KREAM', cat:'Promotion',
+    sub:'인형 밖으로 나온 몬치치, 조셉앤스테이시 × 몬치치 단독 선발매 기획전',
+    meta:[['Date','2026.03.10'],['Contribution','100%'],['Tools','Figma, Higgsfield AI, After Effects'],['Contribution','100%']],
+    hero:{ src:'joseph_kv.mp4', v:true, poster:'', cap:'', ar:1870/3600, tag:'josep and stacey x Monchici' },
+    blocks:[
+      { t:'kpbg', lt:true, bg:'#FFFFFF', title:'Background',
+        body:['조셉앤스테이시 × 몬치치 협업 컬렉션을 KREAM에서 단독 선발매하는 기획전이었습니다.','두 브랜드의 만남을 처음 선보이는 자리인 만큼 협업의 매력을 한눈에 전달해야 했습니다.'],
+        cards:[['01','OBJECTIVE',['조셉앤스테이시 × 몬치치 협업 컬렉션','KREAM 단독 선발매'],'두 브랜드의 만남을 처음 선보이는 자리'],
+               ['02','GOAL',['몬치치의 귀여움과 룩북의 키치함으로','협업의 매력을 한눈에 전달하기'],'인형 밖으로 나온 몬치치를 보여주는 비주얼'],
+               ['03','ACTION',['상품별 컨셉과 키컬러에 맞춰','섹션을 나눈 기획전 페이지 디자인'],'각 라인의 분위기가 자연스럽게 이어지도록 구성']] },
+      { t:'jskv', bg:'#FFFFFF', title:'Key Visual', lead:['AI로 새롭게 연출한 키비주얼'],
+        body:['라이브 오픈 이후, 포트폴리오용 KV를 새롭게 구성했습니다.','타이포 → 모션 → AI 씬, 세 단계로 인형 밖으로 나온 몬치치를 완성했습니다.'],
+        cards:['2monchichi_card1','2monchichi_card2','2monchichi_card3'] },
+      { t:'jsed', bg:'#F3F2ED', title:'Editorial Design', lead:['PU·자수·니트 세 가지 라인을','하나의 기획전으로 이었습니다.'],
+        body:['룩북에서 추출한 라인별 키컬러로 배경을 전환해 스크롤만으로도 라인이 바뀌는 것을','직관적으로 인지할 수 있게 했고, 별 모티브와 LOOK PREVIEW 헤더 바 등 공통 에셋을','반복 배치해 라인은 구분하면서도 하나의 기획전으로 이어지도록 구성했습니다.'],
+        label:'3 LINES, 1 STAGE  —  KEY COLOR SYSTEM',
+        lines:[['2monchichi_1','LINE 01','PU LINE','#F8DEE3','#CC212E'],['2monchichi_2','LINE 02','EMBROIDERY','#CC212E','#FFFFFF'],['2monchichi_3','LINE 03','KNIT LINE','#ECEBF0','#2B1B1F']] },
+      { t:'jsmob' },
+    ],
+  },
+  null,
   {
     title:['KREAM+ ESSENTIAL'], thumb:'kreamplus_thum.png', oneLine:true, heroFit:true, heroCls:'kv169', brand:'KREAM+',
     sub:'크림 오프라인 스토어의 새 이름, 크림플러스를 알리는 에센셜 기획전',
@@ -1616,8 +1681,34 @@ function blockHTML2(b){
   if (b.t === 'jnh') return jnhHTML(b);
   if (b.t === 'csold') return csHTML();
   if (b.t === 'ssold') return ssHTML();
+  if (b.t === 'jskv') return `
+  <section class="c-sec kp kplt js-sec" style="--sbg:${b.bg}">
+    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body rv-t">${kpL(b.body)}</p></div></div>
+    <div class="js-cards">${b.cards.map((c, i) => `<figure class="rv-t" style="transition-delay:${i * .12}s"><img src="${c}.png" onerror="this.onerror=null;this.src='${c}.jpg'" alt="Key Visual STEP 0${i + 1}"></figure>`).join('')}</div>
+  </section>`;
+  if (b.t === 'jsed') return `
+  <section class="c-sec kp kplt js-sec" style="--sbg:${b.bg}">
+    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body js-mute rv-t">${kpL(b.body)}</p></div></div>
+    <div class="jsx"><div class="jsx-pin">
+      <p class="js-label">${b.label}</p>
+      <div class="jsx-row">
+        <div class="jsx-imgs">${b.lines.map(([im, , nm], i) => `<img class="jsx-im" data-i="${i}" src="${im}.png" onerror="this.onerror=null;this.src='${im}.jpg'" alt="${nm}">`).join('')}</div>
+        <div class="jsx-cards">${b.lines.map(([, no, nm, bg, fg], i) => `<div class="jsx-c" data-i="${i}" style="background:${bg};color:${fg}"><span class="no">${no}</span><span class="pills"><i>Key Color</i><i>${bg}</i></span><b>${nm}</b></div>`).join('')}</div>
+      </div>
+    </div></div>
+  </section>`;
+  if (b.t === 'jsmob') return `
+  <section class="js-mob">
+    <img src="joseph_5.png" alt="조셉앤스테이시 × 몬치치 Editorial Design">
+    <div class="kp-phone-screen" style="left:12.25%;top:11.88%;width:22.333%;height:26.738%;border-radius:14.9% / 6.9%;background:#F2F2F4;">
+      <img src="nevi.png" alt="" style="position:sticky;top:0;z-index:2;">
+      <video src="joseph_5-1.mp4" muted loop playsinline preload="metadata" style="display:block;width:100%;height:auto;"></video>
+      ${[2,3,4,5,6,7,8,9,10,11,12,13].map(n => `<img src="joseph_5-${n}.png" alt="조셉앤스테이시 × 몬치치 모바일 랜딩 페이지 ${n}">`).join('')}
+    </div>
+    <i class="js-island" aria-hidden="true"></i>
+  </section>`;
   if (b.t === 'kpbg') return `
-  <section class="c-sec kp kp-bg">
+  <section class="c-sec kp kp-bg${b.lt ? ' kplt js-sec' : ''}"${b.bg ? ` style="--sbg:${b.bg}"` : ''}>
     <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><p class="kp-body rv-t">${kpL(b.body)}</p></div>
     <ul class="kp-cards">${b.cards.map(([n, k, h, t], i) => `<li class="rv-t" style="transition-delay:${i * .1}s"><span class="kp-no">${n}&nbsp;&nbsp;${k}</span><b>${kpL(h)}</b><em>${t}</em></li>`).join('')}</ul>
   </section>`;
@@ -2085,6 +2176,16 @@ document.addEventListener('click', e => {
   const d = e.target.closest('.ss-drop'); if (d){ const on = d.classList.toggle('on'); d.setAttribute('aria-pressed', on ? 'true' : 'false'); }
 });
 let csSlot = 0;
+/* 조셉 — Editorial Design: 화면이 멈춘 채 스크롤하면 룩 사진 1→2→3, 매칭 컬러카드가 차례로 등장 */
+function jsxFrame(pj, vh){
+  pj.querySelectorAll('.jsx').forEach(x => {
+    const r = x.getBoundingClientRect(); if (r.bottom < -vh || r.top > vh * 2) return;
+    const p = calm ? 1 : cl(-r.top / Math.max(1, r.height - vh));
+    const n = r.top > vh * .75 ? 0 : 1 + Math.min(2, Math.floor(p * 3));
+    x.querySelectorAll('.jsx-im').forEach((im, i) => im.classList.toggle('on', i < n));
+    x.querySelectorAll('.jsx-c').forEach((c, i) => c.classList.toggle('on', i < n));
+  });
+}
 function csFrame(pj, vh){
   const w = pj.querySelector('.cs-de3'); if (!w) return;
   const wr = w.getBoundingClientRect(), now = performance.now(); csSlot = Math.max(csSlot, now);
@@ -2162,7 +2263,7 @@ function projectHTML(ci, pi){
   return `
   <header class="p-head">
     <ul class="p-meta">
-      <li><span>${CATS[ci].name}</span><b>${p.brand || `${pad(pi + 1)} / ${pad(PROJECTS[CATS[ci].key].length)}`}</b></li>
+      <li><span>${p.cat || CATS[ci].name}</span><b>${p.brand || `${pad(pi + 1)} / ${pad(PROJECTS[CATS[ci].key].length)}`}</b></li>
       ${p.meta.slice(0,3).map(([k, v]) => `<li><span>${k}</span><b>${v}</b></li>`).join('')}
     </ul>
     <div>
@@ -2171,7 +2272,7 @@ function projectHTML(ci, pi){
     </div>
   </header>
 
-${p.noHero ? '' : `  <div class="p-hero${p.heroFit ? ' kvfit' : ''}${p.heroCls ? ' ' + p.heroCls : ''}" data-r="${p.hero.ar || .5625}"><div class="st"><div class="fr">${p.hero.v ? `<video src="${p.hero.src}" poster="${p.hero.poster}" muted loop playsinline preload="metadata"></video>` : `<img src="${p.hero.src}" alt="">`}</div>
+${p.noHero ? '' : `  <div class="p-hero${p.heroFit ? ' kvfit' : ''}${p.heroCls ? ' ' + p.heroCls : ''}" data-r="${p.hero.ar || .5625}"><div class="st"><div class="fr">${p.hero.v ? `<video src="${p.hero.src}" poster="${p.hero.poster}" muted loop playsinline preload="metadata"></video>` : `<img src="${p.hero.src}" alt="">`}${p.hero.tag ? `<span class="p-htag">${p.hero.tag}</span>` : ''}</div>
     <div class="cap"><span>${p.hero.cap}</span><span>${p.meta[3][1]}</span></div></div></div>`}
 
   ${p.blocks.map(blockHTML2).join('')}
@@ -2525,6 +2626,7 @@ function frame(){
   jnhFrame(pj, vh);
   csFrame(pj, vh);
   ddFrame(pj, vh);
+  jsxFrame(pj, vh);
   const nx = pj.querySelector('.p-next');
   if (nx) nx.style.setProperty('--np', cl(acc / NEED).toFixed(3));
 }
