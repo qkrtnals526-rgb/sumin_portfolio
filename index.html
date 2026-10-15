@@ -1120,8 +1120,8 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .pj .kp-mob img{position:absolute;max-width:none;width:251.13%;height:auto;left:-66.9%;top:-31.74%}
 .pj .kp-lap{margin:clamp(24px,2.8vw,40px) 0 0}
 .pj .kp-lap img{display:block;width:100%;height:auto}
-.pj .kp-k4{width:100vw;margin-left:calc(50% - 50vw);margin-top:clamp(48px,5vw,72px);position:relative;aspect-ratio:1440/1744;overflow:hidden}
-.pj .kp-k4-in{position:absolute;left:0;top:-14.564%;width:100%;aspect-ratio:3600/5059}
+.pj .kp-k4{width:100vw;margin-left:calc(50% - 50vw);margin-top:clamp(48px,5vw,72px);position:relative;aspect-ratio:3600/4353;overflow:hidden}
+.pj .kp-k4-in{position:absolute;left:0;top:0;width:100%;aspect-ratio:3600/4353}
 .pj .kp-k4-in > img{display:block;width:100%;height:100%;max-width:none}
 .pj .kp-phone-screen{position:absolute;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:15.6% / 7.4%}
 .pj .kp-phone-screen::-webkit-scrollbar{display:none}
@@ -1619,7 +1619,7 @@ function blockHTML(b){
 
 const kpL = a => a.map(l => `<span>${l}</span>`).join('');
 const kpCar = (cls, imgs) => `<div class="kp-carousel kp-carousel--${cls}"><div class="kp-carousel-track">${imgs.map(([s, a]) => `<img src="${s}" alt="${a}">`).join('')}</div></div>`;
-const KP_PHONE = `<div class="kp-phone-screen" style="left:11.833%;top:15.122%;width:23.167%;height:34.789%;">
+const KP_PHONE = `<div class="kp-phone-screen" style="left:12.25%;top:1.585%;width:22.333%;height:39.97%;border-radius:14.9% / 6.9%;">
   <img src="nevi.png" alt="" style="position:sticky;top:0;z-index:2;">
   <video src="KV_8_27.mp4" muted loop playsinline preload="metadata" style="display:block;width:100%;height:auto;"></video>
   <img src="plusmok1.png" alt="KREAM+ 모바일 랜딩 페이지 1">
@@ -1731,6 +1731,7 @@ function blockHTML2(b){
     <div class="kp-k4 rv-t"><div class="kp-k4-in">
       <img src="kreamplus4.png" alt="KREAM+ Essential Design">
       ${KP_PHONE}
+      <i class="js-island" aria-hidden="true" style="top:2.113%;height:1.723%"></i>
     </div></div>
   </section>`;
   if (b.t === 'kpad') return `
