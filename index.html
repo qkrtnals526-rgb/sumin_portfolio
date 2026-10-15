@@ -1054,25 +1054,25 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .p-hero.kvj .fr video{object-fit:cover;inset:-2px;width:calc(100% + 4px);height:calc(100% + 4px)}
 .p-hero .p-htag{position:absolute;left:77.57%;top:66.6%;z-index:2;font-family:'Academy Engraved LET','Didot',serif;font-size:clamp(11px,1.39vw,20px);color:#fff;white-space:nowrap;pointer-events:none}
 .pj .js-sec{position:relative;isolation:isolate;padding-bottom:clamp(120px,12vw,200px)}
+.pj .js-sec.kp-bg{padding-bottom:0}
 .pj .js-sec::before{content:'';position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;background:var(--sbg);z-index:-1}
-.pj .js-sec + .js-sec{padding-top:clamp(80px,8vw,120px)}
 .pj .kp.kplt .kp-h,.pj .kp.kplt .kp-lead{color:#2B1B1F}
-.pj .kp.kplt .kp-body{color:rgba(43,27,31,.85);font-weight:500}
+.pj .kp.kplt .kp-body{color:rgba(43,27,31,.85)}
 .pj .kp.kplt .kp-body.js-mute{color:#6B5358}
 .pj .kp.kplt .kp-cards li{border-top-color:#2B1B1F}
 .pj .kp.kplt .kp-no{color:#CC212E}
 .pj .kp.kplt .kp-cards b,.pj .kp.kplt .kp-cards em{color:#2B1B1F}
-.pj .kp.kplt .kp-2c > div > .kp-lead + .kp-body{margin-top:24px}
 .pj .js-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:clamp(48px,5vw,72px)}
 .pj .js-cards figure{margin:0}
 .pj .js-cards img{display:block;width:100%;height:auto;border-radius:16px}
 .pj .js-label{font-size:13px;font-weight:600;letter-spacing:.02em;color:#CC212E}
-.pj .jsx{position:relative;margin-top:clamp(56px,6vw,96px);height:calc(min(620px,43vw) + 220vh)}
+.pj .jsx{position:relative;margin-top:clamp(48px,5vw,72px);height:calc(min(620px,43vw) + 220vh)}
 .pj .jsx-pin{position:sticky;top:max(24px,calc((100svh - min(620px,43vw) - 40px) / 2))}
 .pj .jsx-row{display:grid;grid-template-columns:minmax(0,620fr) minmax(0,636fr);gap:12px;margin-top:20px}
 .pj .jsx-imgs{position:relative;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:#E9E6DF}
-.pj .jsx-im{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:inset(100% 0 0 0);transform:scale(1.08);transition:clip-path 1s var(--ease),transform 1.4s var(--ease)}
-.pj .jsx-im.on{clip-path:inset(0 0 0 0);transform:none}
+.pj .jsx-im{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);max-width:none;object-fit:cover;clip-path:inset(100% 0 0 0);transform:scale(1.08);transition:clip-path 1s var(--ease),transform 1.4s var(--ease),opacity 0s}
+.pj .jsx-im.on{clip-path:inset(0 0 0 0);transform:scale(1.002)}
+.pj .jsx-im.past{opacity:0;transition:clip-path 1s var(--ease),transform 1.4s var(--ease),opacity 0s 1.05s}
 .pj .jsx-cards{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:12px}
 .pj .jsx-c{position:relative;border-radius:14px;padding:clamp(16px,1.9vw,28px);display:flex;flex-direction:column;justify-content:space-between;opacity:0;transform:translateX(40px);transition:opacity .8s var(--ease),transform 1s var(--ease)}
 .pj .jsx-c.on{opacity:1;transform:none}
@@ -1496,7 +1496,7 @@ const PROJECTS = { ai: [
     title:['JOSEPH & STACEY × MONCHHICHI'], thumb:'Fashioneditorial3_Thumbnail.png', oneLine:true, tsz:'clamp(28px,6.3vw,91px)', heroFit:true, heroCls:'kvj', brand:'KREAM', cat:'Promotion',
     sub:'인형 밖으로 나온 몬치치, 조셉앤스테이시 × 몬치치 단독 선발매 기획전',
     meta:[['Date','2026.03.10'],['Contribution','100%'],['Tools','Figma, Higgsfield AI, After Effects'],['Contribution','100%']],
-    hero:{ src:'joseph_kv.mp4', v:true, poster:'', cap:'', ar:1870/3600, tag:'josep and stacey x Monchici' },
+    hero:{ src:'joseph_kv.mp4', v:true, poster:'', cap:'', ar:1870/3600 },
     blocks:[
       { t:'kpbg', lt:true, bg:'#FFFFFF', title:'Background',
         body:['조셉앤스테이시 × 몬치치 협업 컬렉션을 KREAM에서 단독 선발매하는 기획전이었습니다.','두 브랜드의 만남을 처음 선보이는 자리인 만큼 협업의 매력을 한눈에 전달해야 했습니다.'],
@@ -2182,7 +2182,7 @@ function jsxFrame(pj, vh){
     const r = x.getBoundingClientRect(); if (r.bottom < -vh || r.top > vh * 2) return;
     const p = calm ? 1 : cl(-r.top / Math.max(1, r.height - vh));
     const n = r.top > vh * .75 ? 0 : 1 + Math.min(2, Math.floor(p * 3));
-    x.querySelectorAll('.jsx-im').forEach((im, i) => im.classList.toggle('on', i < n));
+    x.querySelectorAll('.jsx-im').forEach((im, i) => { im.classList.toggle('on', i < n); im.classList.toggle('past', i < n - 1); });
     x.querySelectorAll('.jsx-c').forEach((c, i) => c.classList.toggle('on', i < n));
   });
 }
