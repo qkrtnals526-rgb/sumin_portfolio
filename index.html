@@ -1093,6 +1093,13 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
   .pj .jsx-c .pills i{font-size:10px;padding:4px 8px}
 }
 @media (prefers-reduced-motion:reduce){ .pj .jsx-im,.pj .jsx-c{transition:none} }
+/* ═════ 기획전 링크 버튼 ═════ */
+.pj .kp-link{display:inline-flex;align-items:center;gap:10px;margin-top:28px;padding:12px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.55);color:#fff;font-size:14px;font-weight:600;letter-spacing:-.01em;text-decoration:none;transition:background .25s,color .25s,border-color .25s}
+.pj .kp-link i{font-style:normal;transition:transform .25s}
+.pj .kp-link:hover{background:#fff;color:#000;border-color:#fff}
+.pj .kp-link:hover i{transform:translate(2px,-2px)}
+.pj .kp.kplt .kp-link{border-color:#2B1B1F;color:#2B1B1F}
+.pj .kp.kplt .kp-link:hover{background:#2B1B1F;color:#fff}
 /* ═════ KREAM+ ═════ */
 .p-hero.kv169 .st{height:min(100svh,56.25vw);top:max(0px,calc((100svh - 56.25vw) / 2))}
 .p-hero.kv169 .fr video{object-fit:cover;inset:-2px;width:calc(100% + 4px);height:calc(100% + 4px)}
@@ -1507,7 +1514,7 @@ const PROJECTS = { ai: [
       { t:'jskv', bg:'#FFFFFF', title:'Key Visual', lead:['AI로 새롭게 연출한 키비주얼'],
         body:['라이브 오픈 이후, 포트폴리오용 KV를 새롭게 구성했습니다.','타이포 → 모션 → AI 씬, 세 단계로 인형 밖으로 나온 몬치치를 완성했습니다.'],
         cards:['2monchichi_card1','2monchichi_card2','2monchichi_card3'] },
-      { t:'jsed', bg:'#F3F2ED', title:'Editorial Design', lead:['PU·자수·니트 세 가지 라인을','하나의 기획전으로 이었습니다.'],
+      { t:'jsed', link:'https://kream.co.kr/content/14617', bg:'#F3F2ED', title:'Editorial Design', lead:['PU·자수·니트 세 가지 라인을','하나의 기획전으로 이었습니다.'],
         body:['룩북에서 추출한 라인별 키컬러로 배경을 전환해 스크롤만으로도 라인이 바뀌는 것을','직관적으로 인지할 수 있게 했고, 별 모티브와 LOOK PREVIEW 헤더 바 등 공통 에셋을','반복 배치해 라인은 구분하면서도 하나의 기획전으로 이어지도록 구성했습니다.'],
         label:'3 LINES, 1 STAGE  —  KEY COLOR SYSTEM',
         lines:[['2monchichi_1','LINE 01','PU LINE','#F8DEE3','#CC212E'],['2monchichi_2','LINE 02','EMBROIDERY','#CC212E','#FFFFFF'],['2monchichi_3','LINE 03','KNIT LINE','#ECEBF0','#2B1B1F']] },
@@ -1531,7 +1538,7 @@ const PROJECTS = { ai: [
              ['Metal','소재 통일',['인트로 하단 3D 영상과 톤을 맞추기 위해','메탈 소재의 프린터로 제작했습니다.']],
              ['1125 × 1125','짧은 첫 화면',['초반 이탈을 막기 위해 KV를 정사각형의','짧은 화면으로 구성했습니다.']]],
         mob:'2kreamplus_kv', lap:'2kreamplus_kv2' },
-      { t:'kped', title:'Essential Design', lead:['룩북과 상품의 톤이 제각각인 페이지를','무채색의 컴팩트한 톤으로 정리했습니다.'],
+      { t:'kped', link:'https://kream.co.kr/content/17897', title:'Essential Design', lead:['룩북과 상품의 톤이 제각각인 페이지를','무채색의 컴팩트한 톤으로 정리했습니다.'],
         body:['상품 클릭을 유도하기 위해 상품 모듈을 곳곳에 배치하고, 혜택과 이벤트가 많은 영역은','베네핏과 이벤트를 먼저 나눈 뒤 각 이벤트를 카드로 다시 분리해 한눈에 구분되도록 했습니다.'] },
       { t:'kpad', title:'Marketing Ad / tab motion', video:'kreamplus_last.mp4' },
     ],
@@ -1694,7 +1701,7 @@ function blockHTML2(b){
   </section>`;
   if (b.t === 'jsed') return `
   <section class="c-sec kp kplt js-sec" style="--sbg:${b.bg}">
-    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body js-mute rv-t">${kpL(b.body)}</p></div></div>
+    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body js-mute rv-t">${kpL(b.body)}</p>${b.link ? `<a class="kp-link rv-t" href="${b.link}" target="_blank" rel="noopener">기획전 보러가기<i aria-hidden="true">↗</i></a>` : ''}</div></div>
     <div class="jsx"><div class="jsx-pin">
       <p class="js-label">${b.label}</p>
       <div class="jsx-row">
@@ -1732,7 +1739,7 @@ function blockHTML2(b){
   </section>`;
   if (b.t === 'kped') return `
   <section class="c-sec kp kp-ed">
-    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body rv-t">${kpL(b.body)}</p></div></div>
+    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body rv-t">${kpL(b.body)}</p>${b.link ? `<a class="kp-link rv-t" href="${b.link}" target="_blank" rel="noopener">기획전 보러가기<i aria-hidden="true">↗</i></a>` : ''}</div></div>
     <div class="kp-k4 rv-t"><div class="kp-k4-in">
       <img src="kreamplus4.png" alt="KREAM+ Essential Design">
       ${KP_PHONE}
