@@ -1094,7 +1094,10 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 }
 @media (prefers-reduced-motion:reduce){ .pj .jsx-im,.pj .jsx-c{transition:none} }
 /* ═════ 기획전 링크 버튼 ═════ */
-.pj .kp-link{display:inline-flex;align-items:center;gap:10px;margin-top:28px;padding:12px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.55);color:#fff;font-size:14px;font-weight:600;letter-spacing:-.01em;text-decoration:none;transition:background .25s,color .25s,border-color .25s}
+.pj .kp-hl{align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:24px}
+.pj .kp-hl .kp-link{margin-bottom:4px}
+@media (max-width:900px){ .pj .kp-hl{justify-content:flex-start;gap:20px} .pj .kp-hl .kp-link{margin-bottom:0} }
+.pj .kp-link{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.55);color:#fff;font-size:14px;font-weight:600;letter-spacing:-.01em;text-decoration:none;transition:background .25s,color .25s,border-color .25s}
 .pj .kp-link i{font-style:normal;transition:transform .25s}
 .pj .kp-link:hover{background:#fff;color:#000;border-color:#fff}
 .pj .kp-link:hover i{transform:translate(2px,-2px)}
@@ -1701,7 +1704,7 @@ function blockHTML2(b){
   </section>`;
   if (b.t === 'jsed') return `
   <section class="c-sec kp kplt js-sec" style="--sbg:${b.bg}">
-    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body js-mute rv-t">${kpL(b.body)}</p>${b.link ? `<a class="kp-link rv-t" href="${b.link}" target="_blank" rel="noopener">기획전 보러가기<i aria-hidden="true">↗</i></a>` : ''}</div></div>
+    <div class="kp-2c"><div class="kp-hl"><h2 class="kp-h rv-t">${b.title}</h2>${b.link ? `<a class="kp-link rv-t" href="${b.link}" target="_blank" rel="noopener">기획전 보러가기<i aria-hidden="true">↗</i></a>` : ''}</div><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body js-mute rv-t">${kpL(b.body)}</p></div></div>
     <div class="jsx"><div class="jsx-pin">
       <p class="js-label">${b.label}</p>
       <div class="jsx-row">
@@ -1739,7 +1742,7 @@ function blockHTML2(b){
   </section>`;
   if (b.t === 'kped') return `
   <section class="c-sec kp kp-ed">
-    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body rv-t">${kpL(b.body)}</p>${b.link ? `<a class="kp-link rv-t" href="${b.link}" target="_blank" rel="noopener">기획전 보러가기<i aria-hidden="true">↗</i></a>` : ''}</div></div>
+    <div class="kp-2c"><div class="kp-hl"><h2 class="kp-h rv-t">${b.title}</h2>${b.link ? `<a class="kp-link rv-t" href="${b.link}" target="_blank" rel="noopener">기획전 보러가기<i aria-hidden="true">↗</i></a>` : ''}</div><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body rv-t">${kpL(b.body)}</p></div></div>
     <div class="kp-k4 rv-t"><div class="kp-k4-in">
       <img src="kreamplus4.png" alt="KREAM+ Essential Design">
       ${KP_PHONE}
