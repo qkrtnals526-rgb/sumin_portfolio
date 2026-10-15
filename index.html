@@ -1057,7 +1057,8 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .pj .js-sec.kp-bg{padding-bottom:0}
 .pj .js-sec::before{content:'';position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;background:var(--sbg);z-index:-1}
 .pj .kp.kplt .kp-h,.pj .kp.kplt .kp-lead{color:#2B1B1F}
-.pj .kp.kplt .kp-body{color:rgba(43,27,31,.85)}
+.pj .kp.kplt .kp-body{color:rgba(43,27,31,.85);font-weight:500}
+.pj .kp.kplt .kp-cards em{font-weight:500}
 .pj .kp.kplt .kp-body.js-mute{color:#6B5358}
 .pj .kp.kplt .kp-cards li{border-top-color:#2B1B1F}
 .pj .kp.kplt .kp-no{color:#CC212E}
@@ -1082,7 +1083,7 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .pj .jsx-c .pills i{font-style:normal;font-size:12px;font-weight:600;color:#CC212E;background:#fff;border-radius:999px;padding:6px 12px}
 .pj .js-mob{position:relative;width:100vw;margin-left:calc(50% - 50vw);background:#F3F2ED}
 .pj .js-mob > img{display:block;width:100%;height:auto}
-.pj .js-island{position:absolute;left:19.889%;top:12.233%;width:7.083%;height:1.151%;background:#000;border-radius:999px;z-index:3;pointer-events:none}
+.pj .js-island{position:absolute;left:19.889%;top:5.963%;width:7.083%;height:1.506%;background:#000;border-radius:999px;z-index:3;pointer-events:none}
 @media (max-width:900px){
   .pj .js-cards{grid-template-columns:minmax(0,1fr)}
   .pj .jsx{height:calc(100vw + 360px + 180vh)}
@@ -1700,7 +1701,7 @@ function blockHTML2(b){
   if (b.t === 'jsmob') return `
   <section class="js-mob">
     <img src="joseph_5.png" alt="조셉앤스테이시 × 몬치치 Editorial Design">
-    <div class="kp-phone-screen" style="left:12.25%;top:11.88%;width:22.333%;height:26.738%;border-radius:14.9% / 6.9%;background:#F2F2F4;">
+    <div class="kp-phone-screen" style="left:12.25%;top:5.501%;width:22.333%;height:34.973%;border-radius:14.9% / 6.9%;background:#F2F2F4;">
       <img src="nevi.png" alt="" style="position:sticky;top:0;z-index:2;">
       <video src="joseph_5-1.mp4" muted loop playsinline preload="metadata" style="display:block;width:100%;height:auto;"></video>
       ${[2,3,4,5,6,7,8,9,10,11,12,13].map(n => `<img src="joseph_5-${n}.png" alt="조셉앤스테이시 × 몬치치 모바일 랜딩 페이지 ${n}">`).join('')}
