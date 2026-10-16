@@ -1270,7 +1270,7 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 
 /* ═════ 3D Artwork 보드 ═════ */
 .pj .adb{position:relative;isolation:isolate;min-height:100svh;display:flex;align-items:center;padding:clamp(88px,11svh,120px) 0 clamp(40px,6svh,72px)}
-.pj .adb::before{content:'';position:absolute;inset:0 auto 0 calc(50% - 50vw);width:100vw;background:#161616;z-index:-1}
+.pj .adb::before{content:'';position:absolute;inset:0 auto 0 calc(50% - 50vw);width:100vw;background:var(--abg,#161616);z-index:-1}
 .pj .adb-in{width:min(1264px,100%);margin:0 auto;display:grid;grid-template-columns:minmax(0,596fr) minmax(0,694fr);align-items:stretch;height:min(840px,calc(100svh - 150px));min-height:560px}
 .pj .adb-l{display:flex;flex-direction:column;justify-content:space-between;gap:48px;padding-right:clamp(24px,4vw,56px)}
 .pj .adb-t{font-family:var(--point);font-weight:700;font-size:clamp(40px,4.6vw,72px);letter-spacing:-.035em;line-height:1;text-transform:uppercase;color:var(--ink)}
@@ -1291,6 +1291,14 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
   .pj .adb-r{margin-top:48px;width:100%;height:auto;aspect-ratio:4/5}
   .pj .adb .kp-body span{display:inline}.pj .adb .kp-body span::after{content:' '}
 }
+
+/* Campaign Film */
+.tcard .tv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s;pointer-events:none}
+.tcard.hv .tv{opacity:1}
+.film{position:fixed;inset:0;z-index:200;background:#000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+.film.on{opacity:1;visibility:visible;transition:opacity .35s}
+.film video{display:block;height:min(92svh,calc(92vw * 16 / 9));width:auto;max-width:92vw;aspect-ratio:9/16;object-fit:contain;background:#000;border-radius:8px}
+.film-x{position:absolute;top:calc(env(safe-area-inset-top,0px) + 16px);right:var(--gutter);width:44px;height:44px;border:0;background:none;color:#fff;font-size:22px;cursor:pointer}
 /* ═════ OJOS — Project Background (왼쪽 글 + 오른쪽 룩 이미지) ═════ */
 .pj .bgx2{display:grid;grid-template-columns:minmax(0,596fr) minmax(0,694fr);align-items:start;width:min(1264px,100%);margin:0 auto}
 .pj .bgx2-l h2{font-family:var(--point);font-weight:700;font-size:clamp(30px,3.06vw,44px);letter-spacing:-.035em;line-height:1.3;text-transform:uppercase}
@@ -1597,14 +1605,14 @@ const PROJECTS = { ai: [
     sub:'잔디 위로 떨어지는 옷들, AI로 그린 봄의 가벼움',
     meta:[['Date','2026.04.20'],['Contribution','100%'],['Tools','Nano Banana, Kling, After Effects'],['Contribution','100%']],
     hero:{ src:'aicreative3intro.png', cap:'', ar:.3976 },
-    blocks:[{ t:'cmv', video:'spring.mp4', dur:5.43, ar:'1124/1590', lines:['스프링 시즌오프 프로모션 키비주얼 작업입니다.','상품 누끼컷 에셋으로 AI를 활용해','봄 시즌 무드의 연출컷을 제작했으며,','잔디 위로 옷들이 떨어지는 장면을 중심으로','봄 시즌의 가볍고 산뜻한 분위기를 표현했습니다.'] }],
+    noHead:true, noHero:true, blocks:[{ t:'adb', bg:'#000', video:'spring.mp4', dur:5.43, ar:'1124/1590', lines:['스프링 시즌오프 프로모션 키비주얼 작업입니다.','상품 누끼컷 에셋으로 AI를 활용해','봄 시즌 무드의 연출컷을 제작했으며,','잔디 위로 옷들이 떨어지는 장면을 중심으로','봄 시즌의 가볍고 산뜻한 분위기를 표현했습니다.'] }],
   },
   {
     title:['MONTBELL 해외직구'], thumb:'aicreative2_Thumbnail.png', oneLine:true, tsz:'clamp(30px,5.6vw,108px)', heroFit:true, heroCls:'kvcrop', brand:'KREAM',
     sub:'연출컷 없이, 누끼컷만으로 완성한 해외직구 무드',
     meta:[['Date','2026.03.16'],['Contribution','100%'],['Tools','Nano Banana, Kling, After Effects'],['Contribution','100%']],
     hero:{ src:'aicreative2intro.png', cap:'', ar:.3976 },
-    blocks:[{ t:'cmv', video:'global.mp4', dur:14.15, ar:'1000/1500', lines:['몽벨 해외직구 프로모션 키비주얼 작업입니다.','별도 연출컷 없이 상품 누끼컷 에셋으로','AI를 활용해 해외 직구 무드의','진공 포장 연출 영상을 제작하여','프로모션 비주얼을 구성했습니다.'] }],
+    noHead:true, noHero:true, blocks:[{ t:'adb', bg:'#000', video:'global.mp4', dur:14.15, ar:'1000/1500', lines:['몽벨 해외직구 프로모션 키비주얼 작업입니다.','별도 연출컷 없이 상품 누끼컷 에셋으로','AI를 활용해 해외 직구 무드의','진공 포장 연출 영상을 제작하여','프로모션 비주얼을 구성했습니다.'] }],
   },
 ], '3d': [
   {
@@ -1728,7 +1736,7 @@ const PROJECTS = { ai: [
 
 const pad = n => String(n).padStart(2,'0');
 const cardsHTML = (c, ci) => `<div class="thumbs${c.tall ? ' tall' : ''}">` + c.items.map((it, i) =>
-  `<a class="tcard" href="#" data-ci="${ci}" data-ii="${i}" style="transition-delay:${i * 50}ms"><div class="ti"><img src="${it[1]}" alt=""></div><div class="tt"><span>${pad(i + 1)}</span>${it[0]}</div></a>`).join('') + '</div>';
+  `<a class="tcard" href="#" data-ci="${ci}" data-ii="${i}"${c.key === 'cf' ? ` data-film="${it[1].replace(/\.jpg$/, '.mp4')}"` : ''} style="transition-delay:${i * 50}ms"><div class="ti"><img src="${it[1]}" alt="">${c.key === 'cf' ? `<video class="tv" muted loop playsinline preload="none" data-src="${it[1].replace(/\.jpg$/, '.mp4')}"></video>` : ''}</div><div class="tt"><span>${pad(i + 1)}</span>${it[0]}</div></a>`).join('') + '</div>';
 
 /* ═════════ 홈 Work 목록: 아코디언 ═════════ */
 const index = document.querySelector('.index');
@@ -2541,7 +2549,7 @@ function cmvSlide(pj){
 function adbHTML(b){
   const p = PROJECTS[CATS[cur.ci].key][cur.pi], ci = cur.ci;
   const meta = [[p.cat || CATS[ci].name, p.brand], ...p.meta.slice(0, 3)];
-  return `<section class="adb"><div class="adb-in">
+  return `<section class="adb"${b.bg ? ` style="--abg:${b.bg}"` : ''}><div class="adb-in">
     <div class="adb-l">
       <div>
         <h1 class="adb-t rv-t">${p.title.join(' ')}</h1>
@@ -2966,10 +2974,32 @@ wv.addEventListener('click', e => {
   t.hasAttribute('data-close') ? close() : wv.scrollTo({ top:0, behavior:'smooth' });
 });
 
+
+/* Campaign Film — 썸네일 호버 무음 재생 · 클릭 시 소리 포함 팝업 */
+const filmBox = document.createElement('div');
+filmBox.className = 'film'; filmBox.setAttribute('role', 'dialog'); filmBox.setAttribute('aria-modal', 'true');
+filmBox.innerHTML = '<button class="film-x" aria-label="닫기">✕</button><video playsinline loop controls></video>';
+document.body.appendChild(filmBox);
+const filmV = filmBox.querySelector('video');
+function filmOpen(src, label){
+  filmV.src = src; filmV.muted = false; filmV.setAttribute('aria-label', label || '');
+  filmBox.classList.add('on'); document.documentElement.classList.add('wv-lock');
+  filmV.play().catch(() => { filmV.muted = true; filmV.play().catch(() => {}); });
+}
+function filmClose(){ filmBox.classList.remove('on'); filmV.pause(); filmV.removeAttribute('src'); filmV.load(); if (!wv.classList.contains('on')) document.documentElement.classList.remove('wv-lock'); }
+filmBox.addEventListener('click', e => { if (e.target === filmBox || e.target.closest('.film-x')) filmClose(); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && filmBox.classList.contains('on')) filmClose(); });
+if (matchMedia('(hover:hover)').matches){
+  document.addEventListener('pointerover', e => { const c = e.target.closest && e.target.closest('.tcard[data-film]'); if (!c || c.contains(e.relatedTarget)) return;
+    const v = c.querySelector('.tv'); if (!v.src) v.src = v.dataset.src; c.classList.add('hv'); v.play().catch(() => {}); });
+  document.addEventListener('pointerout', e => { const c = e.target.closest && e.target.closest('.tcard[data-film]'); if (!c || c.contains(e.relatedTarget)) return;
+    const v = c.querySelector('.tv'); c.classList.remove('hv'); v.pause(); try { v.currentTime = 0; } catch (err) {} });
+}
 /* 홈 썸네일 → 작업 페이지 */
 document.addEventListener('click', e => {
   const c = e.target.closest('.tcard'); if (!c || c.closest('.p-soon')) return;
   e.preventDefault();
+  if (c.dataset.film){ filmOpen(c.dataset.film, c.querySelector('.tt').textContent.replace(/^\d+/, '')); return; }
   const ci = +c.dataset.ci, ii = +c.dataset.ii;
   open(ci, PROJECTS[CATS[ci].key] ? ii : 0);
 });
