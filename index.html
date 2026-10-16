@@ -1197,8 +1197,11 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .pj .dt-screen::-webkit-scrollbar{display:none}
 .pj .dt-screen{background:#fff;container-type:inline-size}
 .pj .dt-screen > img,.pj .dt-screen > video{display:block;width:100%;height:auto;max-width:none}
-.pj .dt-nevi{position:sticky;top:0;z-index:2}
+.pj .dt-nevi{position:sticky;top:0;z-index:2;filter:brightness(1.05)}
 .pj .dt-car{background:#fff}
+.pj .dt-car-gap{padding-bottom:9cqw}
+.pj .dt-d7{overflow:hidden;background:#000}
+.pj .dt-screen > .dt-d7 img{display:block;width:101%;max-width:none;margin:-2.45% 0 -0.3% -.5%}
 .pj .dt-car .kp-carousel-track{gap:2.13cqw;padding:0 4.27cqw;align-items:flex-start}
 .pj .dt-car .kp-carousel-track img{height:auto;width:calc(var(--f,.72) * 100cqw)}
 .pj .dt-island{position:absolute;left:28.75%;top:7.585%;width:7.222%;height:.7585%;background:#000;border-radius:999px;z-index:2;pointer-events:none}
@@ -1756,19 +1759,19 @@ const dtOdo = v => v.split('').map((ch, i, a) => {
 }).join('');
 const dtCo = (x, y, title, desc, rev, mid = '') => `<div class="dt-co${rev ? ' rev' : ''}" style="${rev ? `right:${(100 - x / 14.4).toFixed(3)}%` : `left:${(x / 14.4).toFixed(3)}%`};top:${(y / 39.55).toFixed(3)}%"><i class="dt-ln" aria-hidden="true"></i><div><b>${title}</b>${mid}<p>${desc.map(l => `<span>${l}</span>`).join('')}</p></div></div>`;
 const dtImg = (f, a = '') => `<img src="${/\.(png|jpg)$/.test(f) ? f : f + '.png'}" alt="${a}">`;
-const dtCar = fs => `<div class="kp-carousel dt-car"><div class="kp-carousel-track">${fs.map(f => dtImg(f)).join('')}</div></div>`;
+const dtCar = (fs, gap) => `<div class="kp-carousel dt-car${gap ? ' dt-car-gap' : ''}"><div class="kp-carousel-track">${fs.map(f => dtImg(f)).join('')}</div></div>`;
 const DT_SCREEN = `<div class="dt-screen">
   <img class="dt-nevi" src="nevi.png" alt="">
-  <video src="dessert_KV.mp4" muted loop playsinline preload="metadata" style="aspect-ratio:1124/1574"></video>
+  <video src="dessert_KV.mp4" muted loop playsinline preload="metadata" style="aspect-ratio:1124/1571;object-fit:cover;object-position:50% 0"></video>
   ${dtImg('dessert_1', '디저트 테이블 모바일 랜딩 페이지')}${dtImg('dessert_2')}
   ${dtCar(['dessert_card1.jpg','dessert_card2.jpg','dessert_card3.jpg','dessert_card4.jpg','dessert_card5.jpg'])}
   ${dtImg('dessert_3')}${dtImg('dessert_4')}
-  ${dtCar(['dessert_card2-1.jpg','dessert_card2-2.jpg','dessert_card2-3.jpg','dessert_card2-4.jpg','dessert_card2-5.jpg'])}
+  ${dtCar(['dessert_card2-1.jpg','dessert_card2-2.jpg','dessert_card2-3.jpg','dessert_card2-4.jpg','dessert_card2-5.jpg'], 1)}
   ${dtImg('dessert_5')}
-  ${dtCar(['dessert_card3-1.jpg','dessert_card3-2.jpg','dessert_card3-3.jpg','dessert_card3-4.jpg'])}
+  ${dtCar(['dessert_card3-1.jpg','dessert_card3-2.jpg','dessert_card3-3.jpg','dessert_card3-4.jpg'], 1)}
   ${dtImg('dessert_6')}
   ${dtCar(['dessert_card4-1.png','dessert_card4-2.png','dessert_card4-3.png'])}
-  ${dtImg('dessert_7')}
+  <div class="dt-d7">${dtImg('dessert_7')}</div>
 </div>`;
 
 const kpCar = (cls, imgs) => `<div class="kp-carousel kp-carousel--${cls}"><div class="kp-carousel-track">${imgs.map(([s, a]) => `<img src="${s}" alt="${a}">`).join('')}</div></div>`;
