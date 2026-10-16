@@ -1163,6 +1163,79 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
   .pj .kp-lead span,.pj .kp-body span,.pj .kp-pt p span{display:inline}
   .pj .kp-lead span::after,.pj .kp-body span::after,.pj .kp-pt p span::after{content:' '}
 }
+
+/* ═════ DESSERT TABLE ═════ */
+.p-hero.kvdt .fr img{object-position:50% 50%}
+.pj .dt .kp-no{color:#E8541E}
+.pj .dt .kp-cards li{border-top-color:#3A3330}
+/* RESULT — 숫자 롤링 */
+.pj .dt-res{margin-top:clamp(48px,5vw,72px);background:#2A2522;border-radius:20px;padding:clamp(28px,2.8vw,40px)}
+.pj .dt-res-k{display:block;font-size:13px;font-weight:600;letter-spacing:.02em;color:#E8541E}
+.pj .dt-res-t{display:block;margin-top:8px;font-size:clamp(17px,1.4vw,20px);font-weight:700;line-height:1.5;color:#F2F2F0}
+.pj .dt-res ul{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:clamp(28px,2.6vw,38px)}
+.pj .dt-res li{padding:0 clamp(16px,1.7vw,24px);border-left:1px solid #3A3330}
+.pj .dt-res li:first-child{padding-left:0;border-left:0}
+.pj .dt-res-l{display:block;font-size:15px;font-weight:500;color:#B8AEA6}
+.pj .dt-res-v{display:flex;align-items:baseline;gap:12px;margin-top:6px}
+.pj .dt-res-v strong{display:inline-flex;font-family:var(--point);font-weight:700;font-size:clamp(48px,5vw,72px);letter-spacing:-.02em;line-height:1.1;color:#F2F2F0;font-variant-numeric:tabular-nums}
+.pj .dt-res-v strong.acc{color:#E8541E}
+.pj .dt-res-v small{font-size:15px;font-weight:500;color:#B8AEA6;white-space:nowrap}
+.pj .od{display:inline-block;height:1.1em;overflow:hidden;vertical-align:top}
+.pj .od-r{display:flex;flex-direction:column;transform:translateY(0);will-change:transform}
+.pj .od-r i{display:block;height:1.1em;font-style:normal;text-align:center}
+.pj .od-s{display:inline-block;height:1.1em}
+.pj .dt-res.in .od-r{transform:translateY(calc(var(--n) * -1.1em));transition:transform 2.6s cubic-bezier(.16,1,.3,1) calc(.35s + var(--dl));animation:odBlur 2.6s cubic-bezier(.16,1,.3,1) calc(.35s + var(--dl)) both}
+@keyframes odBlur{0%{filter:blur(0)}12%{filter:blur(2.5px)}55%{filter:blur(1px)}100%{filter:blur(0)}}
+@media (prefers-reduced-motion:reduce){ .pj .dt-res.in .od-r{transition:none;animation:none} }
+/* Template System — 전체 페이지 이미지 위에 코드 텍스트 */
+.pj .dt-tsx{position:relative}
+.pj .dt-ts-h{position:absolute;left:0;right:0;top:clamp(120px,12vw,200px);z-index:3}
+.pj .dt-ts{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-top:-2.639vw;aspect-ratio:1440/3955;overflow:hidden}
+.pj .dt-ts-bg{position:absolute;left:0;top:0;width:100.139%;height:auto;max-width:none;display:block}
+.pj .dt-screen{position:absolute;left:20.972%;top:7.332%;width:22.778%;height:18.003%;overflow-y:auto;overflow-x:hidden;border-radius:12.2% / 5.6%;scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;z-index:1}
+.pj .dt-screen::-webkit-scrollbar{display:none}
+.pj .dt-scr-in{position:relative;margin-top:-3.049%}
+.pj .dt-scr-in img{display:block;width:100%;height:auto;max-width:none}
+.pj .dt-kvw{position:absolute;left:0;right:0;top:0;padding-top:30.79%;pointer-events:none}
+.pj .dt-kvw video{display:block;width:100%;height:auto}
+.pj .dt-island{position:absolute;left:28.75%;top:7.585%;width:7.222%;height:.7585%;background:#000;border-radius:999px;z-index:2;pointer-events:none}
+.pj .dt-sp{position:absolute;left:32.361%;transform:translateX(-50%);text-align:center;white-space:nowrap;z-index:2}
+.pj .dt-sp span{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;color:#E8541E}
+.pj .dt-sp p{margin-top:6px;font-size:13px;line-height:1.5;color:#B9B9B5}
+.pj .dt-vec{display:block;width:42.153vw;height:auto;max-width:none;margin:2.3vw 0 2.3vw}
+.pj .dt-vec + p{margin-top:0}
+.pj .dt-co{position:absolute;display:flex;align-items:flex-start;gap:1.25vw;z-index:2}
+.pj .dt-co.rev{flex-direction:row-reverse;text-align:right}
+.pj .dt-ln{flex:none;width:3.958vw;height:1.5px;margin-top:calc(clamp(16px,1.25vw,18px) * .72);background:repeating-linear-gradient(90deg,#fff 0 3px,transparent 3px 6px);position:relative}
+.pj .dt-ln::after{content:'';position:absolute;right:-3px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:#fff}
+.pj .dt-co.rev .dt-ln::after{right:auto;left:-3px}
+.pj .dt-co b{display:block;font-size:clamp(16px,1.25vw,18px);font-weight:700;line-height:1.45;color:#F2F2F0}
+.pj .dt-co p{margin-top:10px;font-size:15px;line-height:1.67;letter-spacing:-.01em;color:#B9B9B5}
+.pj .dt-co p span{display:block}
+/* Spin-off */
+.pj .dt-spin{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,3.2vw,46px);width:min(1172px,100%);margin:clamp(48px,5vw,72px) auto 0}
+.pj .dt-spin figure{margin:0}
+.pj .dt-spin img{display:block;width:100%;height:auto}
+/* AI Visual */
+.pj .dt-ai{padding-bottom:clamp(120px,12vw,200px)}
+.pj .dt-ba{display:grid;grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr);align-items:center;margin-top:clamp(48px,5vw,72px)}
+.pj .dt-ba img{display:block;width:100%;height:auto}
+.pj .dt-chev{width:11px;height:22px;margin:0 auto;color:rgba(255,255,255,.7)}
+.pj .dt-cuts-k{margin-top:64px;font-size:13px;font-weight:600;letter-spacing:.02em;color:#E8541E}
+.pj .dt-cuts{display:block;width:100%;height:auto;margin-top:16px}
+@media (max-width:1100px){ .pj .dt-co p{font-size:13px} .pj .dt-co p span{display:inline} .pj .dt-co p span::after{content:' '} .pj .dt-co{max-width:34vw} .pj .dt-co.rev{max-width:28vw} }
+@media (max-width:900px){
+  .pj .dt-res ul{grid-template-columns:minmax(0,1fr)}
+  .pj .dt-res li{padding:20px 0 0;border-left:0;border-top:1px solid #3A3330;margin-top:20px}
+  .pj .dt-res li:first-child{margin-top:0;padding-top:0;border-top:0}
+  .pj .dt-ts-h{position:static}
+  .pj .dt-ts{margin-top:40px}
+  .pj .dt-co,.pj .dt-sp{display:none}
+  .pj .dt-spin{grid-template-columns:minmax(0,1fr);max-width:420px}
+  .pj .dt-ba{grid-template-columns:minmax(0,1fr);gap:12px}
+  .pj .dt-chev{transform:rotate(90deg)}
+  .pj .dt-cuts-k{margin-top:40px}
+}
 /* ═════ OJOS — Project Background (왼쪽 글 + 오른쪽 룩 이미지) ═════ */
 .pj .bgx2{display:grid;grid-template-columns:minmax(0,596fr) minmax(0,694fr);align-items:start;width:min(1264px,100%);margin:0 auto}
 .pj .bgx2-l h2{font-family:var(--point);font-weight:700;font-size:clamp(30px,3.06vw,44px);letter-spacing:-.035em;line-height:1.3;text-transform:uppercase}
@@ -1524,7 +1597,26 @@ const PROJECTS = { ai: [
       { t:'jsmob' },
     ],
   },
-  null,
+  {
+    title:['DESSERT TABLE'], thumb:'Promotional_Thumbnail.png', oneLine:true, heroFit:true, heroCls:'kv169 kvdt', brand:'KREAM', cat:'Promotion', pageBg:'#1E1A18',
+    sub:'인플루언서가 직접 고른 이달의 디저트, 매월 이어지는 KREAM F&B 시리즈',
+    meta:[['Date','2026.02.04 ~'],['Contribution','100%'],['Tools','Figma, After Effects'],['Contribution','100%']],
+    hero:{ src:'dessert_keyvisual.png', cap:'', ar:.5625 },
+    blocks:[
+      { t:'dtbg', title:'Background',
+        body:['디저트 테이블은 매월 운영되는 F&B 프로모션입니다.','매달 바뀌는 상품과 협업 콘텐츠를 같은 틀로 운영할 수 있도록','인터뷰 → 상품 → 리뷰 구조를 통해 완독률과 체류시간 상승을 유도했습니다.'],
+        cards:[['01','OBJECTIVE',['매월 운영되는','F&B 프로모션'],'상품·인플루언서가 매달 바뀌는 시리즈'],
+               ['02','GOAL',['협업 콘텐츠를','효율적으로 운영하기'],'가독성과 콘텐츠 흐름 중심의 템플릿'],
+               ['03','ACTION',['인터뷰 → 상품 → 리뷰','흐름의 템플릿 설계'],'완독률과 체류시간 상승 유도']],
+        result:{ title:'디저트 테이블 3회차 운영 성과', items:[['구매 전환율','×25','평균 대비 최대',1],['신규 가입 구매자','+847','명'],['전 지면 거래액','8,048','만 원']] } },
+      { t:'dtts', title:'Template System', lead:['매달 바뀌는 협업도 같은 틀 안에서 운영되도록'] },
+      { t:'dtsp', title:'Spin-off', lead:['디저트 테이블 템플릿을','커피 · 기프트 테이블로 확장했습니다.'],
+        body:['같은 구조에 테마와 상품만 바꿔,','커피 드립백 세트와 추석 선물 셀렉션까지 시리즈를 확장했습니다.'],
+        imgs:[['DESSERT TABLE mobile','디저트 테이블 Ep.03 KREAM × 시녕'],['COFFEE TABLE mobile2','커피 테이블 Ep.05 KREAM × 안스타'],['COFFEE TABLE mobile3','기프트 테이블 추석 선물 셀렉션']] },
+      { t:'dtai', title:'AI Visual', lead:['브랜드 제공 이미지의 퀄리티 이슈를','AI 연출컷으로 대응했습니다.'],
+        body:['원본 에셋을 바탕으로 AI로 디저트 연출컷을 제작해','기획전 톤에 맞는 비주얼로 교체했습니다.'] },
+    ],
+  },
   {
     title:['KREAM+ ESSENTIAL'], thumb:'kreamplus_thum.png', oneLine:true, heroFit:true, heroCls:'kv169', brand:'KREAM+',
     sub:'크림 오프라인 스토어의 새 이름, 크림플러스를 알리는 에센셜 기획전',
@@ -1628,6 +1720,16 @@ function blockHTML(b){
 
 
 const kpL = a => a.map(l => `<span>${l}</span>`).join('');
+/* ═════ DESSERT TABLE ═════ */
+const dtOdo = v => v.split('').map((ch, i, a) => {
+  if (!/\d/.test(ch)) return `<span class="od-s">${ch}</span>`;
+  const d = +ch, k = a.slice(0, i).filter(c => /\d/.test(c)).length, loops = 2 + k * 2;   /* 오른쪽 자리일수록 더 많이·빠르게 돌아감 */
+  const seq = Array.from({ length:loops * 10 + d + 1 }, (_, j) => j % 10);
+  return `<span class="od"><span class="od-r" style="--n:${loops * 10 + d};--dl:${(a.length - i) * 0.06}s">${seq.map(n => `<i>${n}</i>`).join('')}</span></span>`;
+}).join('');
+const dtCo = (x, y, title, desc, rev, mid = '') => `<div class="dt-co${rev ? ' rev' : ''}" style="${rev ? `right:${(100 - x / 14.4).toFixed(3)}%` : `left:${(x / 14.4).toFixed(3)}%`};top:${(y / 39.55).toFixed(3)}%"><i class="dt-ln" aria-hidden="true"></i><div><b>${title}</b>${mid}<p>${desc.map(l => `<span>${l}</span>`).join('')}</p></div></div>`;
+const DT_SCREEN = `<div class="dt-screen"><div class="dt-scr-in">${[0,1,2,3,4].map(n => `<img src="dessert_${n}.png" alt="" onerror="this.remove()">`).join('')}<div class="dt-kvw"><video src="dessert_KV.mp4" muted loop playsinline preload="metadata"></video></div></div></div>`;
+
 const kpCar = (cls, imgs) => `<div class="kp-carousel kp-carousel--${cls}"><div class="kp-carousel-track">${imgs.map(([s, a]) => `<img src="${s}" alt="${a}">`).join('')}</div></div>`;
 const KP_PHONE = `<div class="kp-phone-screen" style="left:12.25%;top:1.585%;width:22.333%;height:39.97%;border-radius:14.9% / 6.9%;">
   <img src="nevi.png" alt="" style="position:sticky;top:0;z-index:2;">
@@ -1722,6 +1824,48 @@ function blockHTML2(b){
       ${[2,3,4,5,6,7,8,9,10,11,12,13].map(n => `<img src="joseph_5-${n}.png" alt="조셉앤스테이시 × 몬치치 모바일 랜딩 페이지 ${n}">`).join('')}
     </div>
     <i class="js-island" aria-hidden="true"></i>
+  </section>`;
+  if (b.t === 'dtbg') return `
+  <section class="c-sec kp kp-bg dt">
+    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><p class="kp-body rv-t">${kpL(b.body)}</p></div>
+    <ul class="kp-cards">${b.cards.map(([n, k, h, t], i) => `<li class="rv-t" style="transition-delay:${i * .1}s"><span class="kp-no">${n}&nbsp;&nbsp;${k}</span><b>${kpL(h)}</b><em>${t}</em></li>`).join('')}</ul>
+    <div class="dt-res rv-t">
+      <span class="dt-res-k">RESULT</span><b class="dt-res-t">${b.result.title}</b>
+      <ul>${b.result.items.map(([k, v, u, acc]) => `<li><span class="dt-res-l">${k}</span><div class="dt-res-v"><strong class="${acc ? 'acc' : ''}" aria-label="${v}">${dtOdo(v)}</strong><small>${u}</small></div></li>`).join('')}</ul>
+    </div>
+  </section>`;
+  if (b.t === 'dtts') return `
+  <section class="c-sec kp dt dt-tsx">
+    <div class="kp-2c dt-ts-h"><h2 class="kp-h rv-t">${b.title}</h2><p class="kp-lead rv-t">${kpL(b.lead)}</p></div>
+    <div class="dt-ts">
+      <img class="dt-ts-bg" src="dessert_page.png" alt="디저트 테이블 모바일 페이지 전체 구성">
+      ${DT_SCREEN}
+      <i class="dt-island" aria-hidden="true"></i>
+      <div class="dt-sp" style="top:${(202 / 39.55).toFixed(3)}%"><span>SCROLL PREVIEW</span><p>화면을 스크롤해서 실제 랜딩을 확인해보세요.</p></div>
+      ${dtCo(634, 390, '타이틀 디자인', ['‘월간 크림 · Ep.’ 매거진형 헤더와 디저트 테이블 타이틀을','디자인하여 매달 이어지는 시리즈의 정체성을 만들었습니다.','회차가 바뀌어도 같은 타이틀로 시리즈임을 바로 알아볼 수 있도록 했습니다.'], 0, '<img class="dt-vec" src="dessert_Vector.png" alt="디저트 테이블 타이틀">')}
+      ${dtCo(634, 746, 'KV 템플릿', ['큐레이션 상품의 대표 이미지가 롤링되는 KV를 애프터이펙트 템플릿으로 제작해,','회차마다 이미지와 텍스트만 교체하면 바로 운영할 수 있도록 구성했습니다.'])}
+      ${dtCo(634, 1312, '협업 스토리 캐러셀', ['긴 협업 스토리를 카드뉴스 단위로 나눠,','캐러셀로 한 장씩 넘기며 가볍게 읽히도록 구성했습니다.'])}
+      ${dtCo(634, 1885, '브랜드 숏컷', ['참여 브랜드홈으로 이어질 수 있도록 숏컷을 상단에 배치했습니다.'])}
+      ${dtCo(634, 2056, '추천 셀렉션 배너', ['브랜드별 추천 세트 바로가기를 일자별로 세팅해,','바로 상품으로 이동하도록 구성했습니다.'])}
+      ${dtCo(1147, 2602, '브랜드 상세 템플릿', ['한줄평 · 이미지 · 상품을','한 세트로 묶고, 브랜드만','교체해 반복 운영했습니다.'])}
+      ${dtCo(802, 3346, '스타일 리뷰 갤러리', ['구매 후기를 갤러리로 모아','리뷰 링크로 바로 이어지도록 구성했습니다.'], 1)}
+    </div>
+  </section>`;
+  if (b.t === 'dtsp') return `
+  <section class="c-sec kp dt">
+    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body rv-t">${kpL(b.body)}</p></div></div>
+    <div class="dt-spin">${b.imgs.map(([f, a], i) => `<figure class="rv-t" style="transition-delay:${i * .12}s"><img src="${encodeURI(f)}.png" alt="${a}"></figure>`).join('')}</div>
+  </section>`;
+  if (b.t === 'dtai') return `
+  <section class="c-sec kp dt dt-ai">
+    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body rv-t">${kpL(b.body)}</p></div></div>
+    <div class="dt-ba rv-t">
+      <img src="dessert_Ai1.png" alt="BEFORE · 브랜드 제공 원본 에셋">
+      <svg class="dt-chev" viewBox="0 0 11 22" aria-hidden="true"><path d="M1 1l9 10-9 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <img src="dessert_Ai2.png" alt="AFTER · AI 연출컷">
+    </div>
+    <p class="dt-cuts-k rv-t">AI CUTS</p>
+    <img class="dt-cuts rv-t" src="dessert_Ai3.png" alt="AI 연출컷 전체 8컷">
   </section>`;
   if (b.t === 'kpbg') return `
   <section class="c-sec kp kp-bg${b.lt ? ' kplt js-sec' : ''}"${b.bg ? ` style="--sbg:${b.bg}"` : ''}>
@@ -2277,7 +2421,7 @@ setInterval(() => { pcT++; document.querySelectorAll('.pcw .pcm.alt').forEach(m 
 
 function projectHTML(ci, pi){
   const p = PROJECTS[CATS[ci].key][pi];
-  return `
+  return `${p.pageBg ? `<style>.wv{background:${p.pageBg}}</style>` : ''}
   <header class="p-head">
     <ul class="p-meta">
       <li><span>${p.cat || CATS[ci].name}</span><b>${p.brand || `${pad(pi + 1)} / ${pad(PROJECTS[CATS[ci].key].length)}`}</b></li>
