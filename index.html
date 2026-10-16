@@ -1166,6 +1166,7 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 
 /* ═════ DESSERT TABLE ═════ */
 .p-hero.kvdt .fr img{object-position:50% 50%}
+.pj .p-hero.kvdt{background:#000}
 .pj .dt .kp-no{color:#E8541E}
 .pj .dt .kp-cards li{border-top-color:#3A3330}
 /* RESULT — 숫자 롤링 */
@@ -1194,10 +1195,12 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .pj .dt-ts-bg{position:absolute;left:0;top:0;width:100.139%;height:auto;max-width:none;display:block}
 .pj .dt-screen{position:absolute;left:20.972%;top:7.332%;width:22.778%;height:18.003%;overflow-y:auto;overflow-x:hidden;border-radius:12.2% / 5.6%;scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;z-index:1}
 .pj .dt-screen::-webkit-scrollbar{display:none}
-.pj .dt-scr-in{position:relative;margin-top:-3.049%}
-.pj .dt-scr-in img{display:block;width:100%;height:auto;max-width:none}
-.pj .dt-kvw{position:absolute;left:0;right:0;top:0;padding-top:30.79%;pointer-events:none}
-.pj .dt-kvw video{display:block;width:100%;height:auto}
+.pj .dt-screen{background:#fff;container-type:inline-size}
+.pj .dt-screen > img,.pj .dt-screen > video{display:block;width:100%;height:auto;max-width:none}
+.pj .dt-nevi{position:sticky;top:0;z-index:2}
+.pj .dt-car{background:#fff}
+.pj .dt-car .kp-carousel-track{gap:2.13cqw;padding:0 4.27cqw;align-items:flex-start}
+.pj .dt-car .kp-carousel-track img{height:auto;width:calc(var(--f,.72) * 100cqw)}
 .pj .dt-island{position:absolute;left:28.75%;top:7.585%;width:7.222%;height:.7585%;background:#000;border-radius:999px;z-index:2;pointer-events:none}
 .pj .dt-sp{position:absolute;left:32.361%;transform:translateX(-50%);text-align:center;white-space:nowrap;z-index:2}
 .pj .dt-sp span{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;color:#E8541E}
@@ -1212,6 +1215,30 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .pj .dt-co b{display:block;font-size:clamp(16px,1.25vw,18px);font-weight:700;line-height:1.45;color:#F2F2F0}
 .pj .dt-co p{margin-top:10px;font-size:15px;line-height:1.67;letter-spacing:-.01em;color:#B9B9B5}
 .pj .dt-co p span{display:block}
+
+/* Template System 설명 인터랙션 */
+.pj .dt-co .dt-ln{transform:scaleX(0);transform-origin:left center;transition:transform .9s var(--ease);animation:dtDash .9s linear infinite}
+.pj .dt-co.rev .dt-ln{transform-origin:right center;animation-direction:reverse}
+.pj .dt-ln::after{transform:scale(0);transition:transform .5s cubic-bezier(.3,1.6,.5,1) .75s}
+.pj .dt-ln::before{content:'';position:absolute;right:-3px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:#fff;opacity:0}
+.pj .dt-co.rev .dt-ln::before{right:auto;left:-3px}
+.pj .dt-co.in .dt-ln::before{animation:dtPing 2.4s ease-out 1.3s infinite}
+.pj .dt-co b,.pj .dt-co .dt-vec,.pj .dt-co p span{opacity:0;transform:translateY(16px);transition:opacity .8s var(--ease),transform 1s var(--ease)}
+.pj .dt-co b{transition-delay:.45s}
+.pj .dt-co .dt-vec{transform:translateY(24px);clip-path:inset(0 100% 0 0);transition:opacity .6s var(--ease) .6s,transform 1s var(--ease) .6s,clip-path 1.2s var(--ease) .6s}
+.pj .dt-co p span:nth-child(1){transition-delay:.6s}.pj .dt-co p span:nth-child(2){transition-delay:.7s}.pj .dt-co p span:nth-child(3){transition-delay:.8s}
+.pj .dt-co .dt-vec + p span:nth-child(1){transition-delay:1s}.pj .dt-co .dt-vec + p span:nth-child(2){transition-delay:1.1s}.pj .dt-co .dt-vec + p span:nth-child(3){transition-delay:1.2s}
+.pj .dt-co.in .dt-ln{transform:none}
+.pj .dt-co.in .dt-ln::after{transform:none}
+.pj .dt-co.in b,.pj .dt-co.in p span{opacity:1;transform:none}
+.pj .dt-co.in .dt-vec{opacity:1;transform:none;clip-path:inset(0 0 0 0)}
+.pj .dt-co b{transition-property:opacity,transform,color}
+.pj .dt-co.on b{color:#E8541E}
+.pj .dt-sp{opacity:0;transition:opacity .9s var(--ease),transform 1s var(--ease);transform:translate(-50%,16px)}
+.pj .dt-sp.in{opacity:1;transform:translate(-50%,0)}
+@keyframes dtDash{to{background-position:6px 0}}
+@keyframes dtPing{0%{opacity:.6;transform:scale(1)}70%,100%{opacity:0;transform:scale(3.2)}}
+@media (prefers-reduced-motion:reduce){ .pj .dt-co .dt-ln,.pj .dt-co b,.pj .dt-co p span,.pj .dt-co .dt-vec,.pj .dt-sp{transition:none;animation:none;opacity:1;transform:none;clip-path:none} .pj .dt-sp{transform:translateX(-50%)} .pj .dt-ln::after{transform:none} }
 /* Spin-off */
 .pj .dt-spin{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,3.2vw,46px);width:min(1172px,100%);margin:clamp(48px,5vw,72px) auto 0}
 .pj .dt-spin figure{margin:0}
@@ -1728,7 +1755,21 @@ const dtOdo = v => v.split('').map((ch, i, a) => {
   return `<span class="od"><span class="od-r" style="--n:${loops * 10 + d};--dl:${(a.length - i) * 0.06}s">${seq.map(n => `<i>${n}</i>`).join('')}</span></span>`;
 }).join('');
 const dtCo = (x, y, title, desc, rev, mid = '') => `<div class="dt-co${rev ? ' rev' : ''}" style="${rev ? `right:${(100 - x / 14.4).toFixed(3)}%` : `left:${(x / 14.4).toFixed(3)}%`};top:${(y / 39.55).toFixed(3)}%"><i class="dt-ln" aria-hidden="true"></i><div><b>${title}</b>${mid}<p>${desc.map(l => `<span>${l}</span>`).join('')}</p></div></div>`;
-const DT_SCREEN = `<div class="dt-screen"><div class="dt-scr-in">${[0,1,2,3,4].map(n => `<img src="dessert_${n}.png" alt="" onerror="this.remove()">`).join('')}<div class="dt-kvw"><video src="dessert_KV.mp4" muted loop playsinline preload="metadata"></video></div></div></div>`;
+const dtImg = (f, a = '') => `<img src="${/\.(png|jpg)$/.test(f) ? f : f + '.png'}" alt="${a}">`;
+const dtCar = fs => `<div class="kp-carousel dt-car"><div class="kp-carousel-track">${fs.map(f => dtImg(f)).join('')}</div></div>`;
+const DT_SCREEN = `<div class="dt-screen">
+  <img class="dt-nevi" src="nevi.png" alt="">
+  <video src="dessert_KV.mp4" muted loop playsinline preload="metadata" style="aspect-ratio:1124/1574"></video>
+  ${dtImg('dessert_1', '디저트 테이블 모바일 랜딩 페이지')}${dtImg('dessert_2')}
+  ${dtCar(['dessert_card1.jpg','dessert_card2.jpg','dessert_card3.jpg','dessert_card4.jpg','dessert_card5.jpg'])}
+  ${dtImg('dessert_3')}${dtImg('dessert_4')}
+  ${dtCar(['dessert_card2-1.jpg','dessert_card2-2.jpg','dessert_card2-3.jpg','dessert_card2-4.jpg','dessert_card2-5.jpg'])}
+  ${dtImg('dessert_5')}
+  ${dtCar(['dessert_card3-1.jpg','dessert_card3-2.jpg','dessert_card3-3.jpg','dessert_card3-4.jpg'])}
+  ${dtImg('dessert_6')}
+  ${dtCar(['dessert_card4-1.png','dessert_card4-2.png','dessert_card4-3.png'])}
+  ${dtImg('dessert_7')}
+</div>`;
 
 const kpCar = (cls, imgs) => `<div class="kp-carousel kp-carousel--${cls}"><div class="kp-carousel-track">${imgs.map(([s, a]) => `<img src="${s}" alt="${a}">`).join('')}</div></div>`;
 const KP_PHONE = `<div class="kp-phone-screen" style="left:12.25%;top:1.585%;width:22.333%;height:39.97%;border-radius:14.9% / 6.9%;">
@@ -2419,9 +2460,15 @@ document.addEventListener('click', e => { const box = e.target.closest('.pc-vid[
 document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.pc-vid[data-b]')){ e.preventDefault(); pcSwap(e.target); } });
 setInterval(() => { pcT++; document.querySelectorAll('.pcw .pcm.alt').forEach(m => m.classList.toggle('show', pcT % 2 === 1)); }, 2600);
 
+function dtSize(pj){
+  const scr = pj.querySelector('.dt-screen'); if (!scr) return;
+  const fit = () => { const ref = scr.querySelector(':scope > img[src^="dessert_"]'); const W = ref && ref.naturalWidth || 1125;
+    scr.querySelectorAll('.dt-car img').forEach(i => { if (i.naturalWidth) i.style.setProperty('--f', (i.naturalWidth / W).toFixed(4)); }); };
+  scr.querySelectorAll('img').forEach(i => i.complete ? 0 : i.addEventListener('load', fit, { once:true })); fit();
+}
 function projectHTML(ci, pi){
   const p = PROJECTS[CATS[ci].key][pi];
-  return `${p.pageBg ? `<style>.wv{background:${p.pageBg}}</style>` : ''}
+  return `${p.pageBg ? `<style>.wv{background:${p.pageBg}}.wv .pj > .p-head{background:#000;box-shadow:0 0 0 100vmax #000;clip-path:inset(-100vmax -100vmax 0)}</style>` : ''}
   <header class="p-head">
     <ul class="p-meta">
       <li><span>${p.cat || CATS[ci].name}</span><b>${p.brand || `${pad(pi + 1)} / ${pad(PROJECTS[CATS[ci].key].length)}`}</b></li>
@@ -2692,6 +2739,7 @@ function ddFrame(pj, vh){
 }
 function wire(pj){
   flyInit(pj);
+  dtSize(pj);
   ringInit(pj);
   ddInit(pj);
   rvIO && rvIO.disconnect(); vIO && vIO.disconnect();
@@ -2770,6 +2818,7 @@ function frame(){
   /* 새 블록: 텍스트 블록 등장, 디자인 프로세스 고정 스크롤, 결과물 프레임 스크롤 */
   pj.querySelectorAll('.rv-t:not(.in)').forEach(el => { const r = el.getBoundingClientRect(); if (r.top < vh * .86) el.classList.add('in'); });
   pj.querySelectorAll('.rv:not(.in)').forEach(el => { const r = el.getBoundingClientRect(); if (r.top < vh * .9) el.classList.add('in'); });
+  pj.querySelectorAll('.dt-co, .dt-sp').forEach(el => { const r = el.getBoundingClientRect(); if (r.top < vh * .8) el.classList.add('in'); if (el.classList.contains('dt-co')) el.classList.toggle('on', r.top < vh * .62 && r.bottom > vh * .22); });
   pj.querySelectorAll('.mbx:not(.in)').forEach(m => { if (m.getBoundingClientRect().top < vh * .8) m.classList.add('in'); });
   pj.querySelectorAll('.ps2').forEach(ps => {
     const figs = [...ps.querySelectorAll('.ps2-imgs figure')]; let i = 0;
