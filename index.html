@@ -1469,10 +1469,13 @@ button,input,select,textarea{font-family:inherit}
 .pj .cmv{width:100vw;margin-left:calc(50% - 50vw);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,4vw,72px);align-items:start;padding:clamp(120px,12vw,200px) var(--gutter) clamp(80px,8vw,140px) clamp(24px,6vw,88px)}
 .pj .cmv-l{position:sticky;top:34svh}
 .pj .cmv-k{font-family:var(--sans);font-weight:500;font-size:22px;line-height:40px;color:#fff}
-.pj .cmv-t{margin-top:clamp(20px,2.4vw,32px);font-size:clamp(17px,1.53vw,22px);line-height:1.75;letter-spacing:-.01em;color:#fff}
+.pj .cmv-t{margin-top:clamp(20px,2.4vw,32px);font-size:var(--t-body);line-height:1.7;letter-spacing:-.01em;color:#B9B9B5}
 .pj .cmv-t span{display:block;white-space:nowrap}
 .pj .cmv-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:clamp(40px,4vw,64px);max-width:520px}
 .pj .cmv-steps figure{margin:0}.pj .cmv-steps video{display:block;width:100%;height:auto;border-radius:4px;background:#111;object-fit:cover}
+.pj .cmv-steps.n5{grid-template-columns:repeat(5,minmax(0,1fr));max-width:600px}
+.pj .cmv-steps img{display:block;width:100%;height:auto;border-radius:4px;background:#111;object-fit:cover}
+.pj .cmv-link{margin-top:clamp(28px,3vw,40px)}
 .pj .cmv-steps figcaption{margin-top:8px;font-size:12px;color:#7E7E7A;font-variant-numeric:tabular-nums}
 .pj .cmv-r{display:flex;justify-content:center}
 .pj .cmv-r video{display:block;width:min(100%,560px);height:auto;border-radius:6px}
@@ -1573,6 +1576,29 @@ const PROJECTS = { ai: [
     meta:[['Date','2026.03.16'],['Contribution','100%'],['Tools','Nano Banana, Kling, After Effects'],['Contribution','100%']],
     hero:{ src:'aicreative2intro.png', cap:'', ar:.3976 },
     blocks:[{ t:'cmv', video:'global.mp4', dur:14.15, ar:'1000/1500', lines:['몽벨 해외직구 프로모션 키비주얼 작업입니다.','별도 연출컷 없이 상품 누끼컷 에셋으로','AI를 활용해 해외 직구 무드의','진공 포장 연출 영상을 제작하여','프로모션 비주얼을 구성했습니다.'] }],
+  },
+], '3d': [
+  {
+    title:['KREAM DRAW'], thumb:'3DArtwork_Thumbnail.png', oneLine:true, tsz:'clamp(30px,5.6vw,108px)', heroFit:true, heroCls:'kvcrop', brand:'KREAM',
+    sub:'3D 큐브로 완성해가는 KREAM DRAW, 크림드로우 키비주얼 리뉴얼 시안',
+    meta:[['Proposal','시안'],['Contribution','100%'],['Tools','Blender, After Effects'],['Contribution','100%']],
+    hero:{ src:'3DArtworkintro.png', cap:'', ar:.3976 },
+    blocks:[{ t:'cmv', video:'3DArtwork1.mp4', dur:13.8, ar:'1000/1200', lines:['크림드로우 리뉴얼 시안 작업입니다.','기존 크림드로우의 텍스트 중심의 키비주얼에서 벗어나,','3D 큐브를 활용해 ‘KREAM DRAW’ 타이포를 완성해가는','방식으로 시각적인 재미를 더하고자 했습니다.','기존 키비주얼 대비 더 주목도 있는 방향으로 리뉴얼을 제안했습니다.'] }],
+  },
+  {
+    title:['P.FUNK SELECTION'], thumb:'3DArtwork3-1_Thumbnail.png', oneLine:true, tsz:'clamp(30px,5.6vw,108px)', heroFit:true, heroCls:'kvcrop', brand:'L7 Hotels',
+    sub:'70년대 레트로와 우주 감성으로 완성한 플레이리스트 커버, NICE MUSIK VOL.16',
+    meta:[['Date','2024.09.05'],['Contribution','100%'],['Tools','Cinema 4D, After Effects'],['Contribution','100%']],
+    hero:{ src:'3DArtwork3-1intro.png', cap:'', ar:.3976 },
+    blocks:[{ t:'cmv', video:'p_funk_final.mp4', dur:39.6, ar:'882/880', lines:['L7 Hotels 공식 인스타그램·스포티파이에 업로드되는','플레이리스트 NICE MUSIK VOL.16의 커버 디자인을 제작했습니다.','P.Funk의 70년대 레트로 무드와 우주적 감성을 테마로, 별과 우주를','연상시키는 배경 모션에 레트로 타이포그래피와 3D 오브젝트를 조합해','음악의 그루브한 에너지를 시각화했습니다.'] }],
+  },
+  {
+    title:['2025 TREND LEVEL TEST'], thumb:'3DArtwork2-1_Thumbnail.png', oneLine:true, tsz:'clamp(30px,5.6vw,108px)', heroFit:true, heroCls:'kvcrop', brand:'KREAM',
+    sub:'퀴즈로 알아보는 나의 트렌드 레벨, 3D 캐릭터로 완성한 참여형 테스트',
+    meta:[['Date','2025.07.16'],['Contribution','100%'],['Tools','Cinema 4D, Figma'],['Contribution','100%']],
+    hero:{ src:'3DArtwork2-1intro.png', cap:'', ar:.3976 },
+    blocks:[{ t:'cmv', video:'lvcover.mp4', dur:5, ar:'1000/1920', sar:'1000/1778', steps:[['lv1.jpg','Lv.1'],['lv2.jpg','Lv.2'],['lv3.jpg','Lv.3'],['lv4.jpg','Lv.4'],['lv5.jpg','Lv.5']], link:['테스트 해보기','https://content.kream.co.kr/trendtest'],
+      lines:['2025 KREAM 상반기 트렌드 리포트와 함께','진행된 참여형 콘텐츠로, 퀴즈를 통해 자신의 트렌드 레벨을','확인할 수 있는 테스트 형식의 프로모션입니다.','키비주얼과 질문지, 5가지 레벨의 결과 페이지 디자인을 담당했으며,','누구나 가볍고 즐겁게 참여할 수 있도록 3D 캐릭터를 활용해','각 레벨별 캐릭터 비주얼을 구성했습니다.'] }],
   },
 ], own: [
   {
@@ -1943,7 +1969,7 @@ function blockHTML2(b){
     <h2 class="kp-h rv-t">${b.title}</h2>
     <div class="kp-adv rv-t"><video src="${b.video}" muted loop playsinline preload="metadata"></video></div>
   </section>`;
-  if (b.t === 'cmv') return `<section class="cmv"><div class="cmv-l"><h3 class="cmv-k">Comment</h3><p class="cmv-t">${b.lines.map(l => `<span>${l}</span>`).join('')}</p><div class="cmv-steps">${[.1,.37,.63,.9].map((f, i) => `<figure><video class="cmv-st" src="${b.video}#t=${(b.dur * f).toFixed(2)}" muted playsinline preload="auto" style="aspect-ratio:${b.ar}"></video><figcaption>0${i + 1}</figcaption></figure>`).join('')}</div></div><div class="cmv-r"><video src="${b.video}" muted loop playsinline autoplay preload="metadata" style="aspect-ratio:${b.ar}"></video></div></section>`;
+  if (b.t === 'cmv') return `<section class="cmv"><div class="cmv-l"><h3 class="cmv-k">COMMENT</h3><p class="cmv-t">${b.lines.map(l => `<span>${l}</span>`).join('')}</p><div class="cmv-steps${b.steps ? ' n' + b.steps.length : ''}">${b.steps ? b.steps.map(([src, cap]) => `<figure><img src="${src}" alt="${cap}" style="aspect-ratio:${b.sar || b.ar}"><figcaption>${cap}</figcaption></figure>`).join('') : [.1,.37,.63,.9].map((f, i) => `<figure><video class="cmv-st" src="${b.video}#t=${(b.dur * f).toFixed(2)}" muted playsinline preload="auto" style="aspect-ratio:${b.ar}"></video><figcaption>0${i + 1}</figcaption></figure>`).join('')}</div>${b.link ? `<a class="kp-link cmv-link" href="${b.link[1]}" target="_blank" rel="noopener">${b.link[0]}<i aria-hidden="true">↗</i></a>` : ''}</div><div class="cmv-r"><video src="${b.video}" muted loop playsinline autoplay preload="metadata" style="aspect-ratio:${b.ar}"></video></div></section>`;
   if (b.t === 'dd') return ddHTML(b);
   if (b.t === 'ring') return `
   <section class="ringx" aria-label="${b.q.join(' ')}">
