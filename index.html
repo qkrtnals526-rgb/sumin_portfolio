@@ -1473,8 +1473,13 @@ button,input,select,textarea{font-family:inherit}
 .pj .cmv-t span{display:block;white-space:nowrap}
 .pj .cmv-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:clamp(40px,4vw,64px);max-width:520px}
 .pj .cmv-steps figure{margin:0}.pj .cmv-steps video{display:block;width:100%;height:auto;border-radius:4px;background:#111;object-fit:cover}
-.pj .cmv-steps.n5{grid-template-columns:repeat(5,minmax(0,1fr));max-width:600px}
-.pj .cmv-steps img{display:block;width:100%;height:auto;border-radius:4px;background:#111;object-fit:cover}
+.pj .cmv-bg{background:var(--cbg)}
+.pj .cmv-sl{position:relative;width:min(100%,560px);overflow:hidden;border-radius:6px;background:#111}
+.pj .cmv-sl-tr{position:absolute;inset:0;display:flex;transition:transform .9s cubic-bezier(.7,0,.2,1)}
+.pj .cmv-sl-tr > *{flex:none;width:100%;height:100%;object-fit:cover;display:block}
+.pj .cmv-sl-dots{position:absolute;left:0;right:0;bottom:14px;display:flex;justify-content:center;gap:6px;z-index:2}
+.pj .cmv-sl-dots i{width:6px;height:6px;border-radius:999px;background:rgba(255,255,255,.4);transition:width .4s var(--ease),background .4s}
+.pj .cmv-sl-dots i.on{width:18px;background:#fff}
 .pj .cmv-link{margin-top:clamp(28px,3vw,40px)}
 .pj .cmv-steps figcaption{margin-top:8px;font-size:12px;color:#7E7E7A;font-variant-numeric:tabular-nums}
 .pj .cmv-r{display:flex;justify-content:center}
@@ -1583,21 +1588,21 @@ const PROJECTS = { ai: [
     sub:'3D 큐브로 완성해가는 KREAM DRAW, 크림드로우 키비주얼 리뉴얼 시안',
     meta:[['Proposal','시안'],['Contribution','100%'],['Tools','Blender, After Effects'],['Contribution','100%']],
     hero:{ src:'3DArtworkintro.png', cap:'', ar:.3976 },
-    blocks:[{ t:'cmv', video:'3DArtwork1.mp4', dur:13.8, ar:'1000/1200', lines:['크림드로우 리뉴얼 시안 작업입니다.','기존 크림드로우의 텍스트 중심의 키비주얼에서 벗어나,','3D 큐브를 활용해 ‘KREAM DRAW’ 타이포를 완성해가는','방식으로 시각적인 재미를 더하고자 했습니다.','기존 키비주얼 대비 더 주목도 있는 방향으로 리뉴얼을 제안했습니다.'] }],
+    blocks:[{ t:'cmv', bg:'#222222', noSteps:true, video:'3DArtwork1.mp4', dur:13.8, ar:'1000/1200', lines:['크림드로우 리뉴얼 시안 작업입니다.','기존 크림드로우의 텍스트 중심의 키비주얼에서 벗어나,','3D 큐브를 활용해 ‘KREAM DRAW’ 타이포를 완성해가는','방식으로 시각적인 재미를 더하고자 했습니다.','기존 키비주얼 대비 더 주목도 있는 방향으로 리뉴얼을 제안했습니다.'] }],
   },
   {
     title:['P.FUNK SELECTION'], thumb:'3DArtwork3-1_Thumbnail.png', oneLine:true, tsz:'clamp(30px,5.6vw,108px)', heroFit:true, heroCls:'kvcrop', brand:'L7 Hotels',
     sub:'70년대 레트로와 우주 감성으로 완성한 플레이리스트 커버, NICE MUSIK VOL.16',
     meta:[['Date','2024.09.05'],['Contribution','100%'],['Tools','Cinema 4D, After Effects'],['Contribution','100%']],
     hero:{ src:'3DArtwork3-1intro.png', cap:'', ar:.3976 },
-    blocks:[{ t:'cmv', video:'p_funk_final.mp4', dur:39.6, ar:'882/880', lines:['L7 Hotels 공식 인스타그램·스포티파이에 업로드되는','플레이리스트 NICE MUSIK VOL.16의 커버 디자인을 제작했습니다.','P.Funk의 70년대 레트로 무드와 우주적 감성을 테마로, 별과 우주를','연상시키는 배경 모션에 레트로 타이포그래피와 3D 오브젝트를 조합해','음악의 그루브한 에너지를 시각화했습니다.'] }],
+    blocks:[{ t:'cmv', bg:'#222222', noSteps:true, video:'p_funk_final.mp4', dur:39.6, ar:'882/880', lines:['L7 Hotels 공식 인스타그램·스포티파이에 업로드되는','플레이리스트 NICE MUSIK VOL.16의 커버 디자인을 제작했습니다.','P.Funk의 70년대 레트로 무드와 우주적 감성을 테마로, 별과 우주를','연상시키는 배경 모션에 레트로 타이포그래피와 3D 오브젝트를 조합해','음악의 그루브한 에너지를 시각화했습니다.'] }],
   },
   {
     title:['2025 TREND LEVEL TEST'], thumb:'3DArtwork2-1_Thumbnail.png', oneLine:true, tsz:'clamp(30px,5.6vw,108px)', heroFit:true, heroCls:'kvcrop', brand:'KREAM',
     sub:'퀴즈로 알아보는 나의 트렌드 레벨, 3D 캐릭터로 완성한 참여형 테스트',
     meta:[['Date','2025.07.16'],['Contribution','100%'],['Tools','Cinema 4D, Figma'],['Contribution','100%']],
     hero:{ src:'3DArtwork2-1intro.png', cap:'', ar:.3976 },
-    blocks:[{ t:'cmv', video:'lvcover.mp4', dur:5, ar:'1000/1920', sar:'1000/1778', steps:[['lv1.jpg','Lv.1'],['lv2.jpg','Lv.2'],['lv3.jpg','Lv.3'],['lv4.jpg','Lv.4'],['lv5.jpg','Lv.5']], link:['테스트 해보기','https://content.kream.co.kr/trendtest'],
+    blocks:[{ t:'cmv', bg:'#222222', noSteps:true, video:'lvcover.mp4', dur:5, ar:'1000/1778', slides:[['lv1.jpg','Lv.1'],['lv2.jpg','Lv.2'],['lv3.jpg','Lv.3'],['lv4.jpg','Lv.4'],['lv5.jpg','Lv.5']], link:['테스트 하러가기','https://content.kream.co.kr/trendtest'],
       lines:['2025 KREAM 상반기 트렌드 리포트와 함께','진행된 참여형 콘텐츠로, 퀴즈를 통해 자신의 트렌드 레벨을','확인할 수 있는 테스트 형식의 프로모션입니다.','키비주얼과 질문지, 5가지 레벨의 결과 페이지 디자인을 담당했으며,','누구나 가볍고 즐겁게 참여할 수 있도록 3D 캐릭터를 활용해','각 레벨별 캐릭터 비주얼을 구성했습니다.'] }],
   },
 ], own: [
@@ -1969,7 +1974,7 @@ function blockHTML2(b){
     <h2 class="kp-h rv-t">${b.title}</h2>
     <div class="kp-adv rv-t"><video src="${b.video}" muted loop playsinline preload="metadata"></video></div>
   </section>`;
-  if (b.t === 'cmv') return `<section class="cmv"><div class="cmv-l"><h3 class="cmv-k">COMMENT</h3><p class="cmv-t">${b.lines.map(l => `<span>${l}</span>`).join('')}</p><div class="cmv-steps${b.steps ? ' n' + b.steps.length : ''}">${b.steps ? b.steps.map(([src, cap]) => `<figure><img src="${src}" alt="${cap}" style="aspect-ratio:${b.sar || b.ar}"><figcaption>${cap}</figcaption></figure>`).join('') : [.1,.37,.63,.9].map((f, i) => `<figure><video class="cmv-st" src="${b.video}#t=${(b.dur * f).toFixed(2)}" muted playsinline preload="auto" style="aspect-ratio:${b.ar}"></video><figcaption>0${i + 1}</figcaption></figure>`).join('')}</div>${b.link ? `<a class="kp-link cmv-link" href="${b.link[1]}" target="_blank" rel="noopener">${b.link[0]}<i aria-hidden="true">↗</i></a>` : ''}</div><div class="cmv-r"><video src="${b.video}" muted loop playsinline autoplay preload="metadata" style="aspect-ratio:${b.ar}"></video></div></section>`;
+  if (b.t === 'cmv') return `<section class="cmv${b.bg ? ' cmv-bg' : ''}"${b.bg ? ` style="--cbg:${b.bg}"` : ''}><div class="cmv-l"><h3 class="cmv-k">COMMENT</h3><p class="cmv-t">${b.lines.map(l => `<span>${l}</span>`).join('')}</p>${b.link ? `<a class="kp-link cmv-link" href="${b.link[1]}" target="_blank" rel="noopener">${b.link[0]}<i aria-hidden="true">↗</i></a>` : ''}${b.noSteps ? '' : `<div class="cmv-steps">${[.1,.37,.63,.9].map((f, i) => `<figure><video class="cmv-st" src="${b.video}#t=${(b.dur * f).toFixed(2)}" muted playsinline preload="auto" style="aspect-ratio:${b.ar}"></video><figcaption>0${i + 1}</figcaption></figure>`).join('')}</div>`}</div><div class="cmv-r">${b.slides ? `<div class="cmv-sl" style="aspect-ratio:${b.ar}"><div class="cmv-sl-tr"><video class="cmv-sl-v" src="${b.video}" muted playsinline preload="metadata"></video>${b.slides.map(([src, cap]) => `<img src="${src}" alt="${cap}">`).join('')}</div><div class="cmv-sl-dots">${['Intro', ...b.slides.map(x => x[1])].map((c, i) => `<i class="${i ? '' : 'on'}" title="${c}"></i>`).join('')}</div></div>` : `<video src="${b.video}" muted loop playsinline autoplay preload="metadata" style="aspect-ratio:${b.ar}"></video>`}</div></section>`;
   if (b.t === 'dd') return ddHTML(b);
   if (b.t === 'ring') return `
   <section class="ringx" aria-label="${b.q.join(' ')}">
@@ -2496,6 +2501,18 @@ function dtSize(pj){
     scr.querySelectorAll('.dt-car img').forEach(i => { if (i.naturalWidth) i.style.setProperty('--f', (i.naturalWidth / W).toFixed(4)); }); };
   scr.querySelectorAll('img').forEach(i => i.complete ? 0 : i.addEventListener('load', fit, { once:true })); fit();
 }
+function cmvSlide(pj){
+  pj.querySelectorAll('.cmv-sl').forEach(sl => {
+    const tr = sl.querySelector('.cmv-sl-tr'), items = [...tr.children], dots = [...sl.querySelectorAll('.cmv-sl-dots i')], v = sl.querySelector('video');
+    let i = 0, t = 0, seen = false;
+    const go = n => { clearTimeout(t); if (!document.body.contains(sl)) return; i = n % items.length;
+      tr.style.transform = `translateX(${-i * 100}%)`; dots.forEach((d, k) => d.classList.toggle('on', k === i));
+      if (items[i] === v){ try { v.currentTime = 0; } catch (e) {} v.play().catch(() => {}); t = setTimeout(() => go(i + 1), ((v.duration || 5) + .9) * 1000); }
+      else { v.pause(); t = setTimeout(() => go(i + 1), 2600); } };
+    v.addEventListener('ended', () => { if (items[i] === v) go(i + 1); });
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !seen){ seen = true; go(0); } }), { root:wv }).observe(sl);
+  });
+}
 function projectHTML(ci, pi){
   const p = PROJECTS[CATS[ci].key][pi];
   return `${p.pageBg ? `<style>.wv{background:${p.pageBg}}.wv .pj > .p-head{background:#000;box-shadow:0 0 0 100vmax #000;clip-path:inset(-100vmax -100vmax 0)}</style>` : ''}
@@ -2770,13 +2787,14 @@ function ddFrame(pj, vh){
 function wire(pj){
   flyInit(pj);
   dtSize(pj);
+  cmvSlide(pj);
   ringInit(pj);
   ddInit(pj);
   rvIO && rvIO.disconnect(); vIO && vIO.disconnect();
   rvIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); rvIO.unobserve(e.target); } }), { root:wv, rootMargin:'0px 0px -12% 0px' });
   pj.querySelectorAll('.rv').forEach(el => rvIO.observe(el));
   vIO = new IntersectionObserver(es => es.forEach(e => { e.isIntersecting ? e.target.play().catch(()=>{}) : e.target.pause(); }), { root:wv });
-  pj.querySelectorAll('video:not(.cmv-st)').forEach(v => vIO.observe(v));
+  pj.querySelectorAll('video:not(.cmv-st):not(.cmv-sl-v)').forEach(v => vIO.observe(v));
   const nx = pj.querySelector('.p-next');
   nx && nx.addEventListener('click', () => go(+nx.dataset.nci, +nx.dataset.npi));
 }
