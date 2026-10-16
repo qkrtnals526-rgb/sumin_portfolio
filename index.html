@@ -1244,7 +1244,8 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 @media (prefers-reduced-motion:reduce){ .pj .dt-co .dt-ln,.pj .dt-co b,.pj .dt-co p span,.pj .dt-co .dt-vec,.pj .dt-sp{transition:none;animation:none;opacity:1;transform:none;clip-path:none} .pj .dt-sp{transform:translateX(-50%)} .pj .dt-ln::after{transform:none} }
 /* Spin-off */
 .pj .dt-spin{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,3.2vw,46px);width:min(1172px,100%);margin:clamp(48px,5vw,72px) auto 0}
-.pj .dt-spin figure{margin:0}
+.pj .dt-spin figure{margin:0;display:flex;flex-direction:column;align-items:center}
+.pj .dt-spin .kp-link{margin-top:clamp(20px,2vw,28px)}
 .pj .dt-spin img{display:block;width:100%;height:auto}
 /* AI Visual */
 .pj .dt-ai{padding-bottom:clamp(120px,12vw,200px)}
@@ -1642,7 +1643,7 @@ const PROJECTS = { ai: [
       { t:'dtts', title:'Template System', lead:['매달 바뀌는 협업도 같은 틀 안에서 운영되도록'] },
       { t:'dtsp', title:'Spin-off', lead:['디저트 테이블 템플릿을','커피 · 기프트 테이블로 확장했습니다.'],
         body:['같은 구조에 테마와 상품만 바꿔,','커피 드립백 세트와 추석 선물 셀렉션까지 시리즈를 확장했습니다.'],
-        imgs:[['DESSERT TABLE mobile','디저트 테이블 Ep.03 KREAM × 시녕'],['COFFEE TABLE mobile2','커피 테이블 Ep.05 KREAM × 안스타'],['COFFEE TABLE mobile3','기프트 테이블 추석 선물 셀렉션']] },
+        imgs:[['DESSERT TABLE mobile','디저트 테이블 Ep.03 KREAM × 시녕','https://kream.co.kr/content/18733'],['COFFEE TABLE mobile2','커피 테이블 Ep.05 KREAM × 안스타','https://kream.co.kr/content/16440'],['COFFEE TABLE mobile3','기프트 테이블 추석 선물 셀렉션','https://kream.co.kr/content/18326']] },
       { t:'dtai', title:'AI Visual', lead:['브랜드 제공 이미지의 퀄리티 이슈를','AI 연출컷으로 대응했습니다.'],
         body:['원본 에셋을 바탕으로 AI로 디저트 연출컷을 제작해','기획전 톤에 맞는 비주얼로 교체했습니다.'] },
     ],
@@ -1898,7 +1899,7 @@ function blockHTML2(b){
   if (b.t === 'dtsp') return `
   <section class="c-sec kp dt">
     <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body rv-t">${kpL(b.body)}</p></div></div>
-    <div class="dt-spin">${b.imgs.map(([f, a], i) => `<figure class="rv-t" style="transition-delay:${i * .12}s"><img src="${encodeURI(f)}.png" alt="${a}"></figure>`).join('')}</div>
+    <div class="dt-spin">${b.imgs.map(([f, a, l], i) => `<figure class="rv-t" style="transition-delay:${i * .12}s"><img src="${encodeURI(f)}.png" alt="${a}">${l ? `<a class="kp-link" href="${l}" target="_blank" rel="noopener">기획전 바로가기<i aria-hidden="true">↗</i></a>` : ''}</figure>`).join('')}</div>
   </section>`;
   if (b.t === 'dtai') return `
   <section class="c-sec kp dt dt-ai">
