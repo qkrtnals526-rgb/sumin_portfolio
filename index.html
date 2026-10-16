@@ -1299,15 +1299,16 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .tcard.hv .tv{opacity:1}
 .film{position:fixed;inset:0;z-index:200;background:#000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
 .film.on{opacity:1;visibility:visible;transition:opacity .35s}
-.film .fc{--o:0;--w:min(calc(92svh * 9 / 16),48vw);position:absolute;left:50%;top:50%;width:var(--w);aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#111;cursor:pointer;
-  transform:translate(-50%,-50%) translateX(calc(var(--o) * min(46vw, var(--w) * 1.75))) scale(.64);opacity:.45;transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .5s}
+.film .fc{--o:0;--d:0;--d2:0;--w:min(calc(86svh * 9 / 16),34vw);position:absolute;left:50%;top:50%;width:var(--w);aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#111;cursor:pointer;
+  transform:translate(-50%,-50%) translateX(calc(var(--d) * (var(--w) * .81 + 24px) + var(--d2) * (var(--w) * .62 + 24px))) scale(.62);opacity:.45;transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .5s}
 .film .fc img,.film .fc video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .film .fc video{opacity:0;transition:opacity .4s}
 .film .fc.mid{transform:translate(-50%,-50%) scale(1);opacity:1;z-index:2}
 .film .fc.mid video{opacity:1}
 .film .fc.side:hover{opacity:.7}
 .film .fc.far{opacity:0;pointer-events:none}
-@media (max-width:700px){ .film .fc{--w:min(calc(80svh * 9 / 16),74vw)} .film .fc.side{opacity:.3} }
+.film .fc.gone{opacity:0;pointer-events:none}
+@media (max-width:900px){ .film .fc{--w:min(calc(80svh * 9 / 16),62vw)} .film .fc.side{opacity:.35} }
 .film-x{position:absolute;top:calc(env(safe-area-inset-top,0px) + 16px);right:var(--gutter);width:44px;height:44px;border:0;background:none;color:#fff;font-size:22px;cursor:pointer}
 /* ═════ OJOS — Project Background (왼쪽 글 + 오른쪽 룩 이미지) ═════ */
 .pj .bgx2{display:grid;grid-template-columns:minmax(0,596fr) minmax(0,694fr);align-items:start;width:min(1264px,100%);margin:0 auto}
@@ -2997,7 +2998,8 @@ function filmSet(n){
   const N = FILMS.length; filmCur = (n + N) % N;
   fcs.forEach((el, i) => {
     let o = (i - filmCur + N) % N; if (o > N / 2) o -= N;
-    el.style.setProperty('--o', o); el.classList.toggle('mid', o === 0); el.classList.toggle('side', Math.abs(o) === 1); el.classList.toggle('far', Math.abs(o) > 1);
+    el.style.setProperty('--o', o); el.classList.toggle('mid', o === 0); el.classList.toggle('side', Math.abs(o) === 1); el.classList.toggle('far', Math.abs(o) === 2); el.classList.toggle('gone', Math.abs(o) > 2);
+    el.style.setProperty('--d', Math.sign(o)); el.style.setProperty('--d2', Math.abs(o) === 2 ? Math.sign(o) : 0);
     const v = el.querySelector('video');
     if (o === 0){ if (!v.src) v.src = FILMS[i].src; v.muted = false; try { v.currentTime = 0; } catch (e) {} v.play().catch(() => { v.muted = true; v.play().catch(() => {}); }); }
     else if (v.src){ v.pause(); }
@@ -3010,7 +3012,7 @@ filmBox.addEventListener('click', e => {
   const fc = e.target.closest('.fc');
   if (!fc) return filmClose();
   if (fc.classList.contains('mid')){ const v = fc.querySelector('video'); v.muted = false; v.paused ? v.play().catch(() => {}) : v.pause(); }
-  else filmSet(+fc.dataset.i);
+  else if (!fc.classList.contains('gone')) filmSet(+fc.dataset.i);
 });
 addEventListener('keydown', e => { if (!filmBox.classList.contains('on')) return;
   if (e.key === 'Escape') filmClose(); else if (e.key === 'ArrowRight') filmSet(filmCur + 1); else if (e.key === 'ArrowLeft') filmSet(filmCur - 1); });
