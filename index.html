@@ -1310,6 +1310,35 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .film .fc.gone{opacity:0;pointer-events:none}
 @media (max-width:900px){ .film .fc{--w:min(calc(80svh * 9 / 16),62vw)} .film .fc.side{opacity:.35} }
 .film-x{position:absolute;top:calc(env(safe-area-inset-top,0px) + 16px);right:var(--gutter);width:44px;height:44px;border:0;background:none;color:#fff;font-size:22px;cursor:pointer}
+
+/* ═════ HONDA ═════ */
+.p-hero.kvhd .st{height:min(100svh,56.25vw);top:max(0px,calc((100svh - 56.25vw) / 2))}
+.p-hero.kvhd .fr{background:#000}
+.p-hero.kvhd .fr video{object-fit:contain;background:#000}
+.pj .js-sec:not(.kplt)::before{background:var(--sbg)}
+.pj .hd .kp-no{color:#E3262B}
+.pj .hd .kp-cards li{border-top-color:#333}
+.pj .hd-ed{padding-bottom:clamp(120px,12vw,200px)}
+.pj .hd-grid{display:grid;grid-template-columns:minmax(0,380fr) minmax(0,65fr) minmax(0,270fr) minmax(0,20fr) minmax(0,270fr) minmax(0,20fr) minmax(0,270fr);align-items:start;margin-top:clamp(56px,6vw,96px)}
+.pj .hd-l{grid-column:1;align-self:stretch}
+.pj .hd-pin{position:sticky;top:max(24px,calc((100svh - min(780px,56vw) - 60px) / 2))}
+.pj .hd-ph{position:relative;aspect-ratio:380/781;background:#0b0b0b;border-radius:15% / 7.3%;padding:3.6%;box-shadow:inset 0 0 0 2px #2c2c2c,inset 0 0 0 6px #111,0 30px 60px rgba(0,0,0,.45)}
+.pj .hd-scr{position:relative;height:100%;overflow-y:auto;overflow-x:hidden;border-radius:12% / 5.6%;background:#000;scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.pj .hd-scr::-webkit-scrollbar{display:none}
+.pj .hd-scr img,.pj .hd-scr video{display:block;width:100%;height:auto;max-width:none}
+.pj .hd-island{position:absolute;left:50%;top:3.9%;width:30%;height:3.5%;transform:translateX(-50%);background:#000;border-radius:999px;z-index:2;pointer-events:none}
+.pj .hd-cap{margin-top:20px;text-align:center;font-size:13px;line-height:1.5;color:#B9B9B5}
+.pj .hd-st{margin:0}
+.pj .hd-st img{display:block;width:100%;height:auto}
+.pj .hd-st0{grid-column:3;margin-top:5.56%}
+.pj .hd-st1{grid-column:5;margin-top:43.3%}
+.pj .hd-st2{grid-column:7;margin-top:87.8%}
+@media (max-width:900px){
+  .pj .hd-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .pj .hd-l{grid-column:1 / -1;margin-bottom:48px}
+  .pj .hd-pin{position:static;width:min(78%,340px);margin:0 auto}
+  .pj .hd-st0,.pj .hd-st1,.pj .hd-st2{grid-column:auto;margin-top:0}
+}
 /* ═════ OJOS — Project Background (왼쪽 글 + 오른쪽 룩 이미지) ═════ */
 .pj .bgx2{display:grid;grid-template-columns:minmax(0,596fr) minmax(0,694fr);align-items:start;width:min(1264px,100%);margin:0 auto}
 .pj .bgx2-l h2{font-family:var(--point);font-weight:700;font-size:clamp(30px,3.06vw,44px);letter-spacing:-.035em;line-height:1.3;text-transform:uppercase}
@@ -1680,7 +1709,23 @@ const PROJECTS = { ai: [
       { t:'jnh', items:[['jennie1.mp4'], ['jennie2.png'], ['jennie3.mp4', 1], ['jennie4.mp4', 1], ['jennie5.mp4', 1], ['jennie6.mp4', 1]] },
     ],
   },
-], bc: [null,
+], bc: [
+  {
+    title:['HONDA MOTORCYCLE APPAREL'], thumb:'Fashioneditorial_Thumbnail.png', oneLine:true, tsz:'clamp(28px,6.3vw,91px)', heroFit:true, heroCls:'kvhd', brand:'KREAM', cat:'Promotion',
+    sub:'정해진 방식 없이 각자의 방식대로, 혼다 모터사이클 어패럴 KREAM 단독 선공개',
+    meta:[['Date','2026.04.13'],['Contribution','100%'],['Tools','Figma, After Effects'],['Contribution','100%']],
+    hero:{ src:'honda_KV_Wide.mp4', v:true, poster:'', cap:'', ar:1000/1240 },
+    blocks:[
+      { t:'kpbg', cls:'hd', bg:'linear-gradient(#000,#1a1a1a)', title:'Background',
+        body:['혼다 모터사이클 어패럴을 KREAM에서 단독 선공개하는 기획전이었습니다.','모터사이클 브랜드의 옷을 ‘탈 것’이 아닌 ‘스타일’로 보여주기 위해,','앰버서더 KYOKA와 카사마츠 쇼의 서로 다른 자유를 두 개의 챕터로 풀어냈습니다.'],
+        cards:[['01','OBJECTIVE',['혼다 모터사이클 어패럴','KREAM 단독 선공개'],'모터사이클 브랜드의 어패럴 라인을 처음 선보이는 자리'],
+               ['02','GOAL',['‘정해진 방식 없이 각자의 방식대로’','브랜드 메시지를 스타일로 전달하기'],'두 앰버서더가 각자의 방식으로 입는 자유로움'],
+               ['03','ACTION',['앰버서더별 2개 챕터 구성,','영상과 룩북을 엮은 에디토리얼'],'INTRO → CH.01 KYOKA → CH.02 KASAMATSU SHOW 흐름']] },
+      { t:'hded', title:'Editorial Design', lead:['앰버서더의 컨셉에 맞춰','챕터를 나눈 에디토리얼 페이지'],
+        body:['브랜드 특유의 자유롭고 힙한 분위기와 룩북 무드를 연결하고,','영상과 이미지가 자연스럽게 어우러질 수 있도록 구성했습니다.'],
+        strips:[['2honda_chap00','INTRO'],['2honda_chap01','CHAPTER 01 — KYOKA'],['2honda_chap02','CHAPTER 02 — KASAMATSU SHOW']] },
+    ],
+  },
   {
     title:['JOSEPH & STACEY × MONCHHICHI'], thumb:'Fashioneditorial3_Thumbnail.png', oneLine:true, tsz:'clamp(28px,6.3vw,91px)', heroFit:true, heroCls:'kvj', brand:'KREAM', cat:'Promotion',
     sub:'인형 밖으로 나온 몬치치, 조셉앤스테이시 × 몬치치 단독 선발매 기획전',
@@ -1986,8 +2031,21 @@ function blockHTML2(b){
     <p class="dt-cuts-k rv-t">AI CUTS</p>
     <img class="dt-cuts rv-t" src="dessert_Ai3.png" alt="AI 연출컷 전체 8컷">
   </section>`;
+  if (b.t === 'hded') return `
+  <section class="c-sec kp js-sec hd hd-ed" style="--sbg:linear-gradient(#1a1a1a,#666)">
+    <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body rv-t">${kpL(b.body)}</p></div></div>
+    <div class="hd-grid">
+      <div class="hd-l"><div class="hd-pin">
+        <div class="hd-ph"><div class="hd-scr">${[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(n => [1,4,6,8,12].includes(n)
+          ? `<video src="2honda_${n}.mp4" muted loop playsinline preload="metadata"></video>`
+          : `<img src="2honda_${n}.png" alt="혼다 모터사이클 어패럴 모바일 랜딩 ${n}" onerror="if(!this.dataset.j){this.dataset.j=1;this.src='2honda_${n}.jpg'}">`).join('')}</div><i class="hd-island" aria-hidden="true"></i></div>
+        <p class="hd-cap">화면을 스크롤해서 실제 랜딩을 확인해보세요.</p>
+      </div></div>
+      ${b.strips.map(([f, a], i) => `<figure class="hd-st hd-st${i} rv-t" style="transition-delay:${i * .12}s"><img src="${f}.png" alt="${a}" onerror="if(!this.dataset.j){this.dataset.j=1;this.src='${f}.jpg'}"></figure>`).join('')}
+    </div>
+  </section>`;
   if (b.t === 'kpbg') return `
-  <section class="c-sec kp kp-bg${b.lt ? ' kplt js-sec' : ''}"${b.bg ? ` style="--sbg:${b.bg}"` : ''}>
+  <section class="c-sec kp kp-bg${b.lt ? ' kplt js-sec' : b.bg ? ' js-sec' : ''}${b.cls ? ' ' + b.cls : ''}"${b.bg ? ` style="--sbg:${b.bg}"` : ''}>
     <div class="kp-2c"><h2 class="kp-h rv-t">${b.title}</h2><p class="kp-body rv-t">${kpL(b.body)}</p></div>
     <ul class="kp-cards">${b.cards.map(([n, k, h, t], i) => `<li class="rv-t" style="transition-delay:${i * .1}s"><span class="kp-no">${n}&nbsp;&nbsp;${k}</span><b>${kpL(h)}</b><em>${t}</em></li>`).join('')}</ul>
   </section>`;
