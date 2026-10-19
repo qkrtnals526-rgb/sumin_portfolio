@@ -1360,6 +1360,7 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .pj .hd-scr{position:absolute;left:4.386%;top:1.921%;width:91.14%;height:96.11%;overflow-y:auto;overflow-x:hidden;border-radius:12.5% / 5.8%;background:#000;scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .pj .hd-scr::-webkit-scrollbar{display:none}
 .pj .hd-scr img,.pj .hd-scr video{display:block;width:100%;height:auto;max-width:none}
+.pj .hd-scr .kp-carousel-track img{width:auto;height:100%}   /* 폰 안 가로 슬라이드: 위 규칙에 덮여 이미지가 폭 100%로 늘어나던 문제 */
 .pj .hd-frame{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;user-select:none}
 .pj .hd-ph.nofr{background:#0b0b0b;border-radius:15% / 7.3%;box-shadow:inset 0 0 0 2px #2c2c2c}
 .pj .hd-cap{margin-top:20px;text-align:center;font-size:13px;line-height:1.5;color:#B9B9B5}
