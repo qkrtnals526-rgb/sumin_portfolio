@@ -1490,7 +1490,7 @@ button,input,select,textarea{font-family:inherit}
 }
 @media (prefers-reduced-motion:reduce){ .pj .dd-f{clip-path:none!important;transform:none!important} .pj .dd-f img{transform:none!important} .pj .dd-chips li i{transform:none;transition:none} }
 /* Final Output — 화면 전체가 아닌 본문 폭 안에 */
-.pj .pcx{width:min(1080px,100%);margin-left:auto;margin-right:auto;overflow:visible;-webkit-clip-path:inset(0);clip-path:inset(0)}  /* overflow로 자르면 사파리에서 sticky 고정이 풀림 → clip-path로 자르기 */
+.pj .pcx{width:min(max(1080px,111.86svh),100%);margin-left:auto;margin-right:auto;overflow:visible;-webkit-clip-path:inset(0);clip-path:inset(0)}  /* 폭: 화면이 세로로 여유 있으면 라인업 영상(2000×1788)이 화면 높이를 꽉 채우도록 넓힘 · overflow로 자르면 사파리에서 sticky 고정이 풀림 → clip-path로 자르기 */
 /* Final Output — 섹션 단위 올라오는 효과 제거 (라인업 이미지 효과만 유지) */
 .pj .pcx .pcr{opacity:1;transform:none;transition:none}
 
@@ -1520,7 +1520,7 @@ button,input,select,textarea{font-family:inherit}
 .pj .l1-o{position:absolute;max-width:none;height:auto;opacity:0;transform:translateY(60px);transition:opacity .9s var(--ease),transform 1.1s var(--ease);pointer-events:none}
 .pj .l1-o.on{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){ .pj .l1-o{transition:none;transform:none} }
-.pj .fo-wrap{position:relative;width:100vw;margin-left:calc(50% - 50vw)}
+.pj .fo-wrap{position:relative;width:var(--wvw,100vw);margin-left:0;margin-right:0;align-self:center}  /* 가운데 정렬 부모 안에서 음수 여백이 반만 먹어 왼쪽으로 치우치던 문제 수정 · 스크롤바 폭 제외 */
 .pj .fo-bg{position:absolute;inset:0;pointer-events:none;z-index:0}
 .pj .fo-dither{position:sticky;top:0;display:block;width:100%;height:100svh;opacity:.7}
 .pj .fo-wrap .pcx{position:relative;z-index:1}
@@ -2325,6 +2325,7 @@ function pcHTML(){
 /* Final Output 양옆 여백 그래픽 */
 function foInit(pj){
   const wrap = pj.querySelector('.fo-wrap'); if (!wrap || wrap.dataset.on) return; wrap.dataset.on = '1';
+  const setW = () => document.documentElement.style.setProperty('--wvw', document.getElementById('wv').clientWidth + 'px'); setW(); addEventListener('resize', setW);
   const MODE = window.FO_MODE || FO_MODE;
   const cv = wrap.querySelector('.fo-dither'), ctx = cv.getContext('2d');
   const hsh = (x, y) => { const v = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return v - Math.floor(v); };
