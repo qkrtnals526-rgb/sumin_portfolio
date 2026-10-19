@@ -113,6 +113,8 @@ a{color:inherit;text-decoration:none}
 .cv h3{font-size:var(--t-small);font-weight:600;color:var(--sub);margin-bottom:12px;text-transform:uppercase;letter-spacing:.02em}
 .cv li{list-style:none;padding:10px 0;border-top:1px solid var(--line);font-size:var(--t-body)}
 .cv li span{display:block;color:var(--sub);font-size:var(--t-small)}
+.cv li .cv-role{margin-top:4px;color:var(--ink);white-space:nowrap}
+.cv li .cv-role i{display:inline-block;width:1px;height:.8em;margin:0 .55em;background:currentColor;opacity:.35;vertical-align:-.05em}
 .contact{grid-column:5 / span 8;margin-top:clamp(40px,5vw,80px);display:flex;flex-wrap:wrap;gap:12px 40px;align-items:baseline}
 .contact{flex-direction:column;align-items:flex-start;gap:14px}
 .mail{font-family:var(--point);font-weight:700;font-size:var(--t-h2);letter-spacing:-.01em;line-height:1.05;display:inline-flex;align-items:center;gap:.3em;color:var(--ink)}
@@ -669,8 +671,8 @@ html.wv-lock,html.wv-lock body{overflow:hidden}
         <div class="about-name rise"><span class="en pt">PARK SUMiN</span><span class="ko">박수민<i class="bar-sep"></i>Graphic Designer, Seoul</span></div>
         <div class="cv rise">
           <div><h3>Experience</h3><ul>
-            <li>KREAM<span>2025.03 — 2026.09</span></li>
-            <li>OHBROWN<span>2024.03 — 2024.08</span></li></ul></div>
+            <li>KREAM<span class="cv-role">콘텐츠디자인<i></i>파견계약직</span><span>2025.03.10 — 2026.09.10</span></li>
+            <li>OHBROWN<span class="cv-role">브랜드디자인<i></i>정규직</span><span>2024.03.10 — 2024.08.10</span></li></ul></div>
           <div><h3>Education</h3><ul>
             <li>창원대학교 산업디자인학과<span>2017.03 — 2023.02</span></li>
             <li>제일여자고등학교<span>2014.03 — 2017.02</span></li></ul></div>
@@ -783,7 +785,8 @@ function fitShot(){
   /* 글자 실제 윗선(PARK)과 아랫선(SUMiN)에 맞춤: SVG 여백만큼 보정 */
   const p1 = document.querySelector('.name .p1').getBoundingClientRect(), p2 = sumSvg.getBoundingClientRect();
   const top = p1.top + p1.height * (8 / 162) + scrollY, bottom = p2.bottom - p2.height * (6 / 174) + scrollY;
-  const h = Math.max(120, bottom - top);   /* 원본 비율(720×600) 그대로 — 높이에 맞춰 가로를 정해 잘림 없음 */
+  const yt = document.querySelector('.idx').getBoundingClientRect().top + scrollY;   /* '25–'26 윗선 */
+  const h = Math.max(120, Math.min((bottom - top) * 1.45, yt - top - 56));   /* 원본 비율(720×600) 그대로 키움 — 윗선은 PARK에 맞추고 '25–'26과는 겹치지 않게 */
   flash.style.top = top + 'px'; flash.style.aspectRatio = '720/600'; flash.style.height = h + 'px'; flash.style.width = Math.round(h * 720 / 600) + 'px';
 }
 addEventListener('resize', fitShot);
