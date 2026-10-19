@@ -1161,6 +1161,10 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .pj .kp-carousel--brand,.pj .kp-carousel--store{aspect-ratio:1058/928;background:#fff}
 .pj .kp-carousel--brand .kp-carousel-track,.pj .kp-carousel--store .kp-carousel-track{gap:2.5%;padding:0 2.8%}
 .pj .kp-k4 + *{margin-top:0}
+.pj .kp-pv{width:100vw;margin-left:calc(50% - 50vw);margin-top:clamp(48px,5vw,72px);background:#000 url(kreamplus4.png) center bottom / cover no-repeat;padding:clamp(80px,8vw,140px) var(--gutter) clamp(120px,12vw,200px)}
+.pj .kp-pv-grid{width:min(1264px,100%);margin:0 auto}
+.pj .kp-scr2{background:#fff}
+.pj .kp-pg2 img{border-radius:clamp(4px,.5vw,8px);box-shadow:0 24px 50px rgba(0,0,0,.5)}
 .pj .kp-ed + .kp-ad{padding-top:clamp(80px,8vw,140px)}
 .pj .kp-adv{position:relative;margin:clamp(40px,4.2vw,60px) auto 0;width:84%;aspect-ratio:2908/2370;overflow:hidden}
 .pj .kp-adv video{position:absolute;max-width:none;width:123.8%;height:auto;left:-11.9%;top:-41.6%}
@@ -1911,7 +1915,7 @@ const DT_SCREEN = `<div class="dt-screen">
 </div>`;
 
 const kpCar = (cls, imgs) => `<div class="kp-carousel kp-carousel--${cls}"><div class="kp-carousel-track">${imgs.map(([s, a]) => `<img src="${s}" alt="${a}">`).join('')}</div></div>`;
-const KP_PHONE = `<div class="kp-phone-screen" style="left:12.25%;top:1.585%;width:22.333%;height:39.97%;border-radius:14.9% / 6.9%;">
+const KP_PHONE = `<div class="hd-scr kp-scr2">
   <img src="nevi.png" alt="" style="position:sticky;top:0;z-index:2;">
   <video src="KV_8_27.mp4" muted loop playsinline preload="metadata" style="display:block;width:100%;height:auto;"></video>
   <img src="plusmok1.png" alt="KREAM+ 모바일 랜딩 페이지 1">
@@ -2084,11 +2088,15 @@ function blockHTML2(b){
   if (b.t === 'kped') return `
   <section class="c-sec kp kp-ed">
     <div class="kp-2c"><div class="kp-hl"><h2 class="kp-h rv-t">${b.title}</h2>${b.link ? `<a class="kp-link rv-t" href="${b.link}" target="_blank" rel="noopener">기획전 보러가기<i aria-hidden="true">↗</i></a>` : ''}</div><div><p class="kp-lead rv-t">${kpL(b.lead)}</p><p class="kp-body rv-t">${kpL(b.body)}</p></div></div>
-    <div class="kp-k4 rv-t"><div class="kp-k4-in">
-      <img src="kreamplus4.png" alt="KREAM+ Essential Design">
-      ${KP_PHONE}
-      <i class="js-island" aria-hidden="true" style="top:2.113%;height:1.723%"></i>
-    </div></div>
+    <div class="kp-pv">
+      <div class="hd-grid kp-pv-grid">
+        <div class="hd-l"><div class="hd-pin">
+          <div class="hd-ph">${KP_PHONE}<img class="hd-frame" src="${HD_PHONE}" alt="" aria-hidden="true"></div>
+          <p class="hd-cap">화면을 스크롤해서 실제 랜딩을 확인해보세요.</p>
+        </div></div>
+        ${[['2kreamplus_page1','ABOUT · TREND',136],['2kreamplus_page2','EXCLUSIVE ITEM · BRAND',69],['2kreamplus_page3','BENEFIT · OFFLINE STORE',0]].map(([f, a, mt], i) => `<figure class="hd-st hd-st${i} kp-pg2 rv-t" style="margin-top:${mt}%;transition-delay:${i * .12}s"><img src="${f}.png" alt="KREAM+ Essential ${a}" onerror="if(!this.dataset.j){this.dataset.j=1;this.src='${f}.jpg'}"></figure>`).join('')}
+      </div>
+    </div>
   </section>`;
   if (b.t === 'kpad') return `
   <section class="c-sec kp kp-ad">
