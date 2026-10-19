@@ -1476,6 +1476,8 @@ button,input,select,textarea{font-family:inherit}
 .pj .dd-float{position:relative;width:100%;aspect-ratio:594/700}
 .pj .dd-f{position:absolute;margin:0;overflow:hidden;clip-path:inset(var(--rv,100%) 0 0 0);transform:translate3d(0,var(--py,0px),0);will-change:clip-path,transform}
 .pj .dd-f img{display:block;width:100%;height:auto;max-width:none;transform:scale(var(--zs,1.18));transform-origin:50% 100%}
+.pj .dd-crop{overflow:hidden;transform:scale(var(--zs,1.18));transform-origin:50% 100%}   /* 고화질 원본(2ojos_intro)에서 같은 구간을 잘라 보여줌 */
+.pj .dd-crop img{transform:none}
 .pj .dd-chips ul{list-style:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .pj .dd-chips li i{display:block;height:clamp(160px,17vw,260px);transform:scaleY(0);transform-origin:50% 100%;transition:transform 1s var(--ease) var(--d)}
 .pj .dd-chips.in li i{transform:none}
@@ -1489,7 +1491,7 @@ button,input,select,textarea{font-family:inherit}
   .pj .dd-chips ul{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
   .pj .dd-chips b{font-size:10px}.pj .dd-chips em{font-size:10px}
 }
-@media (prefers-reduced-motion:reduce){ .pj .dd-f{clip-path:none!important;transform:none!important} .pj .dd-f img{transform:none!important} .pj .dd-chips li i{transform:none;transition:none} }
+@media (prefers-reduced-motion:reduce){ .pj .dd-f{clip-path:none!important;transform:none!important} .pj .dd-f img,.pj .dd-crop{transform:none!important} .pj .dd-chips li i{transform:none;transition:none} }
 /* Final Output — 화면 전체가 아닌 본문 폭 안에 */
 .pj .pcx{width:min(max(1080px,111.86svh),100%);margin-left:auto;margin-right:auto;overflow:visible;-webkit-clip-path:inset(0);clip-path:inset(0)}  /* 폭: 화면이 세로로 여유 있으면 라인업 영상(2000×1788)이 화면 높이를 꽉 채우도록 넓힘 · overflow로 자르면 사파리에서 sticky 고정이 풀림 → clip-path로 자르기 */
 /* Final Output — 섹션 단위 올라오는 효과 제거 (라인업 이미지 효과만 유지) */
@@ -2921,7 +2923,7 @@ function ddHTML(b){
         <div class="dd-item"><span>01</span><h4>${b.items[0][0]}</h4><p>${b.items[0][1]}</p></div>
       </div>
       <div class="dd-float">
-        ${DD_F.map(f => `<figure class="dd-f" style="left:${f.x}%;top:${f.y}%;width:${f.w}%;--sp:${f.sp}"><img src="${f.n}.png" onerror="this.onerror=null;this.src='${f.n}.jpg'" alt="${f.alt}"></figure>`).join('')}
+        ${DD_F.map(f => `<figure class="dd-f" style="left:${f.x}%;top:${f.y}%;width:${f.w}%;--sp:${f.sp}">${f.crop ? `<div class="dd-crop" style="aspect-ratio:${f.crop[2]}"><img src="${f.crop[0]}" alt="${f.alt}" style="margin-top:-${f.crop[1]}%"></div>` : `<img src="${f.n}.png" onerror="this.onerror=null;this.src='${f.n}.jpg'" alt="${f.alt}">`}</figure>`).join('')}
       </div>
     </div>
     <div class="dd-row dd-row2">
@@ -2935,7 +2937,7 @@ function ddHTML(b){
   </section>`;
 }
 const DD_F = [ // 시안(1190 화면) 기준 오른쪽 영역 594×700 안의 % 위치
-  { n:'Direction_1', x:.5, y:0,    w:46,   sp:-.05, alt:'인트로 — 크게 크롭한 인물과 작은 전신 인물' },
+  { n:'Direction_1', crop:['2ojos_intro.jpg', 85.015, '327/686'], x:.5, y:0,    w:46,   sp:-.05, alt:'인트로 — 크게 크롭한 인물과 작은 전신 인물' },
   { n:'Direction_2', x:53, y:30.3, w:46.1, sp:.12,  alt:'라인업 — 크게 크롭한 인물과 작은 전신 인물' },
 ];
 function ddInit(){}
