@@ -57,13 +57,11 @@ a{color:inherit;text-decoration:none}
 .year{font-size:clamp(44px,5vw,78px);letter-spacing:-.03em;line-height:1;margin-bottom:clamp(10px,1.4vw,20px)}
 .cats{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 .cats .row{display:flex;gap:clamp(8px,1vw,16px);justify-content:flex-end;flex-wrap:wrap}
-.cats a{font-weight:700;font-size:var(--t-h3);letter-spacing:-.025em;line-height:1.2;position:relative;display:inline-flex;align-items:flex-start;gap:.22em}
-.cats a sup{font-size:.36em;font-weight:500;letter-spacing:0;line-height:1;margin-top:.2em;width:1.6em;text-align:left;font-variant-numeric:tabular-nums}
-.cats a::after{content:'';position:absolute;left:0;right:1.8em;bottom:-.04em;height:2px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
-.cats a:hover::after{transform:scaleX(1);transform-origin:left}
+.cats .ct{font-weight:700;font-size:var(--t-h3);letter-spacing:-.025em;line-height:1.2;position:relative;display:inline-flex;align-items:flex-start;gap:.22em}
+.cats .ct sup{font-size:.36em;font-weight:500;letter-spacing:0;line-height:1;margin-top:.2em;width:1.6em;text-align:left;font-variant-numeric:tabular-nums}
 
 /* 작업 썸네일: 하나씩, '25–'26과 오른쪽 정렬 */
-.shot{position:absolute;right:var(--gutter);top:calc(env(safe-area-inset-top,0px) + clamp(72px,10svh,100px));width:clamp(220px,25vw,400px);aspect-ratio:4/3;overflow:hidden;opacity:0;transition:opacity .6s 1s}
+.shot{position:absolute;right:var(--gutter);top:calc(env(safe-area-inset-top,0px) + clamp(72px,10svh,100px));width:clamp(220px,25vw,400px);aspect-ratio:720/600;overflow:hidden;opacity:0;transition:opacity .6s 1s}
 .cover.play .shot{opacity:1}
 .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:inset(100% 0 0 0);transition:clip-path .7s var(--ease);will-change:clip-path}
 .shot img.reset{transition:none}
@@ -546,8 +544,22 @@ html.wv-lock,html.wv-lock body{overflow:hidden}
 
 .cv li{font-weight:600} .cv li span{font-weight:400} .skills dd{font-weight:600}
 </style>
+<style>
+/* 모바일 차단 — 휴대폰·작은 태블릿에서는 안내 화면만 */
+.mblock{display:none}
+@media (max-width:767px),(hover:none) and (pointer:coarse) and (max-width:1024px){
+  html,body{overflow:hidden!important;height:100%}
+  body > *:not(.mblock){display:none!important}
+  .mblock{display:flex;position:fixed;inset:0;z-index:2147483647;flex-direction:column;justify-content:space-between;padding:28px 24px 32px;background:#000;color:#fff;font-family:var(--sans,'Pretendard',sans-serif)}
+  .mblock .mb-n{font-family:var(--point,'StackSansNotch',sans-serif);font-weight:700;font-size:15px;letter-spacing:-.01em}
+  .mblock .mb-t{font-size:22px;font-weight:600;line-height:1.45;letter-spacing:-.02em;word-break:keep-all}
+  .mblock .mb-s{margin-top:14px;font-size:14px;line-height:1.6;color:rgba(255,255,255,.55);word-break:keep-all}
+  .mblock a{font-size:14px;color:#fff;text-decoration:underline;text-underline-offset:3px}
+}
+</style>
 </head>
 <body>
+<div class="mblock" role="alert"><span class="mb-n">PARK SUMiN</span><div><p class="mb-t">PC 환경에 맞춰 제작된<br>포트폴리오입니다.</p><p class="mb-s">PC에서 접속해 주세요.</p></div><a href="mailto:tnalsdl526@naver.com">tnalsdl526@naver.com</a></div>
 
 <header class="bar">
   <span class="rec" id="rec" aria-label="현재 시각">REC SAT00:00:00</span>
@@ -623,10 +635,10 @@ html.wv-lock,html.wv-lock body{overflow:hidden}
     <div class="shot" id="flash" aria-hidden="true"></div>
     <div class="idx">
       <div class="year pt">’25 - ’26</div>
-      <nav class="cats" aria-label="작업 카테고리">
-        <div class="row"><a href="#work">Own Project<sup>01</sup></a><a href="#work">AI Creative<sup>02</sup></a></div>
-        <div class="row"><a href="#work">Brand Content<sup>03</sup></a><a href="#work">3D Artwork<sup>04</sup></a><a href="#work">Campaign Film<sup>05</sup></a></div>
-      </nav>
+      <div class="cats" aria-label="작업 카테고리">
+        <div class="row"><span class="ct">Own Project<sup>01</sup></span><span class="ct">AI Creative<sup>02</sup></span></div>
+        <div class="row"><span class="ct">Brand Content<sup>03</sup></span><span class="ct">3D Artwork<sup>04</sup></span><span class="ct">Campaign Film<sup>05</sup></span></div>
+      </div>
     </div>
   </section>
 
@@ -761,7 +773,7 @@ document.addEventListener('click', e => {
 });
 function fitShot(){
   if (innerWidth <= 760){
-    flash.style.height = ''; flash.style.aspectRatio = '';
+    flash.style.height = ''; flash.style.width = ''; flash.style.aspectRatio = '';
     const sb = sumSvg.getBoundingClientRect().bottom + scrollY, it = document.querySelector('.idx').getBoundingClientRect().top + scrollY;
     const h = flash.getBoundingClientRect().height;
     flash.style.bottom = 'auto'; flash.style.top = Math.round((sb + it) / 2 - h / 2) + 'px';
@@ -771,7 +783,8 @@ function fitShot(){
   /* 글자 실제 윗선(PARK)과 아랫선(SUMiN)에 맞춤: SVG 여백만큼 보정 */
   const p1 = document.querySelector('.name .p1').getBoundingClientRect(), p2 = sumSvg.getBoundingClientRect();
   const top = p1.top + p1.height * (8 / 162) + scrollY, bottom = p2.bottom - p2.height * (6 / 174) + scrollY;
-  flash.style.top = top + 'px'; flash.style.aspectRatio = 'auto'; flash.style.height = Math.max(120, bottom - top) + 'px';
+  const h = Math.max(120, bottom - top);   /* 원본 비율(720×600) 그대로 — 높이에 맞춰 가로를 정해 잘림 없음 */
+  flash.style.top = top + 'px'; flash.style.aspectRatio = '720/600'; flash.style.height = h + 'px'; flash.style.width = Math.round(h * 720 / 600) + 'px';
 }
 addEventListener('resize', fitShot);
 setTimeout(fitShot, 50); setTimeout(fitShot, 1200);
