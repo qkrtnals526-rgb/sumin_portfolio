@@ -1537,8 +1537,8 @@ button,input,select,textarea{font-family:inherit}
 .pj .cs-row + .cs-row{margin-top:-1px}  /* 행 사이 미세한 틈 방지 */  /* 영상 가장자리 1px 경계선 숨김 */
 .pj .cs-in > img,.pj .cs-in > video,.pj .cs-in > div > img:first-child{display:block;width:100%;height:auto;max-width:none}
 .pj .cs-de2,.pj .cs-de3{position:relative;overflow:hidden}
-.pj .cs-model{position:absolute;bottom:36.9%;height:33%;transform:translateX(-50%);padding:0;border:0;background:none;cursor:pointer}
-.pj .cs-model img{display:block;height:100%;width:auto;max-width:none}
+.pj .cs-model{position:absolute;bottom:36.9%;height:33%;width:auto;aspect-ratio:1760/2352;transform:translateX(-50%);padding:0;margin:0;border:0;background:none;cursor:pointer;-webkit-appearance:none;appearance:none;display:block}
+.pj .cs-model img{position:absolute;left:0;top:0;display:block;width:100%;height:100%;max-width:none}
 .pj .cs-model .cs-a{display:none}.pj .cs-model.on .cs-b{display:none}.pj .cs-model.on .cs-a{display:block}
 .pj .cs-model:focus-visible{outline:2px solid #fff;outline-offset:4px}
 .pj .cs-float{position:absolute;height:auto;max-width:none;pointer-events:none;user-select:none;opacity:0;transform:translate3d(0,var(--rise,9%),0) scale(.94);transform-origin:50% 100%;transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1.4s cubic-bezier(.16,1,.3,1)}
@@ -2500,14 +2500,15 @@ const CS_FLOAT = [ // [파일, left, top, width, z, rise]
   ['clear1',67.083,14.913,25.833,2,9],['clear2',49.139,30.192,22.417,2,9],['clear3',11.944,26.715,22.444,2,9],
   ['clear4',7.861,45.014,39.389,1,8],['clear5',40.083,51.052,35.278,3,8],['clear6',67.861,54.285,25.917,2,8],
   ['chang1',76.861,36.932,17.278,4,35],['chang2',33.250,74.962,17.278,4,35],['cosur',39.222,32.235,10.806,5,30]];
-const CS_MODEL = [19.6, 34.8, 50.2, 65.4, 80.6];
+const CS_MODEL = [19.56, 34.78, 50, 65.22, 80.44];
+const CS_TX = [[-0.03, -0.28], [-0.03, -5.0], [-1.62, 0], [-1.62, -1.62], [-1.73, -1.62]];  /* 인물 실루엣 중심을 PNG 중심에 맞추는 보정 */
 function csHTML(){
   const row = (bg, inner, full) => `<div class="cs-row" style="background:${bg}"><div class="cs-in${full ? ' full' : ''}">${inner}</div></div>`;
   return `<section class="csx">
     ${row('#161616', `<img src="clearance_intro2.png" alt="Background">`)}
     ${row('#161616', `<img src="clearance_de1.png" alt="Design Process 01">`)}
     ${row('#161616', `<div class="cs-de2"><img src="clearance_de2.png" alt="Design Process 02">
-      ${CS_MODEL.map((l, i) => `<button class="cs-model" type="button" style="left:${l}%" aria-label="LOOK ${i + 1} 전환"><img class="cs-b" src="m${i + 1}.png" alt=""><img class="cs-a" src="m${i + 1}-1.png" alt=""></button>`).join('')}
+      ${CS_MODEL.map((l, i) => `<button class="cs-model" type="button" style="left:${l}%" aria-label="LOOK ${i + 1} 전환"><img class="cs-b" src="m${i + 1}.png" alt="" style="transform:translateX(${CS_TX[i][0]}%)"><img class="cs-a" src="m${i + 1}-1.png" alt="" style="transform:translateX(${CS_TX[i][1]}%)"></button>`).join('')}
     </div>`)}
     ${row('#161616', `<div class="cs-de3"><img src="clearance_de3.png" alt="Design Process 03">
       ${CS_FLOAT.map(([n, l, t, w, z, r], i) => `<img class="cs-float" data-o="${i}" src="${n}.png" alt="" draggable="false" style="left:${l}%;top:${t}%;width:${w}%;z-index:${z};--rise:${r}%">`).join('')}
@@ -2518,9 +2519,9 @@ function csHTML(){
 }
 /* Summer Season Off — 이전 사이트 구성 그대로 (클리어런스와 같은 정렬: 창 박스 = 본문 칸 1268) */
 const SS_LOOK = [ // [before left, top, width], [after left, top, width], [hit left, top, w, h]
-  [[20.1111,27.8659,16.5278],[13.25,26.5854,31.6667],[20.8889,28.811,16.0556,30.7622]],
-  [[43.7222,27.8659,10.6111],[33.2222,25.3963,33.6667],[41.6944,28.2012,15.6111,31.7683]],
-  [[64.3056,27.5305,11.0556],[50.9167,25.8232,37.1667],[60.6111,27.622,18.5,32.1646]]];
+  [[20.0911,27.8659,16.5278],[12.68,26.5854,31.6667],[20.32,28.811,16.0556,30.7622]],
+  [[44.71,27.8659,10.6111],[33.73,25.3963,33.6667],[42.2,28.2012,15.6111,31.7683]],
+  [[64.2656,27.5305,11.0556],[50.83,25.8232,37.1667],[60.54,27.622,18.5,32.1646]]];
 const SS_DROP = [[9.6389,45.9237],[36.8611,45.9237],[64.0556,45.9237],[9.6389,65.1062],[36.8611,65.1062],[64.0556,65.1062]];
 function ssHTML(){
   const row = (bg, inner, full) => `<div class="cs-row" style="background:${bg}"><div class="cs-in${full ? ' full' : ''}">${inner}</div></div>`, G = '#eeeeee';
