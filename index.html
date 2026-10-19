@@ -1322,11 +1322,12 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .pj .hd-grid{display:grid;grid-template-columns:minmax(0,380fr) minmax(0,65fr) minmax(0,270fr) minmax(0,20fr) minmax(0,270fr) minmax(0,20fr) minmax(0,270fr);align-items:start;margin-top:clamp(56px,6vw,96px)}
 .pj .hd-l{grid-column:1;align-self:stretch}
 .pj .hd-pin{position:sticky;top:max(24px,calc((100svh - min(780px,56vw) - 60px) / 2))}
-.pj .hd-ph{position:relative;aspect-ratio:380/781;background:#0b0b0b;border-radius:15% / 7.3%;padding:3.6%;box-shadow:inset 0 0 0 2px #2c2c2c,inset 0 0 0 6px #111,0 30px 60px rgba(0,0,0,.45)}
-.pj .hd-scr{position:relative;height:100%;overflow-y:auto;overflow-x:hidden;border-radius:12% / 5.6%;background:#000;scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.pj .hd-ph{position:relative;aspect-ratio:1140/2343;filter:drop-shadow(0 30px 50px rgba(0,0,0,.45))}
+.pj .hd-scr{position:absolute;left:4.386%;top:1.921%;width:91.14%;height:96.11%;overflow-y:auto;overflow-x:hidden;border-radius:12.5% / 5.8%;background:#000;scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .pj .hd-scr::-webkit-scrollbar{display:none}
 .pj .hd-scr img,.pj .hd-scr video{display:block;width:100%;height:auto;max-width:none}
-.pj .hd-island{position:absolute;left:50%;top:3.9%;width:30%;height:3.5%;transform:translateX(-50%);background:#000;border-radius:999px;z-index:2;pointer-events:none}
+.pj .hd-frame{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;user-select:none}
+.pj .hd-ph.nofr{background:#0b0b0b;border-radius:15% / 7.3%;box-shadow:inset 0 0 0 2px #2c2c2c}
 .pj .hd-cap{margin-top:20px;text-align:center;font-size:13px;line-height:1.5;color:#B9B9B5}
 .pj .hd-st{margin:0}
 .pj .hd-st img{display:block;width:100%;height:auto}
@@ -2038,7 +2039,7 @@ function blockHTML2(b){
       <div class="hd-l"><div class="hd-pin">
         <div class="hd-ph"><div class="hd-scr">${[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(n => [1,4,6,8,12].includes(n)
           ? `<video src="2honda_${n}.mp4" muted loop playsinline preload="metadata"></video>`
-          : `<img src="2honda_${n}.${[2,15].includes(n) ? 'jpg' : 'png'}" alt="혼다 모터사이클 어패럴 모바일 랜딩 ${n}">`).join('')}</div><i class="hd-island" aria-hidden="true"></i></div>
+          : `<img src="2honda_${n}.${[2,15].includes(n) ? 'jpg' : 'png'}" alt="혼다 모터사이클 어패럴 모바일 랜딩 ${n}">`).join('')}</div><img class="hd-frame" src="phone_mockup.png" alt="" aria-hidden="true" onerror="this.parentNode.classList.add('nofr');this.remove()"></div>
         <p class="hd-cap">화면을 스크롤해서 실제 랜딩을 확인해보세요.</p>
       </div></div>
       ${b.strips.map(([f, a], i) => `<figure class="hd-st hd-st${i} rv-t" style="transition-delay:${i * .12}s"><img src="${f}.png" alt="${a}" onerror="if(!this.dataset.j){this.dataset.j=1;this.src='${f}.jpg'}"></figure>`).join('')}
