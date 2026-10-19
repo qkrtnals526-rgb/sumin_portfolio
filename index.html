@@ -3057,7 +3057,7 @@ wv.addEventListener('touchmove', e => { if (ty == null) return; const y = e.touc
 wv.addEventListener('touchend', () => { ty = null; });
 
 /* 네비 */
-document.getElementById('dNext').addEventListener('click', () => { const n = nextOf(cur.ci, cur.pi); go(n.ci, n.pi); });
+document.getElementById('dNext').addEventListener('click', () => { const n = nextOf(cur.ci, cur.pi); if (CATS[n.ci].key === 'cf') return filmOpen(0); go(n.ci, n.pi); });  /* Campaign Film은 썸네일 페이지 대신 영상 팝업으로 바로 */
 document.getElementById('dPrev').addEventListener('click', () => {
   if (cur.pi > 0 && PROJECTS[CATS[cur.ci].key]) return go(cur.ci, cur.pi - 1);
   const pci = (cur.ci - 1 + CATS.length) % CATS.length, l = PROJECTS[CATS[pci].key];
