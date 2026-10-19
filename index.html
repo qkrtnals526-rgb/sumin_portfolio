@@ -1474,7 +1474,7 @@ button,input,select,textarea{font-family:inherit}
 }
 @media (prefers-reduced-motion:reduce){ .pj .dd-f{clip-path:none!important;transform:none!important} .pj .dd-f img{transform:none!important} .pj .dd-chips li i{transform:none;transition:none} }
 /* Final Output — 화면 전체가 아닌 본문 폭 안에 */
-.pj .pcx{width:min(1080px,100%);margin-left:auto;margin-right:auto;overflow:clip}
+.pj .pcx{width:min(1080px,100%);margin-left:auto;margin-right:auto;overflow:visible;-webkit-clip-path:inset(0);clip-path:inset(0)}  /* overflow로 자르면 사파리에서 sticky 고정이 풀림 → clip-path로 자르기 */
 /* Final Output — 섹션 단위 올라오는 효과 제거 (라인업 이미지 효과만 유지) */
 .pj .pcx .pcr{opacity:1;transform:none;transition:none}
 
@@ -2591,7 +2591,7 @@ function pcFrame(pj, vh){
   if (v){ const r = v.getBoundingClientRect(), p = cl((vh - r.top) / (vh * .9)); v.style.setProperty('--o', (1 - p) * 14 + '%');
     const vid = v.querySelector('video'); if (r.top < vh && r.bottom > 0) vid.play().catch(() => {}); else vid.pause(); }
   pj.querySelectorAll('.v4x').forEach(x => {   /* ojos4 — 이 지점에서 화면이 멈추고, 스크롤하면 ojos4-1이 처음부터 재생 */
-    const st = x.querySelector('.v4-st'), sh = st.offsetHeight; x.style.height = Math.round(sh + vh * 1.2) + 'px'; x.firstElementChild.style.top = Math.min(0, vh - sh) + 'px';
+    const st = x.querySelector('.v4-st'), sh = st.offsetHeight, xh = Math.round(sh + vh * 1.2) + 'px', xt = Math.min(0, vh - sh) + 'px'; if (x.style.height !== xh) x.style.height = xh; if (x.firstElementChild.style.top !== xt) x.firstElementChild.style.top = xt;
     const r = x.getBoundingClientRect(), p = calm ? 1 : cl(-r.top / Math.max(1, r.height - vh)), inV = r.top < vh && r.bottom > 0;
     const a = x.querySelector('.v4a'), b = x.querySelector('.v4b'), k = cl((p - .4) / .12);
     b.style.opacity = k.toFixed(3);
@@ -2599,7 +2599,7 @@ function pcFrame(pj, vh){
     if (showB) b.play().catch(() => {}); else b.pause();
     if (inV && k < 1) a.play().catch(() => {}); else a.pause();
   });
-  pj.querySelectorAll('.l1x').forEach(l1 => { const st = l1.querySelector('.l1-st'), sh = st.offsetHeight; l1.style.height = Math.round(sh + vh * 1.4) + 'px'; l1.firstElementChild.style.top = Math.min(0, vh - sh) + 'px';
+  pj.querySelectorAll('.l1x').forEach(l1 => { const st = l1.querySelector('.l1-st'), sh = st.offsetHeight, lh = Math.round(sh + vh * 1.4) + 'px', lt = Math.min(0, vh - sh) + 'px'; if (l1.style.height !== lh) l1.style.height = lh; if (l1.firstElementChild.style.top !== lt) l1.firstElementChild.style.top = lt;
     const r = l1.getBoundingClientRect(), p = calm ? 1 : cl(-r.top / Math.max(1, r.height - vh)), vid = l1.querySelector('video');
     if (r.top < vh && r.bottom > 0) vid.play().catch(() => {}); else vid.pause();
     l1.querySelectorAll('.l1-o').forEach((o, i) => o.classList.toggle('on', p > (i ? .48 : .16))); });
