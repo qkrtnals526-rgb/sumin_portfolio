@@ -1082,7 +1082,11 @@ const navObs = new IntersectionObserver(es => es.forEach(e => {
 .pj .jsx-c .pills{position:absolute;top:clamp(14px,1.4vw,20px);right:clamp(14px,1.4vw,20px);display:flex;gap:8px}
 .pj .jsx-c .pills i{font-style:normal;font-size:12px;font-weight:600;color:#CC212E;background:#fff;border-radius:999px;padding:6px 12px}
 .pj .js-mob{position:relative;width:100vw;margin-left:calc(50% - 50vw);background:#F3F2ED}
-.pj .js-mob{aspect-ratio:3600/4981;overflow:hidden}
+.pj .js-mob{background-color:#F3F2ED;background-size:cover;background-position:center;padding:clamp(80px,8vw,140px) var(--gutter) clamp(120px,12vw,200px)}
+.pj .js-grid{width:min(1264px,100%);margin:0 auto}
+.pj .js-scr2{background:#F2F2F4}
+.pj .js-cap2{color:#8A7F82}
+.pj .js-pg2 img{border-radius:clamp(4px,.5vw,8px);box-shadow:0 20px 40px rgba(120,40,60,.12)}
 .pj .js-mob > .js-bg{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
 .pj .js-ph{position:absolute;left:11.306%;top:4.818%;width:24.19%;aspect-ratio:1140/2343;z-index:2}
 .pj .js-scr{position:absolute;left:4.386%;top:1.921%;width:91.14%;height:96.11%;overflow-y:auto;overflow-x:hidden;border-radius:12.5% / 5.8%;background:#F2F2F4;scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
@@ -1992,15 +1996,18 @@ function blockHTML2(b){
     </div></div>
   </section>`;
   if (b.t === 'jsmob') return `
-  <section class="js-mob">
-    <img class="js-bg" src="${JS_BG}" alt="">
-    <div class="js-ph"><div class="js-scr">
-      <img src="nevi.png" alt="" style="position:sticky;top:0;z-index:2;">
-      <video src="joseph_5-1.mp4" muted loop playsinline preload="metadata"></video>
-      ${[2,3,4,5,6,7,8,9,10,11,12,13].map(n => `<img src="joseph_5-${n}.png" alt="조셉앤스테이시 × 몬치치 모바일 랜딩 페이지 ${n}">`).join('')}
-    </div><img class="js-frame" src="${HD_PHONE}" alt="" aria-hidden="true"></div>
-    <p class="js-cap">화면을 스크롤해서 실제 랜딩을 확인해보세요.</p>
-    ${[['2josep_page1',43.5,20.76,'인트로'],['2josep_page2',59.58,13.25,'LOOK PREVIEW 01'],['2josep_page3',75.67,5.5,'LOOK PREVIEW 02']].map(([f, x, y, a], i) => `<figure class="js-pg rv-t" style="left:${x}%;top:${y}%;transition-delay:${i * .12}s"><img src="${f}.png" alt="조셉앤스테이시 × 몬치치 ${a}" onerror="if(!this.dataset.j){this.dataset.j=1;this.src='${f}.jpg'}"></figure>`).join('')}
+  <section class="js-mob" style="background-image:url(${JS_BG})">
+    <div class="hd-grid js-grid">
+      <div class="hd-l"><div class="hd-pin">
+        <div class="hd-ph"><div class="hd-scr js-scr2">
+          <img src="nevi.png" alt="" style="position:sticky;top:0;z-index:2;">
+          <video src="joseph_5-1.mp4" muted loop playsinline preload="metadata"></video>
+          ${[2,3,4,5,6,7,8,9,10,11,12,13].map(n => `<img src="joseph_5-${n}.png" alt="조셉앤스테이시 × 몬치치 모바일 랜딩 페이지 ${n}">`).join('')}
+        </div><img class="hd-frame" src="${HD_PHONE}" alt="" aria-hidden="true"></div>
+        <p class="hd-cap js-cap2">화면을 스크롤해서 실제 랜딩을 확인해보세요.</p>
+      </div></div>
+      ${[['2josep_page1','인트로',136],['2josep_page2','LOOK PREVIEW 01',69],['2josep_page3','LOOK PREVIEW 02',0]].map(([f, a, mt], i) => `<figure class="hd-st hd-st${i} js-pg2 rv-t" style="margin-top:${mt}%;transition-delay:${i * .12}s"><img src="${f}.png" alt="조셉앤스테이시 × 몬치치 ${a}" onerror="if(!this.dataset.j){this.dataset.j=1;this.src='${f}.jpg'}"></figure>`).join('')}
+    </div>
   </section>`;
   if (b.t === 'dtbg') return `
   <section class="c-sec kp kp-bg dt">
