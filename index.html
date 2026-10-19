@@ -1723,7 +1723,7 @@ const PROJECTS = { ai: [
                ['03','ACTION',['앰버서더별 2개 챕터 구성,','영상과 룩북을 엮은 에디토리얼'],'INTRO → CH.01 KYOKA → CH.02 KASAMATSU SHOW 흐름']] },
       { t:'hded', title:'Editorial Design', lead:['앰버서더의 컨셉에 맞춰','챕터를 나눈 에디토리얼 페이지'],
         body:['브랜드 특유의 자유롭고 힙한 분위기와 룩북 무드를 연결하고,','영상과 이미지가 자연스럽게 어우러질 수 있도록 구성했습니다.'],
-        strips:[['2honda_chap00','INTRO'],['2honda_chap01','CHAPTER 01 — KYOKA'],['2honda_chap02','CHAPTER 02 — KASAMATSU SHOW']] },
+        strips:[['2honda_chap00','INTRO'],['2honda_chap1','CHAPTER 01 — KYOKA'],['2honda_chap2','CHAPTER 02 — KASAMATSU SHOW']] },
     ],
   },
   {
@@ -2038,7 +2038,7 @@ function blockHTML2(b){
       <div class="hd-l"><div class="hd-pin">
         <div class="hd-ph"><div class="hd-scr">${[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(n => [1,4,6,8,12].includes(n)
           ? `<video src="2honda_${n}.mp4" muted loop playsinline preload="metadata"></video>`
-          : `<img src="2honda_${n}.png" alt="혼다 모터사이클 어패럴 모바일 랜딩 ${n}" onerror="if(!this.dataset.j){this.dataset.j=1;this.src='2honda_${n}.jpg'}">`).join('')}</div><i class="hd-island" aria-hidden="true"></i></div>
+          : `<img src="2honda_${n}.${[2,15].includes(n) ? 'jpg' : 'png'}" alt="혼다 모터사이클 어패럴 모바일 랜딩 ${n}">`).join('')}</div><i class="hd-island" aria-hidden="true"></i></div>
         <p class="hd-cap">화면을 스크롤해서 실제 랜딩을 확인해보세요.</p>
       </div></div>
       ${b.strips.map(([f, a], i) => `<figure class="hd-st hd-st${i} rv-t" style="transition-delay:${i * .12}s"><img src="${f}.png" alt="${a}" onerror="if(!this.dataset.j){this.dataset.j=1;this.src='${f}.jpg'}"></figure>`).join('')}
