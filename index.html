@@ -132,6 +132,9 @@ a{color:inherit;text-decoration:none}
 .skills dt{border-top:1px solid var(--line);padding-top:10px}.skills dd{padding-bottom:10px}
 .skills dd{margin:0}
 .skills .nw{white-space:nowrap}
+.about-grid .skills{grid-column:1 / -1}
+.skills dl.sk2{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(12px,1.4vw,24px)}
+.skills dl.sk2 .sk-ai{grid-column:1 / -1}
 .bar-sep{display:inline-block;width:1px;height:.9em;background:var(--sub);margin:0 .7em;vertical-align:-.12em}
 @media (max-width:1000px){ .about-lead,.cv,.contact{grid-column:1 / -1} .cv{grid-template-columns:1fr 1fr} }
 @media (max-width:640px){ .cv{grid-template-columns:1fr} }
@@ -679,10 +682,10 @@ html.wv-lock,html.wv-lock body{overflow:hidden}
         <div class="about-name rise"><span class="en pt">PARK SUMiN</span><span class="ko">박수민<i class="bar-sep"></i>Graphic Designer, Seoul</span></div>
         <div class="cv rise">
           <div class="skills"><h3>Skills</h3>
-            <dl>
-              <dt>Graphic</dt><dd>Figma, Photoshop, Illustrator</dd>
-              <dt>Motion · 3D</dt><dd>After Effects, Cinema 4D, Blender</dd>
-              <dt>AI</dt><dd><span class="nw">Claude (Vibe Coding)</span>, <span class="nw">Higgsfield (AI Image · Video), And More...</span></dd>
+            <dl class="sk2">
+              <div><dt>Graphic</dt><dd>Figma, Photoshop, Illustrator</dd></div>
+              <div><dt>Motion · 3D</dt><dd>After Effects, Cinema 4D, Blender</dd></div>
+              <div class="sk-ai"><dt>AI</dt><dd>Claude (Vibe Coding), Higgsfield (AI Image · Video), And More...</dd></div>
             </dl></div>
         </div>
         <div class="contact rise">
