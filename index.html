@@ -545,6 +545,40 @@ html.wv-lock,html.wv-lock body{overflow:hidden}
 .pj .mbx .a figcaption span{font-size:15px;color:#b9b9b5}
 
 .cv li{font-weight:600} .cv li span{font-weight:400} .skills dd{font-weight:600}
+
+/* ═════ EXO LOVE ME RIGHT — 피그마 프레임(1920 기준)을 화면 폭에 맞춰 그대로 배치 ═════ */
+.pj .exo{width:100vw;margin-left:calc(50% - 50vw);container-type:inline-size;background:#000;color:#fff;margin-top:clamp(40px,4vw,64px)}
+.pj .exo .es{position:relative;width:100%;overflow:hidden;--k:calc(100cqw / 1920)}
+.pj .exo .es > *{position:absolute}
+.pj .exo .slot{left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border:1px dashed rgba(127,127,127,.5);color:rgba(127,127,127,.9);font:500 calc(22 * var(--k))/1.5 var(--sans);text-align:center;letter-spacing:.02em}
+.pj .exo .slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pj .exo .slot:has(img){border:0}
+.pj .exo .lbl{white-space:nowrap;isolation:isolate}
+.pj .exo .lbl b{position:relative;display:block;font:700 calc(70 * var(--k))/normal 'Antonio',var(--sans);letter-spacing:.01em;text-transform:uppercase;
+  background:linear-gradient(180deg,#fff 31.3%,#8e8b84 152.75%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pj .exo .lbl b::before{content:attr(data-t);position:absolute;inset:0;z-index:-1;color:#000;-webkit-text-stroke:calc(10 * var(--k)) #000}
+.pj .exo .lbl span{display:block;margin-top:calc(16 * var(--k));font:500 calc(25 * var(--k))/1.2 var(--sans);letter-spacing:.01em;color:#222}
+.pj .exo .cpy{font:500 calc(25 * var(--k))/calc(35 * var(--k)) var(--sans);color:#a4a4a4;letter-spacing:-.01em;white-space:nowrap}
+.pj .exo .h{font:700 calc(30 * var(--k))/calc(35 * var(--k)) var(--sans);letter-spacing:-.01em;white-space:nowrap}
+.pj .exo .k{font:700 calc(20 * var(--k))/calc(38 * var(--k)) var(--sans);letter-spacing:-.01em;text-transform:uppercase}
+.pj .exo .k.bl{color:#0360fe}
+.pj .exo .k.lg{font-size:calc(25 * var(--k))}
+.pj .exo .t{font:500 calc(18 * var(--k))/calc(30 * var(--k)) var(--sans);letter-spacing:-.01em;color:rgba(255,255,255,.8);white-space:nowrap}
+.pj .exo .tl{display:flex;flex-direction:column;gap:calc(7 * var(--k))}
+.pj .exo .tl.g20{gap:calc(20 * var(--k))}
+.pj .exo .band{left:0;top:0;width:100%;background:#0360fe}
+.pj .exo .dots{height:0;border-top:calc(2 * var(--k)) dotted #fff}
+.pj .exo .dots::after{content:'';position:absolute;right:calc(-5 * var(--k));top:calc(-6 * var(--k));width:calc(10 * var(--k));height:calc(10 * var(--k));border-radius:50%;background:#fff}
+.pj .exo .row{display:flex;align-items:flex-start}
+.pj .exo .row .t{line-height:calc(38 * var(--k))}
+.pj .exo ul.t{list-style:disc;padding-left:calc(27 * var(--k))}
+.pj .exo ul.t li{line-height:calc(38 * var(--k))}
+.pj .exo .cir{width:calc(232 * var(--k));height:calc(232 * var(--k));border:1px solid rgba(255,255,255,.85);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:calc(10 * var(--k))}
+.pj .exo .cir .t{white-space:normal}
+.pj .exo .chip{left:calc(1035 * var(--k));width:calc(785 * var(--k));height:calc(156 * var(--k))}
+.pj .exo .chip b{position:absolute;left:calc(27 * var(--k));top:calc(20 * var(--k));font:600 calc(40 * var(--k))/normal 'Antonio',var(--sans);text-transform:uppercase}
+.pj .exo .chip i{position:absolute;left:calc(628 * var(--k));top:calc(14 * var(--k));font:500 calc(12 * var(--k))/calc(18 * var(--k)) var(--sans);font-style:normal;text-transform:uppercase;padding-top:calc(10 * var(--k))}
+.pj .exo .pg{font:500 calc(16 * var(--k))/calc(38 * var(--k)) var(--sans);color:rgba(255,255,255,.5);letter-spacing:-.01em;white-space:nowrap}
 </style>
 <style>
 /* 모바일 차단 — 휴대폰·작은 태블릿에서는 안내 화면만 */
@@ -567,6 +601,8 @@ html.wv-lock,html.wv-lock body{overflow:hidden}
     y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
   })(window, document, "clarity", "script", "z3qqbk3q0q");
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@600;700&display=swap" rel="stylesheet">
 <!-- Vercel Web Analytics (방문자 수 집계) -->
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -1664,7 +1700,7 @@ document.addEventListener('mouseleave', () => seen = false);
 (() => {
 /* ═════════ 데이터 ═════════ */
 const CATS = [
-  { key:'own', name:'Own Project', items:[['OJOS 25SS Tessellation','ojos_thum.png'],['JENNIE 1st Album [Ruby] Typo Archive','jennie_thum.png']] },
+  { key:'own', name:'Own Project', items:[['OJOS 25SS Tessellation','ojos_thum.png'],['JENNIE 1st Album [Ruby] Typo Archive','jennie_thum.png'],['EXO LOVE ME RIGHT Playbook','exo_thum.jpg']] },
   { key:'ai', name:'AI Creative', items:[['Summer Clearance Sale','clearance_thum.png'],['Summer Season Off','season_thum.png'],['SPRING SEASON OFF','aicreative3_Thumbnail.png'],['montbell 해외직구','aicreative2_Thumbnail.png']] },
   { key:'bc', name:'Brand Content', items:[['디저트 테이블','Promotional_Thumbnail.png'],['KREAM+','kreamplus_thum.png'],['조셉앤스테이시 × 몬치치','Fashioneditorial3_Thumbnail.png'],['HONDA MOTORCYCLE APPAREL','Fashioneditorial_Thumbnail.png']] },
   { key:'3d', name:'3D Artwork', items:[['KREAM DRAW','3DArtwork_Thumbnail.png'],['P.FUNK SELECTION','3DArtwork3-1_Thumbnail.png'],['2025 TREND LEVEL TEST','3DArtwork2-1_Thumbnail.png']] },
@@ -1757,6 +1793,13 @@ const PROJECTS = { ai: [
     blocks:[
       { t:'jnh', items:[['jennie1.mp4'], ['jennie2.png'], ['jennie3.mp4', 1], ['jennie4.mp4', 1], ['jennie5.mp4', 1], ['jennie6.mp4', 1]] },
     ],
+  },
+  {
+    title:['EXO LOVE ME RIGHT', 'PLAYBOOK'], thumb:'exo_thum.jpg',
+    sub:'EXO 정규 2집 리패키지 ‘LOVE ME RIGHT’를 작전 플레이북으로 재해석한 앨범 리디자인',
+    meta:[['Date','2026.11'],['Contribution','100%'],['Tools','Figma, Illustrator, Photoshop'],['Contribution','100%']],
+    hero:{ src:'', cap:'', ar:.5625 }, noHero:true, brand:'EXO [LOVE ME RIGHT]', twoLine:true,
+    blocks:[{ t:'exo' }],
   },
 ], bc: [
   {
@@ -1967,7 +2010,54 @@ const KP_PHONE = `<div class="hd-scr kp-scr2">
 const PHB = (w, h, label) => `<div class="ph" style="aspect-ratio:${w}/${h}"><span>${w} × ${h}<br>${label}</span></div>`;
 const cHead = b => `<div class="c-head rv-t">${b.n ? `<span>(${b.n})</span>` : ''}<h2>${b.title}</h2>${b.text ? `<p>${b.text}</p>` : ''}</div>`;
 const FIN = k => k === 'lookbook' ? 'a/lookbook.jpg' : `a/${k}.jpg`;
+
+/* EXO LOVE ME RIGHT — 피그마 '박수민_사전 과제' 프레임 좌표(1920 기준) 그대로. 이미지는 exo_1~4 자리만 잡아둠 */
+const EXO_SEG = [['exo_1', 4025, '#d6d6d3'], ['exo_2', 1079, '#000'], ['', 1019, '#000'], ['exo_3', 2253, '#000'], ['exo_4', 1083, '#000']];
+function exoHTML(){
+  const P = (x, y, w) => `left:calc(${x} * var(--k));top:calc(${y} * var(--k))${w ? `;width:calc(${w} * var(--k))` : ''}`;
+  const slot = (n, h) => `<div class="slot">${n}.png 이미지 자리 · 1920×${h}<img src="${n}.png" alt="" onerror="this.remove()"></div>`;
+  const lbl = (x, y, t, sub) => `<div class="lbl" style="${P(x, y)}"><b data-t="${t}">${t}</b><span>${sub}</span></div>`;
+  const seg = (i, inner) => { const [n, h, bg] = EXO_SEG[i]; return `<div class="es" style="aspect-ratio:1920/${h};background:${bg}">${n ? slot(n, h) : ''}${inner}</div>`; };
+  const s1 = [
+    lbl(101, 1038, 'Photo page', '160*225 (mm)'),
+    lbl(1520, 1776, 'Cover', '160*225 (mm) / 1ea'),
+    lbl(1135, 2439, 'CD - R / Envelope', '118*118 (mm) / 1ea'),
+    lbl(914, 2637, 'Photocard', '55*85 (mm) / 1 out of 9'),
+    lbl(604, 2878, 'Sticker', '7ea (fixed)'),
+    lbl(1557, 2699, 'Poster', '297*420 (mm) /<br>420* 279 (mm)'),
+    `<p class="cpy" style="${P(138, 3798)}">(P)&amp;(C) SM ENTERTAINMENT Co.,Ltd. Distributed by KAKAO ENTERTAINMENT Corp.<br>2015.06.03 All Rights Reserved. Unauthorized copying, lending, public and broadcasting Prohibited. Made in Korea</p>`
+  ].join('');
+  const s2 = [
+    `<p class="h" style="${P(100, 104)}">EXO 정규 2집 리패키지 ‘LOVE ME RIGHT’ 리디자인</p>`,
+    `<div class="tl" style="${P(100, 380, 635)}"><p class="k">Comment</p><p class="t">‘LOVE ME RIGHT’ 뮤직비디오와 컨셉 포토에서<br>EXO가 미식축구 선수로 등장한 점에 주목하여, 상대의 마음을 얻는 과정을<br>득점을 위한 작전에 빗대어 작전 플레이북으로 재해석했습니다.<br>아홉 명의 선수가 단 하나의 골, '너'를 향해 달려가는 이야기로<br>수록곡들이 하나의 작전(Play)으로 읽히도록 구성했습니다.</p></div>`,
+    `<div class="tl" style="${P(100, 649, 306)}"><p class="k">Tool</p><p class="t">FIGMA ㅣ ILLUSTRATOR ㅣ PHOTOSHOP</p></div>`
+  ].join('');
+  const cir = (x, k, t) => `<div class="cir" style="${P(x, 722)}"><p class="k">${k}</p><p class="t">${t}</p></div>`;
+  const chip = (y, name, bg, fg, codes) => `<div class="chip" style="top:calc(${y} * var(--k));background:${bg};color:${fg}"><b>${name}</b><i>${codes.join('<br>')}</i></div>`;
+  const s3 = [
+    `<div class="band" style="height:calc(324 * var(--k))"></div>`,
+    `<div class="tl g20" style="${P(100, 62, 635)}"><p class="k lg">AS IS</p><p class="t">기존 앨범은 블랙과 옐로 투톤에 흑백 사진을 메인으로 사용한 절제된 디자인입니다.<br>미식축구 유니폼을 입은 단체 사진을 크게 배치하고 그래픽은 최소화했으며,<br>내지 역시 넓은 여백에 사진과 텍스트를 단정하게 배치한 포토북 형식으로 구성되었습니다.</p></div>`,
+    `<div class="dots" style="${P(836, 171, 159)}"></div>`,
+    `<div class="tl g20" style="${P(1096, 62, 706)}"><p class="k lg">TO BE</p><p class="t">표지는 흑백의 절제된 톤을 블루와 핑크의 선명한 컬러로 바꾸고, 그래피티 스타일의 레터링과<br>역동적인 스플래시 그래픽, 별 그래픽을 더해 곡의 분위기에 어울리는 밝고 팝적인 에너지를 담았습니다.<br>내지는 팀 로스터와 작전도로 시작해 플레이북 컨셉을 보여주고, 리패키지로 새로 추가된<br>4곡을 중심으로 곡마다 고유한 타이틀 레터링을 적용했습니다.</p></div>`,
+    `<p class="k bl" style="${P(100, 412)}">Concept canvas</p>`,
+    `<p class="k bl" style="${P(1035, 412)}">Color system</p>`,
+    `<div class="row" style="${P(100, 487)};gap:calc(76 * var(--k))"><p class="k">Concept</p><p class="t">미식축구 작전 플레이북</p></div>`,
+    `<div class="row" style="${P(100, 550)};gap:calc(89 * var(--k))"><p class="k">Mission</p><ul class="t"><li>작전도, 팀 로스터 등 플레이북 요소를 녹여 컨셉을 시각화</li><li>원작의 블랙 톤 대신 블루와 핑크를 메인 컬러로 사용해 미식축구 컨셉을 팝한 분위기로 전환</li><li>신곡 4곡마다 고유한 레터링을 적용해 곡별 개성을 살린 내지 구성</li></ul></div>`,
+    cir(103, 'Conceptual', '미식축구 컨셉<br>플레이북 스토리텔링'),
+    cir(375, 'Emotional', '설렘<br>밝은 에너지'),
+    cir(649, 'Expressive', '팝 / 스포티 /<br>그래피티'),
+    `<div class="dots" style="${P(335, 847, 40)}"></div>`,
+    `<div class="dots" style="${P(609, 847, 40)}"></div>`,
+    chip(492, 'Pink', '#FF75CB', '#fff', ['#FF75CB', 'rgb 255 / 117 / 203', 'cmyk 10 / 64 / 0 / 0']),
+    chip(648, 'Blue', '#2562EA', '#fff', ['#2562EA', 'rgb 37 / 98 / 234', 'cmyk 84 / 62 / 0 / 0']),
+    chip(803, 'White', '#EDECE3', '#000', ['#EDECE3', 'rgb 237 / 236 / 227', 'cmyk 9 / 7 / 12 / 0'])
+  ].join('');
+  const pg = (x, y, t) => `<p class="pg" style="${P(x, y)}">${t} of 18</p>`;
+  const s4 = [pg(85, 162, '1-2'), pg(688, 162, '3-4'), pg(513, 623, '5-6'), pg(1126, 623, '7-8'), pg(73, 1095, '9-10'), pg(676, 1095, '11-12'), pg(1282, 1095, '13-14'), pg(254, 1570, '15-16'), pg(865, 1570, '17-18')].join('');
+  return `<section class="exo" aria-label="EXO LOVE ME RIGHT 리디자인">${seg(0, s1)}${seg(1, s2)}${seg(2, s3)}${seg(3, s4)}${seg(4, '')}</section>`;
+}
 function blockHTML2(b){
+  if (b.t === 'exo') return exoHTML();
   if (b.t === 'lookbook') return `
   <section class="c-sec">${cHead(b)}
     <div class="lb-rows">${b.looks.map(([n, name, ko, items], i) => `
