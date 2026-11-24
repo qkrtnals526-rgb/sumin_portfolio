@@ -3179,7 +3179,7 @@ document.getElementById('dPrev').addEventListener('click', () => {
 });
 const dCats = document.getElementById('dCats'), dDots = document.getElementById('dDots');
 dDots.addEventListener('click', () => { const on = dCats.classList.toggle('show'); dDots.setAttribute('aria-expanded', on); });
-navLinks.forEach((a, i) => a.addEventListener('click', e => { e.preventDefault(); go(i, 0); }));
+navLinks.forEach((a, i) => a.addEventListener('click', e => { e.preventDefault(); if (CATS[i].key === 'cf'){ dCats.classList.remove('show'); dDots.setAttribute('aria-expanded', false); return filmOpen(0); } go(i, 0); }));  /* Campaign Film은 썸네일 페이지 대신 영상 팝업으로 바로 */
 wv.querySelector('.d-back').addEventListener('click', e => { e.preventDefault(); close(); });
 wv.addEventListener('click', e => {
   const t = e.target.closest('[data-close],[data-top]'); if (!t) return;
